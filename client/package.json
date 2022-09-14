@@ -8,13 +8,10 @@
         "@testing-library/user-event": "^13.5.0",
         "react": "^18.2.0",
         "react-dom": "^18.2.0",
-        "react-query": "^3.39.2",
         "react-scripts": "5.0.1",
-        "styled-components": "^5.3.5",
-        "web-vitals": "^2.1.4",
-        "zustand": "^4.1.1"
+        "web-vitals": "^2.1.4"
     },
-    "porxy": "http://localhost:8080",
+    "proxy": "http://localhost:8080",
     "scripts": {
         "start": "react-scripts start",
         "build": "react-scripts build",
@@ -38,8 +35,5 @@
             "last 1 firefox version",
             "last 1 safari version"
         ]
-    },
-    "devDependencies": {
-        "node-extend": "^0.2.0"
     }
 }
