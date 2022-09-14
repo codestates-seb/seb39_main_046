@@ -9,7 +9,7 @@
 ## 👤Team
 |최서은(팀장,FE)|이도현(FE)|장종인(BE)|구건회(BE)|신지민(Design)|
 |:------:|:------:|:------:|:------:|:------:|
-|<img src="https://velog.velcdn.com/images/dhsm8100/post/979c6263-6614-4786-93a6-40bdaa03ef72/image.png" width="100" height="100">|<img src="https://velog.velcdn.com/images/dhsm8100/post/569c78e8-434b-4d92-a4d6-fa16517cb05b/image.jpg" width="100" height="100">|<img src="https://velog.velcdn.com/images/dhsm8100/post/fb1f27c5-bbb9-4450-84e7-49bd0be7c39d/image.png" width="100" height="100">|<img src="https://velog.velcdn.com/images/dhsm8100/post/3e77b55d-9f96-47d1-8884-5a92f301d0be/image.png" width="100" height="100">||
+|<img src="https://user-images.githubusercontent.com/79019104/190109637-153e659d-aacb-46d3-9a31-d9753e4c1ece.png" width="100" height="100">|<img src="https://velog.velcdn.com/images/dhsm8100/post/569c78e8-434b-4d92-a4d6-fa16517cb05b/image.jpg" width="100" height="100">|<img src="https://velog.velcdn.com/images/dhsm8100/post/fb1f27c5-bbb9-4450-84e7-49bd0be7c39d/image.png" width="100" height="100">|<img src="https://velog.velcdn.com/images/dhsm8100/post/3e77b55d-9f96-47d1-8884-5a92f301d0be/image.png" width="100" height="100">||
 |[@choiseoeun-GoUp](https://github.com/choiseoeun-GoUp)|[@LastCarol](https://github.com/LastCarol)|[@fasdf1](https://github.com/fasdf1)|[@gu-geonhoe](https://github.com/gu-geonhoe)||
 
 ## 기술스택 
