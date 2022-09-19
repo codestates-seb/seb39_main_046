@@ -16,7 +16,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Member extends Auditable {
-
+//1
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
