@@ -21,6 +21,6 @@ public class ExcelData {
     private Category category;
     private  String company;
 
-    private LocalDateTime createdAt;
+
 
 }

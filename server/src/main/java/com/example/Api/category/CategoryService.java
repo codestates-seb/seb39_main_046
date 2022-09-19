@@ -26,6 +26,15 @@ public class CategoryService {
         return result;
     }
 
+    public Category findCategoryByCategoryName(String categoryName){
+        Optional<Category> optionalCategory = categoryRepository.findByCategoryName(categoryName);
+        Category findCategory =
+                optionalCategory.orElseThrow(()->
+                        new RuntimeException("Category not found"));
+        return findCategory;
+
+    }
+
     public Category createCategory(Category category){
         return categoryRepository.save(category);
     }
