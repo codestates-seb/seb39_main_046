@@ -33,6 +33,7 @@ const HeaderContainer = styled.nav`
   top: 0;
   height: 75px;
   box-shadow: 0px 4px 20px #ececec;
+  background-color: #fff;
 `;
 const HMain = styled.main`
   max-width: 1280px;
@@ -45,8 +46,8 @@ const HMenu = styled.ul`
   margin-top: 10px;
   li {
     width: 100%;
-    font-size: 12px;
-    color: #8e8e93;
+    font-size: ${({ theme }) => theme.fontSizes.xxs};
+    color: ${({ theme }) => theme.colors.Gray_040};
     cursor: pointer;
   }
 `;
