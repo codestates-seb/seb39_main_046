@@ -270,7 +270,7 @@ public class ProductController {
                 Product product = products.get(i);
                 top5.add(product);
             }
-
+//1
         }
         else{
             top5 = productService.findProductsByCompany(company);
