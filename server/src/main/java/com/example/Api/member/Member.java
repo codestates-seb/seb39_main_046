@@ -1,6 +1,8 @@
 package com.example.Api.member;
 
 import com.example.Api.audit.Auditable;
+import com.example.Api.category.Category;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -27,8 +29,10 @@ public class Member extends Auditable {
     @Column
     private String nickName;
 
-    @Column
-    private long categoryId;
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    @JsonIgnore
+    private Category category;
 
     private String profile;
 

@@ -1,10 +1,12 @@
 package com.example.Api.member;
 
+import com.example.Api.category.Category;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
+import java.util.Optional;
 
 @Transactional
 @Service
@@ -53,5 +55,17 @@ public class MemberService {
         member1.setRoles("USER");
 member1.setProfile(photo);
 memberRepository.save(member1);
+    }
+
+    public void deleteMember(long id){
+        memberRepository.delete(findVerifiedMemberId(id));
+    }
+
+    public Member findVerifiedMemberId(long memberid){
+        Optional<Member> optionalCategoryr = memberRepository.findById(memberid);
+        Member findMember =
+                optionalCategoryr.orElseThrow(()->
+                        new RuntimeException("등록되지 않은 회원 "));
+        return findMember;
     }
 }
