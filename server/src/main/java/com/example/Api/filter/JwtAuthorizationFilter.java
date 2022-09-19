@@ -5,6 +5,7 @@ import com.auth0.jwt.algorithms.Algorithm;
 
 import com.example.Api.member.Member;
 import com.example.Api.member.MemberRepository;
+import com.example.Api.member.MemberService;
 import com.example.Api.oauth.PrincipalDetails;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -21,10 +22,12 @@ import java.io.IOException;
 public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 
 
-    private MemberRepository memberRepository;
+    private final MemberRepository memberRepository;
+    private final MemberService memberService;
 
-    public JwtAuthorizationFilter(AuthenticationManager authenticationManager, MemberRepository memberRepository) {
+    public JwtAuthorizationFilter(AuthenticationManager authenticationManager, MemberRepository memberRepository,MemberService memberService) {
         super(authenticationManager);
+        this.memberService = memberService;
         this.memberRepository = memberRepository;
     }
 
@@ -44,7 +47,7 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
         String username = JWT.require(Algorithm.HMAC512("cos_jwt_token")).build().verify(jwtToken).getClaim("username").asString();
 
         if (username != null) {
-            Member memberEntity = memberRepository.findByUsername(username);
+            Member memberEntity = memberService.findVerifiedUsername(username);
 
             PrincipalDetails principalDetails = new PrincipalDetails(memberEntity);
             Authentication authentication = new UsernamePasswordAuthenticationToken(principalDetails, null, principalDetails.getAuthorities());

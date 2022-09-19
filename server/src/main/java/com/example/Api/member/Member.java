@@ -30,10 +30,10 @@ public class Member extends Auditable {
     private String nickName;
 
     @ManyToOne
-    @JoinColumn(name = "category_id")
+    @JoinColumn(name = "category_id",nullable = true)
     @JsonIgnore
     private Category category;
-
+    @Column(nullable = true)
     private String profile;
 
 

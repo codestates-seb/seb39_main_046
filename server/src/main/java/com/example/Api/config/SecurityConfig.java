@@ -5,6 +5,7 @@ import com.example.Api.filter.JwtAuthenticationFilter;
 import com.example.Api.filter.JwtAuthorizationFilter;
 
 import com.example.Api.member.MemberRepository;
+import com.example.Api.member.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,11 +24,12 @@ public class SecurityConfig {
 
     private final CorsFilter corsFilter;
     private final MemberRepository memberRepository;
+    private final MemberService memberService;
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf().disable();
         http.headers().frameOptions().disable();
-        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
                 .and()
                 .formLogin().disable()
                 .httpBasic().disable()
@@ -35,7 +37,9 @@ public class SecurityConfig {
                 .and()
                 .authorizeRequests()
                 .antMatchers("/product")
+
                 .access("hasRole('ROLE_USER') or hasRole('ROLE_MANAGER') or hasRole('ROLE_ADMIN')")
+                .antMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-resources/**").permitAll()
                 .antMatchers("/api/v1/manager/**")
                 .access("hasRole('ROLE_MANAGER') or hasRole('ROLE_ADMIN')")
                 .antMatchers("/api/v1/admin/**")
@@ -52,7 +56,7 @@ public class SecurityConfig {
             builder
                     .addFilter(corsFilter)
                     .addFilter(new JwtAuthenticationFilter(authenticationManager))
-                    .addFilter(new JwtAuthorizationFilter(authenticationManager,memberRepository));
+                    .addFilter(new JwtAuthorizationFilter(authenticationManager,memberRepository,memberService));
         }
     }
 }

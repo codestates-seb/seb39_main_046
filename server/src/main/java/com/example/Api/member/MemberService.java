@@ -1,6 +1,5 @@
 package com.example.Api.member;
 
-import com.example.Api.category.Category;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,7 +16,6 @@ public class MemberService {
 
     @PostConstruct
     public void init(){
-
         String password = bCryptPasswordEncoder.encode("asd");
         Member member1 = new Member(1L,"kcd1@gmail.com","관리자1",password);
         member1.setRoles("ADMIN");
@@ -65,6 +63,14 @@ memberRepository.save(member1);
         Optional<Member> optionalCategoryr = memberRepository.findById(memberid);
         Member findMember =
                 optionalCategoryr.orElseThrow(()->
+                        new RuntimeException("등록되지 않은 회원 "));
+        return findMember;
+    }
+
+    public Member findVerifiedUsername(String username){
+        Optional<Member> optionaluser = memberRepository.findByUsername(username);
+        Member findMember =
+                optionaluser.orElseThrow(()->
                         new RuntimeException("등록되지 않은 회원 "));
         return findMember;
     }
