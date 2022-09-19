@@ -1,5 +1,6 @@
 package com.example.Api.product;
 
+import com.example.Api.SortingMethod;
 import com.example.Api.category.Category;
 import com.example.Api.category.CategoryService;
 import com.example.Api.response.MultiResponseDto;
@@ -38,7 +39,7 @@ public class ProductController {
 
     private final CategoryService categoryService;
 
-    private final int size = 10;
+    private int size = 0;
 
     public ProductController(ProductMapper productMapper, ProductService productService,
                              CategoryService categoryService){
@@ -209,30 +210,28 @@ public class ProductController {
     - 현재 회원이 해당 상품에 좋아요를 누르지 않았다면 -> 새로운 productHeart 등록, product 테이블의 hearts +1
     - 현재 회원이 해당 상품에 이미 좋아요를 눌렀다면 -> 해당하는 productHeartId의 값 DB에서 삭제, product 테이블의 hearts -1
 
+
+
+*/
+    /*
     # GET("/{product-id}")
     : 상품 조회 (상세 페이지 )
      상품에 달린 댓글까지 출력, 조회수 1 증가
 
-
 */
+    @ApiOperation(value = "상품 조회 (상세 페이지 )",
+            notes = "✅ 상품의 상세 페이지로 이동합니다. (조회수 1 증가)\",.\n - \n " )
+    @GetMapping("/{product-id}")
+    public ResponseEntity getProductByProductName(@PathVariable("product-id") @Positive long productId){
+        Product product = productService.findVerifiedProductId(productId);
+        long calculatedViews = product.addViews();
+        Product addedViews = productService.updateViews(product,calculatedViews);
 
-    /*
-    # GET("/all"), Request Parmeters : int page , String sortingMethod
-    !) sortingMethod값에 따라 분기
+        return new ResponseEntity<>(addedViews, HttpStatus.OK);
+    }
 
-    - 전체 상품 좋아요순 정렬 ( sortingMethod= "byHearts")
-    - 전체 상품 리뷰순 정렬 ( sortingMethod= "byReviews")
-    - 전체 상품 조회순 정렬 ( sortingMethod= "byViews")
 
-    # GET("/all/{category-id}), Request Parmeters :  int page , String sortingMethod
-    !) sortingMethod값에 따라 분기
-
-    - 전체 상품 카테고리별 좋아요순 정렬  ( sortingMethod= "byHearts")
-    - 전체 상품 카테고리별 리뷰순 정렬 ( sortingMethod= "byReviews")
-    - 전체 상품 카테고리별 조회순 정렬 ( sortingMethod= "byViews")
-
-     */
-    @ApiOperation(value = "상품 정보 랜덤 세팅",
+    @ApiOperation(value = "상품의 좋아요수 / 리뷰수 / 조회수 랜덤 세팅",
             notes = "✅ 상품의 정보(좋아요수 / 리뷰수 / 조회수)를 랜덤으로 세팅합니다.\",.\n - \n " )
     @PostMapping("/random")
     public ResponseEntity setRandomValues(){
@@ -251,17 +250,25 @@ public class ProductController {
     }
 
     // 편의점별 top 5
-    @ApiOperation(value = "회사별 TOP5 상품 조회",
-            notes = "✅ 회사별 TOP 5 상품의 정보를 조회합니다.\n - \n " )
+    @ApiOperation(value = " TOP5 상품 조회",
+            notes = "✅ TOP 5 상품의 정보를 조회합니다.\n - \n " )
     @GetMapping("/top5")
     public ResponseEntity getTop5Products(@RequestParam String company){
         List<Product> top5 = new ArrayList<>();
-        if(company.equals("all")){
-            List<Product> products = productService.findAllProduct(Sort.by(Sort.Direction.DESC, "createdAt"));
+        if(company.equals(" ")){
+            List<Product> products = productService.findAllProduct(Sort.by(Sort.Direction.DESC, "hearts"));
+            //최소 리뷰수 (10) 이하인 상품들은 제거
+            long minReivews = 10;
 
+            for(int i =0 ;i<products.size();i++){
+                if(products.get(i).getReviews()<10){
+                    products.remove(i);
+                }
+            }
             for(int i = 0 ; i< 5; i++){
-                Product product =products.get(i);
-                top5.set(i,product);
+                //데이터가 적을 때 인덱스 에러 고려 필요
+                Product product = products.get(i);
+                top5.add(product);
             }
 
         }
@@ -271,58 +278,56 @@ public class ProductController {
         return new ResponseEntity<>(top5, HttpStatus.OK);
     }
 
+    /*
+    # GET("/all"), Request Parmeters : int page , String sortingMethod
+    !) sortingMethod값에 따라 분기
 
+    - 전체 상품 좋아요순 정렬 ( sortingMethod= "byHearts")
+    - 전체 상품 리뷰순 정렬 ( sortingMethod= "byReviews")
+    - 전체 상품 조회순 정렬 ( sortingMethod= "byViews")
+
+    */
     @ApiOperation(value = "전체 상품 조회",
-            notes = "✅ 입력받은 상품명에 해당하는 상품의 정보를 조회합니다.\n - \n " )
+            notes = "✅ 모든 상품을 조회합니다.\n - \n " )
     @GetMapping("/all/{method-id}")
     public ResponseEntity getProductByProductName(@PathVariable("method-id") @Positive int methodId,
                                                   @Positive @RequestParam int page) {
-
-
-        /*List<Product>  products = productService.findAllProduct();
-        for(int i = 0 ; i<products.size();i++){
-            long randomHearts = (long)(Math.random()*100);
-            long randomReviews = (long)(Math.random()*100);
-            long randomViews = (long)(Math.random()*100);
-            products.get(i).setHearts(randomHearts);
-            products.get(i).setReviews(randomReviews);
-            products.get(i).setViews(randomViews);
-            productService.setRandomValues(products.get(i));
-        }*/
-
-       /* switch (methodId) {
-
-            case 1:
-                System.out.println("좋아요 순 정렬");
-                Collections.sort(products, new ProductHeartsComparator().reversed());
-                break;
-
-            case 2:
-                System.out.println("리뷰 순 정렬");
-                Collections.sort(products, new ProductReviewsComparator().reversed());
-                break;
-
-            case 3:
-                System.out.println("조회 순 정렬");
-                Collections.sort(products, new ProductViewsComparator().reversed());
-                break;
-
-            default:
-                System.out.println();
-                Collections.sort(products, new ProductCreatedAtComparator().reversed());
-                break;
-        }*/
+        size = 20;
 
         Page<Product> pageProducts = productService.findAllProductByMethod(page-1,size,methodId);
         List<Product> productList = pageProducts.getContent();
 
-        /*return new ResponseEntity<>(products, HttpStatus.OK);*/
         return new ResponseEntity<>(
                 new MultiResponseDto<>(productList, pageProducts),
                 HttpStatus.OK);
     }
 
+    /*
+    # GET("/all/{category-id}), Request Parmeters :  int page , String sortingMethod
+              !) sortingMethod값에 따라 분기
 
+    - 전체 상품 카테고리별 좋아요순 정렬  ( sortingMethod= "byHearts")
+    - 전체 상품 카테고리별 리뷰순 정렬 ( sortingMethod= "byReviews")
+    - 전체 상품 카테고리별 조회순 정렬 ( sortingMethod= "byViews")
+
+     */
+    @ApiOperation(value = "전체 상품 카테고리별 조회",
+            notes = "✅ 입력받은 카테고리에 해당하는 전체 상품들을 조회합니다.\n - \n " )
+    @GetMapping("/all/{category-id}/{method-id}")
+    public ResponseEntity getProductsByCategory(@PathVariable("category-id") @Positive int categoryId,
+                                                @PathVariable("method-id") @Positive int methodId,
+                                                @Positive @RequestParam int page) {
+
+        size = 20;
+        Category category = categoryService.findVerifiedCategoryId(categoryId);
+        Page<Product> pageProducts = productService.findAllByCategoryAndMethod(page-1,size,category,methodId);
+        List<Product> productList = pageProducts.getContent();
+
+
+        return new ResponseEntity<>(
+                new MultiResponseDto<>(productList, pageProducts),
+                HttpStatus.OK);
+    }
 
 
 
@@ -333,15 +338,52 @@ public class ProductController {
     - 회사별 전체 상품 좋아요순 정렬  ( sortingMethod= "byHearts")
     - 회사별 전체 상품 카테고리별 좋아요순 정렬 ( sortingMethod= "byReviews")
     - 회사별 전체 상품 리뷰순 정렬 ( sortingMethod= "byViews")
+    */
 
+    @ApiOperation(value = "회사별 전체 상품 조회",
+            notes = "✅ 회사별 모든 상품을 조회합니다.\n - \n " )
+    @GetMapping("/allBycompany/{method-id}")
+    public ResponseEntity getProductsByCompany(@PathVariable("method-id") @Positive int methodId,
+                                               @RequestParam String company,
+                                               @Positive @RequestParam int page) {
+        size = 20;
+
+        Page<Product> pageProducts = productService.findAllByCompanyAndMethod(page-1,size,company,methodId);
+        List<Product> productList = pageProducts.getContent();
+
+        return new ResponseEntity<>(
+                new MultiResponseDto<>(productList, pageProducts),
+                HttpStatus.OK);
+    }
+    /*
     # GET("/allByCompanyType/{category-id}"), Request Parmeters : String company, int page , String sortingMethod
     !) sortingMethod값에 따라 분기
 
     - 회사별 전체 상품 카테고리별 리뷰순 정렬( sortingMethod= "byHearts")
-    - 회사별 전체 상품 조회순 정렬 ( sortingMethod= "byReviews")
+    - 회사별 전체 상품 카테고리별 조회순 정렬 ( sortingMethod= "byReviews")
     - 회사별 전체 상품 카테고리별 조회순 정렬 ( sortingMethod= "byViews")
+    */
+    @ApiOperation(value = "회사별 전체 상품 카테고리별 조회",
+            notes = "✅ 입력받은 카테고리에 해당하는 회사별 모든 상품들을 조회합니다.\n - \n " )
+    @GetMapping("/allBycompany/{category-id}/{method-id}")
+    public ResponseEntity getProductsByCompanyAndCategory(@PathVariable("category-id") @Positive int categoryId,
+                                                          @PathVariable("method-id") @Positive int methodId,
+                                                          @RequestParam String company,
+                                                          @Positive @RequestParam int page) {
 
-         */
+        size = 20;
+
+        Category category = categoryService.findVerifiedCategoryId(categoryId);
+        Page<Product> pageProducts = productService.findAllByCompanyAndCategoryAndMethod(page-1,size,company, category,methodId);
+        List<Product> productList = pageProducts.getContent();
+
+
+        return new ResponseEntity<>(
+                new MultiResponseDto<>(productList, pageProducts),
+                HttpStatus.OK);
+    }
+
+
     private boolean checkAdminId(long memberId){
         long[] adminIdList = {1, 2, 3, 4, 5};
         boolean isAdmin = false;
@@ -353,48 +395,5 @@ public class ProductController {
         return isAdmin;
     }
 
-    static class ProductHeartsComparator implements Comparator<Product> {
-        @Override
-        public int compare(Product p1, Product p2) {
-            if (p1.getHearts() > p2.getHearts()) {
-                return 1;
-            } else if (p1.getHearts() < p2.getHearts()) {
-                return -1;
-            }
-            return 0;
-        }
-    }
-    static class ProductReviewsComparator implements Comparator<Product> {
-        @Override
-        public int compare(Product p1, Product p2) {
-            if (p1.getReviews() > p2.getReviews()) {
-                return 1;
-            } else if (p1.getReviews() < p2.getReviews()) {
-                return -1;
-            }
-            return 0;
-        }
-    }
-    static class ProductViewsComparator implements Comparator<Product> {
-        @Override
-        public int compare(Product p1, Product p2) {
-            if (p1.getViews() > p2.getViews()) {
-                return 1;
-            } else if (p1.getViews() < p2.getViews()) {
-                return -1;
-            }
-            return 0;
-        }
-    }
 
-    static class ProductCreatedAtComparator implements Comparator<Product> {
-        @Override
-        public int compare(Product p1, Product p2) {
-            return (p1.getCreatedAt()).compareTo(p2.getCreatedAt());
-        }
-    }
-
-    //feature2 테스트
-    //dev테스트
-    //dev테스트 2
 }

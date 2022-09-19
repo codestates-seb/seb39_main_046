@@ -1,9 +1,11 @@
 package com.example.Api.product;
 
 import com.example.Api.category.Category;
+import com.example.Api.specification.ProductSpecification;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -50,6 +52,13 @@ public class ProductService {
         return productRepository.save(product);
 
     }
+
+    public Product updateViews(Product product, long calculatedViews){
+
+        Optional.ofNullable(product.getViews())
+                .ifPresent(views -> product.setViews(calculatedViews));
+        return productRepository.save(product);
+    }
     public Product findVerifiedProductName(String productName) {
         Optional<Product> optionalProduct = productRepository.findByProductName(productName);
         Product findProduct =
@@ -66,6 +75,30 @@ public class ProductService {
     }
 
     public Page<Product> findAllProductByMethod(int page, int size, int methodId){
+
+         /* switch (methodId) {
+
+            case 1:
+                System.out.println("좋아요 순 정렬");
+                Collections.sort(products, new ProductHeartsComparator().reversed());
+                break;
+
+            case 2:
+                System.out.println("리뷰 순 정렬");
+                Collections.sort(products, new ProductReviewsComparator().reversed());
+                break;
+
+            case 3:
+                System.out.println("조회 순 정렬");
+                Collections.sort(products, new ProductViewsComparator().reversed());
+                break;
+
+            default:
+                System.out.println();
+                Collections.sort(products, new ProductCreatedAtComparator().reversed());
+                break;
+        }*/
+
         if(methodId == 1){
             System.out.println("좋아요 순 정렬");
             return productRepository.findAll(PageRequest.of(page, size,
@@ -86,8 +119,8 @@ public class ProductService {
                 Sort.by("createdAt").descending()));
     }
 
-    public List<Product> findAllProduct(Sort createdAt){
-        return productRepository.findAll();
+    public List<Product> findAllProduct(Sort hearts){
+        return productRepository.findAll(hearts);
     }
 
     public void setRandomValues(Product product){
@@ -104,13 +137,86 @@ public class ProductService {
     }
 
     public List<Product> findProductsByCompany(String company){
-        List<Product> productList = productRepository.findAllByCompany(company,Sort.by(Sort.Direction.DESC, "hearts"));
+        List<Product> productList = productRepository.findAllByCompany(company, Sort.by(Sort.Direction.DESC, "hearts"));
+        // 최소조회수 필터링 필요
         List<Product> top5 = new ArrayList<>();
         for(int i = 0 ; i< 5; i++){
             Product product = productList.get(i);
             top5.add(product);
         }
         return top5;
+    }
+
+    public Page<Product> findAllByCategoryAndMethod(int page, int size, Category category, int methodId){
+
+        Specification<Product> spec = Specification.where(ProductSpecification.equalCategory(category));
+
+
+        if(methodId == 1){
+            System.out.println("좋아요 순 정렬");
+            return productRepository.findAll(spec, PageRequest.of(page,size,
+                    Sort.by("hearts").descending()));
+        }
+        else if(methodId == 2){
+            System.out.println("리뷰 순 정렬");
+            return productRepository.findAll(spec, PageRequest.of(page,size,
+                    Sort.by("reviews").descending()));
+        }
+        else if(methodId == 3){
+            System.out.println("조회 순 정렬");
+            return productRepository.findAll(spec, PageRequest.of(page,size,
+                    Sort.by("views").descending()));
+        }
+
+        return productRepository.findAll(PageRequest.of(page, size,
+                Sort.by("createdAt").descending()));
+    }
+
+    public Page<Product> findAllByCompanyAndMethod(int page, int size,  String company, int methodId){
+
+        if(methodId == 1){
+            System.out.println("좋아요 순 정렬");
+            return productRepository.findAllByCompany(company, PageRequest.of(page,size,
+                    Sort.by("hearts").descending()));
+        }
+        else if(methodId == 2){
+            System.out.println("리뷰 순 정렬");
+            return productRepository.findAllByCompany(company, PageRequest.of(page,size,
+                    Sort.by("reviews").descending()));
+        }
+        else if(methodId == 3){
+            System.out.println("조회 순 정렬");
+            return productRepository.findAllByCompany(company, PageRequest.of(page,size,
+                    Sort.by("views").descending()));
+        }
+
+        return productRepository.findAllByCompany(company, PageRequest.of(page,size,
+                Sort.by("createdAt").descending()));
+    }
+
+    public Page<Product> findAllByCompanyAndCategoryAndMethod(int page, int size, String company, Category category, int methodId){
+
+        Specification<Product> spec = Specification.where(ProductSpecification.equalCompanyAndCategory(company,category));
+
+
+        if(methodId == 1){
+            System.out.println("좋아요 순 정렬");
+            return productRepository.findAll(spec, PageRequest.of(page,size,
+                    Sort.by("hearts").descending()));
+        }
+        else if(methodId == 2){
+            System.out.println("리뷰 순 정렬");
+            return productRepository.findAll(spec, PageRequest.of(page,size,
+                    Sort.by("reviews").descending()));
+        }
+        else if(methodId == 3){
+            System.out.println("조회 순 정렬");
+            return productRepository.findAll(spec, PageRequest.of(page,size,
+                    Sort.by("views").descending()));
+        }
+
+        return productRepository.findAll(PageRequest.of(page, size,
+                Sort.by("createdAt").descending()));
     }
 
   /*  public Page<Product> findProducts(int page, int size) {
@@ -125,4 +231,6 @@ public class ProductService {
         Product findProduct = findVerifiedProductId(productId);
         productRepository.delete(findProduct);
     }
+
+
 }

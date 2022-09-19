@@ -40,12 +40,10 @@ public class Product extends Auditable {
     private long reviews = 0;
 
     //( member (1) ) : category (1) : product (N) // 상품 추천 기능
-    /*@Column
-    private long categoryId;*/
-    /*private Category category;
+
 
     //product(1) : review (N) // 상품에 대한 리뷰 작성 기능
-    private List<Review> reviewList = new ArrayList<>();*/
+    //private List<Review> reviewList = new ArrayList<>();*/
 
     //member (1)  : productHeart ( N ) : product(1)  //상품 좋아요 기능
     // 회원 기준으로 좋아요한 상품 출력만 구현할 예정
@@ -56,17 +54,12 @@ public class Product extends Auditable {
     //@JsonIgnore // 무한 반복 피하기 위해 @JsonIgnore 어노테이션을 추가하여 직렬화에서 제외시키는 방법
     private Category category;
 
+    public long addViews(){
+        views+=1;
+        return views;
+    }
+
     /*private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;*/
 
-
-   /* @Override
-    public int compareTo(Product product) {
-        if (product.hearts < hearts) {
-            return 1;
-        } else if (product.hearts > hearts) {
-            return -1;
-        }
-        return 0;
-    }*/
 }
