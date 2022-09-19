@@ -22,16 +22,14 @@ public class Product extends Auditable {
      */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private long productId;
     @Column
     private String imageURL; // 이미지 URL
     @Column
     private String productName;
     @Column
     private BigDecimal price;
-    //( member (1) ) : category (1) : product (N) // 상품 추천 기능
-    /*@Column
-    private long categoryId;*/
+
     @Column
     private  String company;
     @Column
@@ -41,6 +39,9 @@ public class Product extends Auditable {
     @Column
     private long reviews = 0;
 
+    //( member (1) ) : category (1) : product (N) // 상품 추천 기능
+    /*@Column
+    private long categoryId;*/
     /*private Category category;
 
     //product(1) : review (N) // 상품에 대한 리뷰 작성 기능
@@ -52,11 +53,11 @@ public class Product extends Auditable {
 
     @ManyToOne
     @JoinColumn(name = "category_id")
-    @JsonIgnore // 무한 반복 피하기 위해 @JsonIgnore 어노테이션을 추가하여 직렬화에서 제외시키는 방법
+    //@JsonIgnore // 무한 반복 피하기 위해 @JsonIgnore 어노테이션을 추가하여 직렬화에서 제외시키는 방법
     private Category category;
 
-    private LocalDateTime createdAt;
-    private LocalDateTime modifiedAt;
+    /*private LocalDateTime createdAt;
+    private LocalDateTime modifiedAt;*/
 
 
    /* @Override

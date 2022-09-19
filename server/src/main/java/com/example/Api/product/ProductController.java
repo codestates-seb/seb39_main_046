@@ -1,9 +1,8 @@
 package com.example.Api.product;
 
 import com.example.Api.category.Category;
-import com.example.Api.category.CategoryMapper;
 import com.example.Api.category.CategoryService;
-import com.example.Api.review.Review;
+import com.example.Api.response.MultiResponseDto;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.v3.oas.annotations.Parameter;
 import org.apache.commons.io.FilenameUtils;
@@ -12,6 +11,8 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -22,9 +23,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.Positive;
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
@@ -40,7 +39,7 @@ public class ProductController {
     private final CategoryService categoryService;
 
     private final int size = 10;
-    private List<Product>  products = new ArrayList<>();
+
     public ProductController(ProductMapper productMapper, ProductService productService,
                              CategoryService categoryService){
         this.productMapper = productMapper;
@@ -62,11 +61,11 @@ public class ProductController {
     public ResponseEntity postProducts(@PathVariable("member-id") @Positive long memberId,
                                      @RequestPart("file") MultipartFile file) throws IOException {
 
+        List<Product>  products = new ArrayList<>();
         boolean isAdmin = checkAdminId(memberId);
         if(!isAdmin){
             throw new RuntimeException("관리자가 아닙니다.");
         }
-        products.clear();
         List<ExcelData> dataList = new ArrayList<>();
         List<Product> productList = new ArrayList<>();
         String extension = FilenameUtils.getExtension(file.getOriginalFilename()); // 3
@@ -115,7 +114,7 @@ public class ProductController {
             data.setCategory(categoryService.findVerifiedCategoryId(categoryId));
             data.setCompany(row.getCell(4).getStringCellValue());
             data.setPrice(seq);
-            data.setCreatedAt(LocalDateTime.now());
+
 
             //중복 삼품인지 검사 필요
             if(productService.checkDuplicatedProduct(data.getProductName())){
@@ -135,11 +134,10 @@ public class ProductController {
             throw new RuntimeException("파일 등록 실패");
         }
         else{
-
             /*return productList;*/
             /*return dataList;*/
             products = productList;
-            return new ResponseEntity<>(productList, HttpStatus.CREATED);
+            return new ResponseEntity<>(products, HttpStatus.CREATED);
         }
 
     }
@@ -148,22 +146,18 @@ public class ProductController {
 : 상품 Id 찾기
   관리자가 수정하거나 삭제할 상품의 ID를 찾기 위해 필요
 */
-    @ApiOperation(value = "상품 정보 조회(productName)",
-            notes = "✅ 입력받은 상품명에 해당하는 상품의 정보를 조회합니다.\n - \n " )
+    @ApiOperation(value = "상품 ID 조회(productName)",
+            notes = "✅ 입력받은 상품명에 해당하는 상품의 ID를 조회합니다.\n - \n " )
     @GetMapping("admin/{member-id}")
     public ResponseEntity getProductByProductName(@PathVariable("member-id") @Positive long memberId,
-                                @Parameter(name = "productName", description = "햄)치치버거") @RequestParam String productName){
+                                @Parameter(name = "productName") @RequestParam String productName){
         boolean isAdmin = checkAdminId(memberId);
         if(!isAdmin){
             throw new RuntimeException("관리자가 아닙니다.");
         }
-        /*Category category = new Category(11L,"버거");*/
-        List<Review> reviewList = new ArrayList<>();
         Product product = productService.findVerifiedProductName(productName);
-        /*product.setCategory(category);
-        product.setReviewList(reviewList);*/
 
-        return new ResponseEntity<>(product, HttpStatus.OK);
+        return new ResponseEntity<>(product.getProductId(), HttpStatus.OK);
     }
 
 /*
@@ -180,16 +174,11 @@ public class ProductController {
         if(!isAdmin){
             throw new RuntimeException("관리자가 아닙니다.");
         }
-        /*Category category = new Category(7L,"adf");*/
-        List<Review> reviewList = new ArrayList<>();
-        Product product = new Product();
-        product.setId(productId);
-        product.setImageURL(productPatchDto.getImageURL());
-        product.setProductName(productPatchDto.getProductName());
-        product.setPrice(new BigDecimal(9900));
-        product.setCategory(categoryService.findVerifiedCategoryId(productPatchDto.getCategoryId()));
-        /*product.setCategory(new Category(productPatchDto.getCategoryId(), "도시락"));*/
 
+        Product product = productService.findVerifiedProductId(productId);
+        Category category = categoryService.findCategoryByCategoryName(productPatchDto.getCategoryName());
+
+        productService.updateProduct(product, productPatchDto, category);
 
         return new ResponseEntity<>(product, HttpStatus.OK);
     }
@@ -207,6 +196,7 @@ public class ProductController {
         if(!isAdmin){
             throw new RuntimeException("관리자가 아닙니다.");
         }
+        productService.deleteProduct(productId);
         return new ResponseEntity<>( "삭제 완료 ( ID:"+ productId + " )", HttpStatus.OK);
 
     }
@@ -222,6 +212,7 @@ public class ProductController {
     # GET("/{product-id}")
     : 상품 조회 (상세 페이지 )
      상품에 달린 댓글까지 출력, 조회수 1 증가
+
 
 */
 
@@ -241,13 +232,12 @@ public class ProductController {
     - 전체 상품 카테고리별 조회순 정렬 ( sortingMethod= "byViews")
 
      */
-    @ApiOperation(value = "전체 상품 조회",
-            notes = "✅ 입력받은 상품명에 해당하는 상품의 정보를 조회합니다.\n - \n " )
-    @GetMapping("/all/{method-id}")
-    public ResponseEntity getProductByProductName(@PathVariable("method-id") @Positive int methodId,
-                                                  @Positive @RequestParam int page
-                                                  /*@RequestParam int methodId*/) {
+    @ApiOperation(value = "상품 정보 랜덤 세팅",
+            notes = "✅ 상품의 정보(좋아요수 / 리뷰수 / 조회수)를 랜덤으로 세팅합니다.\",.\n - \n " )
+    @PostMapping("/random")
+    public ResponseEntity setRandomValues(){
 
+        List<Product>  products = productService.findAllProduct(Sort.by(Sort.Direction.DESC, "createdAt"));
         for(int i = 0 ; i<products.size();i++){
             long randomHearts = (long)(Math.random()*100);
             long randomReviews = (long)(Math.random()*100);
@@ -255,9 +245,52 @@ public class ProductController {
             products.get(i).setHearts(randomHearts);
             products.get(i).setReviews(randomReviews);
             products.get(i).setViews(randomViews);
+            productService.setRandomValues(products.get(i));
         }
+        return new ResponseEntity<>(products, HttpStatus.OK);
+    }
 
-        switch (methodId) {
+    // 편의점별 top 5
+    @ApiOperation(value = "회사별 TOP5 상품 조회",
+            notes = "✅ 회사별 TOP 5 상품의 정보를 조회합니다.\n - \n " )
+    @GetMapping("/top5")
+    public ResponseEntity getTop5Products(@RequestParam String company){
+        List<Product> top5 = new ArrayList<>();
+        if(company.equals("all")){
+            List<Product> products = productService.findAllProduct(Sort.by(Sort.Direction.DESC, "createdAt"));
+
+            for(int i = 0 ; i< 5; i++){
+                Product product =products.get(i);
+                top5.set(i,product);
+            }
+
+        }
+        else{
+            top5 = productService.findProductsByCompany(company);
+        }
+        return new ResponseEntity<>(top5, HttpStatus.OK);
+    }
+
+
+    @ApiOperation(value = "전체 상품 조회",
+            notes = "✅ 입력받은 상품명에 해당하는 상품의 정보를 조회합니다.\n - \n " )
+    @GetMapping("/all/{method-id}")
+    public ResponseEntity getProductByProductName(@PathVariable("method-id") @Positive int methodId,
+                                                  @Positive @RequestParam int page) {
+
+
+        /*List<Product>  products = productService.findAllProduct();
+        for(int i = 0 ; i<products.size();i++){
+            long randomHearts = (long)(Math.random()*100);
+            long randomReviews = (long)(Math.random()*100);
+            long randomViews = (long)(Math.random()*100);
+            products.get(i).setHearts(randomHearts);
+            products.get(i).setReviews(randomReviews);
+            products.get(i).setViews(randomViews);
+            productService.setRandomValues(products.get(i));
+        }*/
+
+       /* switch (methodId) {
 
             case 1:
                 System.out.println("좋아요 순 정렬");
@@ -278,19 +311,19 @@ public class ProductController {
                 System.out.println();
                 Collections.sort(products, new ProductCreatedAtComparator().reversed());
                 break;
-        }
-        /* 페이징 처리 - JPA Repository 필요
-        int start = (int)pageable.getOffset();
-        int end = Math.min((start + pageable.getPageSize()), users.size());
-        Pageable pageable =
-        final Page<User> page = new PageImpl<>(users.subList(start, end), pageable, users.size());
+        }*/
 
-        Page<Product> pages = new PageImpl<Product>(products, pageable, products.size());
+        Page<Product> pageProducts = productService.findAllProductByMethod(page-1,size,methodId);
+        List<Product> productList = pageProducts.getContent();
 
-        Page<Product> pageProducts = PageRequest.of(page,size,Sort.by());// product를 Pageable pageable로 변화*/
-
-        return new ResponseEntity<>(products, HttpStatus.OK);
+        /*return new ResponseEntity<>(products, HttpStatus.OK);*/
+        return new ResponseEntity<>(
+                new MultiResponseDto<>(productList, pageProducts),
+                HttpStatus.OK);
     }
+
+
+
 
 
     /*
