@@ -1,6 +1,8 @@
 package com.example.Api.product;
 
 import com.example.Api.category.Category;
+import com.example.Api.category.CategoryMapper;
+import com.example.Api.category.CategoryService;
 import com.example.Api.review.Review;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -35,11 +37,15 @@ public class ProductController {
     private final ProductMapper productMapper;
     private final ProductService productService;
 
+    private final CategoryService categoryService;
+
     private final int size = 10;
     private List<Product>  products = new ArrayList<>();
-    public ProductController(ProductMapper productMapper, ProductService productService){
+    public ProductController(ProductMapper productMapper, ProductService productService,
+                             CategoryService categoryService){
         this.productMapper = productMapper;
         this.productService = productService;
+        this.categoryService = categoryService;
 
     }
     //url/2
@@ -105,7 +111,8 @@ public class ProductController {
             }
 
             BigDecimal seq = new BigDecimal(price);
-            data.setCategoryId((long)row.getCell(3).getNumericCellValue());
+            long categoryId = ((long)row.getCell(3).getNumericCellValue());
+            data.setCategory(categoryService.findVerifiedCategoryId(categoryId));
             data.setCompany(row.getCell(4).getStringCellValue());
             data.setPrice(seq);
             data.setCreatedAt(LocalDateTime.now());
@@ -150,7 +157,7 @@ public class ProductController {
         if(!isAdmin){
             throw new RuntimeException("관리자가 아닙니다.");
         }
-        Category category = new Category(11L,"버거");
+        /*Category category = new Category(11L,"버거");*/
         List<Review> reviewList = new ArrayList<>();
         Product product = productService.findVerifiedProductName(productName);
         /*product.setCategory(category);
@@ -173,14 +180,14 @@ public class ProductController {
         if(!isAdmin){
             throw new RuntimeException("관리자가 아닙니다.");
         }
-        Category category = new Category(7L,"adf");
+        /*Category category = new Category(7L,"adf");*/
         List<Review> reviewList = new ArrayList<>();
         Product product = new Product();
         product.setId(productId);
         product.setImageURL(productPatchDto.getImageURL());
         product.setProductName(productPatchDto.getProductName());
         product.setPrice(new BigDecimal(9900));
-        product.setCategoryId(productPatchDto.getCategoryId());
+        product.setCategory(categoryService.findVerifiedCategoryId(productPatchDto.getCategoryId()));
         /*product.setCategory(new Category(productPatchDto.getCategoryId(), "도시락"));*/
 
 
