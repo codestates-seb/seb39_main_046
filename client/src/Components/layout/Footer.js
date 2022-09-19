@@ -18,12 +18,12 @@ const FooterContainer = styled.footer`
   height: 150px;
   position: fixed;
   bottom: 0;
-  background-color: black;
+  background-color: ${({ theme }) => theme.colors.Gray_090};
 `;
 
 const FMain = styled.main`
   width: 1280px;
   margin: 0 auto;
-  color: #fff;
+  color: ${({ theme }) => theme.colors.White};
   padding-top: 30px;
 `;

@@ -10,6 +10,7 @@
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.4.0",
     "styled-components": "^5.3.5",
+    "styled-reset": "^4.4.2",
     "web-vitals": "^2.1.4",
     "zustand": "^4.1.1"
   },
