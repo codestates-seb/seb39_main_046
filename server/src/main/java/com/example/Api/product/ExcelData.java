@@ -1,5 +1,6 @@
 package com.example.Api.product;
 
+import com.example.Api.category.Category;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -15,7 +16,9 @@ public class ExcelData {
     private String productName;
     private BigDecimal price;
 
-    private long categoryId;
+    /*private long categoryId;*/
+
+    private Category category;
     private  String company;
 
     private LocalDateTime createdAt;

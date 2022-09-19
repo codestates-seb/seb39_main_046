@@ -1,6 +1,8 @@
 package com.example.Api.product;
 
 import com.example.Api.audit.Auditable;
+import com.example.Api.category.Category;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -28,8 +30,8 @@ public class Product extends Auditable {
     @Column
     private BigDecimal price;
     //( member (1) ) : category (1) : product (N) // 상품 추천 기능
-    @Column
-    private long categoryId;
+    /*@Column
+    private long categoryId;*/
     @Column
     private  String company;
     @Column
@@ -47,6 +49,11 @@ public class Product extends Auditable {
     //member (1)  : productHeart ( N ) : product(1)  //상품 좋아요 기능
     // 회원 기준으로 좋아요한 상품 출력만 구현할 예정
     // 상품 기준으로 좋아요한 회원 출력 기능은 미구현
+
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    @JsonIgnore // 무한 반복 피하기 위해 @JsonIgnore 어노테이션을 추가하여 직렬화에서 제외시키는 방법
+    private Category category;
 
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
