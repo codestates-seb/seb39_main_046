@@ -1,11 +1,17 @@
-
-import './App.css';
-
+import "./App.css";
+import { Route, Routes } from "react-router-dom";
+import Layout from "./Components/layout/Layout";
+import Main from "./Pages/Main/Main";
+import "./Styles/common.css";
 function App() {
   return (
-    <div className="App">
-      <h2>Hello world</h2>
-    </div>
+    <>
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          <Route index element={<Main />}></Route>
+        </Route>
+      </Routes>
+    </>
   );
 }
 
