@@ -65,6 +65,8 @@ public ResponseEntity signup(@Validated @RequestBody MemberPostDto memberPostDto
 
       if(patchId == 1) member.setNickName(patch);
        else member.setPassword(patch);
+
+       memberRepository.save(member);
     return new ResponseEntity<>(member,HttpStatus.OK);
 
 }
@@ -100,6 +102,7 @@ public ResponseEntity signup(@Validated @RequestBody MemberPostDto memberPostDto
 
         Member member = memberService.getLoginMember();
         member.setCategory(categoryService.findVerifiedCategoryId(id));
+        memberRepository.save(member);
     return new ResponseEntity<>("등록 완료", HttpStatus.OK);
     }
 //    @PostMapping("/profile/{member-id}")
