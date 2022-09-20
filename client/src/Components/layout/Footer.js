@@ -16,7 +16,7 @@ export default Footer;
 const FooterContainer = styled.footer`
   width: 100%;
   height: 150px;
-  position: fixed;
+  /* position: fixed; */
   bottom: 0;
   background-color: ${({ theme }) => theme.colors.Gray_090};
 `;

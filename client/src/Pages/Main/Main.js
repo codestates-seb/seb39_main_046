@@ -1,10 +1,10 @@
 import React from "react";
-import Banner from "../../Components/Common/Banner";
+import Banner from "../../Components/common/Banner";
 
 const Main = () => {
   return (
     <div>
-      <Banner />
+      <Banner/>
     </div>
   );
 };

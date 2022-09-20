@@ -1,8 +1,12 @@
 import React from "react";
 import styled from "styled-components";
 import logo from "../../Assets/logo.png";
+import {useNavigate} from 'react-router-dom';
 
 const Header = () => {
+
+  const navigate = useNavigate();
+
   return (
     <HeaderContainer>
       <HMain>
@@ -15,10 +19,10 @@ const Header = () => {
           <li>서비스 소개</li>
           <li>PB상품 랭킹</li>
           <li>
-            <img src={logo} alt="logo" />
+            <img onClick = {() => navigate('/')} src={logo} alt="logo" />
           </li>
           <li>편의점 취향 찾기</li>
-          <li>주변 편의점 찾기</li>
+          <li onClick = {() => navigate('/findstore')}>주변 편의점 찾기</li>
         </HTab>
       </HMain>
     </HeaderContainer>
@@ -34,6 +38,7 @@ const HeaderContainer = styled.nav`
   height: 75px;
   box-shadow: 0px 4px 20px #ececec;
   background-color: #fff;
+  z-index:100;
 `;
 const HMain = styled.main`
   max-width: 1280px;
