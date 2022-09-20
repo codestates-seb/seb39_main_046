@@ -1,6 +1,7 @@
-import { createGlobalStyle } from "styled-components";
 import reset from "styled-reset";
-const GlobalStyle = createGlobalStyle`
+import { createGlobalStyle } from "styled-components";
+
+const GlobalStyle = createGlobalStyle `
   ${reset}
   *, *::before, *::after {
     box-sizing: border-box;

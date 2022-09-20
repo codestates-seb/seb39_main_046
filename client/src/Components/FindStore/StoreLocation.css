@@ -1,11 +1,3 @@
-.mapsection {
-    display: flex;
-    width: 100%;
-    justify-content: center;
-    margin-top: 18px;
-    margin-bottom: 150px;
-}
-
 #result-list {
     height: 300px;
     overflow: auto;
@@ -25,6 +17,38 @@
 #pagination a.on {
     color: lightblue;
     font-weight: bold;
+}
+
+#searchwrite {
+    margin-right: 36px;
+    font-weight: 700;
+    color: #000000;
+}
+
+#searchStore {
+    margin-right: 36px;
+    font-weight: 700;
+}
+
+#myMap {
+    border-radius: 30px;
+}
+
+#searchInput {
+    width: 360px;
+    border: 0 solid black;
+}
+
+#pagination {
+    text-align: center;
+}
+
+.mapsection {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    margin-top: 18px;
+    margin-bottom: 150px;
 }
 
 .detailContent {
@@ -53,17 +77,6 @@
     line-height: 40px;
 }
 
-#searchwrite {
-    margin-right: 36px;
-    font-weight: 700;
-    color: #000000;
-}
-
-#searchStore {
-    margin-right: 36px;
-    font-weight: 700;
-}
-
 .searchunit {
     display: flex;
     justify-content: center;
@@ -72,18 +85,9 @@
     border-radius: 35px;
 }
 
-#myMap {
-    border-radius: 30px;
-}
-
 .searchSelect {
     border: none;
     font-weight: 400;
     font-size: 14px;
     line-height: 100%;
-}
-
-#searchInput {
-    width: 360px;
-    border: 0 solid black;
 }

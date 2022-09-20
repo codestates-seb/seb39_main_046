@@ -254,13 +254,11 @@ const StoreLocation = () => {
   const onChange = (e) => {
     setInputText(e.target.value);
   };
-  console.log(address);
   const handleSubmit = (e) => {
     e.preventDefault();
     setPlace(address + inputText);
     setInputText("");
   };
-  console.log(place);
   function categoryChange(e) {
     setAdd(e.target.value);
   }
@@ -338,10 +336,10 @@ const StoreLocation = () => {
           paginationEl.appendChild(fragment);
         }
 
-        let imageSrc =
-          "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_red.png";
+        // let imageSrc =
+        //   "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_red.png";
 
-        let markerImage = new kakao.maps.MarkerImage(imageSrc);
+        // let markerImage = new kakao.maps.MarkerImage(imageSrc);
 
         function displayMarker(place) {
           let marker = new kakao.maps.Marker({
@@ -362,7 +360,6 @@ const StoreLocation = () => {
     });
   }, [place]);
 
-  console.log(Places);
 
   return (
     <div className="mapsection">
