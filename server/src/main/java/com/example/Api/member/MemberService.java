@@ -1,5 +1,7 @@
 package com.example.Api.member;
 
+import com.example.Api.oauth.PrincipalDetails;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -55,6 +57,14 @@ member1.setProfile(photo);
 memberRepository.save(member1);
     }
 
+    public Member getLoginMember(){ //로그인된 유저가 옳바른 지 확인하고 정보 가져옴
+        return findMember(getUserByToken());
+    }
+
+    private Member findMember(Member member){// 아래 getUserByToken 쓸거임
+        return findVerifiedMemberId(member.getId());
+    }
+
     public void deleteMember(long id){
         memberRepository.delete(findVerifiedMemberId(id));
     }
@@ -73,5 +83,12 @@ memberRepository.save(member1);
                 optionaluser.orElseThrow(()->
                         new RuntimeException("등록되지 않은 회원 "));
         return findMember;
+    }
+
+    public Member getUserByToken(){
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        PrincipalDetails principalDetails = (PrincipalDetails)principal;
+
+        return principalDetails.getMember();
     }
 }

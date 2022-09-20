@@ -4,8 +4,10 @@ package com.example.Api.member;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.example.Api.category.CategoryService;
+import com.example.Api.response.SingleResponseDto;
 import com.google.gson.Gson;
 import io.swagger.annotations.ApiOperation;
+import lombok.RequiredArgsConstructor;
 import org.apache.xmlbeans.impl.jam.mutable.MElement;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +25,7 @@ import java.security.Principal;
 @RestController
 @RequestMapping("/member")
 @Validated
-
+@RequiredArgsConstructor
 
 public class memberController {
 
@@ -32,14 +34,6 @@ public class memberController {
     private final MemberRepository memberRepository;
     private final MemberMapper mapper;
     private final CategoryService categoryService;
-
-    public memberController(MemberService memberService, BCryptPasswordEncoder bCryptPasswordEncoder, MemberRepository memberRepository, MemberMapper mapper, CategoryService categoryService) {
-        this.memberService = memberService;
-        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
-        this.memberRepository = memberRepository;
-        this.mapper = mapper;
-        this.categoryService = categoryService;
-    }
 
 
     /*
@@ -63,65 +57,34 @@ public ResponseEntity signup(@Validated @RequestBody MemberPostDto memberPostDto
 
     return new ResponseEntity<>(mapper.memberToMemberResponseDto(response) , HttpStatus.OK);
 }
-//@PatchMapping("/{member-id}")
-//@ApiOperation(value = "회원 정보 수정")
-//public ResponseEntity update(@Validated @RequestBody MemberPatchDto memberPatchDto){
-//
-//    Member member = mapper.memberPatchDtoToMember(memberPatchDto);
-//    member.setUsername("바뀐이메일");
-//    Member response = memberService.createMember(member);
-//
-//    return new ResponseEntity<>(response,HttpStatus.OK);
-//}
 
      @PatchMapping("/all/{method-id}")
      @ApiOperation(value = "회원 정보 수정", notes = "✅ memthod-id가 1이면 닉네임 수정, 2면 패스워드 수정")
-     public ResponseEntity getProductByProductName(@PathVariable("method-id")@Positive int patchId, Principal principal,@RequestBody String patch){
-     Member member = memberService.findVerifiedUsername(principal.getName());
+     public ResponseEntity getProductByProductName(@PathVariable("method-id")@Positive int patchId,@RequestBody String patch){
+    Member member = memberService.getLoginMember();
 
       if(patchId == 1) member.setNickName(patch);
        else member.setPassword(patch);
     return new ResponseEntity<>(member,HttpStatus.OK);
 
 }
-//    @GetMapping("/mypage")
-//
-//    @ApiOperation(value = "마이 페이지")// 유저 상세 페이지
-//    public ResponseEntity memberPage(Principal principal){
-//
-//    Member member1 = memberService.findVerifiedUsername(principal.getName());
-////Member findMember = memberRepository.findByUsername(principal.getName());
-//        Gson gson = new Gson();
-//     gson.toJson(mapper.memberToMemberResponseDto(member1).toString());
-//       return new ResponseEntity<>(gson,HttpStatus.OK);
-//
-//    }
+
     @GetMapping("/mypage")
-
     @ApiOperation(value = "마이 페이지")// 유저 상세 페이지
-    public ResponseEntity memberPage(HttpServletRequest request){
+    public ResponseEntity memberPage(){
+        Member member =  memberService.getLoginMember();
 
-        String jwtHeader = request.getHeader("Authorization");
-        String jwtToken = jwtHeader.replace("Bearer ", "");
-
-        String username = JWT.require(Algorithm.HMAC512("cos_jwt_token")).build().verify(jwtToken).getClaim("username").asString();
-
-
-     Member member = memberService.findVerifiedUsername(username);
-//
-//        MemberResponseDto response = mapper.memberToMemberResponseDto(findmember);
-//        // return findmember.toString();
-//        System.out.println(response);
-//        Member response = memberService.findVerifiedUsername(principal.getName());
-       return new ResponseEntity<>(mapper.memberToMemberResponseDto(member),HttpStatus.OK);
-
+        return new ResponseEntity<>(
+                new SingleResponseDto<>(mapper.memberToMemberResponseDto(member)),
+                HttpStatus.OK);
     }
 
     @DeleteMapping
     @ApiOperation(value = "회원 탈퇴")// 회원 탈퇴
-    public ResponseEntity deletMember(Principal principal){
-       memberService.deleteMember(memberService.findVerifiedUsername(principal.getName()).getId());
+    public ResponseEntity deletMember(){
+       Member member = memberService.getLoginMember();
 
+       memberService.deleteMember(member.getId());
 
         return new ResponseEntity<>("삭제 완료",HttpStatus.OK);
     }
@@ -133,11 +96,10 @@ public ResponseEntity signup(@Validated @RequestBody MemberPostDto memberPostDto
 
     @PostMapping("/pbti/{category-id}")
     @ApiOperation(value = "멤버에 편비티아이 추가")
-    public ResponseEntity pbti(Principal principal ,@PathVariable("category-id") @Positive long id){
+    public ResponseEntity pbti(@PathVariable("category-id") @Positive long id){
 
-    Member pbitMember = memberService.findVerifiedUsername(principal.getName());
-        pbitMember.setCategory(categoryService.findVerifiedCategoryId(id));
-    memberRepository.save(pbitMember);
+        Member member = memberService.getLoginMember();
+        member.setCategory(categoryService.findVerifiedCategoryId(id));
     return new ResponseEntity<>("등록 완료", HttpStatus.OK);
     }
 //    @PostMapping("/profile/{member-id}")

@@ -47,14 +47,19 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
         String username = JWT.require(Algorithm.HMAC512("cos_jwt_token")).build().verify(jwtToken).getClaim("username").asString();
 
         if (username != null) {
-            Member memberEntity = memberService.findVerifiedUsername(username);
 
-            PrincipalDetails principalDetails = new PrincipalDetails(memberEntity);
-            Authentication authentication = new UsernamePasswordAuthenticationToken(principalDetails, null, principalDetails.getAuthorities());
+            Member member = memberService.findVerifiedUsername(username);
+
+            // 인증은 토큰 검증시 끝. 인증을 하기 위해서가 아닌 스프링 시큐리티가 수행해주는 권한 처리를 위해
+            // 아래와 같이 토큰을 만들어서 Authentication 객체를 강제로 만들고 그걸 세션에 저장!
+            PrincipalDetails principalDetails = new PrincipalDetails(member);
+            Authentication authentication =
+                    new UsernamePasswordAuthenticationToken(principalDetails, null, principalDetails.getAuthorities());
+
+            // 강제로 시큐리티의 세션에 접근하여 값 저장
             SecurityContextHolder.getContext().setAuthentication(authentication);
-
-            chain.doFilter(request, response);
         }
-        super.doFilterInternal(request, response, chain);
+
+        chain.doFilter(request, response);
     }
 }

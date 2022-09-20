@@ -29,7 +29,7 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf().disable();
         http.headers().frameOptions().disable();
-        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
+        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .formLogin().disable()
                 .httpBasic().disable()

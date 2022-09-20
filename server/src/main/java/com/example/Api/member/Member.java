@@ -2,6 +2,7 @@ package com.example.Api.member;
 
 import com.example.Api.audit.Auditable;
 import com.example.Api.category.Category;
+import com.example.Api.review.Review;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -45,6 +46,9 @@ public class Member extends Auditable {
         }
         return new ArrayList<>();
     }
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL) //REMOVE  PERSIST ALL
+    @JsonIgnore
+    private List<Review> reviewList= new ArrayList<>();
 
     public Member(long id,String username,String nickName,String password){
 
@@ -53,4 +57,5 @@ public class Member extends Auditable {
         this.nickName = nickName;
         this.password = password;
     }
+
 }
