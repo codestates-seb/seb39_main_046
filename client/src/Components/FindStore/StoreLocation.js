@@ -494,19 +494,3 @@ const Detail = styled.div`
 const StoreMaker = styled.div`
   width: 10%;
 `;
-const Locationsearch = styled.div`
-  display: flex;
-  justify-content: space-between;
-  height: 50px;
-`;
-
-const LocationName = styled.div`
-  font-size: 16px;
-  padding-left: 20px;
-`;
-
-const Submitplace = styled.div`
-  display: flex;
-  justify-content: flex-start;
-  height: 50px;
-`;
