@@ -1,4 +1,4 @@
 package com.example.Api.main;
 
-public class mainController {
+public class MainController {
 }
