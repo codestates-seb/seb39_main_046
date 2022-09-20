@@ -45,8 +45,8 @@ export const QuestionData = [
     },
     answerd: {
       answerTitle:
-        "간단하게 한 줄 품 속에 숨겨간 김밥은, 한 입 씩 회사에서 몰래먹기 딱 좋쥬~",
-      type: "Kimbab",
+        "참깨빵 위에 순 쇠고기 패티 2장 특별한 소스 양상추,치즈,피클,양파까지 햄버거로 스트레스를 풀어버리겠어",
+      type: "Hamburger",
     },
   },
   {
@@ -68,8 +68,8 @@ export const QuestionData = [
     },
     answerd: {
       answerTitle:
-        "간단하게 한 줄 품 속에 숨겨간 김밥은, 한 입 씩 회사에서 몰래먹기 딱 좋쥬~",
-      type: "Kimbab",
+        "아주 달달한 커피를 마실까 시원한 아이스아메리카노를 마실까 아니면 에이드로 상큼하게 가볼까~?",
+      type: "Coffee",
     },
   },
   {

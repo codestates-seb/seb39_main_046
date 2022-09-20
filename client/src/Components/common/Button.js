@@ -27,10 +27,7 @@ const StyledButton = styled.button`
         background: ${darken(0.2, selected)};
       }
     `;
-  }}/* 기타 */
-  /* & + & {
-    margin-left: 1rem;
-  } */
+  }}
 `;
 
 function Button({ children, ...rest }) {
