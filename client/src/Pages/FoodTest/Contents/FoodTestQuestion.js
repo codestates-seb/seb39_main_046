@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { createSearchParams, useNavigate } from "react-router-dom";
 import { QuestionData } from "../../../Assets/FoodData/questionData";
 import Button from "../../../Components/Common/Button";
+import HChracter from "../../../Assets/images/FootTestHome.png";
 
 const FoodTestQuestion = () => {
   const navigate = useNavigate();
@@ -63,37 +64,38 @@ const FoodTestQuestion = () => {
       <FContents>
         <FText>
           <h4>Q. {QuestionData[questionNo].QuestionTitle}</h4>
-          <Button> {QuestionData[questionNo].answera.answerTitle}</Button>
-          <button
+          <Button
             onClick={() =>
               handleClickBtn(1, QuestionData[questionNo].answera.type)
             }
           >
             {QuestionData[questionNo].answera.answerTitle}
-          </button>
-          <button
+          </Button>
+          <Button
             onClick={() =>
               handleClickBtn(1, QuestionData[questionNo].answerb.type)
             }
           >
             {QuestionData[questionNo].answerb.answerTitle}
-          </button>{" "}
-          <button
+          </Button>
+          <Button
             onClick={() =>
-              handleClickBtn(1, QuestionData[questionNo].answerc.type)
+              handleClickBtn(1, QuestionData[questionNo].answerb.type)
             }
           >
             {QuestionData[questionNo].answerc.answerTitle}
-          </button>
-          <button
+          </Button>
+          <Button
             onClick={() =>
-              handleClickBtn(1, QuestionData[questionNo].answerd.type)
+              handleClickBtn(1, QuestionData[questionNo].answerb.type)
             }
           >
             {QuestionData[questionNo].answerd.answerTitle}
-          </button>
+          </Button>
         </FText>
-        <FImg></FImg>
+        <FImg>
+          <img src={HChracter} alt="캐릭터" />
+        </FImg>
       </FContents>
     </div>
   );
@@ -126,9 +128,21 @@ const FText = styled.div`
     font-size: ${({ theme }) => theme.fontSizes.base};
     margin-bottom: 30px;
   }
+  Button {
+    width: 400px;
+    margin-bottom: 10px;
+    font-size: ${({ theme }) => theme.fontSizes.xs};
+  }
 `;
 const FImg = styled.div`
   width: 400px;
   height: 400px;
-  background-color: ${({ theme }) => theme.colors.Blue_020}; ;
+  border-radius: 50px;
+  background-color: ${({ theme }) => theme.colors.Blue_020};
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  img {
+    transform: scale(120%);
+  }
 `;

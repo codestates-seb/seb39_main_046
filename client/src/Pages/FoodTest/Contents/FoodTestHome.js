@@ -13,7 +13,7 @@ const FoodTestHome = () => {
         <h3>
           리코 질문에 대답하다보면,<strong> 취향조사 완료!</strong>
         </h3>
-        <img src={HChracter} alt="본문 캐릭터" />
+        <img src={HChracter} alt="캐릭터" />
         <Button onClick={() => navigate("question")}>START!</Button>
       </FContents>
     </>

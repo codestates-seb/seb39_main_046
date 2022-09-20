@@ -28,7 +28,7 @@ export const QuestionData = [
   {
     id: 2,
     QuestionTitle:
-      "점심시간, 짬내서 맛집 탐방을 꿈꾸었지만,,, 현실은 편의점 냉장고 앞이군요...",
+      "점심시간, 짬내서 맛집 탐방을 꿈꾸었지만... 현실은 편의점 냉장고 앞이군요...",
     answera: {
       answerTitle:
         "편의점의 꽃! 삼각김밥이 최고지~ 든든하고 간편한 김밥을 먹어보자",
@@ -36,7 +36,7 @@ export const QuestionData = [
     },
 
     answerb: {
-      answerTitle: "한식당은 못갔지만 얼추 비슷한 도시락을 먹어볼까….?",
+      answerTitle: "한식당은 못갔지만 얼추 비슷한 도시락을 먹어볼까?",
       type: "LunchBox",
     },
     answerc: {
@@ -54,7 +54,7 @@ export const QuestionData = [
     QuestionTitle:
       "동기가 점심을 편의점으로 대충 때운 당신을 위해, 산책 겸 나가서 간식을 사먹자고 합니다. 어떤 간식으로 기분을 업시켜볼까요?",
     answera: {
-      answerTitle: "딸기찹쌀떡, 빵…….든든하고 맛있는걸 골라볼까?",
+      answerTitle: "딸기찹쌀떡, 빵...든든하고 맛있는걸 골라볼까?",
       type: "Dessert",
     },
 
@@ -63,7 +63,7 @@ export const QuestionData = [
       type: "Snack",
     },
     answerc: {
-      answerTitle: "달콤하고 사르르녹는 아이스크림….이걸로 결정했어!",
+      answerTitle: "달콤하고 사르르녹는 아이스크림~ 이걸로 결정했어!",
       type: "Icecream",
     },
     answerd: {
@@ -77,7 +77,7 @@ export const QuestionData = [
     QuestionTitle:
       "하루 끝 저녁 시간이에요. 오늘 하루도 고생했어요~ 저녁에는 어떤 것을 먹어볼까요?",
     answera: {
-      answerTitle: "나는야 다이어터! 고생했지만 저녁은 샐러드다",
+      answerTitle: "나는야 다이어터! 고생했지만 저녁은 샐러드다🥗",
       type: "Salad",
     },
 
@@ -93,7 +93,7 @@ export const QuestionData = [
 
     answerd: {
       answerTitle:
-        "어디서 봤는데, 이 라면이랑 저 라면이랑 섞으면 그렇게 맛있다는데? 내가 바로 이 구역 컵라면 요리사~ (ㅇ-<)",
+        "어디서 봤는데, 이 라면이랑 저 라면이랑 섞으면 그렇게 맛있다는데? 내가 바로 컵라면 요리사~ (ㅇ-<)",
       type: "CupRamen",
     },
   },
@@ -125,7 +125,7 @@ export const QuestionData = [
   {
     id: 6,
     QuestionTitle:
-      "오늘은 불타는 금요일이다! 누구보다 핫하고 격하게 놀고싶다…는 마음으로 신나게 친구 생일파티로 가는 중입니다. 파티에서 어떤 음식을 먹을지 상상만으로도 신나네요! 파티장에서 나는?",
+      "오늘은 불타는 금요일! 누구보다 신나게 놀고싶다는 마음으로 친구 생일파티를 가는 중입니다. 파티장에서 나는?",
     answera: {
       answerTitle:
         "나는 파티 밖에 모르는 바보! 미국 스타일로 간단한 핑거푸드와 함께 스탠딩파티를 즐겨볼까~?",
