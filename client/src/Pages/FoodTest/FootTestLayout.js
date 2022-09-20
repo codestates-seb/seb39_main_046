@@ -50,7 +50,7 @@ const BImg = styled.span`
 
 const FoodTestContainer = styled.section`
   width: 100%;
-  height: 650px;
+  height: 600px;
   background-color: ${({ theme }) => theme.colors.Blue_010};
   display: flex;
   justify-content: center;

@@ -4,6 +4,7 @@ import { createSearchParams, useNavigate } from "react-router-dom";
 import { QuestionData } from "../../../Assets/FoodData/questionData";
 import Button from "../../../Components/Common/Button";
 import HChracter from "../../../Assets/images/FootTestHome.png";
+import EatChracter from "../../../Assets/images/8.png";
 
 const FoodTestQuestion = () => {
   const navigate = useNavigate();
@@ -69,7 +70,9 @@ const FoodTestQuestion = () => {
       </ProgressBox>
       <FContents>
         <FText>
-          <h4>Q. {QuestionData[questionNo].QuestionTitle}</h4>
+          <h3>
+            <strong>Q.</strong> {QuestionData[questionNo].QuestionTitle}
+          </h3>
           <Button
             onClick={() =>
               handleClickBtn(1, QuestionData[questionNo].answera.type)
@@ -100,7 +103,7 @@ const FoodTestQuestion = () => {
           </Button>
         </FText>
         <FImg>
-          <img src={HChracter} alt="캐릭터" />
+          <img src={EatChracter} alt="캐릭터" />
         </FImg>
       </FContents>
     </div>
@@ -115,48 +118,50 @@ const FContents = styled.div`
   align-items: center;
   font-size: ${({ theme }) => theme.fontSizes.lg};
   color: ${({ theme }) => theme.colors.Gray_090};
-  h3 {
-    strong {
-      font-weight: bold;
-    }
-  }
+
   img {
     margin: 30px 0;
   }
 `;
 
 const FText = styled.div`
-  width: 500px;
+  width: 570px;
   height: 400px;
   margin-right: 30px;
-  h4 {
+  h3 {
     color: ${({ theme }) => theme.colors.Gray_090};
-    font-size: ${({ theme }) => theme.fontSizes.base};
+    font-size: ${({ theme }) => theme.fontSizes.lg};
     margin-bottom: 30px;
+    strong {
+      font-weight: bold;
+    }
   }
+
   Button {
-    width: 500px;
+    width: 570px;
     margin-bottom: 10px;
-    font-size: ${({ theme }) => theme.fontSizes.xs};
+    font-size: ${({ theme }) => theme.fontSizes.base};
   }
 `;
 const FImg = styled.div`
-  width: 300px;
+  width: 280px;
   height: 400px;
-  border-radius: 50px;
-  background-color: ${({ theme }) => theme.colors.Blue_020};
+  border-radius: 30px;
+  /* background-color: ${({ theme }) => theme.colors.Blue_020}; */
   display: flex;
   justify-content: center;
   align-items: center;
   img {
-    transform: scale(120%);
+    width: 280px;
+    margin-top: -10px;
   }
 `;
 
 const ProgressBox = styled.div`
+  margin-top: 30px;
   margin-bottom: 50px;
   background-color: #fff;
-  width: 830px;
+  width: 870px;
   height: 15px;
   display: flex;
   align-items: center;
@@ -164,7 +169,7 @@ const ProgressBox = styled.div`
 `;
 const ProgressBar = styled.div`
   width: ${(props) => props.width};
-  background-color: ${({ theme }) => theme.colors.Gray_030};
+  background-color: ${({ theme }) => theme.colors.Blue_020};
   height: 100%;
   transition: width 1s;
   border-radius: 20px;
@@ -175,6 +180,6 @@ const Dot = styled.div`
   box-sizing: border-box;
   border: 6px solid ${({ theme }) => theme.colors.Blue_030};
   border-radius: 35px;
-  background: ${({ theme }) => theme.colors.Gray_030};
+  background: ${({ theme }) => theme.colors.Blue_020};
   margin-left: -10px;
 `;

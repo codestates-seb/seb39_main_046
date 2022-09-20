@@ -3,6 +3,8 @@ import { useSearchParams, useNavigate } from "react-router-dom";
 import { ResultData } from "../../../Assets/FoodData/resultdata";
 import HChracter from "../../../Assets/images/FootTestHome.png";
 import Button from "../../../Components/Common/Button";
+import KakaoShareButton from "../../../Components/Common/KakaoShareButton";
+
 import styled from "styled-components";
 
 const FoodTestResult = () => {
@@ -10,10 +12,12 @@ const FoodTestResult = () => {
   const [searchParams] = useSearchParams();
   const mbti = searchParams.get("mbti");
   const [resultData, setResultData] = useState({});
+
   useEffect(() => {
     const result = ResultData.find((s) => s.best === mbti);
     setResultData(result);
   }, [mbti]);
+
   return (
     <FContens>
       <h3>
@@ -22,7 +26,7 @@ const FoodTestResult = () => {
       <img src={resultData.image} alt={resultData.name} />
       <FBtn>
         <Button onClick={() => navigate("/foodtest")}>테스트 다시하기</Button>
-        <Button>결과 공유하기</Button>
+        <KakaoShareButton data={resultData}>카카오톡 공유하기</KakaoShareButton>
       </FBtn>
     </FContens>
   );
