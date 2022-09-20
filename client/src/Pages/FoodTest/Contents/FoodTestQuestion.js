@@ -42,7 +42,7 @@ const FoodTestQuestion = () => {
 
       if (result.length === 1) {
         navigate({
-          pathname: "/result",
+          pathname: "/foodtest/result",
           search: `?${createSearchParams({
             mbti: result[0].id,
           })}`,
@@ -50,7 +50,7 @@ const FoodTestQuestion = () => {
       } else {
         console.log(result3);
         navigate({
-          pathname: "/result",
+          pathname: "/foodtest/result",
           search: `?${createSearchParams({
             mbti: result3.id,
           })}`,

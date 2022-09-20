@@ -5,6 +5,7 @@ import FindStore from "./Pages/FindStore/FindStore";
 import FootTestLayout from "./Pages/FoodTest/FootTestLayout";
 import FoodTestHome from "./Pages/FoodTest/Contents/FoodTestHome";
 import FoodTestQuestion from "./Pages/FoodTest/Contents/FoodTestQuestion";
+import FoodTestResult from "./Pages/FoodTest/Contents/FoodTestResult";
 function App() {
   return (
     <>
@@ -15,6 +16,7 @@ function App() {
           <Route path="/foodtest" element={<FootTestLayout />}>
             <Route index element={<FoodTestHome />}></Route>
             <Route path="question" element={<FoodTestQuestion />}></Route>
+            <Route path="result" element={<FoodTestResult />}></Route>
           </Route>
           <Route path="*" element={<div>NotFound</div>} />
         </Route>

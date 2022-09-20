@@ -27,6 +27,7 @@ const FootTestLayout = () => {
 export default FootTestLayout;
 
 const BHeader = styled.header`
+  margin: 0 auto;
   text-align: center;
   font-size: ${({ theme }) => theme.fontSizes.small};
   color: ${({ theme }) => theme.colors.Gray_050};
@@ -38,7 +39,7 @@ const BHeader = styled.header`
 
 const BImg = styled.span`
   position: relative;
-  top: -110px;
+  top: -109px;
   left: 50px;
   img {
     /* position: relative;
@@ -54,4 +55,5 @@ const FoodTestContainer = styled.section`
   display: flex;
   justify-content: center;
   align-items: center;
+  border-radius: 10px;
 `;
