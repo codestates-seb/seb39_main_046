@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { createSearchParams, useNavigate } from "react-router-dom";
 import { QuestionData } from "../../Assets/FoodData/questionData";
 import Button from "../Common/Button";
-import EatChracter from "../../Assets/images/8.png";
+import EatChracter from "../../Assets/images/FoodTestQuestion.png";
 
 const FoodTestQuestion = () => {
   const navigate = useNavigate();

@@ -1,3 +1,4 @@
+import React, { useState } from "react";
 import { Route, Routes } from "react-router-dom";
 import Layout from "./Components/Layout/Layout";
 import Main from "./Pages/Main/Main";
@@ -6,7 +7,10 @@ import FootTest from "./Pages/FoodTest/FootTest";
 import FoodTestHome from "./Components/FoodTest/FoodTestHome";
 import FoodTestQuestion from "./Components/FoodTest/FoodTestQuestion";
 import FoodTestResult from "./Components/FoodTest/FoodTestResult";
+import Loading from "./Components/Common/Loading";
 function App() {
+  const [loading, setLoading] = useState(true);
+
   return (
     <>
       <Routes>
