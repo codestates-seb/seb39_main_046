@@ -9,24 +9,34 @@ import com.google.gson.Gson;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.apache.xmlbeans.impl.jam.mutable.MElement;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import springfox.documentation.annotations.ApiIgnore;
 
+import javax.servlet.ServletContext;
+import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.constraints.Positive;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.net.URL;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.security.Principal;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/member")
 @Validated
 @RequiredArgsConstructor
-
 public class memberController {
 
     private final MemberService memberService;
@@ -49,7 +59,7 @@ public class memberController {
     */
 @PostMapping("/signup")
 @ApiOperation(value = "회원가입")
-public ResponseEntity signup(@Validated @RequestBody MemberPostDto memberPostDto) {
+public ResponseEntity signUp(@Validated @RequestBody MemberPostDto memberPostDto) {
     Member member = mapper.memberPostDtoToMember(memberPostDto);
     member.setPassword(bCryptPasswordEncoder.encode(member.getPassword()));
     member.setRoles("USER");
@@ -60,7 +70,7 @@ public ResponseEntity signup(@Validated @RequestBody MemberPostDto memberPostDto
 
      @PatchMapping("/all/{method-id}")
      @ApiOperation(value = "회원 정보 수정", notes = "✅ memthod-id가 1이면 닉네임 수정, 2면 패스워드 수정")
-     public ResponseEntity getProductByProductName(@PathVariable("method-id")@Positive int patchId,@RequestBody String patch){
+     public ResponseEntity memberPatch(@PathVariable("method-id")@Positive int patchId,@RequestBody String patch){
     Member member = memberService.getLoginMember();
 
       if(patchId == 1) member.setNickName(patch);
@@ -105,23 +115,24 @@ public ResponseEntity signup(@Validated @RequestBody MemberPostDto memberPostDto
         memberRepository.save(member);
     return new ResponseEntity<>("등록 완료", HttpStatus.OK);
     }
-//    @PostMapping("/profile/{member-id}")
-//    @ApiOperation(value = "프로필 사진 추가")
-//    public ResponseEntity profile(@PathVariable("member-id") @Positive long memberId,@RequestPart("file")MultipartFile mfile) throws IOException {
-////이미지 저장 url 추가
-//
-//        Member member = new Member();
-//        try {
-//            if (member.getProfile() != null) { // 이미 프로필 사진이 있을경우
-//                File file = new File(urlPath + member.getProfile()); // 경로 + 유저 프로필사진 이름을 가져와서
-//                file.delete(); // 원래파일 삭제
-//            }
-//            mfile.transferTo(new File(urlPath + mfile.getOriginalFilename()));  // 경로에 업로드
-//        } catch (IllegalStateException | IOException e) {
-//            e.printStackTrace();
-//        }
-//        memberService.imgUpdate(memberId,mfile.getOriginalFilename());
-//return new ResponseEntity<>("등록 완료",HttpStatus.OK);
-//    }
+    @PostMapping("/profile")
+    @ApiOperation(value = "프로필 사진 추가")
+    public ResponseEntity profile(@RequestPart("file") MultipartFile mfile) throws IOException {
+//이미지 저장 url 추가
+
+        Member member = memberService.getLoginMember();
+        try {
+
+            String savePath = System.getProperty("user.dir") + "\\src\\main\\resources\\static\\images\\";
+
+            mfile.transferTo(new File(savePath + mfile.getOriginalFilename()));  // 경로에 업로드
+            memberService.imgUpdate(member, mfile.getOriginalFilename());
+            System.out.println(savePath);
+            return new ResponseEntity<>("등록 완료", HttpStatus.OK);
+        }catch(Exception e) {
+            e.printStackTrace();
+        }
+        return new ResponseEntity<>("OK",HttpStatus.OK);
+    }
 
 }
