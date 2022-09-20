@@ -10,13 +10,10 @@ const StyledButton = styled.button`
   border-radius: 50px;
   color: white;
   cursor: pointer;
-  padding-left: 1rem;
-  padding-right: 1rem;
-
+  padding: 7px 1rem;
   /* 크기 */
-  height: 2rem;
   font-size: ${({ theme }) => theme.fontSizes.small};
-  line-height: 1.75rem;
+  line-height: 1rem;
 
   /* 색상 */
   ${(props) => {
@@ -29,11 +26,11 @@ const StyledButton = styled.button`
       &:active {
         background: ${darken(0.2, selected)};
       }
-      &:focus {
+      /* &:focus {
         border: 3px solid ${({ theme }) => theme.colors.Blue_010};
         height: 2.2rem;
         line-height: 2rem;
-      }
+      } */
     `;
   }}
 
