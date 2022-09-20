@@ -40,6 +40,8 @@ public class SecurityConfig {
                 .access("hasRole('ROLE_ADMIN')")
                 .antMatchers("/category")
                 .access("hasRole('ROLE_ADMIN')")
+                .antMatchers("/member/all")
+                .access("hasRole('ROLE_ADMIN')")
                 .anyRequest().permitAll();
         return http.build();
     }
