@@ -26,11 +26,6 @@ const StyledButton = styled.button`
       &:active {
         background: ${darken(0.2, selected)};
       }
-      /* &:focus {
-        border: 3px solid ${({ theme }) => theme.colors.Blue_010};
-        height: 2.2rem;
-        line-height: 2rem;
-      } */
     `;
   }}
 
