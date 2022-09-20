@@ -1,17 +1,21 @@
 package com.example.Api.main;
 
 
-import lombok.Getter;
+import com.example.Api.product.Product;
+import com.example.Api.review.Review;
+import lombok.Data;
 
 import java.util.List;
 
-@Getter
-public class Main<T> {
+@Data
+public class MainResponseDto<T> {
 
-    private List<T> allTop5; // 전체 상품 중 top5
-    private List<T> data;  //추천 상품 리스트
-    private List<T> data;  //
+    private List<Product> allTop5; // 전체 상품 중 top5
+    /*private List<Product> recommendProducts;  //추천 상품 리스트*/
+    private List<Review> bestReviews;  // 베스트 리뷰 top5
 
-
-    //feat 3 test
+    public MainResponseDto(List<Product> allTop5, List<Review> bestReviews) {
+        this.allTop5 = allTop5;
+        this.bestReviews = bestReviews;
+    }
 }

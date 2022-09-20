@@ -365,6 +365,12 @@ public class ProductController {
                                                @RequestParam String company,
                                                @Positive @RequestParam int page) {
         size = 20;
+        /*
+1. 전체 top5
+2. 정렬 / 페이징 처리되어 있는 상품목록(multiResponse)
+
+제네릭 타입 클래스에 1,2 담아서 제네릭 타입 클래스 반환하기
+         */
 
         Page<Product> pageProducts = productService.findAllByCompanyAndMethod(page-1,size,company,methodId);
         List<Product> productList = pageProducts.getContent();
@@ -389,6 +395,12 @@ public class ProductController {
                                                           @RequestParam String company,
                                                           @Positive @RequestParam int page) {
 
+        /*
+1. 회사별 top5
+2. 정렬 / 페이징 처리되어 있는 상품목록(multiResponse)
+
+제네릭 타입 클래스에 1,2 담아서 제네릭 타입 클래스 반환하기
+         */
         size = 20;
 
         Category category = categoryService.findVerifiedCategoryId(categoryId);
