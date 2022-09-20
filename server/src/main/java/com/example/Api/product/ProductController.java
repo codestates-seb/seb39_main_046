@@ -256,20 +256,38 @@ public class ProductController {
         List<Product> top5 = new ArrayList<>();
         if(company.equals(" ")){
             List<Product> products = productService.findAllProduct(Sort.by(Sort.Direction.DESC, "hearts"));
+
             //최소 리뷰수 (10) 이하인 상품들은 제거
             long minReivews = 10;
 
             for(int i =0 ;i<products.size();i++){
-                if(products.get(i).getReviews()<10){
+                if(products.get(i).getReviews()<minReivews){
                     products.remove(i);
                 }
             }
-            for(int i = 0 ; i< 5; i++){
-                //데이터가 적을 때 인덱스 에러 고려 필요
+            int maxCount = 0;
+            if(products.size()>=5){
+                maxCount = 5;
+            }
+            else{
+                maxCount = products.size();
+            }
+            for(int i = 0 ; i<maxCount; i++){
                 Product product = products.get(i);
                 top5.add(product);
             }
-            //while -< que, 큐값 0 될 때까지 반복
+            /*for(int i = 0 ; i< 5; i++){
+                //데이터가 적을 때 인덱스 에러 고려 필요
+                if(products.get(i) == null){
+                    top5.add(null);
+                }
+                else{
+                    Product product = products.get(i);
+                    top5.add(product);
+                }
+
+            }*/
+
 //1
         }
         else{

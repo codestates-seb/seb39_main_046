@@ -59,6 +59,16 @@ public class ProductService {
                 .ifPresent(views -> product.setViews(calculatedViews));
         return productRepository.save(product);
     }
+
+    public Product updateReviews(Product product, long calculatedViews){
+
+        Optional.ofNullable(product.getReviews())
+                .ifPresent(reviews -> product.setReviews(calculatedViews));
+        return productRepository.save(product);
+    }
+
+
+
     public Product findVerifiedProductName(String productName) {
         Optional<Product> optionalProduct = productRepository.findByProductName(productName);
         Product findProduct =
@@ -139,8 +149,25 @@ public class ProductService {
     public List<Product> findProductsByCompany(String company){
         List<Product> productList = productRepository.findAllByCompany(company, Sort.by(Sort.Direction.DESC, "hearts"));
         // 최소조회수 필터링 필요
+
         List<Product> top5 = new ArrayList<>();
-        for(int i = 0 ; i< 5; i++){
+
+        //최소 리뷰수 (10) 이하인 상품들은 제거
+        long minReivews = 10;
+
+        for(int i =0 ;i<productList.size();i++){
+            if(productList.get(i).getReviews()<minReivews){
+                productList.remove(i);
+            }
+        }
+        int maxCount = 0;
+        if(productList.size()>=5){
+            maxCount = 5;
+        }
+        else{
+            maxCount = productList.size();
+        }
+        for(int i = 0 ; i<maxCount; i++){
             Product product = productList.get(i);
             top5.add(product);
         }

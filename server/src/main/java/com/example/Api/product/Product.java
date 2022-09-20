@@ -64,6 +64,15 @@ public class Product extends Auditable {
         views+=1;
         return views;
     }
+    public long addReviews(){
+        reviews+=1;
+        return reviews;
+    }
+    public long withdrawReviews(){
+        reviews-=1;
+        return reviews;
+    }
+
 
     /*private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;*/

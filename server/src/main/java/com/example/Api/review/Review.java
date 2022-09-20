@@ -3,6 +3,7 @@ package com.example.Api.review;
 import com.example.Api.audit.Auditable;
 import com.example.Api.member.Member;
 import com.example.Api.product.Product;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -34,8 +35,8 @@ public class Review extends Auditable {
     @Column
     private String content;
 
-    /*@Column
-    private List<String> images = new ArrayList<>();*/
+    @Column
+    private String imageURL;
 
     @ManyToOne
     @JoinColumn(name = "product_id")
