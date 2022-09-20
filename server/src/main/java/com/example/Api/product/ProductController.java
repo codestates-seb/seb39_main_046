@@ -211,7 +211,6 @@ public class ProductController {
     - 현재 회원이 해당 상품에 이미 좋아요를 눌렀다면 -> 해당하는 productHeartId의 값 DB에서 삭제, product 테이블의 hearts -1
 
 
-
 */
     /*
     # GET("/{product-id}")
@@ -270,6 +269,7 @@ public class ProductController {
                 Product product = products.get(i);
                 top5.add(product);
             }
+            //while -< que, 큐값 0 될 때까지 반복
 //1
         }
         else{

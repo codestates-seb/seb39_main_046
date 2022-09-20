@@ -2,6 +2,7 @@ package com.example.Api.product;
 
 import com.example.Api.audit.Auditable;
 import com.example.Api.category.Category;
+import com.example.Api.review.Review;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,6 +10,8 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 /*@AllArgsConstructor*/
@@ -54,6 +57,9 @@ public class Product extends Auditable {
     //@JsonIgnore // 무한 반복 피하기 위해 @JsonIgnore 어노테이션을 추가하여 직렬화에서 제외시키는 방법
     private Category category;
 
+    @OneToMany(mappedBy = "product",cascade = CascadeType.ALL)
+    @JsonIgnore
+    private List<Review> reviewList = new ArrayList<>();
     public long addViews(){
         views+=1;
         return views;
