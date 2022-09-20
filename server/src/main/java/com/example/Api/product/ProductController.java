@@ -1,8 +1,9 @@
 package com.example.Api.product;
 
-import com.example.Api.SortingMethod;
 import com.example.Api.category.Category;
 import com.example.Api.category.CategoryService;
+import com.example.Api.member.Member;
+import com.example.Api.member.MemberService;
 import com.example.Api.response.MultiResponseDto;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -25,7 +26,6 @@ import javax.validation.constraints.Positive;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 
 @RestController
@@ -36,16 +36,17 @@ public class ProductController {
     // test
     private final ProductMapper productMapper;
     private final ProductService productService;
-
+    private final MemberService memberService;
     private final CategoryService categoryService;
 
     private int size = 0;
 
     public ProductController(ProductMapper productMapper, ProductService productService,
-                             CategoryService categoryService){
+                             CategoryService categoryService, MemberService memberService){
         this.productMapper = productMapper;
         this.productService = productService;
         this.categoryService = categoryService;
+        this.memberService = memberService;
 
     }
     //url/2
@@ -397,16 +398,39 @@ public class ProductController {
     }
 
 
-    private boolean checkAdminId(long memberId){
-        long[] adminIdList = {1, 2, 3, 4, 5};
-        boolean isAdmin = false;
-        for(long i : adminIdList){
-            if(memberId == i){
-                isAdmin = true;
-            }
-        }
-        return isAdmin;
-    }
 
+    @ApiOperation(value = "추천 상품 조회",
+            notes = "✅ 추천 상품 목록을 조회합니다.\n - \n " )
+    @GetMapping("/recommend")
+    public ResponseEntity getProductsByCompany() {
+        int status = 0;
+
+        Member member = memberService.getLoginMember();
+        Category memberCategory = member.getCategory();
+        List<Product> recommends = new ArrayList<>();
+        if((member == null) || (memberCategory == null) || (memberCategory.getProducts().size()<10)){
+            status = 1;
+            List<Category> allCategories = categoryService.findAllCategoryAsList();
+
+            //연결된 상품이 최소 1개라도 있는 카테고리들
+            List<Category> atLeastOne = new ArrayList<>();
+            for(Category category: allCategories){
+                if(category.getProducts().isEmpty()){
+                    continue;
+                }
+                atLeastOne.add(category);
+            }
+
+            recommends = productService.setRecommendProductsAtLeastOne(atLeastOne);
+        }
+        else{
+            status = 2;
+            recommends = productService.setRecommendProducts(memberCategory);
+        }
+
+
+
+        return new ResponseEntity<>(recommends, HttpStatus.OK);
+    }
 
 }

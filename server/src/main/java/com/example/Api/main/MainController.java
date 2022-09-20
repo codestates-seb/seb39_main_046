@@ -1,6 +1,10 @@
 package com.example.Api.main;
 
 
+import com.example.Api.category.Category;
+import com.example.Api.category.CategoryService;
+import com.example.Api.member.Member;
+import com.example.Api.member.MemberService;
 import com.example.Api.product.Product;
 import com.example.Api.product.ProductService;
 import com.example.Api.response.MultiResponseDto;
@@ -26,10 +30,16 @@ public class MainController {
 
     private final ProductService productService;
     private final ReviewService reviewService;
+    private final MemberService memberService;
 
-    public MainController(ProductService productService, ReviewService reviewService) {
+    private final CategoryService categoryService;
+
+    public MainController(ProductService productService, ReviewService reviewService,
+                          MemberService memberService, CategoryService categoryService) {
         this.productService = productService;
         this.reviewService = reviewService;
+        this.memberService = memberService;
+        this.categoryService = categoryService;
     }
 
     @ApiOperation(value = "메인 페이지 조회",
@@ -80,9 +90,34 @@ public class MainController {
             Review review = reviewList.get(i);
             bestReviews.add(review);
         }
+        int status = 0;
+
+        Member member = memberService.getLoginMember();
+        Category memberCategory = member.getCategory();
+        List<Product> recommends = new ArrayList<>();
+        if((member == null) || (memberCategory == null) || (memberCategory.getProducts().size()<10)){
+            status = 1;
+            List<Category> allCategories = categoryService.findAllCategoryAsList();
+
+            //연결된 상품이 최소 1개라도 있는 카테고리들
+            List<Category> atLeastOne = new ArrayList<>();
+            for(Category category: allCategories){
+                if(category.getProducts().isEmpty()){
+                    continue;
+                }
+                atLeastOne.add(category);
+            }
+
+            recommends = productService.setRecommendProductsAtLeastOne(atLeastOne);
+        }
+        else{
+            status = 2;
+            recommends = productService.setRecommendProducts(memberCategory);
+        }
+
 
         return new ResponseEntity<>(
-                new MainResponseDto<>(top5,bestReviews),
+                new MainResponseDto<>(top5,recommends, bestReviews),
                 HttpStatus.OK);
     }
 

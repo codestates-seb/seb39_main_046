@@ -6,6 +6,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.Callable;
 
@@ -64,6 +65,10 @@ public class CategoryService {
     public Page<Category> findCategories(int page, int size) {
         return categoryRepository.findAll(PageRequest.of(page, size,
                 Sort.by("categoryId").descending()));
+    }
+
+    public List<Category> findAllCategoryAsList() {
+        return categoryRepository.findAll();
     }
 
 
