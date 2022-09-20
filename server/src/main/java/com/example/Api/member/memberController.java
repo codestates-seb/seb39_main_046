@@ -62,7 +62,7 @@ public class memberController {
 public ResponseEntity signUp(@Validated @RequestBody MemberPostDto memberPostDto) {
     Member member = mapper.memberPostDtoToMember(memberPostDto);
     member.setPassword(bCryptPasswordEncoder.encode(member.getPassword()));
-    member.setRoles("USER");
+    member.setRoles("ROLE_USER");
     Member response = memberService.createMember(member);
 
     return new ResponseEntity<>(mapper.memberToMemberResponseDto(response) , HttpStatus.OK);
@@ -71,6 +71,7 @@ public ResponseEntity signUp(@Validated @RequestBody MemberPostDto memberPostDto
      @PatchMapping("/all/{method-id}")
      @ApiOperation(value = "회원 정보 수정", notes = "✅ memthod-id가 1이면 닉네임 수정, 2면 패스워드 수정")
      public ResponseEntity memberPatch(@PathVariable("method-id")@Positive int patchId,@RequestBody String patch){
+
     Member member = memberService.getLoginMember();
 
       if(patchId == 1) member.setNickName(patch);

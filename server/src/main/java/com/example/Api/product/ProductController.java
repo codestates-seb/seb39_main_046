@@ -58,15 +58,11 @@ public class ProductController {
      */
     @ApiOperation(value = "Excel File 등록(상품 등록)",
             notes = "✅ Excel File을 등록합니다.\n - \n " )
-    @PostMapping("admin/{member-id}")
-    public ResponseEntity postProducts(@PathVariable("member-id") @Positive long memberId,
-                                     @RequestPart("file") MultipartFile file) throws IOException {
+    @PostMapping("/admin")
+    public ResponseEntity postProducts(@RequestPart("file") MultipartFile file) throws IOException {
 
         List<Product>  products = new ArrayList<>();
-        boolean isAdmin = checkAdminId(memberId);
-        if(!isAdmin){
-            throw new RuntimeException("관리자가 아닙니다.");
-        }
+
         List<ExcelData> dataList = new ArrayList<>();
         List<Product> productList = new ArrayList<>();
         String extension = FilenameUtils.getExtension(file.getOriginalFilename()); // 3
@@ -149,13 +145,9 @@ public class ProductController {
 */
     @ApiOperation(value = "상품 ID 조회(productName)",
             notes = "✅ 입력받은 상품명에 해당하는 상품의 ID를 조회합니다.\n - \n " )
-    @GetMapping("admin/{member-id}")
-    public ResponseEntity getProductByProductName(@PathVariable("member-id") @Positive long memberId,
-                                @Parameter(name = "productName") @RequestParam String productName){
-        boolean isAdmin = checkAdminId(memberId);
-        if(!isAdmin){
-            throw new RuntimeException("관리자가 아닙니다.");
-        }
+    @GetMapping("/admin")
+    public ResponseEntity getProductByProductName(@Parameter(name = "productName") @RequestParam String productName){
+
         Product product = productService.findVerifiedProductName(productName);
 
         return new ResponseEntity<>(product.getProductId(), HttpStatus.OK);
@@ -167,14 +159,10 @@ public class ProductController {
 */
     @ApiOperation(value = "상품 정보 수정",
             notes = "✅ 상품 정보를 수정합니다.\n - \n " )
-    @PatchMapping("admin/{member-id}")
-    public ResponseEntity patchProduct(@PathVariable("member-id") @Positive long memberId,
+    @PatchMapping("/admin")
+    public ResponseEntity patchProduct(
                                 @RequestParam long productId,
                                 @Valid @RequestBody ProductPatchDto productPatchDto){
-        boolean isAdmin = checkAdminId(memberId);
-        if(!isAdmin){
-            throw new RuntimeException("관리자가 아닙니다.");
-        }
 
         Product product = productService.findVerifiedProductId(productId);
         Category category = categoryService.findCategoryByCategoryName(productPatchDto.getCategoryName());
@@ -189,14 +177,9 @@ public class ProductController {
     */
     @ApiOperation(value = "상품 삭제",
             notes = "✅ 입력받은 productId에 해당하는 상품을 삭제합니다.\n - \n " )
-    @DeleteMapping("admin/{member-id}")
-    public ResponseEntity deleteProduct(@PathVariable("member-id") @Positive long memberId,
-                                       @RequestParam long productId){
+    @DeleteMapping("/admin")
+    public ResponseEntity deleteProduct(@RequestParam long productId){
 
-        boolean isAdmin = checkAdminId(memberId);
-        if(!isAdmin){
-            throw new RuntimeException("관리자가 아닙니다.");
-        }
         productService.deleteProduct(productId);
         return new ResponseEntity<>( "삭제 완료 ( ID:"+ productId + " )", HttpStatus.OK);
 
@@ -365,6 +348,12 @@ public class ProductController {
                                                @RequestParam String company,
                                                @Positive @RequestParam int page) {
         size = 20;
+        /*
+1. 전체 top5
+2. 정렬 / 페이징 처리되어 있는 상품목록(multiResponse)
+
+제네릭 타입 클래스에 1,2 담아서 제네릭 타입 클래스 반환하기
+         */
 
         Page<Product> pageProducts = productService.findAllByCompanyAndMethod(page-1,size,company,methodId);
         List<Product> productList = pageProducts.getContent();
@@ -389,6 +378,12 @@ public class ProductController {
                                                           @RequestParam String company,
                                                           @Positive @RequestParam int page) {
 
+        /*
+1. 회사별 top5
+2. 정렬 / 페이징 처리되어 있는 상품목록(multiResponse)
+
+제네릭 타입 클래스에 1,2 담아서 제네릭 타입 클래스 반환하기
+         */
         size = 20;
 
         Category category = categoryService.findVerifiedCategoryId(categoryId);
