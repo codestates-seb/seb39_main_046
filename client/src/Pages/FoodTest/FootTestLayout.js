@@ -50,10 +50,11 @@ const BImg = styled.span`
 
 const FoodTestContainer = styled.section`
   width: 100%;
-  height: 600px;
+  height: 650px;
   background-color: ${({ theme }) => theme.colors.Blue_010};
   display: flex;
   justify-content: center;
   align-items: center;
   border-radius: 10px;
+  margin-bottom: 260px;
 `;

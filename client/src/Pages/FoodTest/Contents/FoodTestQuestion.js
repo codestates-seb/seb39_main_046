@@ -61,6 +61,12 @@ const FoodTestQuestion = () => {
 
   return (
     <div>
+      <ProgressBox>
+        <ProgressBar
+          width={(questionNo / QuestionData.length) * 100 + "%"}
+        ></ProgressBar>
+        <Dot />
+      </ProgressBox>
       <FContents>
         <FText>
           <h4>Q. {QuestionData[questionNo].QuestionTitle}</h4>
@@ -120,7 +126,7 @@ const FContents = styled.div`
 `;
 
 const FText = styled.div`
-  width: 400px;
+  width: 500px;
   height: 400px;
   margin-right: 30px;
   h4 {
@@ -129,13 +135,13 @@ const FText = styled.div`
     margin-bottom: 30px;
   }
   Button {
-    width: 400px;
+    width: 500px;
     margin-bottom: 10px;
     font-size: ${({ theme }) => theme.fontSizes.xs};
   }
 `;
 const FImg = styled.div`
-  width: 400px;
+  width: 300px;
   height: 400px;
   border-radius: 50px;
   background-color: ${({ theme }) => theme.colors.Blue_020};
@@ -145,4 +151,30 @@ const FImg = styled.div`
   img {
     transform: scale(120%);
   }
+`;
+
+const ProgressBox = styled.div`
+  margin-bottom: 50px;
+  background-color: #fff;
+  width: 830px;
+  height: 15px;
+  display: flex;
+  align-items: center;
+  border-radius: 20px;
+`;
+const ProgressBar = styled.div`
+  width: ${(props) => props.width};
+  background-color: ${({ theme }) => theme.colors.Gray_030};
+  height: 100%;
+  transition: width 1s;
+  border-radius: 20px;
+`;
+const Dot = styled.div`
+  width: 26px;
+  height: 26px;
+  box-sizing: border-box;
+  border: 6px solid ${({ theme }) => theme.colors.Blue_030};
+  border-radius: 35px;
+  background: ${({ theme }) => theme.colors.Gray_030};
+  margin-left: -10px;
 `;
