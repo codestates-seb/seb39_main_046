@@ -2,10 +2,10 @@ import { Route, Routes } from "react-router-dom";
 import Layout from "./Components/Layout/Layout";
 import Main from "./Pages/Main/Main";
 import FindStore from "./Pages/FindStore/FindStore";
-import FootTestLayout from "./Pages/FoodTest/FootTestLayout";
-import FoodTestHome from "./Pages/FoodTest/Contents/FoodTestHome";
-import FoodTestQuestion from "./Pages/FoodTest/Contents/FoodTestQuestion";
-import FoodTestResult from "./Pages/FoodTest/Contents/FoodTestResult";
+import FootTest from "./Pages/FoodTest/FootTest";
+import FoodTestHome from "./Components/FoodTest/FoodTestHome";
+import FoodTestQuestion from "./Components/FoodTest/FoodTestQuestion";
+import FoodTestResult from "./Components/FoodTest/FoodTestResult";
 function App() {
   return (
     <>
@@ -13,7 +13,7 @@ function App() {
         <Route path="/" element={<Layout />}>
           <Route index element={<Main />}></Route>
           <Route path="/findstore" element={<FindStore />}></Route>
-          <Route path="/foodtest" element={<FootTestLayout />}>
+          <Route path="/foodtest" element={<FootTest />}>
             <Route index element={<FoodTestHome />}></Route>
             <Route path="question" element={<FoodTestQuestion />}></Route>
             <Route path="result" element={<FoodTestResult />}></Route>

@@ -1,8 +1,8 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import HChracter from "../../../Assets/images/FootTestHome.png";
-import Button from "../../../Components/Common/Button";
+import HChracter from "../../Assets/images/FootTestHome.png";
+import Button from "../Common/Button";
 
 const FoodTestHome = () => {
   const navigate = useNavigate();

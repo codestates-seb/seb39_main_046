@@ -78,9 +78,9 @@ export const ResultData = [
   },
   {
     id: 10,
-    name: "안주",
+    name: "냉동식품",
     best: "Munchies",
-    desc: "안주파",
+    desc: "냉동식품파",
     image: `${Muchies}`,
   },
   {
