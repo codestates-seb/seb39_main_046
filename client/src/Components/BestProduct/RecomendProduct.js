@@ -111,7 +111,7 @@ const ProductSection = styled.section`
 const RecoProducts = styled.div`
     width:240px;
     height:240px;
-    background: url("/Character/상품준비 안됫음.png");
+    background: url("/Character/상품준비 안됫음 .png");
     background-position: center;
     background-repeat: no-repeat;
     background-size: 80% 80%;

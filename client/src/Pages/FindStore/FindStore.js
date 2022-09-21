@@ -1,6 +1,6 @@
 import React from "react";
-import StoreLocation from "../../Components/FindStore/StoreLocation";
-import Banner from "../../Components/Common/Banner";
+import StoreLocation from "../../Components/findStore/StoreLocation";
+import Banner from "../../Components/common/Banner";
 
 const FindStore = () => {
   return (

@@ -1,7 +1,7 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
 import styled from "styled-components";
-import Banner from "../../Components/Common/Banner";
+import Banner from "../../Components/common/Banner";
 import BChracter from "../../Assets/images/Banner/BannerCharater.png";
 
 const FootTestLayout = () => {

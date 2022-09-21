@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { createSearchParams, useNavigate } from "react-router-dom";
 import { QuestionData } from "../../Assets/FoodData/questionData";
-import Button from "../Common/Button";
+import Button from "../common/Button";
 import EatChracter from "../../Assets/images/FoodTest/FoodTestQuestion.png";
 
 const FoodTestQuestion = () => {

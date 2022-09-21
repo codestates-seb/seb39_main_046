@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import Button from "../Common/Button";
+import Button from "../common/Button";
 
 const BestProdct = () => {
   let more = "더보기 >";
@@ -131,7 +131,7 @@ const ProductImg = styled.section`
   width: 590px;
   height: 472px;
   display: flex;
-  background: url("/Character/상품준비 안됫음.png");
+  background: url('/Character/상품준비 안됫음 .png');
   background-position: center;
   background-repeat: no-repeat;
   background-size: 80% 80%;
@@ -162,7 +162,7 @@ const SecondImg = styled.section`
   width: 290px;
   height: 232px;
   display: flex;
-  background: url("/Character/상품준비 안됫음.png");
+  background: url('/Character/상품준비 안됫음 .png');
   background-position: center;
   background-repeat: no-repeat;
   background-size: 70% 70%;

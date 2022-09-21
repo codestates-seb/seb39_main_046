@@ -40,7 +40,7 @@ const ReviewImg = styled.div`
     width:220px;
     height: 220px;
     margin-right: ${({theme}) => theme.margins.xxxl};
-    background: url("/Character/상품준비 안됫음.png");
+    background: url("/Character/상품준비 안됫음 .png");
     background-position: center;
     background-repeat: no-repeat;
     background-size: 80% 80%;

@@ -2,7 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import HChracter from "../../Assets/images/FoodTest/FootTestHome.png";
-import Button from "../Common/Button";
+import Button from "../common/Button";
 
 const FoodTestHome = () => {
   const navigate = useNavigate();
