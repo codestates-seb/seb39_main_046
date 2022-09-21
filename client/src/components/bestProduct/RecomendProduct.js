@@ -1,4 +1,4 @@
-import React from "react";
+import React, {Component} from "react";
 import styled from "styled-components";
 
 const RecomendProduct = () => {
@@ -11,6 +11,7 @@ const RecomendProduct = () => {
         <RecoTtitle>리코의 추천 상품</RecoTtitle>
         <Reco></Reco>
       </RecoProduct>
+      {/* 캐러셀 적용 하는 곳  */}
       <RecoProductsbar>
         <ProductSection>
           <RecoProducts />
@@ -37,6 +38,7 @@ const RecomendProduct = () => {
           <ProductPrice>5,300원</ProductPrice>
         </ProductSection>
       </RecoProductsbar>
+
       <MbtiBar>
         <RecoCom></RecoCom>
         <MbtiP>내 편의점 취향이 궁금하다면?</MbtiP>
