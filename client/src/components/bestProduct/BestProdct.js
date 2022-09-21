@@ -4,19 +4,21 @@ import Button from "../common/Button";
 
 const BestProdct = () => {
   let more = "더보기 >";
-  const completionWord = 'Pick your Best 5';
-  const [Title, setTitle] = useState('');
+  const completionWord = "Pick your Best 5";
+  const [Title, setTitle] = useState("");
   const [count, setCount] = useState(0);
-  
+
   useEffect(() => {
     const typingInterval = setInterval(() => {
       setTitle((prevTitleValue) => {
-        let result = prevTitleValue ? prevTitleValue + completionWord[count] : completionWord[0];
+        let result = prevTitleValue
+          ? prevTitleValue + completionWord[count]
+          : completionWord[0];
         setCount(count + 1);
 
         if (count >= completionWord.length) {
           setCount(0);
-          setTitle('');
+          setTitle("");
         }
 
         return result;
@@ -100,7 +102,7 @@ export default BestProdct;
 
 const BestProdctContainer = styled.section`
   background-color: ${({ theme }) => theme.colors.Blue_010};
-  margin-bottom: 100px;
+  margin-bottom: 50px;
   height: 1100px;
 `;
 const Firstcontent = styled.div`
@@ -118,12 +120,12 @@ const Updiv = styled.div`
   justify-content: space-between;
   margin-top: 70px;
 `;
-
 const PickyPicky = styled.span`
   text-align: center;
   line-height: 77px;
   font-weight: 700;
   font-size: ${({ theme }) => theme.fontSizes.titleSize};
+  color: ${({ theme }) => theme.colors.Gray_030};
   line-height: 160%;
   padding-left: 50px;
 `;
@@ -134,7 +136,6 @@ const More = styled.p`
   color: ${({ theme }) => theme.colors.Orange_040};
   cursor: pointer;
 `;
-
 const Middlediv = styled.div`
   margin-top: 30px;
   margin-bottom: 80px;
