@@ -1,6 +1,7 @@
 package com.example.Api.specification;
 
 import com.example.Api.member.Member;
+import com.example.Api.product.Product;
 import com.example.Api.review.Review;
 import org.springframework.data.jpa.domain.Specification;
 
@@ -17,6 +18,16 @@ public class ReviewSpecification {
             @Override
             public Predicate toPredicate(Root<Review> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
                 return criteriaBuilder.equal(root.get("member"),member);
+            }
+        };
+    }
+
+    public static Specification<Review> equalProduct(Product product){
+
+        return new Specification<Review>() {
+            @Override
+            public Predicate toPredicate(Root<Review> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
+                return criteriaBuilder.equal(root.get("product"),product);
             }
         };
     }

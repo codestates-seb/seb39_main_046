@@ -128,6 +128,34 @@ public class ReviewService {
                 Sort.by("createdAt").descending()));
     }
 
+    //findAllByProductAndMethod
+    public Page<Review> findAllByProductAndMethod(int page, int size, Product product, int methodId){
+        Specification<Review> spec = Specification.where(ReviewSpecification.equalProduct(product));
+
+
+        if(methodId == 1){
+            System.out.println("좋아요 순 정렬");
+            return reviewRepository.findAll(spec, PageRequest.of(page,size,
+                    Sort.by("hearts").descending()));
+        }
+        else if(methodId == 2){
+            System.out.println("리뷰 순 정렬");
+            return reviewRepository.findAll(spec, PageRequest.of(page,size,
+                    Sort.by("reviews").descending()));
+        }
+        else if(methodId == 3){
+            System.out.println("조회 순 정렬");
+            return reviewRepository.findAll(spec, PageRequest.of(page,size,
+                    Sort.by("views").descending()));
+        }
+
+        return reviewRepository.findAll(PageRequest.of(page, size,
+                Sort.by("createdAt").descending()));
+    }
+
+
+
+
 
     //setRenadomHearts
     public void setRandomHearts(Review review){

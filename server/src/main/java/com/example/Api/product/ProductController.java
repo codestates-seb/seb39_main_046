@@ -4,7 +4,10 @@ import com.example.Api.category.Category;
 import com.example.Api.category.CategoryService;
 import com.example.Api.member.Member;
 import com.example.Api.member.MemberService;
+import com.example.Api.member.MyPageResponseDto;
 import com.example.Api.response.MultiResponseDto;
+import com.example.Api.review.Review;
+import com.example.Api.review.ReviewService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.v3.oas.annotations.Parameter;
 import org.apache.commons.io.FilenameUtils;
@@ -40,24 +43,21 @@ public class ProductController {
     private final MemberService memberService;
     private final CategoryService categoryService;
 
+    private final ReviewService reviewService;
+
     private int size = 0;
 
     public ProductController(ProductMapper productMapper, ProductService productService,
-                             CategoryService categoryService, MemberService memberService){
+                             CategoryService categoryService, MemberService memberService,
+                             ReviewService reviewService){
         this.productMapper = productMapper;
         this.productService = productService;
         this.categoryService = categoryService;
         this.memberService = memberService;
+        this.reviewService = reviewService;
 
     }
-    //url/2
 
-
-    /*
-    # POST("/{member-id}")
-    : 상품 등록 ( 여러 개 )
-      엑셀 등록 , 관리자 페이지에서 관리자만 상품 등록 가능
-     */
     @ApiOperation(value = "Excel File 등록(상품 등록)",
             notes = "✅ Excel File을 등록합니다.\n - \n " )
     @PostMapping("/admin")
@@ -149,25 +149,18 @@ public class ProductController {
         }
 
     }
-/*
-# GET("/{member-id}") , Request Parmeters : String productName
-: 상품 Id 찾기
-  관리자가 수정하거나 삭제할 상품의 ID를 찾기 위해 필요
-*/
-    @ApiOperation(value = "상품 ID 조회(productName)",
-            notes = "✅ 입력받은 상품명에 해당하는 상품의 ID를 조회합니다.\n - \n " )
-    @GetMapping("/admin")
+
+    @ApiOperation(value = "상품명 검색(productName)",
+            notes = "✅ 상품을 검색합니다.\n - \n " )
+    @GetMapping
     public ResponseEntity getProductByProductName(@Parameter(name = "productName") @RequestParam String productName){
 
         Product product = productService.findVerifiedProductName(productName);
 
-        return new ResponseEntity<>(product.getProductId(), HttpStatus.OK);
+        return new ResponseEntity<>(product, HttpStatus.OK);
     }
 
-/*
-# PATCH("/{member-id}") , Request Parmeters : long productId
-: 관리자가 상품 정보 수정
-*/
+
     @ApiOperation(value = "상품 정보 수정",
             notes = "✅ 상품 정보를 수정합니다.\n - \n " )
     @PatchMapping("/admin")
@@ -182,10 +175,7 @@ public class ProductController {
 
         return new ResponseEntity<>(product, HttpStatus.OK);
     }
-    /*
-    # DELETE("/{member-id}") , Request Parmeters : long productId
-    : 관리자가 상품 삭제
-    */
+
     @ApiOperation(value = "상품 삭제",
             notes = "✅ 입력받은 productId에 해당하는 상품을 삭제합니다.\n - \n " )
     @DeleteMapping("/admin")
@@ -196,31 +186,34 @@ public class ProductController {
 
     }
 
-
     /*
     # POST("/{member-id}") , Request Parmeters : long productId
     : 일반 사용자가 상품 좋아요 등록 / 취소
 
     - 현재 회원이 해당 상품에 좋아요를 누르지 않았다면 -> 새로운 productHeart 등록, product 테이블의 hearts +1
     - 현재 회원이 해당 상품에 이미 좋아요를 눌렀다면 -> 해당하는 productHeartId의 값 DB에서 삭제, product 테이블의 hearts -1
+    */
 
-
-*/
-    /*
-    # GET("/{product-id}")
-    : 상품 조회 (상세 페이지 )
-     상품에 달린 댓글까지 출력, 조회수 1 증가
-
-*/
     @ApiOperation(value = "상품 조회 (상세 페이지 )",
             notes = "✅ 상품의 상세 페이지로 이동합니다. (조회수 1 증가)\",.\n - \n " )
     @GetMapping("/{product-id}")
     public ResponseEntity getProductByProductName(@PathVariable("product-id") @Positive long productId){
+        //해당 상품  + 리뷰
         Product product = productService.findVerifiedProductId(productId);
         long calculatedViews = product.addViews();
         Product addedViews = productService.updateViews(product,calculatedViews);
 
-        return new ResponseEntity<>(addedViews, HttpStatus.OK);
+        int page = 1;
+        size = 10;
+        int methodId = 4;
+        Page<Review> pageReviews = reviewService.findAllByProductAndMethod(page-1,size,addedViews,methodId);
+        List<Review> reviewList = pageReviews.getContent();
+
+
+        /*return new ResponseEntity<>(addedViews, HttpStatus.OK);*/
+        return new ResponseEntity<>(
+                new ProductDetailResponseDto<>(addedViews,new MultiResponseDto<>(reviewList,pageReviews)),
+                HttpStatus.OK);
     }
 
 
@@ -242,15 +235,14 @@ public class ProductController {
         return new ResponseEntity<>(products, HttpStatus.OK);
     }
 
-    // 편의점별 top 5
+    // 편의점별 top 5, 메인 페이지에서 회사 버튼 클릭할 때마다 회사별 top5 출력 // 공백 입력 시 전체 top5 출력
     @ApiOperation(value = " TOP5 상품 조회",
             notes = "✅ TOP 5 상품의 정보를 조회합니다.\n - \n " )
     @GetMapping("/top5")
     public ResponseEntity getTop5Products(@RequestParam String company){
         List<Product> top5 = new ArrayList<>();
-        if(company.equals(" ")){
+        if(company.equals(" ")){  // 전체 상품 중 TOP5 뽑기
             List<Product> products = productService.findAllProduct(Sort.by(Sort.Direction.DESC, "hearts"));
-
             //최소 리뷰수 (10) 이하인 상품들은 제거
             long minReivews = 10;
 
@@ -270,40 +262,21 @@ public class ProductController {
                 Product product = products.get(i);
                 top5.add(product);
             }
-            /*for(int i = 0 ; i< 5; i++){
-                //데이터가 적을 때 인덱스 에러 고려 필요
-                if(products.get(i) == null){
-                    top5.add(null);
-                }
-                else{
-                    Product product = products.get(i);
-                    top5.add(product);
-                }
-
-            }*/
-
-//1
         }
-        else{
+        else{  // 회사별 TOP5 뽑기
             top5 = productService.findProductsByCompany(company);
         }
         return new ResponseEntity<>(top5, HttpStatus.OK);
     }
 
-    /*
-    # GET("/all"), Request Parmeters : int page , String sortingMethod
-    !) sortingMethod값에 따라 분기
-
-    - 전체 상품 좋아요순 정렬 ( sortingMethod= "byHearts")
-    - 전체 상품 리뷰순 정렬 ( sortingMethod= "byReviews")
-    - 전체 상품 조회순 정렬 ( sortingMethod= "byViews")
-
-    */
-    @ApiOperation(value = "전체 상품 조회",
+    /*@ApiOperation(value = "전체 상품 조회",
             notes = "✅ 모든 상품을 조회합니다.\n - \n " )
     @GetMapping("/all/{method-id}")
     public ResponseEntity getProductByProductName(@PathVariable("method-id") @Positive int methodId,
                                                   @Positive @RequestParam int page) {
+        // 메인 페이지에서 전체 top5 전체 보기 눌렀을 때 나오는 초기 랭킹 페이지
+
+        // 전체 top 5 + 페이징 처리되어있는 20개의 데이터 (@GetMapping("/all/{category-id}/{method-id}")로 정렬 가능)
         size = 20;
 
         Page<Product> pageProducts = productService.findAllProductByMethod(page-1,size,methodId);
@@ -312,24 +285,15 @@ public class ProductController {
         return new ResponseEntity<>(
                 new MultiResponseDto<>(productList, pageProducts),
                 HttpStatus.OK);
-    }
+    }*/
 
-    /*
-    # GET("/all/{category-id}), Request Parmeters :  int page , String sortingMethod
-              !) sortingMethod값에 따라 분기
-
-    - 전체 상품 카테고리별 좋아요순 정렬  ( sortingMethod= "byHearts")
-    - 전체 상품 카테고리별 리뷰순 정렬 ( sortingMethod= "byReviews")
-    - 전체 상품 카테고리별 조회순 정렬 ( sortingMethod= "byViews")
-
-     */
-    @ApiOperation(value = "전체 상품 카테고리별 조회",
+    /*    @ApiOperation(value = "전체 상품 카테고리별 조회",
             notes = "✅ 입력받은 카테고리에 해당하는 전체 상품들을 조회합니다.\n - \n " )
     @GetMapping("/all/{category-id}/{method-id}")
     public ResponseEntity getProductsByCategory(@PathVariable("category-id") @Positive int categoryId,
                                                 @PathVariable("method-id") @Positive int methodId,
                                                 @Positive @RequestParam int page) {
-
+        // 랭킹 페이지 아래 20개 데이터 정렬 요청
         size = 20;
         Category category = categoryService.findVerifiedCategoryId(categoryId);
         Page<Product> pageProducts = productService.findAllByCategoryAndMethod(page-1,size,category,methodId);
@@ -339,67 +303,90 @@ public class ProductController {
         return new ResponseEntity<>(
                 new MultiResponseDto<>(productList, pageProducts),
                 HttpStatus.OK);
-    }
-
-
-
-    /*
-    # GET("/allByCompanyType"), Request Parmeters : String company, int page , String sortingMethod
-    !) sortingMethod값에 따라 분기
-
-    - 회사별 전체 상품 좋아요순 정렬  ( sortingMethod= "byHearts")
-    - 회사별 전체 상품 카테고리별 좋아요순 정렬 ( sortingMethod= "byReviews")
-    - 회사별 전체 상품 리뷰순 정렬 ( sortingMethod= "byViews")
-    */
+    }*/
 
     @ApiOperation(value = "회사별 전체 상품 조회",
-            notes = "✅ 회사별 모든 상품을 조회합니다.\n - \n " )
-    @GetMapping("/allBycompany/{method-id}")
+            notes = "✅ 회사별 모든 상품을 조회합니다.\n " +
+                    "company에 공백 입력 시 전체 상품 조회\n - \n " )
+    @GetMapping("/allByCompany/{method-id}")
     public ResponseEntity getProductsByCompany(@PathVariable("method-id") @Positive int methodId,
                                                @RequestParam String company,
                                                @Positive @RequestParam int page) {
+        // 메인 페이지에서 top5 전체 보기 눌렀을 때 나오는 초기 랭킹 페이지
+
+        // top 5 + 페이징 처리되어있는 20개의 데이터 (@GetMapping("/all/{category-id}/{method-id}")로 정렬 가능)
+
         size = 20;
-        /*
-1. 전체 top5
-2. 정렬 / 페이징 처리되어 있는 상품목록(multiResponse)
+        List<Product> top5 = new ArrayList<>();
+        Page<Product> pageProducts;
+        List<Product> productList;
 
-제네릭 타입 클래스에 1,2 담아서 제네릭 타입 클래스 반환하기
-         */
+        if(company.equals(" ")){  // 전체 랭킹 페이지  --> productService에 구현
 
-        Page<Product> pageProducts = productService.findAllByCompanyAndMethod(page-1,size,company,methodId);
-        List<Product> productList = pageProducts.getContent();
+            // 전체 top5 세팅
+            List<Product> products = productService.findAllProduct(Sort.by(Sort.Direction.DESC, "hearts"));
+            //최소 리뷰수 (10) 이하인 상품들은 제거
+            long minReivews = 10;
+
+            for(int i =0 ;i<products.size();i++){
+                if(products.get(i).getReviews()<minReivews){
+                    products.remove(i);
+                }
+            }
+            int maxCount = 0;
+            if(products.size()>=5){
+                maxCount = 5;
+            }
+            else{
+                maxCount = products.size();
+            }
+            for(int i = 0 ; i<maxCount; i++){
+                Product product = products.get(i);
+                top5.add(product);
+            }
+            // 페이징 처리된 20개의 데이터
+            pageProducts = productService.findAllProductByMethod(page-1,size,methodId);
+            productList = pageProducts.getContent();
+        }
+
+        // 회사별 랭킹 페이지
+        else {
+            top5 = productService.findProductsByCompany(company);
+            pageProducts = productService.findAllByCompanyAndMethod(page-1,size,company,methodId);
+            productList = pageProducts.getContent();
+        }
 
         return new ResponseEntity<>(
-                new MultiResponseDto<>(productList, pageProducts),
+                new ProductRankingResponseDto<>(top5,new MultiResponseDto<>(productList, pageProducts)),
                 HttpStatus.OK);
     }
-    /*
-    # GET("/allByCompanyType/{category-id}"), Request Parmeters : String company, int page , String sortingMethod
-    !) sortingMethod값에 따라 분기
 
-    - 회사별 전체 상품 카테고리별 리뷰순 정렬( sortingMethod= "byHearts")
-    - 회사별 전체 상품 카테고리별 조회순 정렬 ( sortingMethod= "byReviews")
-    - 회사별 전체 상품 카테고리별 조회순 정렬 ( sortingMethod= "byViews")
-    */
     @ApiOperation(value = "회사별 전체 상품 카테고리별 조회",
-            notes = "✅ 입력받은 카테고리에 해당하는 회사별 모든 상품들을 조회합니다.\n - \n " )
-    @GetMapping("/allBycompany/{category-id}/{method-id}")
+            notes = "✅ 입력받은 카테고리에 해당하는 회사별 모든 상품들을 조회합니다.\n " +
+                    "    company에 공백 입력 시 전체 상품 카테고리별 조회\n - \n " )
+    @GetMapping("/allByCompany/{category-id}/{method-id}")
     public ResponseEntity getProductsByCompanyAndCategory(@PathVariable("category-id") @Positive int categoryId,
                                                           @PathVariable("method-id") @Positive int methodId,
                                                           @RequestParam String company,
                                                           @Positive @RequestParam int page) {
+        // 랭킹 페이지 아래 20개 데이터 정렬 요청
 
-        /*
-1. 회사별 top5
-2. 정렬 / 페이징 처리되어 있는 상품목록(multiResponse)
-
-제네릭 타입 클래스에 1,2 담아서 제네릭 타입 클래스 반환하기
-         */
         size = 20;
-
         Category category = categoryService.findVerifiedCategoryId(categoryId);
-        Page<Product> pageProducts = productService.findAllByCompanyAndCategoryAndMethod(page-1,size,company, category,methodId);
-        List<Product> productList = pageProducts.getContent();
+        Page<Product> pageProducts;
+        List<Product> productList;
+
+        // 전체 상품 랭킹 페이지 20개 데이터 정렬
+        if(company.equals(" ")){
+            pageProducts = productService.findAllByCategoryAndMethod(page-1,size,category,methodId);
+            productList = pageProducts.getContent();
+        }
+
+        // 회사별 상품 랭킹 페이지 20개 데이터 정렬
+        else{
+            pageProducts = productService.findAllByCompanyAndCategoryAndMethod(page-1,size,company, category,methodId);
+            productList = pageProducts.getContent();
+        }
 
 
         return new ResponseEntity<>(

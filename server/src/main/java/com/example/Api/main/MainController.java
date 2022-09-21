@@ -46,6 +46,8 @@ public class MainController {
             notes = "✅ 전체 상품 중 top5, 추천 상품, 베스트 리뷰 \n - \n " )
     @GetMapping
     public ResponseEntity getMain(){
+
+        //top5 데이터 세팅
         List<Product> top5 = new ArrayList<>();
         List<Product> products = productService.findAllProduct(Sort.by(Sort.Direction.DESC, "hearts"));
 
@@ -67,6 +69,8 @@ public class MainController {
             Product product = products.get(i);
             top5.add(product);
         }
+
+        // 베스트리뷰 데이터 세팅
 
         List<Review> bestReviews = new ArrayList<>();
         List<Review> reviewList = reviewService.findAllReviews(Sort.by(Sort.Direction.DESC, "hearts"));
@@ -90,6 +94,8 @@ public class MainController {
             Review review = reviewList.get(i);
             bestReviews.add(review);
         }
+
+        // 추천 상품 세팅
         int status = 0;
 
         Member member = memberService.getLoginMember();

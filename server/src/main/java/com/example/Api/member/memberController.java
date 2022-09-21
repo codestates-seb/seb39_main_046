@@ -7,6 +7,8 @@ import com.example.Api.category.CategoryService;
 import com.example.Api.product.Product;
 import com.example.Api.response.MultiResponseDto;
 import com.example.Api.response.SingleResponseDto;
+import com.example.Api.review.Review;
+import com.example.Api.review.ReviewService;
 import com.google.gson.Gson;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -48,6 +50,7 @@ public class memberController {
     private final MemberRepository memberRepository;
     private final MemberMapper mapper;
     private final CategoryService categoryService;
+    private final ReviewService reviewService;
 
 
     /*
@@ -90,10 +93,21 @@ public ResponseEntity signUp(@Validated @RequestBody MemberPostDto memberPostDto
     @ApiOperation(value = "마이 페이지")// 유저 상세 페이지
     public ResponseEntity memberPage(){
         Member member =  memberService.getLoginMember();
+        // 마이페이지 +나의 리뷰+ 찜꽁 상품 + 찜꽁 리뷰
+        int size = 5;
+        int page = 1;
+        Page<Review> pageReviews = reviewService.findAllByMemberAndMethod(page-1,size,member,4);
+        List<Review> reviewList = pageReviews.getContent();
 
+        //찜꽁 상품
+
+        //찜꽁 리뷰
+
+        //new SingleResponseDto<>(mapper.memberToMemberResponseDto(member))
         return new ResponseEntity<>(
-                new SingleResponseDto<>(mapper.memberToMemberResponseDto(member)),
+                new MyPageResponseDto<>(member,new MultiResponseDto<>(reviewList,pageReviews)),
                 HttpStatus.OK);
+
     }
 
     @DeleteMapping

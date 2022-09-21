@@ -191,6 +191,24 @@ public class ReviewController {
 
     }
 
+    @ApiOperation(value = "상품에 달린 리뷰 조회",
+            notes = "✅ 상품에 달린 리뷰들을 조회합니다.\n - \n " )
+    @GetMapping("/productReviews/{method-id}")
+    public ResponseEntity getProductReviews(@PathVariable("method-id") @Positive int methodId,
+                                            @RequestParam long productId,
+                                            @Positive @RequestParam int page) {
+        size = 20;
+        Product product = productService.findVerifiedProductId(productId);
+        Page<Review> pageReviews = reviewService.findAllByProductAndMethod(page-1,size,product,methodId);
+        List<Review> reviewList = pageReviews.getContent();
+
+
+        return new ResponseEntity<>(
+                new MultiResponseDto<>(reviewList, pageReviews),
+                HttpStatus.OK);
+    }
+
+
     //내가 좋아요한 리뷰 보기<< 좋아요 구현 먼저
     // 우선 좋아요 수 랜덤 세팅으로
     @ApiOperation(value = "리뷰의 좋아요수 랜덤 세팅",

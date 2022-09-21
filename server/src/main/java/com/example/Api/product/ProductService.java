@@ -86,29 +86,6 @@ public class ProductService {
 
     public Page<Product> findAllProductByMethod(int page, int size, int methodId){
 
-         /* switch (methodId) {
-
-            case 1:
-                System.out.println("좋아요 순 정렬");
-                Collections.sort(products, new ProductHeartsComparator().reversed());
-                break;
-
-            case 2:
-                System.out.println("리뷰 순 정렬");
-                Collections.sort(products, new ProductReviewsComparator().reversed());
-                break;
-
-            case 3:
-                System.out.println("조회 순 정렬");
-                Collections.sort(products, new ProductViewsComparator().reversed());
-                break;
-
-            default:
-                System.out.println();
-                Collections.sort(products, new ProductCreatedAtComparator().reversed());
-                break;
-        }*/
-
         if(methodId == 1){
             System.out.println("좋아요 순 정렬");
             return productRepository.findAll(PageRequest.of(page, size,
@@ -246,14 +223,7 @@ public class ProductService {
                 Sort.by("createdAt").descending()));
     }
 
-  /*  public Page<Product> findProducts(int page, int size) {
 
-        Page<Product> ProductsPage = new Page<Product>() {
-        }
-        return productRepository.findAll(PageRequest.of(page, size,
-                Sort.by("tagId").descending()));
-    }
-*/
     public void deleteProduct(long productId){
         Product findProduct = findVerifiedProductId(productId);
         productRepository.delete(findProduct);
