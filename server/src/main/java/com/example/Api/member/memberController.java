@@ -34,6 +34,7 @@ import java.net.URL;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.security.Principal;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -144,6 +145,21 @@ public ResponseEntity signUp(@Validated @RequestBody MemberPostDto memberPostDto
 
         return new ResponseEntity<>(membertList,
                 HttpStatus.OK);
+    }
+
+    @PostMapping("/test")
+    @ApiOperation(value = "테스트를 위한 계정 생성및 토큰 반환")
+    public ResponseEntity login (){
+
+        Member member1 = memberService.findVerifiedMemberId(1L);
+        String jwtToken = JWT.create()
+                .withSubject("cos jwt token")
+                .withExpiresAt(new Date(System.currentTimeMillis() + (60 * 1000 * 60*24)))   // 60000 -> 60초 / 10 -> 분
+                .withClaim("id", member1.getId())
+                .withClaim("username", member1.getUsername())
+                .sign(Algorithm.HMAC512("cos_jwt_token"));
+
+        return new ResponseEntity<>("Bearer " + jwtToken, HttpStatus.OK);
     }
 
 
