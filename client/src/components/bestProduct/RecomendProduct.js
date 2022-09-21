@@ -55,7 +55,6 @@ const RecomendProduct = () => {
           <ProductsEx>
             <ProductCategory>category</ProductCategory>
             <ProductName>Product name</ProductName>
-            <div></div>
             <ProductPrice>5,300원</ProductPrice>
           </ProductsEx>
         </ProductSection>
@@ -64,7 +63,6 @@ const RecomendProduct = () => {
           <ProductsEx>
             <ProductCategory>category</ProductCategory>
             <ProductName>Product name</ProductName>
-            <div></div>
             <ProductPrice>5,300원</ProductPrice>
           </ProductsEx>
         </ProductSection>
@@ -73,7 +71,6 @@ const RecomendProduct = () => {
           <ProductsEx>
             <ProductCategory>category</ProductCategory>
             <ProductName>Product name</ProductName>
-            <div></div>
             <ProductPrice>5,300원</ProductPrice>
           </ProductsEx>
         </ProductSection>
@@ -82,7 +79,6 @@ const RecomendProduct = () => {
           <ProductsEx>
             <ProductCategory>category</ProductCategory>
             <ProductName>Product name</ProductName>
-            <div></div>
             <ProductPrice>5,300원</ProductPrice>
           </ProductsEx>
         </ProductSection>
@@ -91,7 +87,6 @@ const RecomendProduct = () => {
           <ProductsEx>
             <ProductCategory>category</ProductCategory>
             <ProductName>Product name</ProductName>
-            <div></div>
             <ProductPrice>5,300원</ProductPrice>
           </ProductsEx>
         </ProductSection>
@@ -100,7 +95,6 @@ const RecomendProduct = () => {
           <ProductsEx>
             <ProductCategory>category</ProductCategory>
             <ProductName>Product name</ProductName>
-            <div></div>
             <ProductPrice>5,300원</ProductPrice>
           </ProductsEx>
         </ProductSection>
@@ -109,7 +103,6 @@ const RecomendProduct = () => {
           <ProductsEx>
             <ProductCategory>category</ProductCategory>
             <ProductName>Product name</ProductName>
-            <div></div>
             <ProductPrice>5,300원</ProductPrice>
           </ProductsEx>
         </ProductSection>
@@ -118,7 +111,6 @@ const RecomendProduct = () => {
           <ProductsEx>
             <ProductCategory>category</ProductCategory>
             <ProductName>Product name</ProductName>
-            <div></div>
             <ProductPrice>5,300원</ProductPrice>
           </ProductsEx>
         </ProductSection>
@@ -127,7 +119,6 @@ const RecomendProduct = () => {
           <ProductsEx>
             <ProductCategory>category</ProductCategory>
             <ProductName>Product name</ProductName>
-            <div></div>
             <ProductPrice>5,300원</ProductPrice>
           </ProductsEx>
         </ProductSection>
@@ -136,7 +127,6 @@ const RecomendProduct = () => {
           <ProductsEx>
             <ProductCategory>category</ProductCategory>
             <ProductName>Product name</ProductName>
-            <div></div>
             <ProductPrice>5,300원</ProductPrice>
           </ProductsEx>
         </ProductSection>
@@ -145,7 +135,6 @@ const RecomendProduct = () => {
           <ProductsEx>
             <ProductCategory>category</ProductCategory>
             <ProductName>Product name</ProductName>
-            <div></div>
             <ProductPrice>5,300원</ProductPrice>
           </ProductsEx>
         </ProductSection>
@@ -154,7 +143,6 @@ const RecomendProduct = () => {
           <ProductsEx>
             <ProductCategory>category</ProductCategory>
             <ProductName>Product name</ProductName>
-            <div></div>
             <ProductPrice>5,300원</ProductPrice>
           </ProductsEx>
         </ProductSection>
@@ -192,6 +180,8 @@ const RecoProductsbar = styled.section`
   justify-content: center;
   align-items: center; */
   margin-bottom: 100px;
+  margin-left : 130px;
+  margin-right: 130px;
 `;
 
 const ProductSection = styled.section`
