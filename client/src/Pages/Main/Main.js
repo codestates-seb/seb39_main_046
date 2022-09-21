@@ -4,7 +4,7 @@ import BestProdct from "../../Components/BestProduct/BestProdct";
 import RecomendProduct from "../../Components/BestProduct/RecomendProduct";
 import BestReview from "../../Components/BestProduct/BestReview";
 import NearStore from "../../Components/BestProduct/NearStore";
-import TextInput from "../../Components/common/TextInput";
+import TextInput from "../../Components/Common/TextInput";
 
 const Main = () => {
   return (

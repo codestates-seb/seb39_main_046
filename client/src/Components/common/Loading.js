@@ -1,13 +1,12 @@
 import React from "react";
 import styled from "styled-components";
-import Spinner from "../../Assets/images/LoadingBall.gif";
-import Spinner2 from "../../Assets/images/LoadingCharater.gif";
+import LoadingCharater from "../../Assets/images/Loading/LoadingCharater.gif";
 
 const Loading = () => {
   return (
     <Background>
       <LoadingText>잠시만 기다려 주세요.</LoadingText>
-      <img src={Spinner2} alt="로딩중" />
+      <img src={LoadingCharater} alt="로딩중" />
     </Background>
   );
 };

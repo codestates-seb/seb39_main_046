@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import logo from "../../Assets/logo.png";
+import logo from "../../Assets/images/Logo/logo2-1.png";
 import { useNavigate } from "react-router-dom";
 
 const Header = () => {
@@ -64,5 +64,8 @@ const HTab = styled.ul`
   li {
     width: 20%;
     cursor: pointer;
+  }
+  img {
+    margin-top: -25px;
   }
 `;

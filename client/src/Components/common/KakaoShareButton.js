@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import Button from "./Button";
-import Reco from "../../Assets/images/FootTestHome.png";
+
 const { Kakao } = window;
 
 const KakaoShareButton = ({ data }) => {

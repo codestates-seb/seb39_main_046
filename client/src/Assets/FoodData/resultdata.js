@@ -1,4 +1,3 @@
-import Convenient from "../images/FootTestHome.png";
 import Drink from "./images/Drink.jpg";
 import Coffee from "./images/Coffee.jpg";
 import Sandwich from "./images/Sandwich.jpg";

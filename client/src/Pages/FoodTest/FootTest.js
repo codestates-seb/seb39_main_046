@@ -2,7 +2,7 @@ import React from "react";
 import { Outlet } from "react-router-dom";
 import styled from "styled-components";
 import Banner from "../../Components/Common/Banner";
-import BChracter from "../../Assets/images/BannerCharater.png";
+import BChracter from "../../Assets/images/Banner/BannerCharater.png";
 
 const FootTestLayout = () => {
   return (
