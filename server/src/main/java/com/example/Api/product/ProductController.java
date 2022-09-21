@@ -89,6 +89,7 @@ public class ProductController {
 
             ExcelData data = new ExcelData();
 
+
             /*data.setProductId(i);*/
             data.setImageURL(row.getCell(0).getStringCellValue());
             data.setProductName(row.getCell(1).getStringCellValue());
@@ -106,8 +107,8 @@ public class ProductController {
             else{
                 if(priceValue.isEmpty()){
                     System.out.println("현재 i 값 : " + i + ", 현재 상품 : " + data.getProductName());
-                    //continue;
-                    throw new IOException("Excel Price Null");
+                    continue;
+                    //throw new IOException("Excel Price Null");
                 }
                 parsedValue = priceValue;
                 //price = Long.parseLong(priceValue);
