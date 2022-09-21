@@ -1,9 +1,8 @@
 import React from "react";
 import styled from "styled-components";
+import PbtiBanner from "../common/PbtiBanner";
 
 const RecomendProduct = () => {
-  let more = "편BTI 하러가기 >";
-
   return (
     <div>
       <RecoProduct>
@@ -14,34 +13,42 @@ const RecomendProduct = () => {
       <RecoProductsbar>
         <ProductSection>
           <RecoProducts />
-          <ProductCategory>category</ProductCategory>
-          <ProductName>Product name</ProductName>
-          <ProductPrice>5,300원</ProductPrice>
+          <ProductsEx>
+            <ProductCategory>category</ProductCategory>
+            <ProductName>Product name</ProductName>
+            <div></div>
+            <ProductPrice>5,300원</ProductPrice>
+          </ProductsEx>
         </ProductSection>
         <ProductSection>
           <RecoProducts />
-          <ProductCategory>category</ProductCategory>
-          <ProductName>Product name</ProductName>
-          <ProductPrice>5,300원</ProductPrice>
+          <ProductsEx>
+            <ProductCategory>category</ProductCategory>
+            <ProductName>Product name</ProductName>
+            <div></div>
+            <ProductPrice>5,300원</ProductPrice>
+          </ProductsEx>
         </ProductSection>
         <ProductSection>
           <RecoProducts />
-          <ProductCategory>category</ProductCategory>
-          <ProductName>Product name</ProductName>
-          <ProductPrice>5,300원</ProductPrice>
+          <ProductsEx>
+            <ProductCategory>category</ProductCategory>
+            <ProductName>Product name</ProductName>
+            <div></div>
+            <ProductPrice>5,300원</ProductPrice>
+          </ProductsEx>
         </ProductSection>
         <ProductSection>
           <RecoProducts />
-          <ProductCategory>category</ProductCategory>
-          <ProductName>Product name</ProductName>
-          <ProductPrice>5,300원</ProductPrice>
+          <ProductsEx>
+            <ProductCategory>category</ProductCategory>
+            <ProductName>Product name</ProductName>
+            <div></div>
+            <ProductPrice>5,300원</ProductPrice>
+          </ProductsEx>
         </ProductSection>
       </RecoProductsbar>
-      <MbtiBar>
-        <RecoCom></RecoCom>
-        <MbtiP>내 편의점 취향이 궁금하다면?</MbtiP>
-        <MbtiGo>{more}</MbtiGo>
-      </MbtiBar>
+      <PbtiBanner />
     </div>
   );
 };
@@ -68,43 +75,19 @@ const Reco = styled.div`
   height: 144px;
 `;
 
-const MbtiBar = styled.div`
-  width: 100%;
-  height: 100px;
-  background-color: ${({ theme }) => theme.colors.Orange_030};
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  margin-bottom: 80px;
-`;
-const RecoCom = styled.div`
-  width: 154px;
-  height: 100px;
-  background: url("/Character/9.png");
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: 80% 100%;
-`;
-const MbtiP = styled.p`
-  font-size: ${({ theme }) => theme.fontSizes.xxxl};
-  font-weight: 500;
-  text-align: center;
-`;
-const MbtiGo = styled.p`
-  font-weight: 500;
-  color: ${({ theme }) => theme.colors.White};
-  font-size: ${({ theme }) => theme.fontSizes.small};
-`;
-
 const RecoProductsbar = styled.section`
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-bottom: 100px;
 `;
 
 const ProductSection = styled.section`
   width: 240px;
   height: 354px;
+  box-shadow: 0px 4px 30px rgba(204, 204, 204, 0.3);
+  border-radius: 20px;
+  margin-right: 14px;
 `;
 
 const RecoProducts = styled.div`
@@ -114,19 +97,29 @@ const RecoProducts = styled.div`
   background-position: center;
   background-repeat: no-repeat;
   background-size: 80% 80%;
+  border-radius: 20px 20px 0 0;
 `;
 
+const ProductsEx = styled.div`
+  padding: 10px 15px;
+
+  border-radius: 0 0 20px 20px;
+  div {
+    width: 100%;
+    height: 1px;
+    background-color: ${({ theme }) => theme.colors.Gray_020};
+    margin: 5px 0;
+  }
+`;
 const ProductCategory = styled.p`
   font-size: ${({ theme }) => theme.fontSizes.xs};
   font-weight: 500;
   color: ${({ theme }) => theme.colors.Orange_040};
-  margin-bottom: ${({ theme }) => theme.margins.base};
 `;
 const ProductName = styled.p`
   font-size: ${({ theme }) => theme.fontSizes.base};
   font-weight: 700;
   color: ${({ theme }) => theme.colors.Gray_090};
-  margin-bottom: ${({ theme }) => theme.margins.xl};
 `;
 const ProductPrice = styled.p`
   font-size: ${({ theme }) => theme.fontSizes.base};

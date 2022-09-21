@@ -79,7 +79,7 @@ export default BestProdct;
 
 const BestProdctContainer = styled.section`
   background-color: ${({ theme }) => theme.colors.Blue_010};
-  margin-bottom: 100px;
+  margin-bottom: 50px;
   height: 1100px;
 `;
 const Firstcontent = styled.div`
