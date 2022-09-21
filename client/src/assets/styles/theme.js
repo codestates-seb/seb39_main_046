@@ -9,7 +9,7 @@ const fontSizes = {
   xl: calcRem(20),
   xxl: calcRem(22),
   xxxl: calcRem(24),
-  titleSize: calcRem(35),
+  titleSize: calcRem(36),
 };
 
 const paddings = {

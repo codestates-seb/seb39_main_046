@@ -8,8 +8,9 @@ const Banner = (props) => {
 export default Banner;
 
 const BContainer = styled.section`
-  width: 100%;
+  width: 1280px;
   height: 260px;
   /* background-color: ${({ theme }) => theme.colors.Gray_010}; */
   padding: 80px;
+  margin: 0 auto;
 `;

@@ -39,7 +39,7 @@ const BHeader = styled.header`
 
 const BImg = styled.span`
   position: relative;
-  top: -109px;
+  top: -110px;
   left: 50px;
   img {
     /* position: relative;
