@@ -1,10 +1,21 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import TextInput from "../../components/common/TextInput";
 
 const Login = () => {
   const navigate = useNavigate();
+  const [disabled, setDisabled] = useState(true);
+  const inputChange = (e) => {
+    console.log(e.target.value);
+    const length = e.target.value.length;
+    if (length >= 4) {
+      setDisabled(false);
+    } else if (!disabled) {
+      setDisabled(true);
+    }
+  };
+  const label = disabled ? "Disabled" : "로그인";
   return (
     <>
       <MemberContainer>
@@ -26,7 +37,8 @@ const Login = () => {
             </div>
             <div>
               <p>비밀번호</p>
-              <TextInput />
+              {/* <input onChange={inputChange} /> */}
+              <TextInput placeholder="비밀번호" onChange={inputChange} />
             </div>
           </InputBox>
           <IdPwFind>
@@ -34,7 +46,7 @@ const Login = () => {
             <span>|</span>
             <span>패스워드찾기</span>
           </IdPwFind>
-          <LoginConfirmBtn>로그인</LoginConfirmBtn>
+          <LoginConfirmBtn>{label}</LoginConfirmBtn>
         </MiddleBox>
       </MemberContainer>
     </>

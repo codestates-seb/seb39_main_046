@@ -3,6 +3,7 @@ import styled, { css } from "styled-components";
 
 const StyledInput = styled.input.attrs({
   placeholder: "입력해주세요.",
+  _onChange: () => {},
 })`
   width: 320px;
   height: 40px;
@@ -18,7 +19,7 @@ const StyledInput = styled.input.attrs({
   }
 `;
 
-function TextInput() {
-  return <StyledInput></StyledInput>;
+function TextInput({ props }) {
+  return <StyledInput />;
 }
 export default TextInput;
