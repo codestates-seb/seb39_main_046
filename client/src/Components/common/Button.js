@@ -14,7 +14,6 @@ const StyledButton = styled.button`
   /* 크기 */
   font-size: ${({ theme }) => theme.fontSizes.small};
   line-height: 1rem;
-
   /* 색상 */
   ${(props) => {
     const selected = props.theme.colors[props.color];
@@ -27,7 +26,10 @@ const StyledButton = styled.button`
         background: ${darken(0.2, selected)};
       }
     `;
-  }}
+  }}/* 기타 */
+  /* & + & {
+    margin-left: 1rem;
+  } */
 `;
 
 function Button({ children, ...rest }) {
