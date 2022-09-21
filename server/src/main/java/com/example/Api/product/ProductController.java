@@ -25,6 +25,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.Positive;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -94,20 +95,27 @@ public class ProductController {
             /*String priceValue = row.getCell(2).getStringCellValue().replaceAll(",","");*/
             String priceValue = row.getCell(2).getStringCellValue();
             String parsedValue = "";
-            long price = 0;
+            //long price = 0;
             // 크롤링한 가격은 텍스트 형식으로 되어 있는 숫자, 문자열 가격에 "원"이나 ","가 있으면 모두 제거
             if(priceValue.contains(",") || priceValue.contains("원")){
                 parsedValue = priceValue.replaceAll("[,원]","");
                 System.out.println(parsedValue);
-                price = Long.parseLong(parsedValue);
+                //price = Long.parseLong(parsedValue);
                /* System.out.println(price);*/
             }
             else{
-                price = Long.parseLong(priceValue);
-                /*System.out.println(price);*/
+                if(priceValue.isEmpty()){
+                    System.out.println("현재 i 값 : " + i + ", 현재 상품 : " + data.getProductName());
+                    //continue;
+                    throw new IOException("Excel Price Null");
+                }
+                parsedValue = priceValue;
+                //price = Long.parseLong(priceValue);
+                //System.out.println(price);
             }
 
-            BigDecimal seq = new BigDecimal(price);
+            BigDecimal seq = new BigDecimal(parsedValue).setScale(0,RoundingMode.FLOOR);
+            System.out.println(seq);
             long categoryId = ((long)row.getCell(3).getNumericCellValue());
             data.setCategory(categoryService.findVerifiedCategoryId(categoryId));
             data.setCompany(row.getCell(4).getStringCellValue());
@@ -120,6 +128,7 @@ public class ProductController {
             }
             else{
                 Product product = productMapper.excelDataToProduct(data);
+
                 productService.createProduct(product);
 
                 dataList.add(data);
