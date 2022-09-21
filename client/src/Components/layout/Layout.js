@@ -24,6 +24,6 @@ const Container = styled.div`
 const MainSection = styled.section`
   margin: 0 auto;
   max-width: 1280px;
-  min-height: 1000px;
+  min-height: 700px;
   margin-top: 75px;
 `;
