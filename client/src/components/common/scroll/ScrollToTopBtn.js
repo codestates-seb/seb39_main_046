@@ -20,8 +20,10 @@ const ScrollContainer = styled.div`
   position: fixed;
   bottom: 50px;
   right: 30px;
-  width: 50px;
-  height: 30px;
+  width: 38px;
+  height: 38px;
+  border-radius: 38px;
   z-index: 1000;
   cursor: pointer;
+  background-color: #fff;
 `;
