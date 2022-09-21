@@ -10,7 +10,7 @@ const Header = () => {
     <HeaderContainer>
       <HMain>
         <HMenu>
-          <li>로그인</li>
+          <li onClick={() => navigate("/login")}>로그인</li>
           <li>마이페이지</li>
           <li>찜꽁바구니</li>
         </HMenu>
