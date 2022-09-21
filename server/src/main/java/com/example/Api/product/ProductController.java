@@ -95,43 +95,34 @@ public class ProductController {
             data.setProductName(row.getCell(1).getStringCellValue());
             /*String priceValue = row.getCell(2).getStringCellValue().replaceAll(",","");*/
             String priceValue = row.getCell(2).getStringCellValue();
-            String parsedValue = "";
+            /*String parsedValue = "";*/
             //long price = 0;
             // 크롤링한 가격은 텍스트 형식으로 되어 있는 숫자, 문자열 가격에 "원"이나 ","가 있으면 모두 제거
             if(priceValue.contains(",") || priceValue.contains("원")){
-                parsedValue = priceValue.replaceAll("[,원]","");
-                System.out.println(parsedValue);
+                priceValue = priceValue.replaceAll("[,원]","");
+                System.out.println(priceValue);
                 //price = Long.parseLong(parsedValue);
                /* System.out.println(price);*/
             }
-            else{
-                if(priceValue.isEmpty()){
+            else if(priceValue.isEmpty()){
                     System.out.println("현재 i 값 : " + i + ", 현재 상품 : " + data.getProductName());
-                    continue;
-                    //throw new IOException("Excel Price Null");
-                }
-                parsedValue = priceValue;
-                //price = Long.parseLong(priceValue);
-                //System.out.println(price);
+                    break;
             }
 
-            BigDecimal seq = new BigDecimal(parsedValue).setScale(0,RoundingMode.FLOOR);
+            BigDecimal seq = new BigDecimal(priceValue).setScale(0,RoundingMode.FLOOR);
             System.out.println(seq);
             long categoryId = ((long)row.getCell(3).getNumericCellValue());
             data.setCategory(categoryService.findVerifiedCategoryId(categoryId));
             data.setCompany(row.getCell(4).getStringCellValue());
             data.setPrice(seq);
 
-
-            //중복 삼품인지 검사 필요
+            // DB에 저장, 중복 삼품인지 검사 필요
             if(productService.checkDuplicatedProduct(data.getProductName())){
                 continue;
             }
             else{
                 Product product = productMapper.excelDataToProduct(data);
-
                 productService.createProduct(product);
-
                 dataList.add(data);
                 productList.add(product);
             }
