@@ -96,11 +96,11 @@ const MiddleBox = styled.div`
   align-items: center;
   flex-direction: column;
   div {
-    margin-bottom: 15px;
+    margin-bottom: 35px;
     p {
       color: ${({ theme }) => theme.colors.Gray_090};
       font-weight: bold;
-      margin-bottom: 15px;
+      margin-bottom: 5px;
     }
   }
 `;

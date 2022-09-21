@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import TextInput from "../../components/common/TextInput";
+import { IoIosArrowForward } from "react-icons/io";
 
 const SingUp = () => {
   const navigate = useNavigate();
@@ -13,28 +14,25 @@ const SingUp = () => {
         <SingUpBtn>회원가입</SingUpBtn>
       </TopBtnBox>
       <MiddleBox>
-        <MemberRemember>
-          <div>
-            <input type="checkbox" />
-            <span>로그인 정보 기억</span>
-          </div>
-        </MemberRemember>
         <InputBox>
           <div>
             <p>아이디</p>
             <TextInput />
           </div>
           <div>
-            <p>비밀번호</p>
+            <p>닉네임</p>
+            <TextInput />
+          </div>
+          <div>
+            <p>패스워드</p>
+            <TextInput />
+          </div>
+          <div>
+            <p>패스워드확인</p>
             <TextInput />
           </div>
         </InputBox>
-        <IdPwFind>
-          <span>아이디찾기</span>
-          <span>|</span>
-          <span>패스워드찾기</span>
-        </IdPwFind>
-        <LoginConfirmBtn>로그인</LoginConfirmBtn>
+        <LoginConfirmBtn>회원가입</LoginConfirmBtn>
       </MiddleBox>
     </MemberContainer>
   );
@@ -44,9 +42,10 @@ export default SingUp;
 const MemberContainer = styled.section`
   margin: 0 auto;
   width: 900px;
-  height: 600px;
+  height: 700px;
   border-radius: 20px;
   margin-top: 160px;
+  margin-bottom: 130px;
   padding: 50px;
   background-color: ${({ theme }) => theme.colors.Blue_010};
 `;
@@ -93,11 +92,11 @@ const MiddleBox = styled.div`
   align-items: center;
   flex-direction: column;
   div {
-    margin-bottom: 15px;
+    margin-bottom: 35px;
     p {
       color: ${({ theme }) => theme.colors.Gray_090};
       font-weight: bold;
-      margin-bottom: 15px;
+      margin-bottom: 5px;
     }
   }
 `;
