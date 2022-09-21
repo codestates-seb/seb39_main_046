@@ -121,6 +121,7 @@ const Updiv = styled.div`
   margin-top: 70px;
 `;
 const PickyPicky = styled.span`
+  position:relative;
   text-align: center;
   line-height: 77px;
   font-weight: 700;

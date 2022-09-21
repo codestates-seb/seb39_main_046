@@ -180,8 +180,8 @@ const RecoProductsbar = styled.section`
   justify-content: center;
   align-items: center; */
   margin-bottom: 100px;
-  margin-left : 130px;
-  margin-right: 130px;
+  margin-left : 250px;
+  margin-right: 250px;
 `;
 
 const ProductSection = styled.section`
@@ -193,12 +193,12 @@ const ProductSection = styled.section`
 `;
 
 const RecoProducts = styled.div`
-  width: 240px;
+  width: 100%;
   height: 240px;
   background: url("/character/상품준비 안됫음 .png");
   background-position: center;
   background-repeat: no-repeat;
-  background-size: 80% 80%;
+  background-size: 60% 90%;
   border-radius: 20px 20px 0 0;
 `;
 
@@ -216,15 +216,18 @@ const ProductsEx = styled.div`
 const ProductCategory = styled.p`
   font-size: ${({ theme }) => theme.fontSizes.xs};
   font-weight: 500;
+  text-align:center;
   color: ${({ theme }) => theme.colors.Orange_040};
 `;
 const ProductName = styled.p`
   font-size: ${({ theme }) => theme.fontSizes.base};
   font-weight: 700;
+  text-align:center;
   color: ${({ theme }) => theme.colors.Gray_090};
 `;
 const ProductPrice = styled.p`
   font-size: ${({ theme }) => theme.fontSizes.base};
   font-weight: 700;
+  text-align:center;
   color: ${({ theme }) => theme.colors.Gray_030};
 `;
