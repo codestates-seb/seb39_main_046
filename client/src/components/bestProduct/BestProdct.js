@@ -1,16 +1,39 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Button from "../common/Button";
 
 const BestProdct = () => {
   let more = "더보기 >";
+  const completionWord = 'Pick your Best 5';
+  const [Title, setTitle] = useState('');
+  const [count, setCount] = useState(0);
+  
+  useEffect(() => {
+    const typingInterval = setInterval(() => {
+      setTitle((prevTitleValue) => {
+        let result = prevTitleValue ? prevTitleValue + completionWord[count] : completionWord[0];
+        setCount(count + 1);
+
+        if (count >= completionWord.length) {
+          setCount(0);
+          setTitle('');
+        }
+
+        return result;
+      });
+    }, 300);
+
+    return () => {
+      clearInterval(typingInterval);
+    };
+  });
 
   return (
     <BestProdctContainer>
       <Firstcontent>
         <Updiv>
           <div></div>
-          <PickyPicky>Pick your Best 5</PickyPicky>
+          <PickyPicky>{Title}</PickyPicky>
           <More>{more}</More>
         </Updiv>
         <Middlediv>
