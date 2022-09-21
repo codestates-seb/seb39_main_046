@@ -1,0 +1,30 @@
+:root {
+    --white: hsl(0, 0%, 100%);
+    --black: hsl(210, 8%, 5%);
+    --orange: hsl(27, 90%, 55%);
+    --yellow: hsl(47, 83%, 91%);
+    --green: hsl(140, 40%, 55%);
+    --blue: hsl(206, 100%, 40%);
+    --powder: hsl(205, 46%, 92%);
+    --red: hsl(358, 62%, 52%);
+    --black-025: hsl(210, 8%, 97.5%);
+    --black-050: hsl(210, 8%, 95%);
+    --black-075: hsl(210, 8%, 90%);
+    --black-100: hsl(210, 8%, 85%);
+    --black-150: hsl(210, 8%, 80%);
+    --black-200: hsl(210, 8%, 75%);
+    --black-300: hsl(210, 8%, 65%);
+    --black-350: hsl(210, 8%, 60%);
+    --black-400: hsl(210, 8%, 55%);
+    --black-500: hsl(210, 8%, 45%);
+    --black-600: hsl(210, 8%, 35%);
+    --black-700: hsl(210, 8%, 25%);
+    --black-750: hsl(210, 8%, 20%);
+    --black-800: hsl(210, 8%, 15%);
+    --black-900: hsl(210, 8%, 5%);
+    --blue-600: hsl(206, 100%, 40%);
+    --green-600: hsl(140, 40%, 40%);
+    --theme-post-title-color: var(--blue-600);
+    --theme-button-primary-background-color: hsl(206, 100%, 52%);
+    --theme-footer-background-color: hsl(210, 8%, 15%);
+}

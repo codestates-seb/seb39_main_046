@@ -4,12 +4,15 @@ package com.example.Api.member;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.example.Api.category.CategoryService;
+import com.example.Api.product.Product;
+import com.example.Api.response.MultiResponseDto;
 import com.example.Api.response.SingleResponseDto;
 import com.google.gson.Gson;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.apache.xmlbeans.impl.jam.mutable.MElement;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -31,6 +34,7 @@ import java.net.URL;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.security.Principal;
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -101,15 +105,10 @@ public ResponseEntity signUp(@Validated @RequestBody MemberPostDto memberPostDto
 
         return new ResponseEntity<>("삭제 완료",HttpStatus.OK);
     }
-    @GetMapping("/test")
-    @ApiOperation(value = "토큰으로 멤버 조회")
-    public String getMyInfo(Principal principal){
-        return principal.toString();
-    }
-
     @PostMapping("/pbti/{category-id}")
     @ApiOperation(value = "멤버에 편비티아이 추가")
     public ResponseEntity pbti(@PathVariable("category-id") @Positive long id){
+
 
         Member member = memberService.getLoginMember();
         member.setCategory(categoryService.findVerifiedCategoryId(id));
@@ -133,7 +132,18 @@ public ResponseEntity signUp(@Validated @RequestBody MemberPostDto memberPostDto
         }catch(Exception e) {
             e.printStackTrace();
         }
-        return new ResponseEntity<>("OK",HttpStatus.OK);
+        return new ResponseEntity<>("등록 완료",HttpStatus.OK);
+    }
+
+    @ApiOperation(value = "전체 멤버조회", notes = "관리자 전용 기능")
+    @GetMapping("/all")
+    public ResponseEntity getProductByProductName(@Positive @RequestParam int page) {
+
+        Page<Member> allMember = memberService.findAllMember(page-1,10);
+        List<Member> membertList = allMember.getContent();
+
+        return new ResponseEntity<>(membertList,
+                HttpStatus.OK);
     }
 
 }

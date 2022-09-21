@@ -1,6 +1,9 @@
 package com.example.Api.member;
 
 import com.example.Api.oauth.PrincipalDetails;
+import com.example.Api.product.Product;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -66,6 +69,7 @@ memberRepository.save(member);
         memberRepository.delete(findVerifiedMemberId(id));
     }
 
+
     public Member findVerifiedMemberId(long memberid){
         Optional<Member> optionalCategoryr = memberRepository.findById(memberid);
         Member findMember =
@@ -89,5 +93,8 @@ memberRepository.save(member);
         return principalDetails.getMember();
     }
 
+    public Page<Member> findAllMember(int page, int size){
+        return memberRepository.findAll(PageRequest.of(page,size));
+    }
 
 }
