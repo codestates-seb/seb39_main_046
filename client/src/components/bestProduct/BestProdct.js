@@ -6,7 +6,7 @@ const BestProdct = () => {
   let more = "더보기 >";
 
   return (
-    <>
+    <BestProdctContainer>
       <Firstcontent>
         <Updiv>
           <div></div>
@@ -69,34 +69,31 @@ const BestProdct = () => {
           </Another>
         </Bottomdiv>
       </Firstcontent>
-    </>
+    </BestProdctContainer>
   );
 };
 
 export default BestProdct;
 
-const Firstcontent = styled.div`
+const BestProdctContainer = styled.section`
+  background-color: ${({ theme }) => theme.colors.Blue_010};
   margin-bottom: 100px;
+  height: 1100px;
+`;
+const Firstcontent = styled.div`
+  padding-top: ${({ theme }) => theme.paddings.xxxl};
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 `;
 
 const Updiv = styled.div`
+  width: 1180px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-top: 78px;
-`;
-
-const Middlediv = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding-top: ${({ theme }) => theme.paddings.xxxl};
-`;
-
-const Bottomdiv = styled.div`
-  display: flex;
-  justify-content: center;
-  margin-top: 80px;
+  margin-top: 70px;
 `;
 
 const PickyPicky = styled.span`
@@ -112,17 +109,35 @@ const More = styled.p`
   font-size: ${({ theme }) => theme.fontSizes.small};
   font-weight: 500;
   color: ${({ theme }) => theme.colors.Orange_040};
-  float: rigth;
+  cursor: pointer;
+`;
+
+const Middlediv = styled.div`
+  margin-top: 30px;
+  margin-bottom: 80px;
+  Button {
+    margin-right: 20px;
+  }
+  Button:last-child {
+    margin-right: 0px;
+  }
+`;
+
+const Bottomdiv = styled.div`
+  display: flex;
+  justify-content: center;
 `;
 
 const First = styled.div`
   width: 590px;
   height: 590px;
   margin-right: ${({ theme }) => theme.margins.base};
+  border-radius: ${({ theme }) => theme.radius.base};
+  box-shadow: 0px 4px 30px rgba(204, 204, 204, 0.5);
+  background-color: #fff;
 `;
 const Another = styled.div`
-  width: 590px;
-  height: 590px;
+  width: 605px;
   display: flex;
   flex-wrap: wrap;
 `;
@@ -131,10 +146,10 @@ const ProductImg = styled.section`
   width: 590px;
   height: 472px;
   display: flex;
-  background: url('/Character/상품준비 안됫음 .png');
+  background: url("/character/상품준비 안됫음 .png");
   background-position: center;
   background-repeat: no-repeat;
-  background-size: 80% 80%;
+  background-size: 80%;
 `;
 const ProductExp = styled.section`
   width: 590px;
@@ -142,6 +157,9 @@ const ProductExp = styled.section`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  box-shadow: 0px 4px 30px rgba(204, 204, 204, 0.5);
+  border-radius: 0 0 20px 20px;
+  background-color: #fff;
 `;
 const ProductNaming = styled.p`
   padding-left: 40px;
@@ -155,17 +173,19 @@ const ProductPrice = styled.p`
 `;
 
 const Second = styled.section`
-  /* margin-right: ${({ theme }) => theme.margins.base};
-    margin-bottom: ${({ theme }) => theme.margins.base}; */
+  margin-right: ${({ theme }) => theme.margins.base};
+  margin-bottom: ${({ theme }) => theme.margins.base};
 `;
 const SecondImg = styled.section`
   width: 290px;
   height: 232px;
   display: flex;
-  background: url('/Character/상품준비 안됫음 .png');
+  background: url("/character/상품준비 안됫음 .png");
   background-position: center;
   background-repeat: no-repeat;
-  background-size: 70% 70%;
+  background-size: 70%;
+  background-color: #fff;
+  border-radius: 20px 20px 0 0;
 `;
 const SecondExp = styled.section`
   width: 290px;
@@ -173,6 +193,9 @@ const SecondExp = styled.section`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  background-color: #fff;
+  border-radius: 0 0 20px 20px;
+  box-shadow: 0px 4px 30px rgba(204, 204, 204, 0.5);
 `;
 
 const Numbering = styled.p`

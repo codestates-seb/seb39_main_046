@@ -1,7 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import HChracter from "../../Assets/images/FoodTest/FootTestHome.png";
+import HChracter from "../../assets/images/foodTest/FootTestHome.png";
 import Button from "../common/Button";
 
 const FoodTestHome = () => {

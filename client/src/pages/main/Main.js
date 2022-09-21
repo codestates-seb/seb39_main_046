@@ -1,8 +1,8 @@
 import React from "react";
-import Banner from "../../Components/common/Banner";
-import BestProdct from "../../Components/BestProduct/BestProdct";
-import RecomendProduct from "../../Components/BestProduct/RecomendProduct";
-import BestReview from "../../Components/BestProduct/BestReview";
+import Banner from "../../components/common/Banner";
+import BestProdct from "../../components/bestProduct/BestProdct";
+import RecomendProduct from "../../components/bestProduct/RecomendProduct";
+import BestReview from "../../components/bestProduct/BestReview";
 
 const Main = () => {
   return (

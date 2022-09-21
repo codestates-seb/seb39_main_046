@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import { Route, Routes } from "react-router-dom";
-import Layout from "./Components/layout/Layout";
-import Main from "./Pages/Main/Main";
-import FindStore from "./Pages/FindStore/FindStore";
-import FootTest from "./Pages/FoodTest/FootTest";
-import FoodTestHome from "./Components/foodTest/FoodTestHome";
-import FoodTestQuestion from "./Components/foodTest/FoodTestQuestion";
-import FoodTestResult from "./Components/foodTest/FoodTestResult";
-import Loading from "./Components/common/Loading";
+import Layout from "./components/layout/Layout";
+import Main from "./pages/main/Main";
+import FindStore from "./pages/findStore/FindStore";
+import FootTest from "./pages/foodTest/FootTest";
+import FoodTestHome from "./components/foodTest/FoodTestHome";
+import FoodTestQuestion from "./components/foodTest/FoodTestQuestion";
+import FoodTestResult from "./components/foodTest/FoodTestResult";
+import Loading from "./components/common/Loading";
 
 function App() {
   const [loading, setLoading] = useState(true);

@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import LoadingCharater from "../../Assets/images/Loading/LoadingCharater.gif";
+import LoadingCharater from "../../assets/images/loading/LoadingCharater.gif";
 
 const Loading = () => {
   return (

@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { createSearchParams, useNavigate } from "react-router-dom";
-import { QuestionData } from "../../Assets/FoodData/questionData";
+import { QuestionData } from "../../assets/foodData/questionData";
 import Button from "../common/Button";
-import EatChracter from "../../Assets/images/FoodTest/FoodTestQuestion.png";
+import EatChracter from "../../assets/images/foodTest/FoodTestQuestion.png";
 
 const FoodTestQuestion = () => {
   const navigate = useNavigate();

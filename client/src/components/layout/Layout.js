@@ -23,7 +23,7 @@ const Container = styled.div`
 `;
 const MainSection = styled.section`
   margin: 0 auto;
-  max-width: 1280px;
+  max-width: 100%;
   min-height: 700px;
   margin-top: 75px;
 `;

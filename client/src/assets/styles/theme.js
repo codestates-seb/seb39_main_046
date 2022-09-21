@@ -78,7 +78,11 @@ const device = {
   tablet: `only screen and (max-width: ${deviceSizes.tablet})`,
   tabletL: `only screen and (max-width: ${deviceSizes.tabletL})`,
 };
-
+const radius = {
+  small: calcRem(10),
+  base: calcRem(20),
+  lg: calcRem(30),
+};
 const theme = {
   fontSizes,
   colors,
@@ -88,6 +92,7 @@ const theme = {
   margins,
   interval,
   verticalInterval,
+  radius,
 };
 
 export default theme;
