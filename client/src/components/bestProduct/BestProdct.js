@@ -118,7 +118,7 @@ const Updiv = styled.div`
   justify-content: space-between;
   margin-top: 70px;
 `;
-const PickyPicky = styled.span`
+const PickyPicky = styled.p`
   text-align: center;
   line-height: 77px;
   font-weight: 700;
