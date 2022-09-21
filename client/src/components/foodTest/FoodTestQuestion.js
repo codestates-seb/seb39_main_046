@@ -4,6 +4,7 @@ import { createSearchParams, useNavigate } from "react-router-dom";
 import { QuestionData } from "../../assets/foodData/questionData";
 import Button from "../common/Button";
 import EatChracter from "../../assets/images/foodTest/FoodTestQuestion.png";
+import ProgressChracter from "../../assets/images/foodTest/ProgressBar.gif";
 
 const FoodTestQuestion = () => {
   const navigate = useNavigate();
@@ -65,7 +66,7 @@ const FoodTestQuestion = () => {
         <ProgressBar
           width={(questionNo / QuestionData.length) * 100 + "%"}
         ></ProgressBar>
-        <Dot />
+        <Dot>{/* <img src={ProgressChracter} alt="진행바" /> */}</Dot>
       </ProgressBox>
       <FContents>
         <FText>
@@ -181,4 +182,10 @@ const Dot = styled.div`
   border-radius: 35px;
   background: ${({ theme }) => theme.colors.Blue_020};
   margin-left: -10px;
+  img {
+    width: 80px;
+    position: relative;
+    top: -40px;
+    left: -30px;
+  }
 `;
