@@ -3,13 +3,23 @@ import styled from "styled-components";
 import { Outlet } from "react-router-dom";
 import Footer from "./Footer";
 import Header from "./Header";
+import Scroll from "../common/scroll/ScrollToTopBtn";
 
 const Layout = () => {
+  const handleScroll = (e) => {
+    if (!window.scrollY) return;
+
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
   return (
     <Container>
       <Header />
       <MainSection>
         <Outlet />
+        <Scroll handleClick={handleScroll} />
       </MainSection>
       <Footer />
     </Container>
