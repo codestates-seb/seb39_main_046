@@ -35,7 +35,7 @@ const BestProdct = () => {
       <Firstcontent>
         <Updiv>
           <div></div>
-          <PickyPicky>Pick your Best 5</PickyPicky>
+          <PickyPicky>{Title}</PickyPicky>
           <More>{more}</More>
         </Updiv>
         <Middlediv>
@@ -119,31 +119,13 @@ const Updiv = styled.div`
   align-items: center;
   justify-content: space-between;
   margin-top: 70px;
-  /* div {
-    text-align: center;
-    line-height: 77px;
-    font-size: 48px;
-    line-height: 160%;
-    color: ${({ theme }) => theme.colors.Gray_030};
-    padding-left: 50px;
-    strong {
-      font-weight: 700;
-      font-size: 53px;
-      color: ${({ theme }) => theme.colors.Blue_030};
-    }
-  }
-  p {
-    font-size: ${({ theme }) => theme.fontSizes.small};
-    font-weight: 500;
-    color: ${({ theme }) => theme.colors.Orange_040};
-    cursor: pointer;
-  } */
 `;
 const PickyPicky = styled.span`
   text-align: center;
   line-height: 77px;
   font-weight: 700;
   font-size: ${({ theme }) => theme.fontSizes.titleSize};
+  color: ${({ theme }) => theme.colors.Gray_030};
   line-height: 160%;
   padding-left: 50px;
 `;
