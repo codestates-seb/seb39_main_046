@@ -146,4 +146,6 @@ public ResponseEntity signUp(@Validated @RequestBody MemberPostDto memberPostDto
                 HttpStatus.OK);
     }
 
+
+
 }
