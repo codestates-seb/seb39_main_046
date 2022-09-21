@@ -1,10 +1,10 @@
 import React from "react";
+import styled from "styled-components";
 import Banner from "../../components/common/Banner";
 import BChracter from "../../assets/images/banner/BannerCharater.png";
 import BestProdct from "../../components/bestProduct/BestProdct";
 import RecomendProduct from "../../components/bestProduct/RecomendProduct";
 import BestReview from "../../components/bestProduct/BestReview";
-import styled from "styled-components";
 
 const Main = () => {
   return (
@@ -44,9 +44,4 @@ const BImg = styled.span`
   position: relative;
   top: -129px;
   left: 50px;
-  img {
-    /* position: relative;
-    top: -110px;
-    left: 170px; */
-  }
 `;

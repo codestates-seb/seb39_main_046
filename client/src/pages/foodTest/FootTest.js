@@ -29,23 +29,19 @@ export default FootTestLayout;
 const BHeader = styled.header`
   margin: 0 auto;
   text-align: center;
-  font-size: ${({ theme }) => theme.fontSizes.small};
+  font-size: ${({ theme }) => theme.fontSizes.base};
   color: ${({ theme }) => theme.colors.Gray_050};
   span {
-    font-size: ${({ theme }) => theme.fontSizes.titleSize};
     color: ${({ theme }) => theme.colors.Blue_030};
+    font-size: ${({ theme }) => theme.fontSizes.titleSize};
+    font-weight: bold;
   }
 `;
 
 const BImg = styled.span`
   position: relative;
-  top: -110px;
+  top: -114px;
   left: 50px;
-  img {
-    /* position: relative;
-    top: -110px;
-    left: 170px; */
-  }
 `;
 
 const FoodTestContainer = styled.section`
