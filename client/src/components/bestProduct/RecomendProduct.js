@@ -1,6 +1,9 @@
 import React, { Component } from "react";
 import styled from "styled-components";
 import PbtiBanner from "../common/PbtiBanner";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 const RecomendProduct = () => {
   return (
@@ -12,6 +15,7 @@ const RecomendProduct = () => {
       </RecoProduct>
       {/* 캐러셀 적용 하는 곳  */}
       <RecoProductsbar>
+        <Slider>
         <ProductSection>
           <RecoProducts />
           <ProductsEx>
@@ -48,6 +52,7 @@ const RecomendProduct = () => {
             <ProductPrice>5,300원</ProductPrice>
           </ProductsEx>
         </ProductSection>
+        </Slider>
       </RecoProductsbar>
       <PbtiBanner />
     </div>
@@ -77,9 +82,9 @@ const Reco = styled.div`
 `;
 
 const RecoProductsbar = styled.section`
-  display: flex;
+  /* display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: center; */
   margin-bottom: 100px;
 `;
 
