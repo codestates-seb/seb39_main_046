@@ -17,7 +17,9 @@ const FindStore = () => {
           <img src={BChracter} alt="배너 캐릭터" />
         </BImg>
       </Banner>
-      <StoreLocation />
+      <FindStoreContiner>
+        <StoreLocation />
+      </FindStoreContiner>
     </div>
   );
 };
@@ -40,4 +42,9 @@ const BImg = styled.span`
   position: relative;
   top: -89px;
   left: 50px;
+`;
+
+const FindStoreContiner = styled.section`
+  margin: 0 auto;
+  width: 1280px;
 `;
