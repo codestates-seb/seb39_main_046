@@ -1,11 +1,15 @@
 import React from "react";
 import styled from "styled-components";
-
+import { BsFillArrowUpCircleFill } from "react-icons/bs";
 const scrollToTopBtn = ({ handleClick }) => {
   return (
     <>
       <ScrollContainer>
-        <Btn onClick={handleClick}>UP</Btn>
+        <BsFillArrowUpCircleFill
+          size="40"
+          color="#1C1C1E"
+          onClick={handleClick}
+        />
       </ScrollContainer>
     </>
   );
@@ -14,18 +18,10 @@ const scrollToTopBtn = ({ handleClick }) => {
 export default scrollToTopBtn;
 const ScrollContainer = styled.div`
   position: fixed;
-  bottom: 30px;
+  bottom: 50px;
   right: 30px;
   width: 50px;
   height: 30px;
   z-index: 1000;
-`;
-const Btn = styled.button`
-  width: 50px;
-  height: 30px;
-  background: #f88408;
-  box-shadow: 0px 2px 20px rgba(204, 204, 204, 0.3);
-  color: #fff;
-  border-radius: 20px;
-  border: none;
+  cursor: pointer;
 `;
