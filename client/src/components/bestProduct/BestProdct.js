@@ -1,19 +1,42 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Button from "../common/Button";
 
 const BestProdct = () => {
   let more = "더보기 >";
+  const completionWord = "Pick your Best 5";
+  const [Title, setTitle] = useState("");
+  const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    const typingInterval = setInterval(() => {
+      setTitle((prevTitleValue) => {
+        let result = prevTitleValue
+          ? prevTitleValue + completionWord[count]
+          : completionWord[0];
+        setCount(count + 1);
+
+        if (count >= completionWord.length) {
+          setCount(0);
+          setTitle("");
+        }
+
+        return result;
+      });
+    }, 300);
+
+    return () => {
+      clearInterval(typingInterval);
+    };
+  });
 
   return (
     <BestProdctContainer>
       <Firstcontent>
         <Updiv>
           <div></div>
-          <div>
-            <strong>P</strong>ick your <strong>B</strong>est <strong>5</strong>
-          </div>
-          <p>{more}</p>
+          <PickyPicky>Pick your Best 5</PickyPicky>
+          <More>{more}</More>
         </Updiv>
         <Middlediv>
           <Button>전체 편의점</Button>
@@ -96,7 +119,7 @@ const Updiv = styled.div`
   align-items: center;
   justify-content: space-between;
   margin-top: 70px;
-  div {
+  /* div {
     text-align: center;
     line-height: 77px;
     font-size: 48px;
@@ -114,9 +137,23 @@ const Updiv = styled.div`
     font-weight: 500;
     color: ${({ theme }) => theme.colors.Orange_040};
     cursor: pointer;
-  }
+  } */
+`;
+const PickyPicky = styled.span`
+  text-align: center;
+  line-height: 77px;
+  font-weight: 700;
+  font-size: ${({ theme }) => theme.fontSizes.titleSize};
+  line-height: 160%;
+  padding-left: 50px;
 `;
 
+const More = styled.p`
+  font-size: ${({ theme }) => theme.fontSizes.small};
+  font-weight: 500;
+  color: ${({ theme }) => theme.colors.Orange_040};
+  cursor: pointer;
+`;
 const Middlediv = styled.div`
   margin-top: 30px;
   margin-bottom: 80px;

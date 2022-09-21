@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Component } from "react";
 import styled from "styled-components";
 import PbtiBanner from "../common/PbtiBanner";
 
@@ -10,6 +10,7 @@ const RecomendProduct = () => {
         <RecoTtitle>리코의 추천 상품</RecoTtitle>
         <Reco></Reco>
       </RecoProduct>
+      {/* 캐러셀 적용 하는 곳  */}
       <RecoProductsbar>
         <ProductSection>
           <RecoProducts />
