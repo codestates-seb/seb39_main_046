@@ -105,7 +105,7 @@ public ResponseEntity signUp(@Validated @RequestBody MemberPostDto memberPostDto
     public ResponseEntity deletMember(){
        Member member = memberService.getLoginMember();
 
-       memberService.deleteMember(member.getId());
+       memberService.deleteMember(member.getMemberId());
 
         return new ResponseEntity<>("삭제 완료",HttpStatus.OK);
     }
@@ -171,7 +171,7 @@ public ResponseEntity signUp(@Validated @RequestBody MemberPostDto memberPostDto
                     .withExpiresAt(new Date(System.currentTimeMillis() + (60 * 1000 * 60*24)))   // 60000 -> 60초 / 10 -> 분
                     /*.withClaim("id", member1.getId())
                     .withClaim("username", member1.getUsername())*/
-                    .withClaim("id",loginMember.getId())
+                    .withClaim("id",loginMember.getMemberId())
                     .withClaim("username", loginMember.getUsername())
                     .sign(Algorithm.HMAC512("cos_jwt_token"));
 

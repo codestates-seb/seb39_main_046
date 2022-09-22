@@ -53,14 +53,14 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         String jwtToken = JWT.create()
                 .withSubject("cos jwt token")
                 .withExpiresAt(new Date(System.currentTimeMillis() + (60 * 1000 * 60*24)))   // 60000 -> 60초 / 10 -> 분
-                .withClaim("id", principalDetails.getMember().getId())
+                .withClaim("id", principalDetails.getMember().getMemberId())
                 .withClaim("username", principalDetails.getMember().getUsername())
                 .sign(Algorithm.HMAC512("cos_jwt_token"));
         response.addHeader("Authorization", "Bearer " + jwtToken);
 
 
         Map<String,Object> map = new HashMap<>();
-        long a = principalDetails.getMember().getId();
+        long a = principalDetails.getMember().getMemberId();
         map.put("userid",a);
         map.put("msg" , "success");
         Gson gson = new Gson();

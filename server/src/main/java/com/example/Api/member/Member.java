@@ -24,7 +24,7 @@ public class Member extends Auditable {
 //1
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private long memberId;
     @Column
     private String username;
     @Column
@@ -64,7 +64,7 @@ public class Member extends Auditable {
 
     public Member(long id,String username,String nickName,String password){
 
-        this.id = id;
+        this.memberId = id;
         this.username = username;
         this.nickName = nickName;
         this.password = password;

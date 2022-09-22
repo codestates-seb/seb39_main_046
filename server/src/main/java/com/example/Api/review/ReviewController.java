@@ -46,7 +46,7 @@ public class ReviewController {
                                      @Validated @RequestBody ReviewPostDto reviewPostDto){
         Member writter = memberService.getLoginMember();
 
-        Member  verifiedMember = memberService.findVerifiedMemberId(writter.getId());
+        Member  verifiedMember = memberService.findVerifiedMemberId(writter.getMemberId());
         Product product = productService.findVerifiedProductId(productId);
 
         Review review = new Review();
@@ -86,7 +86,7 @@ public class ReviewController {
                                       @Validated @RequestBody ReviewPatchDto reviewPatchDto){
         Member editor = memberService.getLoginMember();
 
-        Member  verifiedMember = memberService.findVerifiedMemberId(editor.getId());
+        Member  verifiedMember = memberService.findVerifiedMemberId(editor.getMemberId());
         Review selectedReview = reviewService.findVerifiedReviewId(reviewId);
         Product product = productService.findVerifiedProductId(selectedReview.getProduct().getProductId());
 

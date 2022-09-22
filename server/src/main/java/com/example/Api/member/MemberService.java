@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
+import javax.servlet.http.HttpServletRequest;
+import java.net.http.HttpRequest;
 import java.util.Optional;
 
 @Transactional
@@ -69,7 +71,7 @@ public class MemberService {
 
 
     private Member findMember(Member member){// 아래 getUserByToken 쓸거임
-        return findVerifiedMemberId(member.getId());
+        return findVerifiedMemberId(member.getMemberId());
     }
 
     public void deleteMember(long id){
@@ -146,4 +148,8 @@ public class MemberService {
         return bCryptPasswordEncoder.encode(password);
     }
 
+    public Boolean memberCheck(HttpServletRequest request){
+       if(request.getHeader("Authorization") == null) return true; //현재 상태 비회원이면 트루 출력 회원일시 false 반환
+       else return false;
+    }
 }
