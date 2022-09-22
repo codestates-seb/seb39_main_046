@@ -1,4 +1,4 @@
-package com.example.Api.member;
+package com.example.Api.review;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

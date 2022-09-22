@@ -38,13 +38,14 @@ public class ProductHeartService {
         ProductHeart productHeart = new ProductHeart();
         return productHeart;
     }
-
+    // 찜꽁바구니에 활용할 것
     public ProductHeart findProductHeart(Member member, Product product){
         Optional<ProductHeart> optionalProductHeart = productHeartRepository.findByMemberAndProduct(member,product);
         return optionalProductHeart.orElseThrow(()->
                 new RuntimeException("연결된 좋아요 테이블이 없습니다"));
-
     }
+
+
     public void cancelHeart(ProductHeart productHeart){
         productHeartRepository.delete(productHeart);
 
