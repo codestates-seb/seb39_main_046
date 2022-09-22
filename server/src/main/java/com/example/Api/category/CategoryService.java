@@ -1,11 +1,12 @@
 package com.example.Api.category;
 
-import com.example.Api.product.Product;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.Callable;
@@ -69,6 +70,18 @@ public class CategoryService {
 
     public List<Category> findAllCategoryAsList() {
         return categoryRepository.findAll();
+    }
+
+    public List<Category> checkAtLeastOneProduct(List<Category> allCategories){
+        List<Category> atLeastOne = new ArrayList<>();
+        for(Category category: allCategories){
+            if(category.getProducts().isEmpty()){
+                continue;
+            }
+            atLeastOne.add(category);
+        }
+        return atLeastOne;
+
     }
 
 

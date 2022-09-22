@@ -138,162 +138,95 @@ public class ProductService {
     public Page<Product> getTop20ProductsPage(int page, int size, int methodId, String company){
 
         Page<Product> twentyProducts;
+        boolean existCompany = ( (company.equals("CU")) || (company.equals("GS25")) || (company.equals("7-ELEVEN")) );
 
-        if((company.equals("CU"))|| (company.equals("GS25")) || (company.equals("7-ELEVEN"))){
-            if(methodId == 1){
-                System.out.println("좋아요 순 정렬");
+        if(methodId == 1){
+            System.out.println("좋아요순 정렬");
+            if(existCompany){
                 twentyProducts = productRepository.findAllByCompany(company, PageRequest.of(page,size,
                         Sort.by("hearts").descending()));
             }
-            else if(methodId == 2){
-                System.out.println("리뷰 순 정렬");
-                twentyProducts =productRepository.findAllByCompany(company, PageRequest.of(page,size,
-                        Sort.by("reviews").descending()));
+            else{
+                twentyProducts = productRepository.findAll(PageRequest.of(page, size,
+                        Sort.by("hearts").descending()));
             }
-            else if(methodId == 3){
-                System.out.println("조회 순 정렬");
-                twentyProducts = productRepository.findAllByCompany(company, PageRequest.of(page,size,
-                        Sort.by("views").descending()));
-            }
-            else {
-                twentyProducts = productRepository.findAllByCompany(company, PageRequest.of(page,size,
-                        Sort.by("createdAt").descending()));
-            }
-        }
-        if(methodId == 1){
-            System.out.println("좋아요순 정렬");
-            twentyProducts = productRepository.findAll(PageRequest.of(page, size,
-                    Sort.by("hearts").descending()));
         }
         else if(methodId == 2){
             System.out.println("리뷰순 정렬");
-            twentyProducts = productRepository.findAll(PageRequest.of(page, size,
-                    Sort.by("reviews").descending()));
+            if(existCompany) {
+                twentyProducts = productRepository.findAllByCompany(company, PageRequest.of(page, size,
+                        Sort.by("reviews").descending()));
+            }
+            else {
+                twentyProducts = productRepository.findAll(PageRequest.of(page, size,
+                        Sort.by("reviews").descending()));
+            }
         }
         else if(methodId == 3){
             System.out.println("조회순 정렬");
-            twentyProducts = productRepository.findAll(PageRequest.of(page, size,
-                    Sort.by("views").descending()));
+            if(existCompany) {
+                    twentyProducts = productRepository.findAllByCompany(company, PageRequest.of(page,size,
+                            Sort.by("views").descending()));
+            }
+            else {
+                twentyProducts = productRepository.findAll(PageRequest.of(page, size,
+                        Sort.by("views").descending()));
+            }
         }
         else {
-            twentyProducts = productRepository.findAll(PageRequest.of(page, size,
-                    Sort.by("createdAt").descending()));
+            System.out.println("최신순 정렬");
+            if(existCompany) {
+                    twentyProducts = productRepository.findAllByCompany(company, PageRequest.of(page,size,
+                            Sort.by("createdAt").descending()));
+            }
+            else {
+                twentyProducts = productRepository.findAll(PageRequest.of(page, size,
+                        Sort.by("createdAt").descending()));
+            }
         }
-
         return twentyProducts;
     }
 
-   /* public Page<Product> findAllByCompanyAndMethod(int page, int size,  String company, int methodId){
 
-        if(methodId == 1){
-            System.out.println("좋아요 순 정렬");
-            return productRepository.findAllByCompany(company, PageRequest.of(page,size,
-                    Sort.by("hearts").descending()));
-        }
-        else if(methodId == 2){
-            System.out.println("리뷰 순 정렬");
-            return productRepository.findAllByCompany(company, PageRequest.of(page,size,
-                    Sort.by("reviews").descending()));
-        }
-        else if(methodId == 3){
-            System.out.println("조회 순 정렬");
-            return productRepository.findAllByCompany(company, PageRequest.of(page,size,
-                    Sort.by("views").descending()));
-        }
-        else {
-            return productRepository.findAllByCompany(company, PageRequest.of(page,size,
-                    Sort.by("createdAt").descending()));
-        }
-
-    }*/
-
-    public Page<Product> findAllByCategoryAndMethod(int page, int size, Category category, int methodId){
-
-        Specification<Product> spec = Specification.where(ProductSpecification.equalCategory(category));
-
-
-        if(methodId == 1){
-            System.out.println("좋아요 순 정렬");
-            return productRepository.findAll(spec, PageRequest.of(page,size,
-                    Sort.by("hearts").descending()));
-        }
-        else if(methodId == 2){
-            System.out.println("리뷰 순 정렬");
-            return productRepository.findAll(spec, PageRequest.of(page,size,
-                    Sort.by("reviews").descending()));
-        }
-        else if(methodId == 3){
-            System.out.println("조회 순 정렬");
-            return productRepository.findAll(spec, PageRequest.of(page,size,
-                    Sort.by("views").descending()));
-        }
-
-        return productRepository.findAll(PageRequest.of(page, size,
-                Sort.by("createdAt").descending()));
-    }
-
-
-
-    public Page<Product> findAllByCompanyAndCategoryAndMethod(int page, int size, String company, Category category, int methodId){
+    // 랭킹 페이지 하위 20개 데이터 정렬해서 반환 (회사명 + 카테고리 + (좋아요순 or 리뷰순 or 조회순)
+    public Page<Product> SortProductsByCompanyAndCategoryAndMethod(int page, int size, int methodId, String company, Category category){
 
         Page<Product> twentyProducts;
-
-        if((company.equals("CU"))|| (company.equals("GS25")) || (company.equals("7-ELEVEN"))){
-            Specification<Product> spec = Specification.where(ProductSpecification.equalCompanyAndCategory(company,category));
-            if(methodId == 1){
-                System.out.println("좋아요 순 정렬");
-                return productRepository.findAll(spec, PageRequest.of(page,size,
-                        Sort.by("hearts").descending()));
-            }
-            else if(methodId == 2){
-                System.out.println("리뷰 순 정렬");
-                return productRepository.findAll(spec, PageRequest.of(page,size,
-                        Sort.by("reviews").descending()));
-            }
-            else if(methodId == 3){
-                System.out.println("조회 순 정렬");
-                return productRepository.findAll(spec, PageRequest.of(page,size,
-                        Sort.by("views").descending()));
-            }
-
-            return productRepository.findAll(PageRequest.of(page, size,
-                    Sort.by("createdAt").descending()));
+        Specification<Product> spec;
+        boolean existCompany = ( (company.equals("CU")) || (company.equals("GS25")) || (company.equals("7-ELEVEN")) );
+        if(existCompany){
+            spec = Specification.where(ProductSpecification.equalCompanyAndCategory(company,category));
         }
         else {
-            Specification<Product> spec = Specification.where(ProductSpecification.equalCategory(category));
-            if(methodId == 1){
-                System.out.println("좋아요 순 정렬");
-                return productRepository.findAll(spec, PageRequest.of(page,size,
-                        Sort.by("hearts").descending()));
-            }
-            else if(methodId == 2){
-                System.out.println("리뷰 순 정렬");
-                return productRepository.findAll(spec, PageRequest.of(page,size,
-                        Sort.by("reviews").descending()));
-            }
-            else if(methodId == 3){
-                System.out.println("조회 순 정렬");
-                return productRepository.findAll(spec, PageRequest.of(page,size,
-                        Sort.by("views").descending()));
-            }
-
-            return productRepository.findAll(PageRequest.of(page, size,
-                    Sort.by("createdAt").descending()));
-
+            spec = Specification.where(ProductSpecification.equalCategory(category));
         }
 
+        if(methodId == 1){
+                System.out.println("좋아요순 정렬");
+                twentyProducts = productRepository.findAll(spec, PageRequest.of(page,size,
+                        Sort.by("hearts").descending()));
+        }
+        else if(methodId == 2){
+                System.out.println("리뷰순 정렬");
+                twentyProducts = productRepository.findAll(spec, PageRequest.of(page,size,
+                        Sort.by("reviews").descending()));
+        }
+        else if(methodId == 3){
+                System.out.println("조회순 정렬");
+                twentyProducts = productRepository.findAll(spec, PageRequest.of(page,size,
+                        Sort.by("views").descending()));
+        }
+        else {
+                System.out.println("최신순 정렬");
+                twentyProducts = productRepository.findAll(spec,PageRequest.of(page, size,
+                        Sort.by("createdAt").descending()));
+        }
+       return twentyProducts;
     }
 
 
 
-
-
-    public void deleteProduct(long productId){
-        Product findProduct = findVerifiedProductId(productId);
-        productRepository.delete(findProduct);
-    }
-
-    public List<Product> setRecommendProductsAtLeastOne(List<Category> categories){
+    public List<Product> setRecommendedProductsAtLeastOne(List<Category> categories){
         List<Product> recommends = new ArrayList<Product>(categories.size());
         int returnSize = 10;
         int remainSize = returnSize - categories.size();  //3
@@ -330,7 +263,7 @@ public class ProductService {
         }
         return recommends;
     }
-    public List<Product> setRecommendProducts(Category category){
+    public List<Product> setRecommendedProducts(Category category){
 
         // 2. 로그인 완료, 선택된 카테고리가 있는 회원 && 선택된 카테고리에 연결된 상품이 10개 이상
         // -> 선택된 카테고리에 해당하는 랜덤 상품 10가지
@@ -349,6 +282,9 @@ public class ProductService {
         return recommends;
     }
 
-
+    public void deleteProduct(long productId){
+        Product findProduct = findVerifiedProductId(productId);
+        productRepository.delete(findProduct);
+    }
 
 }

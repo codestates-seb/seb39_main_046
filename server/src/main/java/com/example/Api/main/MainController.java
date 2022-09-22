@@ -7,7 +7,6 @@ import com.example.Api.member.Member;
 import com.example.Api.member.MemberService;
 import com.example.Api.product.Product;
 import com.example.Api.product.ProductService;
-import com.example.Api.response.MultiResponseDto;
 import com.example.Api.review.Review;
 import com.example.Api.review.ReviewService;
 import io.swagger.annotations.ApiOperation;
@@ -16,7 +15,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -48,27 +46,39 @@ public class MainController {
     @GetMapping
     public ResponseEntity getMain(HttpServletRequest request){
 
-        //top5 데이터 세팅
-        List<Product> top5 = new ArrayList<>();
-        List<Product> products = productService.findAllProduct(Sort.by(Sort.Direction.DESC, "hearts"));
+        //전체 top5 데이터 세팅
+        String company = "all";
+        List<Product> top5 = top5 = productService.getTop5Products(company);
 
-        long minReviews = 10;
 
-        for(int i =0 ;i<products.size();i++){
-            if(products.get(i).getReviews()<minReviews){
-                products.remove(i);
+        // 추천 상품 세팅
+        int status = 0;
+        List<Product> recommends = new ArrayList<>();
+        boolean loginStatus = memberService.memberCheck(request);
+        //현재 상태 비회원이면 true,  회원일시 false  반환
+
+        if (loginStatus) {   //비회원일 때
+            status = 1;
+            List<Category> allCategories = categoryService.findAllCategoryAsList();
+            //연결된 상품이 최소 1개라도 있는 카테고리들로 리스트 만들기
+            List<Category> atLeastOne = categoryService.checkAtLeastOneProduct(allCategories);
+            recommends = productService.setRecommendedProductsAtLeastOne(atLeastOne);
+
+        }
+        else {
+            Member member = memberService.getLoginMember();
+            Category memberCategory = member.getCategory();
+            if((memberCategory == null) || (memberCategory.getProducts().size()<10)){
+                status = 1;
+                List<Category> allCategories = categoryService.findAllCategoryAsList();
+                //연결된 상품이 최소 1개라도 있는 카테고리들로 리스트 만들기
+                List<Category> atLeastOne = categoryService.checkAtLeastOneProduct(allCategories);
+                recommends = productService.setRecommendedProductsAtLeastOne(atLeastOne);
             }
-        }
-        int maxCount = 0;
-        if(products.size()>=5){
-            maxCount = 5;
-        }
-        else{
-            maxCount = products.size();
-        }
-        for(int i = 0 ; i<maxCount; i++){
-            Product product = products.get(i);
-            top5.add(product);
+            else {
+                status = 2;
+                recommends = productService.setRecommendedProducts(memberCategory);
+            }
         }
 
         // 베스트리뷰 데이터 세팅
@@ -76,7 +86,7 @@ public class MainController {
         List<Review> bestReviews = new ArrayList<>();
         List<Review> reviewList = reviewService.findAllReviews(Sort.by(Sort.Direction.DESC, "hearts"));
 
-        //최소 좋아요수 (10) 이하인 상품들은 제거
+        //최소 좋아요수 (10) 이하인 리뷰들은 제거
         long minHearts = 10;
         for(int i =0 ;i<reviewList.size();i++){
             if(reviewList.get(i).getHearts()<minHearts){
@@ -94,59 +104,6 @@ public class MainController {
         for(int i = 0 ; i<maxCount2; i++){
             Review review = reviewList.get(i);
             bestReviews.add(review);
-        }
-
-        // 추천 상품 세팅
-        int status = 0;
-        List<Product> recommends = new ArrayList<>();
-
-        if (memberService.memberCheck(request)){
-
-            status = 1;
-            List<Category> allCategories = categoryService.findAllCategoryAsList();
-
-            //연결된 상품이 최소 1개라도 있는 카테고리들
-            List<Category> atLeastOne = new ArrayList<>();
-            for(Category category: allCategories){
-                if(category.getProducts().isEmpty()){
-                    continue;
-                }
-                atLeastOne.add(category);
-            }
-
-            recommends = productService.setRecommendProductsAtLeastOne(atLeastOne);
-
-            return new ResponseEntity<>(
-                    new MainResponseDto<>(top5,recommends, bestReviews),
-                    HttpStatus.OK);
-        }
-
-        else if (memberService.getLoginMember().getCategory() == null || memberService.getLoginMember().getCategory().getProducts().size()<10) {
-
-
-            status = 1;
-            List<Category> allCategories = categoryService.findAllCategoryAsList();
-
-            //연결된 상품이 최소 1개라도 있는 카테고리들
-            List<Category> atLeastOne = new ArrayList<>();
-            for(Category category: allCategories){
-                if(category.getProducts().isEmpty()){
-                    continue;
-                }
-                atLeastOne.add(category);
-            }
-
-            recommends = productService.setRecommendProductsAtLeastOne(atLeastOne);
-
-            return new ResponseEntity<>(
-                    new MainResponseDto<>(top5,recommends, bestReviews),
-                    HttpStatus.OK);
-        }
-
-
-        else{ Category memberCategory = memberService.getLoginMember().getCategory();
-            status = 2;
-            recommends = productService.setRecommendProducts(memberCategory);
         }
 
 
