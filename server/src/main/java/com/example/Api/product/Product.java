@@ -2,7 +2,6 @@ package com.example.Api.product;
 
 import com.example.Api.audit.Auditable;
 import com.example.Api.category.Category;
-import com.example.Api.member.ProductHeart;
 import com.example.Api.review.Review;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
@@ -11,7 +10,6 @@ import lombok.ToString;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,15 +43,8 @@ public class Product extends Auditable {
     @Column
     private long reviews = 0;
 
-    //( member (1) ) : category (1) : product (N) // 상품 추천 기능
-
-
-    //product(1) : review (N) // 상품에 대한 리뷰 작성 기능
-    //private List<Review> reviewList = new ArrayList<>();*/
-
-    //member (1)  : productHeart ( N ) : product(1)  //상품 좋아요 기능
-    // 회원 기준으로 좋아요한 상품 출력만 구현할 예정
-    // 상품 기준으로 좋아요한 회원 출력 기능은 미구현
+    @Transient
+    private boolean heartFlag;
 
     @ManyToOne
     @JoinColumn(name = "category_id")

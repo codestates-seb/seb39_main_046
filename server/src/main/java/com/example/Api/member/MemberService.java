@@ -23,20 +23,20 @@ public class MemberService {
 
     @PostConstruct
     public void init(){
-        String password = bCryptPasswordEncoder.encode("asd");
-        Member member1 = new Member(1L,"kcd1@gmail.com","관리자1",password);
+        String password = bCryptPasswordEncoder.encode("abcd");
+        Member member1 = new Member(1L,"a@gmail.com","관리자1",password);
         member1.setRoles("ROLE_ADMIN");
         memberRepository.save(member1);
-        Member member2 = new Member(2L,"kcd2@gmail.com","관리자2",password);
+        Member member2 = new Member(2L,"b@gmail.com","관리자2",password);
         member2.setRoles("ROLE_ADMIN");
         memberRepository.save(member2);
-        Member member3 = new Member(3L,"kcd3@gmail.com","관리자3",password);
+        Member member3 = new Member(3L,"b@gmail.com","관리자3",password);
         member3.setRoles("ROLE_ADMIN");
         memberRepository.save(member3);
-        Member member4 = new Member(4L,"kcd4@gmail.com","관리자4",password);
+        Member member4 = new Member(4L,"c@gmail.com","관리자4",password);
         member4.setRoles("ROLE_ADMIN");
         memberRepository.save(member4);
-        Member member5 = new Member(5L,"kcd5@gmail.com","관리자5",password);
+        Member member5 = new Member(5L,"d@gmail.com","관리자5",password);
         member5.setRoles("ROLE_ADMIN");
         memberRepository.save(member5);
         }

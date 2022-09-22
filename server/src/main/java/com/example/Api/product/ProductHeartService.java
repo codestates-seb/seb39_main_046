@@ -1,7 +1,7 @@
-package com.example.Api.member;
+package com.example.Api.product;
 
-import com.example.Api.product.Product;
-import com.example.Api.product.ProductRepository;
+import com.example.Api.member.Member;
+import com.example.Api.member.MemberRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

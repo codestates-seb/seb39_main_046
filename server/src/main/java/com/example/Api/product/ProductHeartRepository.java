@@ -1,6 +1,6 @@
-package com.example.Api.member;
+package com.example.Api.product;
 
-import com.example.Api.product.Product;
+import com.example.Api.member.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

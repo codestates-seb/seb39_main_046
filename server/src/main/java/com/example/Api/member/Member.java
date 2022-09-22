@@ -2,6 +2,7 @@ package com.example.Api.member;
 
 import com.example.Api.audit.Auditable;
 import com.example.Api.category.Category;
+import com.example.Api.product.ProductHeart;
 import com.example.Api.review.Review;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;

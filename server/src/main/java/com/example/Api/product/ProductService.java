@@ -1,7 +1,6 @@
 package com.example.Api.product;
 
 import com.example.Api.category.Category;
-import com.example.Api.member.ProductHeartRepository;
 import com.example.Api.specification.ProductSpecification;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -281,6 +280,8 @@ public class ProductService {
 
         return recommends;
     }
+
+
 
     public void deleteProduct(long productId){
         Product findProduct = findVerifiedProductId(productId);

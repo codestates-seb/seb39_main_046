@@ -18,6 +18,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.parameters.P;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -135,8 +136,6 @@ public class ProductController {
             throw new RuntimeException("파일 등록 실패");
         }
         else{
-            /*return productList;*/
-            /*return dataList;*/
             products = productList;
             return new ResponseEntity<>(products, HttpStatus.CREATED);
         }
@@ -146,9 +145,19 @@ public class ProductController {
     @ApiOperation(value = "상품명 검색(productName)",
             notes = "✅ 상품을 검색합니다.\n - \n " )
     @GetMapping
-    public ResponseEntity getProductByProductName(@Parameter(name = "productName") @RequestParam String productName){
+    public ResponseEntity getProductByProductName(@Parameter(name = "productName") @RequestParam String productName,
+                                                  HttpServletRequest request){
 
         Product product = productService.findVerifiedProductName(productName);
+
+        boolean loginStatus = memberService.memberCheck(request);
+        //현재 상태 비회원이면 true,  회원일시 false  반환
+        if (loginStatus) {   //비회원일 때
+            product.setHeartFlag(false); // 좋아요 상태 OFF
+        }
+        else{
+            checkHeartFlag(memberService.getLoginMember(),product);
+        }
 
         return new ResponseEntity<>(product, HttpStatus.OK);
     }
@@ -159,7 +168,8 @@ public class ProductController {
     @PatchMapping("/admin")
     public ResponseEntity patchProduct(
                                 @RequestParam long productId,
-                                @Valid @RequestBody ProductPatchDto productPatchDto){
+                                @Valid @RequestBody ProductPatchDto productPatchDto,
+                                HttpServletRequest request){
         //상품 원본
         Product product = productService.findVerifiedProductId(productId);
         // 연결된 카테고리
@@ -167,10 +177,17 @@ public class ProductController {
 
         Product patchProduct = productMapper.productPatchDtoToProduct(product,productPatchDto,category);
 
+        Product result = productService.updateProduct(product, patchProduct);
 
-        productService.updateProduct(product, patchProduct);
-
-        return new ResponseEntity<>(product, HttpStatus.OK);
+        boolean loginStatus = memberService.memberCheck(request);
+        //현재 상태 비회원이면 true,  회원일시 false  반환
+        if (loginStatus) {   //비회원일 때
+            result.setHeartFlag(false); // 좋아요 상태 OFF
+        }
+        else{
+            checkHeartFlag(memberService.getLoginMember(),result);
+        }
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @ApiOperation(value = "상품 삭제",
@@ -184,10 +201,11 @@ public class ProductController {
     }
 
 
-    @ApiOperation(value = "상품 조회 (상세 페이지 )",
+    @ApiOperation(value = "상품 조회 (상세 페이지 (product page) )",
             notes = "✅ 상품의 상세 페이지로 이동합니다. (조회수 1 증가)\",.\n - \n " )
     @GetMapping("/{product-id}")
-    public ResponseEntity getProductByProductName(@PathVariable("product-id") @Positive long productId){
+    public ResponseEntity getProductByProductName(@PathVariable("product-id") @Positive long productId,
+                                                  HttpServletRequest request){
         //해당 상품  + 리뷰
         Product product = productService.findVerifiedProductId(productId);
         Product updatedProduct = product;
@@ -201,12 +219,19 @@ public class ProductController {
         List<Review> reviewList = pageReviews.getContent();
 
 
-        /*return new ResponseEntity<>(addedViews, HttpStatus.OK);*/
+        boolean loginStatus = memberService.memberCheck(request);
+        //현재 상태 비회원이면 true,  회원일시 false  반환
+        if (loginStatus) {   //비회원일 때
+            product1.setHeartFlag(false); // 좋아요 상태 OFF
+        }
+        else{
+            checkHeartFlag(memberService.getLoginMember(),product1);
+        }
+
         return new ResponseEntity<>(
                 new ProductDetailResponseDto<>(product1,new MultiResponseDto<>(reviewList,pageReviews)),
                 HttpStatus.OK);
     }
-
 
     @ApiOperation(value = "상품의 좋아요수 / 리뷰수 / 조회수 랜덤 세팅",
             notes = "✅ 상품의 정보(좋아요수 / 리뷰수 / 조회수)를 랜덤으로 세팅합니다.\",.\n - \n " )
@@ -226,8 +251,8 @@ public class ProductController {
 
             productService.updateProduct(originalProduct,updatedProduct);
             products.set(i,updatedProduct);
-            /*productService.setRandomValues(products.get(i));*/
         }
+
         return new ResponseEntity<>(products, HttpStatus.OK);
     }
 
@@ -235,16 +260,24 @@ public class ProductController {
     @ApiOperation(value = " TOP5 상품 조회",
             notes = "✅ TOP 5 상품의 정보를 조회합니다.\n - \n " )
     @GetMapping("/top5")
-    public ResponseEntity getTop5Products(@RequestParam String company){
+    public ResponseEntity getTop5Products(@RequestParam String company,
+                                          HttpServletRequest request){
 
         List<Product> top5 = new ArrayList<>();
         if(company.equals(" ")){  // 전체 상품 중 TOP5 뽑기
             company = "all";
             top5 = productService.getTop5Products(company);
-
         }
         else{  // 회사별 TOP5 뽑기
             top5 = productService.getTop5Products(company);
+        }
+        boolean loginStatus = memberService.memberCheck(request);
+        //현재 상태 비회원이면 true,  회원일시 false  반환
+        if(loginStatus){
+            checkHeartFlagsNotLongin(top5);
+        }
+        else{
+            checkHeartFlagsLogin(memberService.getLoginMember(),top5);
         }
         return new ResponseEntity<>(top5, HttpStatus.OK);
     }
@@ -256,7 +289,8 @@ public class ProductController {
     @GetMapping("/allByCompany/{method-id}")
     public ResponseEntity getProductRankingPage(@PathVariable("method-id") @Positive int methodId,
                                                @RequestParam String company,
-                                               @Positive @RequestParam int page) {
+                                               @Positive @RequestParam int page,
+                                                HttpServletRequest request) {
         // 메인 페이지에서 top5 전체 보기 눌렀을 때 나오는 초기 랭킹 페이지
 
         // top 5 + 페이징 처리되어있는 20개의 데이터 (@GetMapping("/all/{category-id}/{method-id}")로 정렬 가능)
@@ -286,10 +320,22 @@ public class ProductController {
             productList = pageProducts.getContent();
         }
 
+        boolean loginStatus = memberService.memberCheck(request);
+        //현재 상태 비회원이면 true,  회원일시 false  반환
+        if(loginStatus){
+            checkHeartFlagsNotLongin(top5);
+            checkHeartFlagsNotLongin(productList);
+        }
+        else{
+            checkHeartFlagsLogin(memberService.getLoginMember(),top5);
+            checkHeartFlagsLogin(memberService.getLoginMember(),productList);
+        }
+
         return new ResponseEntity<>(
                 new ProductRankingResponseDto<>(top5,new MultiResponseDto<>(productList, pageProducts)),
                 HttpStatus.OK);
     }
+
 
     @ApiOperation(value = "회사별 전체 상품 카테고리별 정렬 기능(랭킹 페이지 하위 20개 데이터)",
             notes = "✅ 입력받은 카테고리에 해당하는 회사별 모든 상품들을 조회합니다.\n " +
@@ -299,10 +345,10 @@ public class ProductController {
     public ResponseEntity getSortedProductsByCompanyAndCategory(@PathVariable("category-id") @Positive int categoryId,
                                                           @PathVariable("method-id") @Positive int methodId,
                                                           @RequestParam String company,
-                                                          @Positive @RequestParam int page) {
+                                                          @Positive @RequestParam int page,
+                                                          HttpServletRequest request) {
         // 랭킹 페이지 아래 20개 데이터 정렬 요청
-        // 카테고리Id에 해당하지 않는 경우 처리 필요
-        // 데이터 부족한 경우 고려해라...
+
         size = 20;
         Category category = categoryService.findVerifiedCategoryId(categoryId);
         Page<Product> pageProducts;
@@ -320,11 +366,19 @@ public class ProductController {
             productList = pageProducts.getContent();
         }
 
+        boolean loginStatus = memberService.memberCheck(request);
+        //현재 상태 비회원이면 true,  회원일시 false  반환
+        if(loginStatus){
+            checkHeartFlagsNotLongin(productList);
+        }
+        else{
+            checkHeartFlagsLogin(memberService.getLoginMember(),productList);
+        }
+
         return new ResponseEntity<>(
                 new MultiResponseDto<>(productList, pageProducts),
                 HttpStatus.OK);
     }
-
 
 
     @ApiOperation(value = "추천 상품 조회",
@@ -344,6 +398,7 @@ public class ProductController {
             //연결된 상품이 최소 1개라도 있는 카테고리들로 리스트 만들기
             List<Category> atLeastOne = categoryService.checkAtLeastOneProduct(allCategories);
             recommends = productService.setRecommendedProductsAtLeastOne(atLeastOne);
+            checkHeartFlagsNotLongin(recommends);
 
         }
         else {
@@ -360,17 +415,12 @@ public class ProductController {
                 status = 2;
                 recommends = productService.setRecommendedProducts(memberCategory);
             }
+            checkHeartFlagsLogin(member,recommends);
         }
         return new ResponseEntity<>(recommends, HttpStatus.OK);
     }
 
-    /*
-    # POST("/{member-id}") , Request Parmeters : long productId
-    : 일반 사용자가 상품 좋아요 등록 / 취소
 
-    - 현재 회원이 해당 상품에 좋아요를 누르지 않았다면 -> 새로운 productHeart 등록, product 테이블의 hearts +1
-    - 현재 회원이 해당 상품에 이미 좋아요를 눌렀다면 -> 해당하는 productHeartId의 값 DB에서 삭제, product 테이블의 hearts -1
-    */
     @ApiOperation(value = "좋아요 등록 / 취소",
             notes = "✅ 입력 받은 productId에 해당하는 상품에 좋아요를 등록합니다..\n  - \n " )
     @PostMapping("/heart")
@@ -428,5 +478,33 @@ public class ProductController {
                 new ResponseEntity<>("좋아요가 등록되었습니다",HttpStatus.OK)
                 : new ResponseEntity<>("좋아요가 취소되었습니다",HttpStatus.OK);
 
+    }
+
+    public void checkHeartFlag( Member member, Product product){
+        if(productHeartService.checkAlreadyHeart(member,product)){
+            //이미 눌렀으면 false, 누르지 않았다면 true
+            product.setHeartFlag(false);
+        }
+        else{
+            product.setHeartFlag(true);
+        }
+    }
+
+    public void checkHeartFlagsNotLongin(List<Product> products){
+        for(Product product : products){
+            product.setHeartFlag(false); // 좋아요 상태 OFF
+        }
+    }
+    public void checkHeartFlagsLogin(Member member, List<Product> products){
+
+        for(Product product : products){
+            if(productHeartService.checkAlreadyHeart(member,product)){
+                //이미 눌렀으면 false, 누르지 않았다면 true
+                product.setHeartFlag(false);
+            }
+            else{
+                product.setHeartFlag(true);
+            }
+        }
     }
 }

@@ -1,5 +1,6 @@
-package com.example.Api.member;
+package com.example.Api.product;
 
+import com.example.Api.member.Member;
 import com.example.Api.product.Product;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
