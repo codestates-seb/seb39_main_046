@@ -235,31 +235,15 @@ public class ProductController {
             notes = "✅ TOP 5 상품의 정보를 조회합니다.\n - \n " )
     @GetMapping("/top5")
     public ResponseEntity getTop5Products(@RequestParam String company){
+
         List<Product> top5 = new ArrayList<>();
         if(company.equals(" ")){  // 전체 상품 중 TOP5 뽑기
-            List<Product> products = productService.findAllProduct(Sort.by(Sort.Direction.DESC, "hearts"));
-            //최소 리뷰수 (10) 이하인 상품들은 제거
-            long minReivews = 10;
+            company = "all";
+            top5 = productService.getTop5Products(company);
 
-            for(int i =0 ;i<products.size();i++){
-                if(products.get(i).getReviews()<minReivews){
-                    products.remove(i);
-                }
-            }
-            int maxCount = 0;
-            if(products.size()>=5){
-                maxCount = 5;
-            }
-            else{
-                maxCount = products.size();
-            }
-            for(int i = 0 ; i<maxCount; i++){
-                Product product = products.get(i);
-                top5.add(product);
-            }
         }
         else{  // 회사별 TOP5 뽑기
-            top5 = productService.findProductsByCompany(company);
+            top5 = productService.getTop5Products(company);
         }
         return new ResponseEntity<>(top5, HttpStatus.OK);
     }
@@ -300,9 +284,10 @@ public class ProductController {
                 HttpStatus.OK);
     }*/
 
-    @ApiOperation(value = "회사별 전체 상품 조회",
+    @ApiOperation(value = "회사별 전체 상품 조회( 랭킹 페이지 )",
             notes = "✅ 회사별 모든 상품을 조회합니다.\n " +
-                    "company에 공백 입력 시 전체 상품 조회\n - \n " )
+                    "company에 공백 입력 시 전체 상품 조회\n " +
+                    "methodId (1 : 좋아요순 / 2: 리뷰순 / 3. 조회순 / 그 외: 최신순)\n - \n " )
     @GetMapping("/allByCompany/{method-id}")
     public ResponseEntity getProductsByCompany(@PathVariable("method-id") @Positive int methodId,
                                                @RequestParam String company,
@@ -316,38 +301,24 @@ public class ProductController {
         Page<Product> pageProducts;
         List<Product> productList;
 
-        if(company.equals(" ")){  // 전체 랭킹 페이지  --> productService에 구현
-
-            // 전체 top5 세팅
-            List<Product> products = productService.findAllProduct(Sort.by(Sort.Direction.DESC, "hearts"));
-            //최소 리뷰수 (10) 이하인 상품들은 제거
-            long minReivews = 10;
-
-            for(int i =0 ;i<products.size();i++){
-                if(products.get(i).getReviews()<minReivews){
-                    products.remove(i);
-                }
-            }
-            int maxCount = 0;
-            if(products.size()>=5){
-                maxCount = 5;
-            }
-            else{
-                maxCount = products.size();
-            }
-            for(int i = 0 ; i<maxCount; i++){
-                Product product = products.get(i);
-                top5.add(product);
-            }
-            // 페이징 처리된 20개의 데이터
-            pageProducts = productService.findAllProductByMethod(page-1,size,methodId);
-            productList = pageProducts.getContent();
-        }
-
         // 회사별 랭킹 페이지
+        if((company.equals("CU"))|| (company.equals("GS25")) || (company.equals("7-ELEVEN"))){
+
+            //top 5 세팅
+            top5 = productService.getTop5Products(company);
+            // 페이징 처리된 20개의 데이터, 1페이지
+            pageProducts = productService.getTop20ProductsPage(page-1,size,methodId, company);
+            productList = pageProducts.getContent();
+
+        }
+        //11
+        // 전체 랭킹 페이지
         else {
-            top5 = productService.findProductsByCompany(company);
-            pageProducts = productService.findAllByCompanyAndMethod(page-1,size,company,methodId);
+            company = "all";
+            //top 5 세팅
+            top5 = productService.getTop5Products(company);
+            // 페이징 처리된 20개의 데이터, 1페이지
+            pageProducts = productService.getTop20ProductsPage(page-1,size,methodId, company);
             productList = pageProducts.getContent();
         }
 
@@ -356,7 +327,7 @@ public class ProductController {
                 HttpStatus.OK);
     }
 
-    @ApiOperation(value = "회사별 전체 상품 카테고리별 조회",
+    @ApiOperation(value = "회사별 전체 상품 카테고리별 조회(랭킹 페이지 하위 20개 데이터)",
             notes = "✅ 입력받은 카테고리에 해당하는 회사별 모든 상품들을 조회합니다.\n " +
                     "    company에 공백 입력 시 전체 상품 카테고리별 조회\n - \n " )
     @GetMapping("/allByCompany/{category-id}/{method-id}")
