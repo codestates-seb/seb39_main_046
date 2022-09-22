@@ -13,10 +13,10 @@ import javax.persistence.Id;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class productHearts {
+public class ReviewHeart {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-
 
 }

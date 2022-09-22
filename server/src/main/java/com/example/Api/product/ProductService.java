@@ -1,6 +1,7 @@
 package com.example.Api.product;
 
 import com.example.Api.category.Category;
+import com.example.Api.member.ProductHeartRepository;
 import com.example.Api.specification.ProductSpecification;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -18,9 +19,12 @@ import java.util.Optional;
 public class ProductService {
 
     private final ProductRepository productRepository;
+    private final ProductHeartRepository productHeartRepository;
 
-    public ProductService(ProductRepository productRepository) {
+    public ProductService(ProductRepository productRepository,
+                          ProductHeartRepository productHeartRepository) {
         this.productRepository = productRepository;
+        this.productHeartRepository = productHeartRepository;
     }
 
     public Product createProduct(Product product){
@@ -38,34 +42,51 @@ public class ProductService {
         return result;
     }
 
-    public Product updateProduct(Product product, ProductPatchDto productPatchDto, Category category){
+    // 상품 정보 업데이트
+    public Product updateProduct(Product product, Product patchProduct){
+        //product : 원본 상품 , patchProduct : 수정된 상품 정보, productId는 동일
 
-        Optional.ofNullable(productPatchDto.getImageURL())
-                .ifPresent(ImageURL -> product.setImageURL(ImageURL));
-        Optional.ofNullable(productPatchDto.getProductName())
-                .ifPresent(ProductName -> product.setProductName(ProductName));
-        Optional.ofNullable(productPatchDto.getPrice())
-                .ifPresent(Price -> product.setPrice(Price));
-        Optional.ofNullable(category)
+        Optional.ofNullable(patchProduct.getImageURL())
+                .ifPresent(imageURL -> product.setImageURL(imageURL));
+        Optional.ofNullable(patchProduct.getProductName())
+                .ifPresent(productName -> product.setProductName(productName));
+        Optional.ofNullable(patchProduct.getPrice())
+                .ifPresent(price -> product.setPrice(price));
+        Optional.ofNullable(patchProduct.getCompany())
+                .ifPresent(company -> product.setCompany(company));
+        Optional.ofNullable(patchProduct.getCategory())
                 .ifPresent(Category -> product.setCategory(Category));
+        Optional.ofNullable(patchProduct.getViews())
+                .ifPresent(views -> product.setViews(views));
+        Optional.ofNullable(patchProduct.getHearts())
+                .ifPresent(hearts -> product.setHearts(hearts));
+        Optional.ofNullable(patchProduct.getReviews())
+                .ifPresent(reviews -> product.setReviews(reviews));
+        Optional.ofNullable(patchProduct.getReviewList())
+                .ifPresent(reviewList->product.setReviewList(reviewList));
+        Optional.ofNullable(patchProduct.getProductHearts())
+                .ifPresent(productHearts -> product.setProductHearts(productHearts));
+
 
         return productRepository.save(product);
 
     }
 
-    public Product updateViews(Product product, long calculatedViews){
+   /* public Product updateViews(Product product, long calculatedViews){
 
         Optional.ofNullable(product.getViews())
                 .ifPresent(views -> product.setViews(calculatedViews));
+
         return productRepository.save(product);
-    }
+    }*/
 
-    public Product updateReviews(Product product, long calculatedViews){
+    /*public Product updateReviews(Product product, long calculatedViews){
 
+        Product updatedProduct = new Product();
         Optional.ofNullable(product.getReviews())
                 .ifPresent(reviews -> product.setReviews(calculatedViews));
         return productRepository.save(product);
-    }
+    }*/
 
 
 
@@ -110,7 +131,7 @@ public class ProductService {
         return productRepository.findAll(hearts);
     }
 
-    public void setRandomValues(Product product){
+    /*public void setRandomValues(Product product){
         Product findProduct = findVerifiedProductId(product.getProductId());
 
         Optional.ofNullable(product.getHearts())
@@ -121,7 +142,7 @@ public class ProductService {
                 .ifPresent(views -> findProduct.setViews(views));
 
         productRepository.save(findProduct);
-    }
+    }*/
 
     public List<Product> findProductsByCompany(String company){
         List<Product> productList = productRepository.findAllByCompany(company, Sort.by(Sort.Direction.DESC, "hearts"));
@@ -284,6 +305,7 @@ public class ProductService {
 
         return recommends;
     }
+
 
 
 }

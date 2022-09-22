@@ -2,10 +2,12 @@ package com.example.Api.product;
 
 import com.example.Api.audit.Auditable;
 import com.example.Api.category.Category;
+import com.example.Api.member.ProductHeart;
 import com.example.Api.review.Review;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -17,6 +19,7 @@ import java.util.List;
 /*@AllArgsConstructor*/
 @NoArgsConstructor
 @Entity
+@ToString(exclude = {"reviewList","productHearts"})
 public class Product extends Auditable {
 
     /*
@@ -60,6 +63,11 @@ public class Product extends Auditable {
     @OneToMany(mappedBy = "product",cascade = CascadeType.ALL)
     @JsonIgnore
     private List<Review> reviewList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+    @JsonIgnore
+    private List<ProductHeart> productHearts = new ArrayList<>();
+
     public long addViews(){
         views+=1;
         return views;
@@ -71,6 +79,15 @@ public class Product extends Auditable {
     public long withdrawReviews(){
         reviews-=1;
         return reviews;
+    }
+
+    public long addHearts(){
+        hearts+=1;
+        return hearts;
+    }
+    public long withdrawHearts(){
+        hearts-=1;
+        return hearts;
     }
 
 

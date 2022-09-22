@@ -2,9 +2,7 @@ package com.example.Api.product;
 
 import com.example.Api.category.Category;
 import com.example.Api.category.CategoryService;
-import com.example.Api.member.Member;
-import com.example.Api.member.MemberService;
-import com.example.Api.member.MyPageResponseDto;
+import com.example.Api.member.*;
 import com.example.Api.response.MultiResponseDto;
 import com.example.Api.review.Review;
 import com.example.Api.review.ReviewService;
@@ -45,16 +43,19 @@ public class ProductController {
 
     private final ReviewService reviewService;
 
+    private final ProductHeartService productHeartService;
+
     private int size = 0;
 
     public ProductController(ProductMapper productMapper, ProductService productService,
                              CategoryService categoryService, MemberService memberService,
-                             ReviewService reviewService){
+                             ReviewService reviewService, ProductHeartService productHeartService){
         this.productMapper = productMapper;
         this.productService = productService;
         this.categoryService = categoryService;
         this.memberService = memberService;
         this.reviewService = reviewService;
+        this.productHeartService = productHeartService;
 
     }
 
@@ -158,11 +159,15 @@ public class ProductController {
     public ResponseEntity patchProduct(
                                 @RequestParam long productId,
                                 @Valid @RequestBody ProductPatchDto productPatchDto){
-
+        //상품 원본
         Product product = productService.findVerifiedProductId(productId);
+        // 연결된 카테고리
         Category category = categoryService.findCategoryByCategoryName(productPatchDto.getCategoryName());
 
-        productService.updateProduct(product, productPatchDto, category);
+        Product patchProduct = productMapper.productPatchDtoToProduct(product,productPatchDto,category);
+
+
+        productService.updateProduct(product, patchProduct);
 
         return new ResponseEntity<>(product, HttpStatus.OK);
     }
@@ -177,13 +182,6 @@ public class ProductController {
 
     }
 
-    /*
-    # POST("/{member-id}") , Request Parmeters : long productId
-    : 일반 사용자가 상품 좋아요 등록 / 취소
-
-    - 현재 회원이 해당 상품에 좋아요를 누르지 않았다면 -> 새로운 productHeart 등록, product 테이블의 hearts +1
-    - 현재 회원이 해당 상품에 이미 좋아요를 눌렀다면 -> 해당하는 productHeartId의 값 DB에서 삭제, product 테이블의 hearts -1
-    */
 
     @ApiOperation(value = "상품 조회 (상세 페이지 )",
             notes = "✅ 상품의 상세 페이지로 이동합니다. (조회수 1 증가)\",.\n - \n " )
@@ -191,19 +189,20 @@ public class ProductController {
     public ResponseEntity getProductByProductName(@PathVariable("product-id") @Positive long productId){
         //해당 상품  + 리뷰
         Product product = productService.findVerifiedProductId(productId);
-        long calculatedViews = product.addViews();
-        Product addedViews = productService.updateViews(product,calculatedViews);
+        Product updatedProduct = product;
+        updatedProduct.addViews();
+        Product product1 = productService.updateProduct(product,updatedProduct);
 
         int page = 1;
         size = 10;
         int methodId = 4;
-        Page<Review> pageReviews = reviewService.findAllByProductAndMethod(page-1,size,addedViews,methodId);
+        Page<Review> pageReviews = reviewService.findAllByProductAndMethod(page-1,size,product1,methodId);
         List<Review> reviewList = pageReviews.getContent();
 
 
         /*return new ResponseEntity<>(addedViews, HttpStatus.OK);*/
         return new ResponseEntity<>(
-                new ProductDetailResponseDto<>(addedViews,new MultiResponseDto<>(reviewList,pageReviews)),
+                new ProductDetailResponseDto<>(product1,new MultiResponseDto<>(reviewList,pageReviews)),
                 HttpStatus.OK);
     }
 
@@ -218,10 +217,15 @@ public class ProductController {
             long randomHearts = (long)(Math.random()*100);
             long randomReviews = (long)(Math.random()*100);
             long randomViews = (long)(Math.random()*100);
-            products.get(i).setHearts(randomHearts);
-            products.get(i).setReviews(randomReviews);
-            products.get(i).setViews(randomViews);
-            productService.setRandomValues(products.get(i));
+            Product originalProduct = products.get(i);
+            Product updatedProduct = products.get(i);
+            updatedProduct.setHearts(randomHearts);
+            updatedProduct.setReviews(randomReviews);
+            updatedProduct.setViews(randomViews);
+
+            productService.updateProduct(originalProduct,updatedProduct);
+            products.set(i,updatedProduct);
+            /*productService.setRandomValues(products.get(i));*/
         }
         return new ResponseEntity<>(products, HttpStatus.OK);
     }
@@ -361,7 +365,8 @@ public class ProductController {
                                                           @RequestParam String company,
                                                           @Positive @RequestParam int page) {
         // 랭킹 페이지 아래 20개 데이터 정렬 요청
-
+        // 카테고리Id에 해당하지 않는 경우 처리 필요
+        // 데이터 부족한 경우 고려해라...
         size = 20;
         Category category = categoryService.findVerifiedCategoryId(categoryId);
         Page<Product> pageProducts;
@@ -416,9 +421,68 @@ public class ProductController {
             recommends = productService.setRecommendProducts(memberCategory);
         }
 
-
-
         return new ResponseEntity<>(recommends, HttpStatus.OK);
     }
 
+    /*
+    # POST("/{member-id}") , Request Parmeters : long productId
+    : 일반 사용자가 상품 좋아요 등록 / 취소
+
+    - 현재 회원이 해당 상품에 좋아요를 누르지 않았다면 -> 새로운 productHeart 등록, product 테이블의 hearts +1
+    - 현재 회원이 해당 상품에 이미 좋아요를 눌렀다면 -> 해당하는 productHeartId의 값 DB에서 삭제, product 테이블의 hearts -1
+    */
+    @ApiOperation(value = "좋아요 등록",
+            notes = "✅ 입력 받은 productId에 해당하는 상품에 좋아요를 누릅니다..\n  - \n " )
+    @PostMapping("/heart")
+    public ResponseEntity getProductsByCompanyAndCategory(@RequestParam long productId) {
+        Member member = memberService.getLoginMember();
+        Product product = productService.findVerifiedProductId(productId);
+
+        ProductHeart productHeart = new ProductHeart();
+        boolean result = false;
+
+        if(member != null){ // 로그인한 상태일 때
+
+            //이미 좋아요를 누른 상품인지 아닌지 검사( 이미 좋아요가 있다면 false, 없다면 true )
+            boolean alreadyHeart = false;
+            alreadyHeart = productHeartService.checkAlreadyHeart(member,product);
+
+            if(alreadyHeart){ //해당 회원이 좋아요를 눌렀던 상품이 아닐 때
+
+                productHeart = productHeartService.addHeart(member,product,alreadyHeart);
+
+                //상품의 좋아요 수 1 증가
+                Product updatedProduct = product;
+                updatedProduct.getProductHearts().add(productHeart);
+                updatedProduct.addHearts();
+                productService.updateProduct(product, updatedProduct);
+
+                // 회원의 찜꽁바구니에 상품 추가
+                Member updatedMember = member;
+                updatedMember.getProductHearts().add(productHeart);
+                memberService.updateMember(member,updatedMember);
+
+                result = true;
+            }
+            else {  // 해당 회원이 이미 좋아요를 누른 상품일 때 -> 좋아요 취소
+                ProductHeart findProductHeart = productHeartService.findProductHeart(member,product);
+                productHeartService.cancelHeart(findProductHeart);
+
+                //상품의 좋아요 수 1 감소
+                Product updatedProduct = product;
+                updatedProduct.withdrawHearts();
+                productService.updateProduct(product,updatedProduct);
+                result = false;
+            }
+
+        }
+        else{ // 비로그인 상태일 때
+            throw new RuntimeException("로그인이 필요한 서비스입니다.");
+        }
+
+        return result?
+                new ResponseEntity<>("좋아요가 등록되었습니다",HttpStatus.OK)
+                : new ResponseEntity<>("좋아요가 취소되었습니다",HttpStatus.OK);
+
+    }
 }

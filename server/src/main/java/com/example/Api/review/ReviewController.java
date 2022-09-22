@@ -45,39 +45,28 @@ public class ReviewController {
     public ResponseEntity postReview(@PathVariable("product-id") @Positive long productId,
                                      @Validated @RequestBody ReviewPostDto reviewPostDto){
         Member writter = memberService.getLoginMember();
+
         Member  verifiedMember = memberService.findVerifiedMemberId(writter.getId());
         Product product = productService.findVerifiedProductId(productId);
-        long calculatedReviews = product.addReviews();
-        Product addedReviews = productService.updateReviews(product,calculatedReviews);
 
         Review review = new Review();
         review.setContent(reviewPostDto.getContent());
         review.setImageURL(reviewPostDto.getImageURL());
         review.setMember(writter);
-        review.setProduct(addedReviews);
+        review.setProduct(product);
         Review savedReview = reviewService.createReview(review);
+
+        // 리뷰 수 증가
+        Product updatedProduct = product;
+        updatedProduct.addReviews();
+        productService.updateProduct(product,updatedProduct);
+
+        /*long calculatedReviews = product.addReviews();
+        Product updatedProduct = productService.updateReviews(product,calculatedReviews);*/
 
         return new ResponseEntity<>(savedReview, HttpStatus.CREATED);
     }
 
-//    @PostMapping("/profile/{member-id}")
-//    @ApiOperation(value = "프로필 사진 추가")
-//    public ResponseEntity profile(@PathVariable("member-id") @Positive long memberId,@RequestPart("file")MultipartFile mfile) throws IOException {
-////이미지 저장 url 추가
-//
-//        Member member = new Member();
-//        try {
-//            if (member.getProfile() != null) { // 이미 프로필 사진이 있을경우
-//                File file = new File(urlPath + member.getProfile()); // 경로 + 유저 프로필사진 이름을 가져와서
-//                file.delete(); // 원래파일 삭제
-//            }
-//            mfile.transferTo(new File(urlPath + mfile.getOriginalFilename()));  // 경로에 업로드
-//        } catch (IllegalStateException | IOException e) {
-//            e.printStackTrace();
-//        }
-//        memberService.imgUpdate(memberId,mfile.getOriginalFilename());
-//return new ResponseEntity<>("등록 완료",HttpStatus.OK);
-//    }
 
 /*
 # POST("/{member-id}"), Request Parmeters : long reviewId
@@ -90,20 +79,20 @@ public class ReviewController {
 # PATCH("/{member-id}"), Request Parmeters : long reviewId
 : 리뷰 댓글 수정
 */
-    //수정 기능 확인 필요
     @ApiOperation(value = "리뷰 수정",
              notes = "✅ 리뷰를 수정합니다.\n - \n " )
     @PatchMapping("/{review-id}")
     public ResponseEntity patchReview(@PathVariable("review-id") @Positive long reviewId,
                                       @Validated @RequestBody ReviewPatchDto reviewPatchDto){
-        Review selectedReview = reviewService.findVerifiedReviewId(reviewId);
         Member editor = memberService.getLoginMember();
+
+        Member  verifiedMember = memberService.findVerifiedMemberId(editor.getId());
+        Review selectedReview = reviewService.findVerifiedReviewId(reviewId);
         Product product = productService.findVerifiedProductId(selectedReview.getProduct().getProductId());
 
         selectedReview.setContent(reviewPatchDto.getContent());
         selectedReview.setImageURL(reviewPatchDto.getImageURL());
         reviewService.updateReview(selectedReview, editor);
-
 
         return new ResponseEntity<>(selectedReview, HttpStatus.OK);
     }
@@ -116,14 +105,18 @@ public class ReviewController {
             notes = "✅ 리뷰를 삭제합니다.\n - \n " )
     @DeleteMapping("/{review-id}")
     public ResponseEntity deleteReview(@PathVariable("review-id") @Positive long reviewId){
-        Member member = memberService.getLoginMember();
-        Review findReview = reviewService.findVerifiedReviewId(reviewId);
 
+        Member member = memberService.getLoginMember();
+
+        Review findReview = reviewService.findVerifiedReviewId(reviewId);
         Product product = productService.findVerifiedProductId(findReview.getProduct().getProductId());
-        long calculatedReviews = product.withdrawReviews();
-        Product withdrawnReviews = productService.updateReviews(product,calculatedReviews);
-        /*findReview.setProduct(withdrawnReviews);*/
+
         reviewService.deleteReview(findReview,member);
+
+        // 리뷰 수 감소
+        Product updatedProduct = product;
+        updatedProduct.withdrawReviews();
+        productService.updateProduct(product,updatedProduct);
 
 
         return new ResponseEntity<>("리뷰 삭제 완료", HttpStatus.OK);

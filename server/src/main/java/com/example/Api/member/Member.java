@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -18,6 +19,7 @@ import java.util.List;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString(exclude = {"reviewList","productHearts"})
 public class Member extends Auditable {
 //1
     @Id
@@ -40,15 +42,25 @@ public class Member extends Auditable {
 
     private String roles; // User, MANAGER, ADMIN
 
+
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL) //REMOVE  PERSIST ALL
+    @JsonIgnore
+    private List<Review> reviewList= new ArrayList<>();
+
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    @JsonIgnore
+    private List<ProductHeart> productHearts = new ArrayList<>();
+
+    /*@OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    @JsonIgnore
+    private List<ReviewHeart> reviewHearts = new ArrayList<>();*/
+
     public List<String> getRoleList() {
         if(this.roles.length() > 0) {
             return Arrays.asList(this.roles.split(","));
         }
         return new ArrayList<>();
     }
-    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL) //REMOVE  PERSIST ALL
-    @JsonIgnore
-    private List<Review> reviewList= new ArrayList<>();
 
     public Member(long id,String username,String nickName,String password){
 
