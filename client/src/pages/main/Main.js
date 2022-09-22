@@ -6,10 +6,11 @@ import BestProdct from "../../components/bestProduct/BestProdct";
 import RecomendProduct from "../../components/bestProduct/RecomendProduct";
 import BestReview from "../../components/bestProduct/BestReview";
 import PbtiBanner from "../../components/common/banner/PbtiBanner";
-
+import HeartButton from "../../components/common/button/HeartButton";
 const Main = () => {
   return (
     <div>
+      <HeartButton />
       <Banner>
         <BHeader>
           흩어져있는 편의점 PB상품

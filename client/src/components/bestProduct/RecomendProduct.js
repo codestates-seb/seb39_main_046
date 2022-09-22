@@ -15,7 +15,7 @@ const RecomendProduct = () => {
     infinite: true,
     autoplay: true,
     autoplaySpeed: 1500,
-    speed: 1500,
+    speed: 2000,
     slidesToShow: 4,
     slidesToScroll: 2,
     initialSlide: 0,
