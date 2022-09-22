@@ -16,12 +16,12 @@ const BestProdct = () => {
           : completionWord[0];
         setCount(count + 1);
         if (count >= completionWord.length) {
-          setCount(0);
           setTitle("");
+          setCount(0);
         }
         return result;
       });
-    }, 300);
+    }, 150);
 
     return () => {
       clearInterval(typingInterval);

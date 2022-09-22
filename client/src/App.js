@@ -10,6 +10,7 @@ import FoodTestResult from "./components/foodTest/FoodTestResult";
 import Loading from "./components/common/loading/Loading";
 import Login from "./pages/member/LoginPage";
 import SingUp from "./pages/member/SingUp";
+import Mypage from "./pages/mypage/Mypage";
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -27,6 +28,7 @@ function App() {
           </Route>
           <Route path="/login" element={<Login />}></Route>
           <Route path="/singup" element={<SingUp />}></Route>
+          <Route path="/mypage" element={<Mypage/>}></Route>
           <Route path="*" element={<div>NotFound</div>} />
         </Route>
       </Routes>
