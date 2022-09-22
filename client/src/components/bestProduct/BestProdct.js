@@ -15,12 +15,10 @@ const BestProdct = () => {
           ? prevTitleValue + completionWord[count]
           : completionWord[0];
         setCount(count + 1);
-
         if (count >= completionWord.length) {
           setCount(0);
           setTitle("");
         }
-
         return result;
       });
     }, 300);
@@ -120,7 +118,7 @@ const Updiv = styled.div`
   justify-content: space-between;
   margin-top: 70px;
 `;
-const PickyPicky = styled.span`
+const PickyPicky = styled.p`
   text-align: center;
   line-height: 77px;
   font-weight: 700;

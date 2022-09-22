@@ -1,8 +1,47 @@
 import React, { Component } from "react";
 import styled from "styled-components";
 import PbtiBanner from "../common/PbtiBanner";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 const RecomendProduct = () => {
+  const settings = {
+    dots: true,
+    infinite: true,
+    autoplay : true,
+    autoplaySpeed : 2000,
+    speed: 1000,
+    slidesToShow: 4,
+    slidesToScroll: 4,
+    initialSlide: 0,
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 3,
+          slidesToScroll: 3,
+          infinite: true,
+          dots: true
+        }
+      },
+      {
+        breakpoint: 600,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 2,
+          initialSlide: 2
+        }
+      },
+      {
+        breakpoint: 480,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1
+        }
+      }
+    ]
+  };
   return (
     <div>
       <RecoProduct>
@@ -12,12 +51,12 @@ const RecomendProduct = () => {
       </RecoProduct>
       {/* 캐러셀 적용 하는 곳  */}
       <RecoProductsbar>
+        <Slider {...settings}>
         <ProductSection>
           <RecoProducts />
           <ProductsEx>
             <ProductCategory>category</ProductCategory>
             <ProductName>Product name</ProductName>
-            <div></div>
             <ProductPrice>5,300원</ProductPrice>
           </ProductsEx>
         </ProductSection>
@@ -26,7 +65,6 @@ const RecomendProduct = () => {
           <ProductsEx>
             <ProductCategory>category</ProductCategory>
             <ProductName>Product name</ProductName>
-            <div></div>
             <ProductPrice>5,300원</ProductPrice>
           </ProductsEx>
         </ProductSection>
@@ -35,7 +73,6 @@ const RecomendProduct = () => {
           <ProductsEx>
             <ProductCategory>category</ProductCategory>
             <ProductName>Product name</ProductName>
-            <div></div>
             <ProductPrice>5,300원</ProductPrice>
           </ProductsEx>
         </ProductSection>
@@ -44,10 +81,74 @@ const RecomendProduct = () => {
           <ProductsEx>
             <ProductCategory>category</ProductCategory>
             <ProductName>Product name</ProductName>
-            <div></div>
             <ProductPrice>5,300원</ProductPrice>
           </ProductsEx>
         </ProductSection>
+        <ProductSection>
+          <RecoProducts />
+          <ProductsEx>
+            <ProductCategory>category</ProductCategory>
+            <ProductName>Product name</ProductName>
+            <ProductPrice>5,300원</ProductPrice>
+          </ProductsEx>
+        </ProductSection>
+        <ProductSection>
+          <RecoProducts />
+          <ProductsEx>
+            <ProductCategory>category</ProductCategory>
+            <ProductName>Product name</ProductName>
+            <ProductPrice>5,300원</ProductPrice>
+          </ProductsEx>
+        </ProductSection>
+        <ProductSection>
+          <RecoProducts />
+          <ProductsEx>
+            <ProductCategory>category</ProductCategory>
+            <ProductName>Product name</ProductName>
+            <ProductPrice>5,300원</ProductPrice>
+          </ProductsEx>
+        </ProductSection>
+        <ProductSection>
+          <RecoProducts />
+          <ProductsEx>
+            <ProductCategory>category</ProductCategory>
+            <ProductName>Product name</ProductName>
+            <ProductPrice>5,300원</ProductPrice>
+          </ProductsEx>
+        </ProductSection>
+        <ProductSection>
+          <RecoProducts />
+          <ProductsEx>
+            <ProductCategory>category</ProductCategory>
+            <ProductName>Product name</ProductName>
+            <ProductPrice>5,300원</ProductPrice>
+          </ProductsEx>
+        </ProductSection>
+        <ProductSection>
+          <RecoProducts />
+          <ProductsEx>
+            <ProductCategory>category</ProductCategory>
+            <ProductName>Product name</ProductName>
+            <ProductPrice>5,300원</ProductPrice>
+          </ProductsEx>
+        </ProductSection>
+        <ProductSection>
+          <RecoProducts />
+          <ProductsEx>
+            <ProductCategory>category</ProductCategory>
+            <ProductName>Product name</ProductName>
+            <ProductPrice>5,300원</ProductPrice>
+          </ProductsEx>
+        </ProductSection>
+        <ProductSection>
+          <RecoProducts />
+          <ProductsEx>
+            <ProductCategory>category</ProductCategory>
+            <ProductName>Product name</ProductName>
+            <ProductPrice>5,300원</ProductPrice>
+          </ProductsEx>
+        </ProductSection>
+        </Slider>
       </RecoProductsbar>
       <PbtiBanner />
     </div>
@@ -77,10 +178,12 @@ const Reco = styled.div`
 `;
 
 const RecoProductsbar = styled.section`
-  display: flex;
+  /* display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: center; */
   margin-bottom: 100px;
+  margin-left : 250px;
+  margin-right: 250px;
 `;
 
 const ProductSection = styled.section`
@@ -92,12 +195,12 @@ const ProductSection = styled.section`
 `;
 
 const RecoProducts = styled.div`
-  width: 240px;
+  width: 100%;
   height: 240px;
   background: url("/character/상품준비 안됫음 .png");
   background-position: center;
   background-repeat: no-repeat;
-  background-size: 80% 80%;
+  background-size: 60% 90%;
   border-radius: 20px 20px 0 0;
 `;
 
@@ -115,15 +218,18 @@ const ProductsEx = styled.div`
 const ProductCategory = styled.p`
   font-size: ${({ theme }) => theme.fontSizes.xs};
   font-weight: 500;
+  text-align:center;
   color: ${({ theme }) => theme.colors.Orange_040};
 `;
 const ProductName = styled.p`
   font-size: ${({ theme }) => theme.fontSizes.base};
   font-weight: 700;
+  text-align:center;
   color: ${({ theme }) => theme.colors.Gray_090};
 `;
 const ProductPrice = styled.p`
   font-size: ${({ theme }) => theme.fontSizes.base};
   font-weight: 700;
+  text-align:center;
   color: ${({ theme }) => theme.colors.Gray_030};
 `;
