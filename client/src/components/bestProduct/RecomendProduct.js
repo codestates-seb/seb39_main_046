@@ -4,6 +4,10 @@ import Slider from "react-slick";
 import "./slick-theme.css";
 import "./slick.css";
 import RecommendReco from "../../assets/images/main/RecommendCharcter.png";
+import RecommendImg1 from "../../assets/images/main/Recommend-1.png";
+import RecommendImg2 from "../../assets/images/main/Recommend-2.png";
+import RecommendImg3 from "../../assets/images/main/Recommend-3.png";
+import RecommendImg4 from "../../assets/images/main/Recommend-4.png";
 
 const RecomendProduct = () => {
   const settings = {
@@ -180,9 +184,7 @@ const RTitle = styled.div`
 const RProductCarosel = styled.section`
   margin: 0 auto;
   width: 1280px;
-
   margin-bottom: 100px;
-
   margin-right: 250px;
 `;
 
@@ -210,7 +212,7 @@ const ProductsEx = styled.div`
   div {
     width: 100%;
     height: 1px;
-    background-color: ${({ theme }) => theme.colors.Gray_020};
+    background-color: ${({ theme }) => theme.colors.Gray_010};
     margin: 5px 0;
   }
 `;
