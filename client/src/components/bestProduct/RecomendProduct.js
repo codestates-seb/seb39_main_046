@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import styled from "styled-components";
-import PbtiBanner from "../common/PbtiBanner";
+import PbtiBanner from "../common/banner/PbtiBanner";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -9,8 +9,8 @@ const RecomendProduct = () => {
   const settings = {
     dots: true,
     infinite: true,
-    autoplay : true,
-    autoplaySpeed : 2000,
+    autoplay: true,
+    autoplaySpeed: 2000,
     speed: 1000,
     slidesToShow: 4,
     slidesToScroll: 4,
@@ -22,25 +22,25 @@ const RecomendProduct = () => {
           slidesToShow: 3,
           slidesToScroll: 3,
           infinite: true,
-          dots: true
-        }
+          dots: true,
+        },
       },
       {
         breakpoint: 600,
         settings: {
           slidesToShow: 2,
           slidesToScroll: 2,
-          initialSlide: 2
-        }
+          initialSlide: 2,
+        },
       },
       {
         breakpoint: 480,
         settings: {
           slidesToShow: 1,
-          slidesToScroll: 1
-        }
-      }
-    ]
+          slidesToScroll: 1,
+        },
+      },
+    ],
   };
   return (
     <div>
@@ -52,102 +52,102 @@ const RecomendProduct = () => {
       {/* 캐러셀 적용 하는 곳  */}
       <RecoProductsbar>
         <Slider {...settings}>
-        <ProductSection>
-          <RecoProducts />
-          <ProductsEx>
-            <ProductCategory>category</ProductCategory>
-            <ProductName>Product name</ProductName>
-            <ProductPrice>5,300원</ProductPrice>
-          </ProductsEx>
-        </ProductSection>
-        <ProductSection>
-          <RecoProducts />
-          <ProductsEx>
-            <ProductCategory>category</ProductCategory>
-            <ProductName>Product name</ProductName>
-            <ProductPrice>5,300원</ProductPrice>
-          </ProductsEx>
-        </ProductSection>
-        <ProductSection>
-          <RecoProducts />
-          <ProductsEx>
-            <ProductCategory>category</ProductCategory>
-            <ProductName>Product name</ProductName>
-            <ProductPrice>5,300원</ProductPrice>
-          </ProductsEx>
-        </ProductSection>
-        <ProductSection>
-          <RecoProducts />
-          <ProductsEx>
-            <ProductCategory>category</ProductCategory>
-            <ProductName>Product name</ProductName>
-            <ProductPrice>5,300원</ProductPrice>
-          </ProductsEx>
-        </ProductSection>
-        <ProductSection>
-          <RecoProducts />
-          <ProductsEx>
-            <ProductCategory>category</ProductCategory>
-            <ProductName>Product name</ProductName>
-            <ProductPrice>5,300원</ProductPrice>
-          </ProductsEx>
-        </ProductSection>
-        <ProductSection>
-          <RecoProducts />
-          <ProductsEx>
-            <ProductCategory>category</ProductCategory>
-            <ProductName>Product name</ProductName>
-            <ProductPrice>5,300원</ProductPrice>
-          </ProductsEx>
-        </ProductSection>
-        <ProductSection>
-          <RecoProducts />
-          <ProductsEx>
-            <ProductCategory>category</ProductCategory>
-            <ProductName>Product name</ProductName>
-            <ProductPrice>5,300원</ProductPrice>
-          </ProductsEx>
-        </ProductSection>
-        <ProductSection>
-          <RecoProducts />
-          <ProductsEx>
-            <ProductCategory>category</ProductCategory>
-            <ProductName>Product name</ProductName>
-            <ProductPrice>5,300원</ProductPrice>
-          </ProductsEx>
-        </ProductSection>
-        <ProductSection>
-          <RecoProducts />
-          <ProductsEx>
-            <ProductCategory>category</ProductCategory>
-            <ProductName>Product name</ProductName>
-            <ProductPrice>5,300원</ProductPrice>
-          </ProductsEx>
-        </ProductSection>
-        <ProductSection>
-          <RecoProducts />
-          <ProductsEx>
-            <ProductCategory>category</ProductCategory>
-            <ProductName>Product name</ProductName>
-            <ProductPrice>5,300원</ProductPrice>
-          </ProductsEx>
-        </ProductSection>
-        <ProductSection>
-          <RecoProducts />
-          <ProductsEx>
-            <ProductCategory>category</ProductCategory>
-            <ProductName>Product name</ProductName>
-            <ProductPrice>5,300원</ProductPrice>
-          </ProductsEx>
-        </ProductSection>
-        <ProductSection>
-          <RecoProducts />
-          <ProductsEx>
-            <ProductCategory>category</ProductCategory>
-            <ProductName>Product name</ProductName>
-            <ProductPrice>5,300원</ProductPrice>
-          </ProductsEx>
-        </ProductSection>
+          <ProductSection>
+            <RecoProducts />
+            <ProductsEx>
+              <ProductCategory>category</ProductCategory>
+              <ProductName>Product name</ProductName>
+              <ProductPrice>5,300원</ProductPrice>
+            </ProductsEx>
+          </ProductSection>
+          <ProductSection>
+            <RecoProducts />
+            <ProductsEx>
+              <ProductCategory>category</ProductCategory>
+              <ProductName>Product name</ProductName>
+              <ProductPrice>5,300원</ProductPrice>
+            </ProductsEx>
+          </ProductSection>
+          <ProductSection>
+            <RecoProducts />
+            <ProductsEx>
+              <ProductCategory>category</ProductCategory>
+              <ProductName>Product name</ProductName>
+              <ProductPrice>5,300원</ProductPrice>
+            </ProductsEx>
+          </ProductSection>
+          <ProductSection>
+            <RecoProducts />
+            <ProductsEx>
+              <ProductCategory>category</ProductCategory>
+              <ProductName>Product name</ProductName>
+              <ProductPrice>5,300원</ProductPrice>
+            </ProductsEx>
+          </ProductSection>
+          <ProductSection>
+            <RecoProducts />
+            <ProductsEx>
+              <ProductCategory>category</ProductCategory>
+              <ProductName>Product name</ProductName>
+              <ProductPrice>5,300원</ProductPrice>
+            </ProductsEx>
+          </ProductSection>
+          <ProductSection>
+            <RecoProducts />
+            <ProductsEx>
+              <ProductCategory>category</ProductCategory>
+              <ProductName>Product name</ProductName>
+              <ProductPrice>5,300원</ProductPrice>
+            </ProductsEx>
+          </ProductSection>
+          <ProductSection>
+            <RecoProducts />
+            <ProductsEx>
+              <ProductCategory>category</ProductCategory>
+              <ProductName>Product name</ProductName>
+              <ProductPrice>5,300원</ProductPrice>
+            </ProductsEx>
+          </ProductSection>
+          <ProductSection>
+            <RecoProducts />
+            <ProductsEx>
+              <ProductCategory>category</ProductCategory>
+              <ProductName>Product name</ProductName>
+              <ProductPrice>5,300원</ProductPrice>
+            </ProductsEx>
+          </ProductSection>
+          <ProductSection>
+            <RecoProducts />
+            <ProductsEx>
+              <ProductCategory>category</ProductCategory>
+              <ProductName>Product name</ProductName>
+              <ProductPrice>5,300원</ProductPrice>
+            </ProductsEx>
+          </ProductSection>
+          <ProductSection>
+            <RecoProducts />
+            <ProductsEx>
+              <ProductCategory>category</ProductCategory>
+              <ProductName>Product name</ProductName>
+              <ProductPrice>5,300원</ProductPrice>
+            </ProductsEx>
+          </ProductSection>
+          <ProductSection>
+            <RecoProducts />
+            <ProductsEx>
+              <ProductCategory>category</ProductCategory>
+              <ProductName>Product name</ProductName>
+              <ProductPrice>5,300원</ProductPrice>
+            </ProductsEx>
+          </ProductSection>
+          <ProductSection>
+            <RecoProducts />
+            <ProductsEx>
+              <ProductCategory>category</ProductCategory>
+              <ProductName>Product name</ProductName>
+              <ProductPrice>5,300원</ProductPrice>
+            </ProductsEx>
+          </ProductSection>
         </Slider>
       </RecoProductsbar>
       <PbtiBanner />
@@ -182,7 +182,7 @@ const RecoProductsbar = styled.section`
   justify-content: center;
   align-items: center; */
   margin-bottom: 100px;
-  margin-left : 250px;
+  margin-left: 250px;
   margin-right: 250px;
 `;
 
@@ -218,18 +218,18 @@ const ProductsEx = styled.div`
 const ProductCategory = styled.p`
   font-size: ${({ theme }) => theme.fontSizes.xs};
   font-weight: 500;
-  text-align:center;
+  text-align: center;
   color: ${({ theme }) => theme.colors.Orange_040};
 `;
 const ProductName = styled.p`
   font-size: ${({ theme }) => theme.fontSizes.base};
   font-weight: 700;
-  text-align:center;
+  text-align: center;
   color: ${({ theme }) => theme.colors.Gray_090};
 `;
 const ProductPrice = styled.p`
   font-size: ${({ theme }) => theme.fontSizes.base};
   font-weight: 700;
-  text-align:center;
+  text-align: center;
   color: ${({ theme }) => theme.colors.Gray_030};
 `;

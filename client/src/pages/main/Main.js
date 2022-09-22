@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import Banner from "../../components/common/Banner";
+import Banner from "../../components/common/banner/Banner";
 import BChracter from "../../assets/images/banner/BannerCharater.png";
 import BestProdct from "../../components/bestProduct/BestProdct";
 import RecomendProduct from "../../components/bestProduct/RecomendProduct";

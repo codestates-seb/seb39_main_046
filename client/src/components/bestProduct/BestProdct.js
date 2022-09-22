@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import Button from "../common/Button";
+import Button from "../common/button/Button";
 
 const BestProdct = () => {
   let more = "더보기 >";

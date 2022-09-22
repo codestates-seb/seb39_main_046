@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
-import TextInput from "../../components/common/TextInput";
+import TextInput from "../../components/common/input/TextInput";
 import { IoIosArrowForward } from "react-icons/io";
 
 const SingUp = () => {

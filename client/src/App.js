@@ -7,7 +7,7 @@ import FootTest from "./pages/foodTest/FootTest";
 import FoodTestHome from "./components/foodTest/FoodTestHome";
 import FoodTestQuestion from "./components/foodTest/FoodTestQuestion";
 import FoodTestResult from "./components/foodTest/FoodTestResult";
-import Loading from "./components/common/Loading";
+import Loading from "./components/common/loading/Loading";
 import Login from "./pages/member/LoginPage";
 import SingUp from "./pages/member/SingUp";
 
