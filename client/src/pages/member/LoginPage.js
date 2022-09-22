@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
-import TextInput from "../../components/common/TextInput";
+import TextInput from "../../components/common/input/TextInput";
 
 const Login = () => {
   const navigate = useNavigate();
