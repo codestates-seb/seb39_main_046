@@ -36,7 +36,7 @@ public class ReviewService {
     public void updateReview(Review review, Member member){
 
         Review findReview = findVerifiedReviewId(review.getReviewId());
-        long memberId = member.getId();
+        long memberId = member.getMemberId();
         if(checkAuth(review,memberId)){
             Optional.ofNullable(review.getContent())
                     .ifPresent(content -> findReview.setContent(content));
@@ -61,7 +61,7 @@ public class ReviewService {
 
     private boolean checkAuth(Review review, long memberId){
         boolean result = false;
-        if(memberId == review.getMember().getId()){
+        if(memberId == review.getMember().getMemberId()){
             result = true;
         }
         return result;
@@ -69,7 +69,7 @@ public class ReviewService {
 
     public void deleteReview(Review review, Member member){
 
-        long memberId = member.getId();
+        long memberId = member.getMemberId();
         if(checkAuth(review,memberId)){
             reviewRepository.delete(review);
         }

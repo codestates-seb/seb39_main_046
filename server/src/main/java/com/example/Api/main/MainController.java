@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,7 +46,7 @@ public class MainController {
     @ApiOperation(value = "메인 페이지 조회",
             notes = "✅ 전체 상품 중 top5, 추천 상품, 베스트 리뷰 \n - \n " )
     @GetMapping
-    public ResponseEntity getMain(){
+    public ResponseEntity getMain(HttpServletRequest request){
 
         //top5 데이터 세팅
         List<Product> top5 = new ArrayList<>();
@@ -97,11 +98,10 @@ public class MainController {
 
         // 추천 상품 세팅
         int status = 0;
-
-        Member member = memberService.getLoginMember();
-        Category memberCategory = member.getCategory();
         List<Product> recommends = new ArrayList<>();
-        if((member == null) || (memberCategory == null) || (memberCategory.getProducts().size()<10)){
+
+        if (memberService.memberCheck(request)){
+
             status = 1;
             List<Category> allCategories = categoryService.findAllCategoryAsList();
 
@@ -115,8 +115,36 @@ public class MainController {
             }
 
             recommends = productService.setRecommendProductsAtLeastOne(atLeastOne);
+
+            return new ResponseEntity<>(
+                    new MainResponseDto<>(top5,recommends, bestReviews),
+                    HttpStatus.OK);
         }
-        else{
+
+        else if (memberService.getLoginMember().getCategory() == null || memberService.getLoginMember().getCategory().getProducts().size()<10) {
+
+
+            status = 1;
+            List<Category> allCategories = categoryService.findAllCategoryAsList();
+
+            //연결된 상품이 최소 1개라도 있는 카테고리들
+            List<Category> atLeastOne = new ArrayList<>();
+            for(Category category: allCategories){
+                if(category.getProducts().isEmpty()){
+                    continue;
+                }
+                atLeastOne.add(category);
+            }
+
+            recommends = productService.setRecommendProductsAtLeastOne(atLeastOne);
+
+            return new ResponseEntity<>(
+                    new MainResponseDto<>(top5,recommends, bestReviews),
+                    HttpStatus.OK);
+        }
+
+
+        else{ Category memberCategory = memberService.getLoginMember().getCategory();
             status = 2;
             recommends = productService.setRecommendProducts(memberCategory);
         }
