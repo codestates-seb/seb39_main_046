@@ -5,6 +5,7 @@ import BChracter from "../../assets/images/banner/BannerCharater.png";
 import BestProdct from "../../components/bestProduct/BestProdct";
 import RecomendProduct from "../../components/bestProduct/RecomendProduct";
 import BestReview from "../../components/bestProduct/BestReview";
+import PbtiBanner from "../../components/common/banner/PbtiBanner";
 
 const Main = () => {
   return (
@@ -21,6 +22,7 @@ const Main = () => {
       </Banner>
       <BestProdct />
       <RecomendProduct />
+      <PbtiBanner />
       <BestReview />
       {/* <NearStore/> */}
     </div>
