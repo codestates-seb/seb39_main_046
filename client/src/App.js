@@ -8,6 +8,8 @@ import FoodTestHome from "./components/foodTest/FoodTestHome";
 import FoodTestQuestion from "./components/foodTest/FoodTestQuestion";
 import FoodTestResult from "./components/foodTest/FoodTestResult";
 import Loading from "./components/common/Loading";
+import Login from "./pages/member/LoginPage";
+import SingUp from "./pages/member/SingUp";
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -23,6 +25,8 @@ function App() {
             <Route path="question" element={<FoodTestQuestion />}></Route>
             <Route path="result" element={<FoodTestResult />}></Route>
           </Route>
+          <Route path="/login" element={<Login />}></Route>
+          <Route path="/singup" element={<SingUp />}></Route>
           <Route path="*" element={<div>NotFound</div>} />
         </Route>
       </Routes>
