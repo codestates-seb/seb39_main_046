@@ -18,7 +18,6 @@ public interface ProductRepository extends JpaRepository<Product, Long>, JpaSpec
     List<Product> findAllByCompany(String company, Sort hearts);
     List<Product> findAllByCategory(Category category);
 
-
     Page<Product> findAllByCompany(String company, Pageable pageable);
 
 

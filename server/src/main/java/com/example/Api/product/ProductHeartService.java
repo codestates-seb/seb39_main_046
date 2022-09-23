@@ -60,24 +60,8 @@ public class ProductHeartService {
     }
 
 
-    public Page<ProductHeart> SortHeartProductsByCompany(int page, int size, String company, Member member){
-        Page<ProductHeart> fourProducts;
-        boolean existCompany = ( (company.equals("CU")) || (company.equals("GS25")) || (company.equals("7-ELEVEN")) );
-        if(existCompany){
-            fourProducts = productHeartRepository.findAllByMemberAndProduct_Company(member,company,PageRequest.of(page,size,
-                    Sort.by("createdAt").descending()));
-        }
-        else {
-            fourProducts = productHeartRepository.findAllByMember(member,PageRequest.of(page,size,
-                    Sort.by("createdAt").descending()));
-        }
-
-        return fourProducts;
-    }
-
-
     public Page<ProductHeart> SortHeartProducts(int page, int size, int methodId, String company, Member member, Category category){
-        // 카테고리가 있을 때 진입
+
         Page<ProductHeart> productHeartsPage;
         boolean existCompany = ( (company.equals("CU")) || (company.equals("GS25")) || (company.equals("7-ELEVEN")) );
         boolean existCategory = ( category != null);

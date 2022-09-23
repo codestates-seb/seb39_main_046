@@ -282,43 +282,23 @@ public class ProductController {
         return new ResponseEntity<>(top5, HttpStatus.OK);
     }
 
-    @ApiOperation(value = "회사별 전체 상품 조회( 랭킹 페이지 )",
-            notes = "✅ 회사별 모든 상품을 조회합니다.\n " +
-                    "company에 공백 입력 시 전체 상품 조회\n " +
+    @ApiOperation(value = "랭킹 페이지",
+            notes = "✅ 등록되어 있는 모든 상품들을 조회합니다.\n " +
+                    "company에 잘못된 값 입력 시  전체 상품 조회\n " +
                     "methodId (1 : 좋아요순 / 2: 리뷰순 / 3. 조회순 / 그 외: 최신순)\n - \n " )
     @GetMapping("/allByCompany/{method-id}")
     public ResponseEntity getProductRankingPage(@PathVariable("method-id") @Positive int methodId,
                                                @RequestParam String company,
                                                @Positive @RequestParam int page,
                                                 HttpServletRequest request) {
+
         // 메인 페이지에서 top5 전체 보기 눌렀을 때 나오는 초기 랭킹 페이지
 
-        // top 5 + 페이징 처리되어있는 20개의 데이터 (@GetMapping("/all/{category-id}/{method-id}")로 정렬 가능)
-
         size = 12;
-        List<Product> top5 = new ArrayList<>();
-        Page<Product> pageProducts;
-        List<Product> productList;
+        List<Product> top5 = productService.getTop5Products(company);
+        Page<Product> pageProducts = productService.SortProducts(page-1,size,methodId,company,null);
+        List<Product> productList  = pageProducts.getContent();;
 
-        // 회사별 랭킹 페이지
-        if((company.equals("CU"))|| (company.equals("GS25")) || (company.equals("7-ELEVEN"))){
-
-            //top 5 세팅
-            top5 = productService.getTop5Products(company);
-            // 페이징 처리된 20개의 데이터, 1페이지
-            pageProducts = productService.getTop20ProductsPage(page-1,size,methodId, company);
-            productList = pageProducts.getContent();
-
-        }
-        // 전체 랭킹 페이지
-        else {
-            company = "all";
-            //top 5 세팅
-            top5 = productService.getTop5Products(company);
-            // 페이징 처리된 20개의 데이터, 1페이지
-            pageProducts = productService.getTop20ProductsPage(page-1,size,methodId, company);
-            productList = pageProducts.getContent();
-        }
 
         boolean loginStatus = memberService.memberCheck(request);
         //현재 상태 비회원이면 true,  회원일시 false  반환
@@ -337,9 +317,9 @@ public class ProductController {
     }
 
 
-    @ApiOperation(value = "회사별 전체 상품 카테고리별 정렬 기능(랭킹 페이지 하위 20개 데이터)",
-            notes = "✅ 입력받은 카테고리에 해당하는 회사별 모든 상품들을 조회합니다.\n " +
-                    "    company에 공백 입력 시 전체 상품 카테고리별 조회\n" +
+    @ApiOperation(value = "랭킹 페이지 하위 12개 데이터 정렬 요청",
+            notes = "✅ 회사별 / 전체 + 카테고리별  + 좋아요순/리뷰순/조회순/최신순 정렬 기능(랭킹 페이지 하위 12개 데이터)\n " +
+                    "company에 잘못된 값 입력 시  전체 상품 카테고리별 조회\n" +
                     "methodId (1 : 좋아요순 / 2: 리뷰순 / 3. 조회순 / 그 외: 최신순)\n - \n " )
     @GetMapping("/allByCompany/{category-id}/{method-id}")
     public ResponseEntity getSortedProductsByCompanyAndCategory(@PathVariable("category-id") @Positive int categoryId,
@@ -347,24 +327,13 @@ public class ProductController {
                                                           @RequestParam String company,
                                                           @Positive @RequestParam int page,
                                                           HttpServletRequest request) {
-        // 랭킹 페이지 아래 20개 데이터 정렬 요청
+        // 랭킹 페이지 아래 12개 데이터 정렬 요청
 
         size = 12;
         Category category = categoryService.findVerifiedCategoryId(categoryId);
-        Page<Product> pageProducts;
-        List<Product> productList;
+        Page<Product> pageProducts = productService.SortProducts(page-1,size,methodId,company,category);
+        List<Product> productList = pageProducts.getContent();
 
-        // 전체 상품 랭킹 페이지 20개 데이터 정렬
-        if((company.equals("CU"))|| (company.equals("GS25")) || (company.equals("7-ELEVEN"))){
-            pageProducts = productService.SortProductsByCompanyAndCategoryAndMethod(page-1,size,methodId,company,category);
-            productList = pageProducts.getContent();
-        }
-
-        // 회사별 상품 랭킹 페이지 20개 데이터 정렬
-        else{
-            pageProducts = productService.SortProductsByCompanyAndCategoryAndMethod(page-1,size,methodId,company,category);
-            productList = pageProducts.getContent();
-        }
 
         boolean loginStatus = memberService.memberCheck(request);
         //현재 상태 비회원이면 true,  회원일시 false  반환

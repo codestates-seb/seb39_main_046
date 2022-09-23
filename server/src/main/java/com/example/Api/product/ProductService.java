@@ -93,21 +93,19 @@ public class ProductService {
         return productRepository.findAll(sort);
     }
 
-
     //top5 세팅
     public List<Product> getTop5Products(String company){
 
-        List<Product> productList = new ArrayList<>();
-
+        boolean existCompany = ( (company.equals("CU")) || (company.equals("GS25")) || (company.equals("7-ELEVEN")) );
         // top5 세팅, 최소조회수 필터링 필요
+        List<Product> productList = new ArrayList<>();
         List<Product> top5 = new ArrayList<>();
 
-        if(company.equals("all")){
-
-            productList = productRepository.findAll(Sort.by(Sort.Direction.DESC, "hearts"));
-        }
-        else if((company.equals("CU"))|| (company.equals("GS25")) || (company.equals("7-ELEVEN"))){
+        if(existCompany){
             productList = productRepository.findAllByCompany(company, Sort.by(Sort.Direction.DESC, "hearts"));
+        }
+        else{
+            productList = productRepository.findAll(Sort.by(Sort.Direction.DESC, "hearts"));
         }
 
         //최소 리뷰수 (10) 이하인 상품들은 제거
@@ -132,95 +130,122 @@ public class ProductService {
         return top5;
     }
 
-    // //랭킹 페이지 전체 상품 - 전체 보기 - 하위 20개 데이터 세팅
 
-    public Page<Product> getTop20ProductsPage(int page, int size, int methodId, String company){
+    // 랭킹 페이지 하위 20개 데이터 정렬해서 반환 (회사명 + 카테고리 + (좋아요순 or 리뷰순 or 조회순)
+    public Page<Product> SortProducts(int page, int size, int methodId, String company, Category category){
 
-        Page<Product> twentyProducts;
+        Page<Product> productsPage;
+        Specification<Product> spec;
+        boolean existCategory = ( category != null);
+        Sort.Order order;
+        Sort sort;
         boolean existCompany = ( (company.equals("CU")) || (company.equals("GS25")) || (company.equals("7-ELEVEN")) );
 
         if(methodId == 1){
             System.out.println("좋아요순 정렬");
-            if(existCompany){
-                twentyProducts = productRepository.findAllByCompany(company, PageRequest.of(page,size,
-                        Sort.by("hearts").descending()));
-            }
-            else{
-                twentyProducts = productRepository.findAll(PageRequest.of(page, size,
-                        Sort.by("hearts").descending()));
-            }
-        }
-        else if(methodId == 2){
-            System.out.println("리뷰순 정렬");
-            if(existCompany) {
-                twentyProducts = productRepository.findAllByCompany(company, PageRequest.of(page, size,
-                        Sort.by("reviews").descending()));
-            }
-            else {
-                twentyProducts = productRepository.findAll(PageRequest.of(page, size,
-                        Sort.by("reviews").descending()));
-            }
-        }
-        else if(methodId == 3){
-            System.out.println("조회순 정렬");
-            if(existCompany) {
-                    twentyProducts = productRepository.findAllByCompany(company, PageRequest.of(page,size,
-                            Sort.by("views").descending()));
-            }
-            else {
-                twentyProducts = productRepository.findAll(PageRequest.of(page, size,
-                        Sort.by("views").descending()));
-            }
-        }
-        else {
-            System.out.println("최신순 정렬");
-            if(existCompany) {
-                    twentyProducts = productRepository.findAllByCompany(company, PageRequest.of(page,size,
-                            Sort.by("createdAt").descending()));
-            }
-            else {
-                twentyProducts = productRepository.findAll(PageRequest.of(page, size,
-                        Sort.by("createdAt").descending()));
-            }
-        }
-        return twentyProducts;
-    }
+            order = Sort.Order.desc("hearts");
+            sort = Sort.by(order);
+            if(existCompany){  // Company O
 
+                spec = Specification.where(ProductSpecification.equalCompanyAndCategory(company,category));
+                if (existCategory) { //category O
+                    productsPage = productRepository.findAll(spec, PageRequest.of(page,size, sort));
+                }
+                else { // category X
+                    productsPage = productRepository.findAllByCompany(company, PageRequest.of(page,size, sort));
+                }
+            }
+            else {  // company X
 
-    // 랭킹 페이지 하위 20개 데이터 정렬해서 반환 (회사명 + 카테고리 + (좋아요순 or 리뷰순 or 조회순)
-    public Page<Product> SortProductsByCompanyAndCategoryAndMethod(int page, int size, int methodId, String company, Category category){
-
-        Page<Product> twentyProducts;
-        Specification<Product> spec;
-        boolean existCompany = ( (company.equals("CU")) || (company.equals("GS25")) || (company.equals("7-ELEVEN")) );
-        if(existCompany){
-            spec = Specification.where(ProductSpecification.equalCompanyAndCategory(company,category));
-        }
-        else {
-            spec = Specification.where(ProductSpecification.equalCategory(category));
+                spec = Specification.where(ProductSpecification.equalCategory(category));
+                if (existCategory) { //category O
+                    productsPage = productRepository.findAll(spec, PageRequest.of(page,size, sort));
+                }
+                else { // category X
+                    productsPage = productRepository.findAll(PageRequest.of(page,size, sort));
+                }
+            }
         }
 
-        if(methodId == 1){
-                System.out.println("좋아요순 정렬");
-                twentyProducts = productRepository.findAll(spec, PageRequest.of(page,size,
-                        Sort.by("hearts").descending()));
-        }
         else if(methodId == 2){
                 System.out.println("리뷰순 정렬");
-                twentyProducts = productRepository.findAll(spec, PageRequest.of(page,size,
-                        Sort.by("reviews").descending()));
+            order = Sort.Order.desc("reviews");
+            sort = Sort.by(order);
+            if(existCompany){  // Company O
+
+                spec = Specification.where(ProductSpecification.equalCompanyAndCategory(company,category));
+                if (existCategory) { //category O
+                    productsPage = productRepository.findAll(spec, PageRequest.of(page,size, sort));
+                }
+                else { // category X
+                    productsPage = productRepository.findAllByCompany(company, PageRequest.of(page,size, sort));
+                }
+            }
+            else {  // company X
+
+                spec = Specification.where(ProductSpecification.equalCategory(category));
+                if (existCategory) { //category O
+                    productsPage = productRepository.findAll(spec, PageRequest.of(page,size, sort));
+                }
+                else { // category X
+                    productsPage = productRepository.findAll(PageRequest.of(page,size, sort));
+                }
+            }
         }
+
         else if(methodId == 3){
                 System.out.println("조회순 정렬");
-                twentyProducts = productRepository.findAll(spec, PageRequest.of(page,size,
-                        Sort.by("views").descending()));
+            order = Sort.Order.desc("views");
+            sort = Sort.by(order);
+            if(existCompany){  // Company O
+
+                spec = Specification.where(ProductSpecification.equalCompanyAndCategory(company,category));
+                if (existCategory) { //category O
+                    productsPage = productRepository.findAll(spec, PageRequest.of(page,size, sort));
+                }
+                else { // category X
+                    productsPage = productRepository.findAllByCompany(company, PageRequest.of(page,size, sort));
+                }
+            }
+            else {  // company X
+
+                spec = Specification.where(ProductSpecification.equalCategory(category));
+                if (existCategory) { //category O
+                    productsPage = productRepository.findAll(spec, PageRequest.of(page,size, sort));
+                }
+                else { // category X
+                    productsPage = productRepository.findAll(PageRequest.of(page,size, sort));
+                }
+            }
         }
+
         else {
                 System.out.println("최신순 정렬");
-                twentyProducts = productRepository.findAll(spec,PageRequest.of(page, size,
-                        Sort.by("createdAt").descending()));
+            order = Sort.Order.desc("createdAt");
+            sort = Sort.by(order);
+            if(existCompany){  // Company O
+
+                spec = Specification.where(ProductSpecification.equalCompanyAndCategory(company,category));
+                if (existCategory) { //category O
+                    productsPage = productRepository.findAll(spec, PageRequest.of(page,size, sort));
+                }
+                else { // category X
+                    productsPage = productRepository.findAllByCompany(company, PageRequest.of(page,size, sort));
+                }
+            }
+            else {  // company X
+
+                spec = Specification.where(ProductSpecification.equalCategory(category));
+                if (existCategory) { //category O
+                    productsPage = productRepository.findAll(spec, PageRequest.of(page,size, sort));
+                }
+                else { // category X
+                    productsPage = productRepository.findAll(PageRequest.of(page,size, sort));
+                }
+            }
         }
-       return twentyProducts;
+
+       return productsPage;
     }
 
 
@@ -280,9 +305,6 @@ public class ProductService {
 
         return recommends;
     }
-
-
-
 
 
     public void deleteProduct(long productId){
