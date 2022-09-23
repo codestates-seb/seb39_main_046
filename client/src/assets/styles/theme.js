@@ -69,6 +69,9 @@ const colors = {
   Orange_040: "#F88408",
   Yellow_030: "#E9F34D",
   Yellow_040: "#C1CD0D",
+  Eleven: "#269546;",
+  CU: "#652F8D;",
+  GS25: "#007CFF;",
 };
 
 const device = {

@@ -16,7 +16,7 @@ const Header = () => {
         </HMenu>
         <HTab>
           <li>서비스 소개</li>
-          <li>PB상품 랭킹</li>
+          <li onClick={() => navigate("/product")}>PB상품 랭킹</li>
           <li>
             <img onClick={() => navigate("/")} src={logo} alt="logo" />
           </li>
