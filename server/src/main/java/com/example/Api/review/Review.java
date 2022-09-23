@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -16,15 +17,10 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+@ToString(exclude = "reviewHearts")
+// comment 추가되면 @ToString(exclude = {"reviewHearts","comments"})
 public class Review extends Auditable {
-    /*
-    연관 관계
-    product(1) : review ( N )
-    member (1)  : review ( N )
-    member (1)  : reviewHeart (N) : review (1)
-    review(1) : comment (N)
 
-     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long reviewId;
@@ -45,4 +41,20 @@ public class Review extends Auditable {
     @ManyToOne
     @JoinColumn(name = "member_id")
     private Member member;
+
+    @OneToMany
+    @JsonIgnore
+    private List<ReviewHeart> reviewHearts = new ArrayList<>();
+
+    @Transient
+    private boolean reviewHeartFlag;
+
+    public long addHearts(){
+        hearts+=1;
+        return hearts;
+    }
+    public long withdrawHearts(){
+        hearts-=1;
+        return hearts;
+    }
 }

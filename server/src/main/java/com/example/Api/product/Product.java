@@ -21,10 +21,6 @@ import java.util.List;
 @ToString(exclude = {"reviewList","productHearts"})
 public class Product extends Auditable {
 
-    /*
-    연관 관계
-    member (1)  : productHeart ( N ) : product(1)  //상품 좋아요 기능
-     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long productId;
@@ -82,8 +78,5 @@ public class Product extends Auditable {
         return hearts;
     }
 
-
-    /*private LocalDateTime createdAt;
-    private LocalDateTime modifiedAt;*/
 
 }

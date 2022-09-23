@@ -1,22 +1,46 @@
 package com.example.Api.review;
 
+import com.example.Api.audit.Auditable;
+import com.example.Api.member.Member;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class ReviewHeart {
+public class ReviewHeart extends Auditable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private long reviewHeartId;
+
+    @ManyToOne
+    @JoinColumn(name = "member_id")
+    @JsonIgnore
+    private Member member;
+
+    @ManyToOne
+    @JoinColumn(name = "review_id")
+    @JsonIgnore
+    private Review review;
+
+    public void addMember(Member member){
+        this.member = member;
+        if(!this.member.getReviewHearts().contains(this)){
+            this.member.getReviewHearts().add(this);
+        }
+    }
+
+    public void addReview(Review review){
+        this.review = review;
+        if(!this.review.getReviewHearts().contains(this)){
+            this.review.getReviewHearts().add(this);
+        }
+    }
 
 }

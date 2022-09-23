@@ -44,20 +44,10 @@ public class MemberController {
     private final ProductHeartService productHeartService;
 
 
-    /*
-        // 5. 유저 삭제 (회원 탈퇴)
 
-
-
-    //    @GetMapping("/all") // 모든 유저 조회
-    //    public ResponseEntity memberall(@Positive @RequestParam int page){
-    //        Page<Member> page1 =
-    //        return new ResponseEntity<>(page1,HttpStatus.ACCEPTED);
-    //    }
-    */
-@PostMapping("/signup")
-@ApiOperation(value = "회원가입")
-public ResponseEntity signUp(@Validated @RequestBody MemberPostDto memberPostDto) {
+    @PostMapping("/signup")
+    @ApiOperation(value = "회원가입")
+    public ResponseEntity signUp(@Validated @RequestBody MemberPostDto memberPostDto) {
     Member member = mapper.memberPostDtoToMember(memberPostDto);
     member.setPassword(bCryptPasswordEncoder.encode(member.getPassword()));
     member.setRoles("ROLE_USER");
@@ -176,7 +166,7 @@ public ResponseEntity signUp(@Validated @RequestBody MemberPostDto memberPostDto
     @PostMapping("/profile")
     @ApiOperation(value = "프로필 사진 추가")
     public ResponseEntity profile(@RequestPart("file") MultipartFile mfile) throws IOException {
-//이미지 저장 url 추가
+    //이미지 저장 url 추가
 
         Member member = memberService.getLoginMember();
         Member updatedMember = member;

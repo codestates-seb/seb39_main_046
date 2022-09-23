@@ -4,6 +4,7 @@ import com.example.Api.audit.Auditable;
 import com.example.Api.category.Category;
 import com.example.Api.product.ProductHeart;
 import com.example.Api.review.Review;
+import com.example.Api.review.ReviewHeart;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -20,7 +21,7 @@ import java.util.List;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString(exclude = {"reviewList","productHearts"})
+@ToString(exclude = {"reviewList","productHearts","reviewHearts"})
 public class Member extends Auditable {
 //1
     @Id
@@ -52,9 +53,9 @@ public class Member extends Auditable {
     @JsonIgnore
     private List<ProductHeart> productHearts = new ArrayList<>();
 
-    /*@OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     @JsonIgnore
-    private List<ReviewHeart> reviewHearts = new ArrayList<>();*/
+    private List<ReviewHeart> reviewHearts = new ArrayList<>();
 
     public List<String> getRoleList() {
         if(this.roles.length() > 0) {
