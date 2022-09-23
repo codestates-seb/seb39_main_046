@@ -172,7 +172,7 @@ public class ReviewController {
     @GetMapping("/myReviews/{method-id}")
     public ResponseEntity getMyReviews(@PathVariable("method-id") @Positive int methodId,
                                        @Positive @RequestParam int page){
-        size = 20;
+        size = 5;
         Member member = memberService.getLoginMember();
         Page<Review> pageReviews = reviewService.findAllByMemberAndMethod(page-1,size,member,methodId);
         List<Review> reviewList = pageReviews.getContent();
@@ -190,7 +190,7 @@ public class ReviewController {
     public ResponseEntity getProductReviews(@PathVariable("method-id") @Positive int methodId,
                                             @RequestParam long productId,
                                             @Positive @RequestParam int page) {
-        size = 20;
+        size = 10;
         Product product = productService.findVerifiedProductId(productId);
         Page<Review> pageReviews = reviewService.findAllByProductAndMethod(page-1,size,product,methodId);
         List<Review> reviewList = pageReviews.getContent();

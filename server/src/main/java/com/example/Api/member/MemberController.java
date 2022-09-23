@@ -3,8 +3,9 @@ package com.example.Api.member;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.example.Api.category.Category;
 import com.example.Api.category.CategoryService;
-import com.example.Api.product.Product;
+import com.example.Api.product.*;
 import com.example.Api.response.MultiResponseDto;
 import com.example.Api.review.Review;
 import com.example.Api.review.ReviewService;
@@ -18,9 +19,11 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.Positive;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -34,8 +37,11 @@ public class MemberController {
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     private final MemberMapper mapper;
+    private final ProductMapper productMapper;
     private final CategoryService categoryService;
     private final ReviewService reviewService;
+    private final ProductService productService;
+    private final ProductHeartService productHeartService;
 
 
     /*
@@ -81,23 +87,40 @@ public ResponseEntity signUp(@Validated @RequestBody MemberPostDto memberPostDto
 
     @GetMapping("/mypage")
     @ApiOperation(value = "마이 페이지")// 유저 상세 페이지
-    public ResponseEntity memberPage(){
-        Member member =  memberService.getLoginMember();
-        // 마이페이지 +나의 리뷰+ 찜꽁 상품 + 찜꽁 리뷰
-        int size = 5;
-        int page = 1;
-        Page<Review> pageReviews = reviewService.findAllByMemberAndMethod(page-1,size,member,4);
-        List<Review> reviewList = pageReviews.getContent();
+    public ResponseEntity memberPage(HttpServletRequest request){
 
-       /* //찜꽁 상품
-        List<Product> jjimkkong = */
-        //찜꽁 리뷰
+        boolean loginStatus = memberService.memberCheck(request);
+        if(loginStatus){
+            return new ResponseEntity<>("로그인이 필요한 서비스입니다.", HttpStatus.BAD_REQUEST);
+        }
+        else {
+            Member member =  memberService.getLoginMember();
+            // 마이페이지  : 나의 리뷰 ( O )  + 찜꽁 상품 ( O ) + 찜꽁 리뷰
 
-        //new SingleResponseDto<>(mapper.memberToMemberResponseDto(member))
-        return new ResponseEntity<>(
-                new MyPageResponseDto<>(member,new MultiResponseDto<>(reviewList,pageReviews)),
-                HttpStatus.OK);
+            int reviewSize = 5;
+            int page = 1;
+            Page<Review> pageReviews = reviewService.findAllByMemberAndMethod(page-1,reviewSize,member,4);
+            List<Review> reviewList = pageReviews.getContent();
+            MultiResponseDto multiResponseDto1 = new MultiResponseDto<>(reviewList,pageReviews);
+            MultiResponseDto multiResponseDto2;
 
+            int jjimSize = 4;
+            String company = "";
+            int methodId = 1;  // 찜꽁 상품 좋아요순 정렬
+            List<ProductHeart> productHeartList;
+            Page<ProductHeart> productHeartsPage = productHeartService.SortHeartProducts(page-1,jjimSize,1,company,member,null);
+            if(productHeartsPage.isEmpty()){
+                return new ResponseEntity<>("찜꽁한 상품이 없어요", HttpStatus.NOT_FOUND);
+            }
+            else {
+                productHeartList = productHeartsPage.getContent();
+                setHeartFlagTrue(productHeartList);
+                multiResponseDto2 = new MultiResponseDto<>(productMapper.productHeartsToProductHeartResponseDto(productHeartList), productHeartsPage);
+            }
+            return new ResponseEntity<>(
+                    new MyPageResponseDto<>(member, multiResponseDto1, multiResponseDto2),
+                    HttpStatus.OK);
+        }
     }
 
     @DeleteMapping
@@ -112,14 +135,41 @@ public ResponseEntity signUp(@Validated @RequestBody MemberPostDto memberPostDto
 
     @PostMapping("/pbti/{category-id}")
     @ApiOperation(value = "멤버에 편비티아이 추가")
-    public ResponseEntity pbti(@PathVariable("category-id") @Positive long id){
+    public ResponseEntity pbti(@PathVariable("category-id") @Positive long id,
+                               HttpServletRequest request){
 
-        Member member = memberService.getLoginMember();
-        Member updatedMember = member;
-        updatedMember.setCategory(categoryService.findVerifiedCategoryId(id));
-        memberService.updateMember(member,updatedMember);
+        List<Product> recommends = new ArrayList<>();
+        boolean loginStatus = memberService.memberCheck(request);
+        if(loginStatus){
+            return new ResponseEntity<>("로그인이 필요한 서비스입니다.", HttpStatus.BAD_REQUEST);
+        }
+        else {
+            Member member = memberService.getLoginMember();
+            Member updatedMember = member;
+            updatedMember.setCategory(categoryService.findVerifiedCategoryId(id));
+            Member PBTIMember = memberService.updateMember(member,updatedMember);
 
-    return new ResponseEntity<>("등록 완료", HttpStatus.OK);
+            //PBTI 결과 카테고리에 해당하는 랜덤 상품 세팅
+            int status = 0;
+
+            Category memberCategory = PBTIMember.getCategory();
+            if((memberCategory == null) || (memberCategory.getProducts().size()<10)){
+                status = 1;
+                List<Category> allCategories = categoryService.findAllCategoryAsList();
+                //연결된 상품이 최소 1개라도 있는 카테고리들로 리스트 만들기
+                List<Category> atLeastOne = categoryService.checkAtLeastOneProduct(allCategories);
+                recommends = productService.setRecommendedProductsAtLeastOne(atLeastOne);
+            }
+            else {
+                status = 2;
+                recommends = productService.setRecommendedProducts(memberCategory);
+            }
+            checkHeartFlagsLogin(member,recommends); // 상품 좋아요 플래그 적용
+        }
+
+
+
+    return new ResponseEntity<>(recommends, HttpStatus.OK);
     }
 
 
@@ -181,6 +231,22 @@ public ResponseEntity signUp(@Validated @RequestBody MemberPostDto memberPostDto
             return new ResponseEntity<>("등록되지 않은 회원입니다.", HttpStatus.NOT_FOUND);
     }
 
+    public void checkHeartFlagsLogin(Member member, List<Product> products){
 
+        for(Product product : products){
+            if(productHeartService.checkAlreadyHeart(member,product)){
+                //이미 눌렀으면 false, 누르지 않았다면 true
+                product.setHeartFlag(false);
+            }
+            else{
+                product.setHeartFlag(true);
+            }
+        }
+    }
+    public void setHeartFlagTrue(List<ProductHeart> productHearts){
+        for(int i = 0 ; i< productHearts.size() ; i++){
+            productHearts.get(i).getProduct().setHeartFlag(true);
+        }
+    }
 
 }
