@@ -39,6 +39,10 @@ public class MemberService {
         Member member5 = new Member(5L,"d@gmail.com","관리자5",password);
         member5.setRoles("ROLE_ADMIN");
         memberRepository.save(member5);
+        String password2 = bCryptPasswordEncoder.encode("string");
+        Member member6 = new Member(6L,"string","관리자5",password2);
+        member6.setRoles("ROLE_ADMIN");
+        memberRepository.save(member6);
         }
 
     public MemberService(MemberRepository memberRepository, BCryptPasswordEncoder bCryptPasswordEncoder) {

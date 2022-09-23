@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 @RestController
@@ -55,45 +56,41 @@ public class MainController {
         List<Product> top5 = top5 = productService.getTop5Products(company);
 
 
-
         // 베스트리뷰 세팅
         List<Review> bestReviews = new ArrayList<>();
         List<Review> reviewList = reviewService.findAllReviews(Sort.by(Sort.Direction.DESC, "hearts"));
 
-        //최소 좋아요수 (10) 이하인 리뷰들은 제거
-        long minHearts = 10;
-        for(int i =0 ;i<reviewList.size();i++){
-            if(reviewList.get(i).getHearts()<minHearts){
-                reviewList.remove(i);
+
+        for (Iterator<Review> iterator = reviewList.iterator(); iterator.hasNext(); ) {
+            long minHearts = 10;
+            long hearts = iterator.next().getHearts();
+            if (minHearts > (hearts)) {
+                iterator.remove();
             }
         }
-        int maxCount2 = 0;
+
+        int maxCount = reviewList.size();
         if(reviewList.size()>=5){
-            maxCount2 = 5;
-        }
-        else{
-            maxCount2 = reviewList.size();
+            maxCount = 5;
         }
 
-        for(int i = 0 ; i<maxCount2; i++){
+        for(int i = 0 ; i<maxCount; i++){
             Review review = reviewList.get(i);
             bestReviews.add(review);
         }
-
 
         boolean loginStatus = memberService.memberCheck(request);
         //현재 상태 비회원이면 true,  회원일시 false  반환
 
         // 추천 상품 세팅
-        int status = 0;
+        int size = 12;
         List<Product> recommends = new ArrayList<>();
 
         if (loginStatus) {   //비회원일 때 추천 상품 세팅
-            status = 1;
             List<Category> allCategories = categoryService.findAllCategoryAsList();
             //연결된 상품이 최소 1개라도 있는 카테고리들로 리스트 만들기
             List<Category> atLeastOne = categoryService.checkAtLeastOneProduct(allCategories);
-            recommends = productService.setRecommendedProductsAtLeastOne(atLeastOne);
+            recommends = productService.setRandomRecommendedProducts(atLeastOne,"main");
             checkHeartFlagsNotLongin(top5);
             checkHeartFlagsNotLongin(recommends);
         }
@@ -101,21 +98,29 @@ public class MainController {
 
             Member member = memberService.getLoginMember();
             Category memberCategory = member.getCategory();
-            if((memberCategory == null) || (memberCategory.getProducts().size()<10)){
-                status = 1;
+            if((memberCategory == null) || (memberCategory.getProducts().size()<size)){
                 List<Category> allCategories = categoryService.findAllCategoryAsList();
                 //연결된 상품이 최소 1개라도 있는 카테고리들로 리스트 만들기
                 List<Category> atLeastOne = categoryService.checkAtLeastOneProduct(allCategories);
-                recommends = productService.setRecommendedProductsAtLeastOne(atLeastOne);
+                if(memberCategory == null){
+                    recommends = productService.setRandomRecommendedProducts(atLeastOne,"main");
+                }
+                else {
+                    List<Product> products = productService.findProductsByCategory(memberCategory);
+                    if(products.size() == 0){  // 카테고리에 해당하는 상품이 아예 없을 때
+                        // 랜덤 카테고리 + 랜덤 상품
+                        recommends = productService.setRandomRecommendedProducts(atLeastOne,"main");
+                    }
+                    atLeastOne.removeIf(category1 -> category1 == memberCategory);
+                    recommends = productService.setRecommendedProductsAtLeastOne(atLeastOne,"main",products);
+                }
             }
             else {
-                status = 2;
-                recommends = productService.setRecommendedProducts(memberCategory);
+                recommends = productService.setRecommendedProducts(memberCategory,"main");
             }
             checkHeartFlagsLogin(member,top5);
             checkHeartFlagsLogin(member,recommends);
         }
-
 
         return new ResponseEntity<>(
                 new MainResponseDto<>(top5,recommends, bestReviews),
@@ -124,19 +129,14 @@ public class MainController {
 
     public void checkHeartFlagsNotLongin(List<Product> products){
         for(Product product : products){
-            product.setHeartFlag(false); // 좋아요 상태 OFF
+                product.setHeartFlag(false); // 좋아요 상태 OFF
         }
     }
     public void checkHeartFlagsLogin(Member member, List<Product> products){
-
         for(Product product : products){
-            if(productHeartService.checkAlreadyHeart(member,product)){
-                //이미 눌렀으면 false, 누르지 않았다면 true
-                product.setHeartFlag(false);
-            }
-            else{
-                product.setHeartFlag(true);
-            }
+            //이미 눌렀으면 false, 누르지 않았다면 true
+            product.setHeartFlag(!productHeartService.checkAlreadyHeart(member, product));
         }
+
     }
 }

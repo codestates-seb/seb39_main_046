@@ -201,7 +201,7 @@ public class ProductController {
     }
 
 
-    @ApiOperation(value = "상품 조회 (상세 페이지 (product page) )",
+    @ApiOperation(value = "상품 조회 (상세 페이지 (Product Detail page) )",
             notes = "✅ 상품의 상세 페이지로 이동합니다. (조회수 1 증가)\",.\n - \n " )
     @GetMapping("/{product-id}")
     public ResponseEntity getProductByProductName(@PathVariable("product-id") @Positive long productId,
@@ -282,7 +282,7 @@ public class ProductController {
         return new ResponseEntity<>(top5, HttpStatus.OK);
     }
 
-    @ApiOperation(value = "랭킹 페이지",
+    @ApiOperation(value = "Product 페이지",
             notes = "✅ 등록되어 있는 모든 상품들을 조회합니다.\n " +
                     "company에 잘못된 값 입력 시  전체 상품 조회\n " +
                     "methodId (1 : 좋아요순 / 2: 리뷰순 / 3. 조회순 / 그 외: 최신순)\n - \n " )
@@ -356,33 +356,41 @@ public class ProductController {
     public ResponseEntity getRecommendedProduct(HttpServletRequest request) {
         // 추천 상품 세팅
 
-        int status = 0;
+
         List<Product> recommends = new ArrayList<>();
         boolean loginStatus = memberService.memberCheck(request);
         //현재 상태 비회원이면 true,  회원일시 false  반환
 
         if (loginStatus) {   //비회원일 때
-            status = 1;
             List<Category> allCategories = categoryService.findAllCategoryAsList();
             //연결된 상품이 최소 1개라도 있는 카테고리들로 리스트 만들기
             List<Category> atLeastOne = categoryService.checkAtLeastOneProduct(allCategories);
-            recommends = productService.setRecommendedProductsAtLeastOne(atLeastOne);
+            recommends = productService.setRandomRecommendedProducts(atLeastOne,"main");
             checkHeartFlagsNotLongin(recommends);
 
         }
-        else {
+        else {  // 회원일 때 추천상품 세팅
             Member member = memberService.getLoginMember();
             Category memberCategory = member.getCategory();
-            if((memberCategory == null) || (memberCategory.getProducts().size()<10)){
-                status = 1;
+            if((memberCategory == null) || (memberCategory.getProducts().size()<size)){
                 List<Category> allCategories = categoryService.findAllCategoryAsList();
                 //연결된 상품이 최소 1개라도 있는 카테고리들로 리스트 만들기
                 List<Category> atLeastOne = categoryService.checkAtLeastOneProduct(allCategories);
-                recommends = productService.setRecommendedProductsAtLeastOne(atLeastOne);
+                if(memberCategory == null){
+                    recommends = productService.setRandomRecommendedProducts(atLeastOne,"main");
+                }
+                else {
+                    List<Product> products = productService.findProductsByCategory(memberCategory);
+                    if(products.size() == 0){  // 카테고리에 해당하는 상품이 아예 없을 때
+                        // 랜덤 카테고리 + 랜덤 상품
+                        recommends = productService.setRandomRecommendedProducts(atLeastOne,"main");
+                    }
+                    atLeastOne.removeIf(category1 -> category1 == memberCategory);
+                    recommends = productService.setRecommendedProductsAtLeastOne(atLeastOne,"main",products);
+                }
             }
             else {
-                status = 2;
-                recommends = productService.setRecommendedProducts(memberCategory);
+                recommends = productService.setRecommendedProducts(memberCategory,"main");
             }
             checkHeartFlagsLogin(member,recommends);
         }

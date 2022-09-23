@@ -1,6 +1,7 @@
 package com.example.Api.product;
 
 import com.example.Api.category.Category;
+import com.example.Api.review.Review;
 import com.example.Api.specification.ProductSpecification;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
@@ -108,17 +110,30 @@ public class ProductService {
             productList = productRepository.findAll(Sort.by(Sort.Direction.DESC, "hearts"));
         }
 
-        //최소 리뷰수 (10) 이하인 상품들은 제거
+       /* //최소 리뷰수 (10) 이하인 상품들은 제거
         long minReivews = 10;
 
         for(int i =0 ;i<productList.size();i++){
             if(productList.get(i).getReviews()<minReivews){
                 productList.remove(i);
             }
+        }*/
+        for (Iterator<Product> iterator = productList.iterator(); iterator.hasNext(); ) {
+            long minReviews = 10;
+            long reviews = iterator.next().getReviews();
+            if (minReviews > (reviews)) {
+                iterator.remove();
+            }
         }
+
+
+
         int maxCount = 0;
         if(productList.size()>=5){
             maxCount = 5;
+        }
+        else if(productList.size() == 0){
+            return null;
         }
         else{
             maxCount = productList.size();
@@ -250,62 +265,84 @@ public class ProductService {
 
 
 
-    public List<Product> setRecommendedProductsAtLeastOne(List<Category> categories){
-        List<Product> recommends = new ArrayList<Product>(categories.size());
-        int returnSize = 10;
-        int remainSize = returnSize - categories.size();  //3
+    public List<Product> setRecommendedProductsAtLeastOne(List<Category> atLeastOne, String pageName, List<Product> products){
+        // PBTI 결과 카테고리에 해당하는 상품이 최소 하나라도 있다
+        int returnSize = 12;
+        int existSize = products.size();  //3
+        if(pageName.equals("PBTI")){
+            returnSize = 6;
+        }
+        List<Product> recommends = new ArrayList<>(returnSize);
+        int remainSize = returnSize - existSize;    // 11
         // 연결된 상품이 하나라도 있는 카테고리들의 랜덤 상품 출력 후에도 size가 남는다면
         // 남는 size만큼 반복문 돌리기 ( 랜덤 상품 출력한 카테고리들에서 랜덤 카테고리를 선택하고 그에 해당하는 랜덤 상품 출력)
 
         // 1. 비로그인 회원 ( Member = null  ) || 로그인은 했으나 선택된 카테고리가 없는 회원(Category == null)
-        //                                   || 로그인, PBTI는 했으나 선택된 카테고리에 연결된 상품이 10개 미만인 회원
-        //  -> 연결된 상품이 최소 1개라도 있는 카테고리들 각각에 해당하는 랜덤 상품 세팅
-
-        for(Category category1 : categories){  //7 ( 0  ~ 6 )
-                Specification<Product> spec = Specification.where(ProductSpecification.equalCategory(category1));
-
-                List<Product> products = productRepository.findAll(spec);
-                System.out.println(products);
-                if(products.isEmpty()){
-                    throw new RuntimeException("products null");
-                }
-                int randomRange = products.size();
-                int randomIndex = (int)(Math.random()*randomRange);
-                recommends.add(products.get(randomIndex)); // !
+        //                                   || 로그인, PBTI는 했으나 선택된 카테고리에 연결된 상품이 12개(or 6개) 미만인 회원
+        // 받아온 카테고리 연결 상품들  +  연결된 상품이 최소 1개라도 있는 카테고리들 중 랜덤 카테고리 - 랜덤 상품 세팅
+        for(int i = 0 ; i<existSize;i++){
+            recommends.add(products.get(i));  // 0 , 1, 2
         }
         if(remainSize>0){
                 for(int i = returnSize-remainSize ; i<returnSize;i++){
-                    int randomCategoryRange = categories.size();
+                    int randomCategoryRange = atLeastOne.size();
                     int randomCategoryIndex = (int)(Math.random()*randomCategoryRange);
-                    Category randomCategory = categories.get(randomCategoryIndex);
+                    Category randomCategory = atLeastOne.get(randomCategoryIndex);
                     Specification<Product> spec = Specification.where(ProductSpecification.equalCategory(randomCategory));
-                    List<Product> products = productRepository.findAll(spec);
-                    int randomRange = products.size();
+                    List<Product> productList = productRepository.findAll(spec);
+                    int randomRange = productList.size();
                     int randomIndex = (int)(Math.random()*randomRange);
-                    recommends.add(products.get(randomIndex));
+                    recommends.add(productList.get(randomIndex));
                 }
         }
         return recommends;
     }
-    public List<Product> setRecommendedProducts(Category category){
-
+    public List<Product> setRecommendedProducts(Category category,String pageName){
+        // 메인 페이지인지  PBTI 등록 페이지인지에 따라 리턴 사이즈 결정
+        //메인(12) / PBTI (6)
         // 2. 로그인 완료, 선택된 카테고리가 있는 회원 && 선택된 카테고리에 연결된 상품이 10개 이상
-        // -> 선택된 카테고리에 해당하는 랜덤 상품 10가지
-        int returnSize = 10;
+        int returnSize = 12;
+        if(pageName.equals("PBTI")){
+            returnSize = 6;
+        }
         List<Product> recommends = new ArrayList<Product>(returnSize);
-
         for(int i = 0 ;i<returnSize;i++){
-
                 List<Product> products = productRepository.findAllByCategory(category);
                 System.out.println(products);
                 int randomRange = products.size();
                 int randomIndex = (int)(Math.random()*randomRange);
                 recommends.add(products.get(randomIndex)); // !
         }
+        return recommends;
+    }
+
+    public List<Product> setRandomRecommendedProducts(List<Category> categories, String pageName){
+        if(categories.size()==0){
+            return null;
+        }
+        List<Product> recommends = new ArrayList<Product>(categories.size());
+        int returnSize = 12;
+        if(pageName.equals("PBTI")){
+            returnSize = 6;
+        }
+        for(int i = 0 ; i<returnSize;i++){
+            int randomCategoryRange = categories.size();
+            int randomCategoryIndex = (int)(Math.random()*randomCategoryRange);
+            Category randomCategory = categories.get(randomCategoryIndex);
+            Specification<Product> spec = Specification.where(ProductSpecification.equalCategory(randomCategory));
+            List<Product> products = productRepository.findAll(spec);
+            int randomRange = products.size();
+            int randomIndex = (int)(Math.random()*randomRange);
+            recommends.add(products.get(randomIndex));
+        }
 
         return recommends;
     }
 
+
+    public List<Product> findProductsByCategory(Category category){
+        return productRepository.findAllByCategory(category);
+    }
 
     public void deleteProduct(long productId){
         Product findProduct = findVerifiedProductId(productId);

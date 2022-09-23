@@ -125,39 +125,58 @@ public class MemberController {
 
     @PostMapping("/pbti/{category-id}")
     @ApiOperation(value = "멤버에 편비티아이 추가")
-    public ResponseEntity pbti(@PathVariable("category-id") @Positive long id,
+    public ResponseEntity pbti(@PathVariable("category-id") @Positive long categoryId,
                                HttpServletRequest request){
-
+        int size = 6;
         List<Product> recommends = new ArrayList<>();
         boolean loginStatus = memberService.memberCheck(request);
         if(loginStatus){
-            return new ResponseEntity<>("로그인이 필요한 서비스입니다.", HttpStatus.BAD_REQUEST);
-        }
-        else {
-            Member member = memberService.getLoginMember();
-            Member updatedMember = member;
-            updatedMember.setCategory(categoryService.findVerifiedCategoryId(id));
-            Member PBTIMember = memberService.updateMember(member,updatedMember);
+            // 비회원 PBTI
+            Category category = categoryService.findVerifiedCategoryId(categoryId);
+            if(category.getProducts().size()<size){
+                List<Product> products = productService.findProductsByCategory(category);
 
-            //PBTI 결과 카테고리에 해당하는 랜덤 상품 세팅
-            int status = 0;
-
-            Category memberCategory = PBTIMember.getCategory();
-            if((memberCategory == null) || (memberCategory.getProducts().size()<10)){
-                status = 1;
                 List<Category> allCategories = categoryService.findAllCategoryAsList();
                 //연결된 상품이 최소 1개라도 있는 카테고리들로 리스트 만들기
                 List<Category> atLeastOne = categoryService.checkAtLeastOneProduct(allCategories);
-                recommends = productService.setRecommendedProductsAtLeastOne(atLeastOne);
+
+
+                if(products.size() == 0){  // 카테고리에 해당하는 상품이 아예 없을 때
+                    // 랜덤 카테고리 + 랜덤 상품
+                    recommends = productService.setRandomRecommendedProducts(atLeastOne,"PBTI");
+                }
+                atLeastOne.removeIf(category1 -> category1 == category);
+                recommends = productService.setRecommendedProductsAtLeastOne(atLeastOne,"PBTI",products);
             }
             else {
-                status = 2;
-                recommends = productService.setRecommendedProducts(memberCategory);
+                recommends = productService.setRecommendedProducts(category,"PBTI");
+            }
+        }
+        else {  //회원 PBTI
+            Member member = memberService.getLoginMember();
+            Member updatedMember = member;
+            updatedMember.setCategory(categoryService.findVerifiedCategoryId(categoryId));
+            Member PBTIMember = memberService.updateMember(member,updatedMember);
+
+            //PBTI 결과 카테고리에 해당하는 랜덤 상품 세팅
+            Category memberCategory = PBTIMember.getCategory();
+            if((memberCategory.getProducts().size()<size)){
+                List<Product> products = productService.findProductsByCategory(memberCategory);
+                List<Category> allCategories = categoryService.findAllCategoryAsList();
+                List<Category> atLeastOne = categoryService.checkAtLeastOneProduct(allCategories);
+
+                if(products.size() == 0){  // 카테고리에 해당하는 상품이 아예 없을 때
+                    // 랜덤 카테고리 + 랜덤 상품
+                    recommends = productService.setRandomRecommendedProducts(atLeastOne,"PBTI");
+                }
+                atLeastOne.removeIf(category1 -> category1 == memberCategory);
+                recommends = productService.setRecommendedProductsAtLeastOne(atLeastOne,"PBTI",products);
+            }
+            else {
+                recommends = productService.setRecommendedProducts(memberCategory,"PBTI");
             }
             checkHeartFlagsLogin(member,recommends); // 상품 좋아요 플래그 적용
         }
-
-
 
     return new ResponseEntity<>(recommends, HttpStatus.OK);
     }
