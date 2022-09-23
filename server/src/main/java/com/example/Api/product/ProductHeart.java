@@ -1,5 +1,6 @@
 package com.example.Api.product;
 
+import com.example.Api.audit.Auditable;
 import com.example.Api.member.Member;
 import com.example.Api.product.Product;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -13,7 +14,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class ProductHeart {
+public class ProductHeart extends Auditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long productHeartId;
@@ -27,6 +28,9 @@ public class ProductHeart {
     @JoinColumn(name = "product_id")
     @JsonIgnore
     private Product product;
+
+
+    private boolean heartFlag;
 
     public void addMember(Member member){
         this.member = member;

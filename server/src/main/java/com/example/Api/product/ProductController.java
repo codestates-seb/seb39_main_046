@@ -23,14 +23,17 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
 import java.io.IOException;
+import java.lang.annotation.Annotation;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
 
 @RestController
 @RequestMapping("/product")
@@ -477,6 +480,35 @@ public class ProductController {
         return result?
                 new ResponseEntity<>("좋아요가 등록되었습니다",HttpStatus.OK)
                 : new ResponseEntity<>("좋아요가 취소되었습니다",HttpStatus.OK);
+
+    }
+
+    @ApiOperation(value = "내가 좋아요 누른 상품 목록 조회",
+            notes = "✅ 찜꽁 바구니를 조회합니다.\n - \n " )
+    @GetMapping("/heartProducts")
+    public ResponseEntity getHeartProducts( @Positive @RequestParam int page,
+                                                 HttpServletRequest request) {
+
+        int size = 4;
+        boolean loginStatus = memberService.memberCheck(request);
+        if(loginStatus){
+            return new ResponseEntity<>("로그인이 필요한 서비스입니다.", HttpStatus.BAD_REQUEST);
+        }
+        else {// 회사 상관 없이 전체 좋아요 상품 ( 페이지당 4개) , default : 좋아요순
+            Member member = memberService.getLoginMember();
+            Page<ProductHeart> productHeartsPage = productHeartService.findHeartProducts(page-1,size,member);
+            if(productHeartsPage.isEmpty()){
+                return new ResponseEntity<>("찜꽁한 상품이 없어요", HttpStatus.NOT_FOUND);
+            }
+            else {
+                List<ProductHeart> productHeartList = productHeartsPage.getContent();
+
+                return new ResponseEntity<>(
+                        new MultiResponseDto<>(productMapper.productHeartsToProductHeartResponseDto(productHeartList), productHeartsPage),
+                        HttpStatus.OK);
+            }
+
+        }
 
     }
 

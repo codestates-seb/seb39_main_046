@@ -5,6 +5,7 @@ import com.example.Api.category.Category;
 import com.example.Api.review.Review;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 

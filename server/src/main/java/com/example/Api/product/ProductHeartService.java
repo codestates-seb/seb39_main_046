@@ -2,9 +2,14 @@ package com.example.Api.product;
 
 import com.example.Api.member.Member;
 import com.example.Api.member.MemberRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Transactional
@@ -38,12 +43,20 @@ public class ProductHeartService {
         ProductHeart productHeart = new ProductHeart();
         return productHeart;
     }
-    // 찜꽁바구니에 활용할 것
+
     public ProductHeart findProductHeart(Member member, Product product){
         Optional<ProductHeart> optionalProductHeart = productHeartRepository.findByMemberAndProduct(member,product);
         return optionalProductHeart.orElseThrow(()->
                 new RuntimeException("연결된 좋아요 테이블이 없습니다"));
     }
+
+    public Page<ProductHeart>  findHeartProducts( int page, int size, Member member){
+
+        Page<ProductHeart> productHearts = productHeartRepository.findAllByMember(member,PageRequest.of(page,size,
+                Sort.by("createdAt").descending()));
+        return productHearts;
+    }
+
 
 
     public void cancelHeart(ProductHeart productHeart){

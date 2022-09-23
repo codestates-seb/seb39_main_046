@@ -2,12 +2,24 @@ package com.example.Api.product;
 
 import com.example.Api.category.Category;
 import org.mapstruct.Mapper;
+import org.springframework.data.domain.Page;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Mapper(componentModel = "spring")
 public interface ProductMapper {
 
     Product excelDataToProduct(ExcelData excelData);
-    /*List<Product> excelDatasToProducsts(List<ExcelData> excelDataList);*/
+
+
+   /*<Page<Product>> productHeartPageToProductPage(Page<ProductHeart> productHeartPage);*/
+   /* Wrapper<Page<Product>> map(Integer dummy, Page<ProductHeart> productHeartPage);*/
+    /* public class Wrapper<T> {
+        private T value;
+        //getters and setters
+    }*/
+
 
     default Product productPatchDtoToProduct(Product product, ProductPatchDto productPatchDto, Category category){
 
@@ -20,4 +32,24 @@ public interface ProductMapper {
 
         return patchProduct;
     }
+
+    default List<ProductHeartResponseDto> productHeartsToProductHeartResponseDto(
+            List<ProductHeart> productHearts){
+
+        return productHearts
+                .stream()
+                .map(productHeart -> ProductHeartResponseDto
+                        .builder()
+                        .productHeartId(productHeart.getProductHeartId())
+                        .memberId(productHeart.getMember().getMemberId())
+                        .productId(productHeart.getProduct().getProductId())
+                        .imageURL(productHeart.getProduct().getImageURL())
+                        .productName(productHeart.getProduct().getProductName())
+                        .price(productHeart.getProduct().getPrice())
+                        .company(productHeart.getProduct().getCompany())
+                        .heartFlag(true)
+                        .build())
+                .collect(Collectors.toList());
+    }
+
 }
