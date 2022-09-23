@@ -216,7 +216,7 @@ public class ProductController {
         Product product1 = productService.updateProduct(product,updatedProduct);
 
         int page = 1;
-        size = 10;
+        size = 10;   ///질문 상세 페이지에 한 번에 출력할 리뷰의 수
         int methodId = 4;
         Page<Review> pageReviews = reviewService.findAllByProductAndMethod(page-1,size,product1,methodId);
         List<Review> reviewList = pageReviews.getContent();
@@ -298,7 +298,7 @@ public class ProductController {
 
         // top 5 + 페이징 처리되어있는 20개의 데이터 (@GetMapping("/all/{category-id}/{method-id}")로 정렬 가능)
 
-        size = 20;
+        size = 12;
         List<Product> top5 = new ArrayList<>();
         Page<Product> pageProducts;
         List<Product> productList;
@@ -352,7 +352,7 @@ public class ProductController {
                                                           HttpServletRequest request) {
         // 랭킹 페이지 아래 20개 데이터 정렬 요청
 
-        size = 20;
+        size = 12;
         Category category = categoryService.findVerifiedCategoryId(categoryId);
         Page<Product> pageProducts;
         List<Product> productList;
