@@ -1,5 +1,6 @@
 package com.example.Api.product;
 
+import com.example.Api.category.Category;
 import com.example.Api.member.Member;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -14,7 +15,12 @@ public interface ProductHeartRepository extends JpaRepository<ProductHeart, Long
     //findBy -> existsBy 로 변경하면 boolean 리턴 가능
 
    /* List<ProductHeart> findAllByMember(Member member);*/
+
     Page<ProductHeart> findAllByMember(Member member, Pageable pageable);
+    Page<ProductHeart> findAllByMemberAndProduct_Company(Member member,String company, Pageable pageable);
+
+    Page<ProductHeart> findAllByMemberAndProduct_Category(Member member,Category category, Pageable pageable);
+    Page<ProductHeart> findAllByMemberAndProduct_CompanyAndProduct_Category(Member member,String company,Category category, Pageable pageable);
 
 
 }

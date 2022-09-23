@@ -30,7 +30,6 @@ public class ProductHeart extends Auditable {
     private Product product;
 
 
-    private boolean heartFlag;
 
     public void addMember(Member member){
         this.member = member;

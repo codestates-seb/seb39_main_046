@@ -18,7 +18,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.parameters.P;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -28,12 +27,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
 import java.io.IOException;
-import java.lang.annotation.Annotation;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Function;
 
 @RestController
 @RequestMapping("/product")
@@ -483,25 +480,28 @@ public class ProductController {
 
     }
 
-    @ApiOperation(value = "내가 좋아요 누른 상품 목록 조회",
-            notes = "✅ 찜꽁 바구니를 조회합니다.\n - \n " )
-    @GetMapping("/heartProducts")
-    public ResponseEntity getHeartProducts( @Positive @RequestParam int page,
-                                                 HttpServletRequest request) {
+    @ApiOperation(value = "마이 페이지 - 내가 좋아요 누른 상품 목록 조회",
+            notes = "✅ 찜꽁 바구니를 조회합니다.(회사별 정렬 요청) \n - \n " )
+    @GetMapping("/simplifiedHeartProducts")
+    public ResponseEntity getsimplifiedHeartProducts( @Positive @RequestParam int page,
+                                                      @RequestParam String company,
+                                                      HttpServletRequest request) {
 
         int size = 4;
         boolean loginStatus = memberService.memberCheck(request);
         if(loginStatus){
             return new ResponseEntity<>("로그인이 필요한 서비스입니다.", HttpStatus.BAD_REQUEST);
         }
-        else {// 회사 상관 없이 전체 좋아요 상품 ( 페이지당 4개) , default : 좋아요순
+        else {// 전체 + 회사별 좋아요 상품 ( 페이지당 4개) , default : 좋아요순
             Member member = memberService.getLoginMember();
-            Page<ProductHeart> productHeartsPage = productHeartService.findHeartProducts(page-1,size,member);
+            int methodId = 1;
+            Page<ProductHeart> productHeartsPage = productHeartService.SortHeartProducts(page-1,size,1,company,member,null);
             if(productHeartsPage.isEmpty()){
                 return new ResponseEntity<>("찜꽁한 상품이 없어요", HttpStatus.NOT_FOUND);
             }
             else {
                 List<ProductHeart> productHeartList = productHeartsPage.getContent();
+                setHeartFlagTrue(productHeartList);
 
                 return new ResponseEntity<>(
                         new MultiResponseDto<>(productMapper.productHeartsToProductHeartResponseDto(productHeartList), productHeartsPage),
@@ -509,6 +509,43 @@ public class ProductController {
             }
 
         }
+
+    }
+
+    @ApiOperation(value = "찜꽁 바구니 - 더보기",
+            notes = "✅ 전체 찜꽁 바구니를 조회합니다.( 정렬 요청 : 회사 종류 + 카테고리 + 좋아요(1)/리뷰(2)/조회(3)/최신순(4) )\n - \n " )
+    @GetMapping("/allHeartProducts/{category-id}/{method-id}")
+    public ResponseEntity getAllHeartProducts( @PathVariable("category-id") @Positive int categoryId,
+                                               @PathVariable("method-id") @Positive int methodId,
+                                               @RequestParam String company,
+                                            @Positive @RequestParam int page,
+                                            HttpServletRequest request) {
+        int size = 8;
+        boolean loginStatus = memberService.memberCheck(request);
+        if(loginStatus){
+            return new ResponseEntity<>("로그인이 필요한 서비스입니다.", HttpStatus.BAD_REQUEST);
+        }
+        else {
+            Member member = memberService.getLoginMember();
+            List<Category> allCategories = categoryService.findAllCategoryAsList();
+            Category category = categoryService.findVerifiedCategoryId(categoryId);
+            Page<ProductHeart> productHeartsPage;
+            productHeartsPage = productHeartService.SortHeartProducts(page-1,size,methodId,company,member, category);
+
+            if(productHeartsPage.isEmpty()){
+                return new ResponseEntity<>("찜꽁한 상품이 없어요", HttpStatus.NOT_FOUND);
+            }
+            else {
+                List<ProductHeart> productHeartList = productHeartsPage.getContent();
+                setHeartFlagTrue(productHeartList);
+
+                return new ResponseEntity<>(
+                        new MultiResponseDto<>(productMapper.productHeartsToProductHeartResponseDto(productHeartList), productHeartsPage),
+                        HttpStatus.OK);
+            }
+
+        }
+
 
     }
 
@@ -537,6 +574,11 @@ public class ProductController {
             else{
                 product.setHeartFlag(true);
             }
+        }
+    }
+    public void setHeartFlagTrue(List<ProductHeart> productHearts){
+        for(int i = 0 ; i< productHearts.size() ; i++){
+            productHearts.get(i).getProduct().setHeartFlag(true);
         }
     }
 }

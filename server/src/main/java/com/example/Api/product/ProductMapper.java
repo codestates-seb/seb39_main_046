@@ -42,12 +42,7 @@ public interface ProductMapper {
                         .builder()
                         .productHeartId(productHeart.getProductHeartId())
                         .memberId(productHeart.getMember().getMemberId())
-                        .productId(productHeart.getProduct().getProductId())
-                        .imageURL(productHeart.getProduct().getImageURL())
-                        .productName(productHeart.getProduct().getProductName())
-                        .price(productHeart.getProduct().getPrice())
-                        .company(productHeart.getProduct().getCompany())
-                        .heartFlag(true)
+                        .product(productHeart.getProduct())
                         .build())
                 .collect(Collectors.toList());
     }

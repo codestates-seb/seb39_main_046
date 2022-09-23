@@ -56,9 +56,9 @@ public class CategoryService {
 
 
     public Category findVerifiedCategoryId(long categoryId){
-        Optional<Category> optionalCategoryr = categoryRepository.findById(categoryId);
+        Optional<Category> optionalCategory = categoryRepository.findById(categoryId);
         Category findCategory =
-                optionalCategoryr.orElseThrow(()->
+                optionalCategory.orElseThrow(()->
                         new RuntimeException("Category not found"));
         return findCategory;
     }

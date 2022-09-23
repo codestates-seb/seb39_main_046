@@ -281,12 +281,7 @@ public class ProductService {
         return recommends;
     }
 
-   /* public Page<Product> findHeartProducts(int page, int size, List<ProductHeart> productHearts){
-        //list에는 회원의 모든 좋아요 테이블 Id값이 들어가 있다.
-        for(ProductHeart productHeart: productHearts){
 
-        }
-    }*/
 
 
 

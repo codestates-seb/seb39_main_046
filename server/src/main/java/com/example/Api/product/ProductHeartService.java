@@ -1,5 +1,6 @@
 package com.example.Api.product;
 
+import com.example.Api.category.Category;
 import com.example.Api.member.Member;
 import com.example.Api.member.MemberRepository;
 import org.springframework.data.domain.Page;
@@ -8,8 +9,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 @Transactional
@@ -50,15 +49,6 @@ public class ProductHeartService {
                 new RuntimeException("연결된 좋아요 테이블이 없습니다"));
     }
 
-    public Page<ProductHeart>  findHeartProducts( int page, int size, Member member){
-
-        Page<ProductHeart> productHearts = productHeartRepository.findAllByMember(member,PageRequest.of(page,size,
-                Sort.by("createdAt").descending()));
-        return productHearts;
-    }
-
-
-
     public void cancelHeart(ProductHeart productHeart){
         productHeartRepository.delete(productHeart);
 
@@ -67,5 +57,123 @@ public class ProductHeartService {
     //Member가 이미 좋아요 누른 상품인지 체크( 이미 눌렀으면 false, 누르지 않았다면 true)
     public boolean checkAlreadyHeart(Member member, Product product){
         return productHeartRepository.findByMemberAndProduct(member,product).isEmpty();
+    }
+
+
+    public Page<ProductHeart> SortHeartProductsByCompany(int page, int size, String company, Member member){
+        Page<ProductHeart> fourProducts;
+        boolean existCompany = ( (company.equals("CU")) || (company.equals("GS25")) || (company.equals("7-ELEVEN")) );
+        if(existCompany){
+            fourProducts = productHeartRepository.findAllByMemberAndProduct_Company(member,company,PageRequest.of(page,size,
+                    Sort.by("createdAt").descending()));
+        }
+        else {
+            fourProducts = productHeartRepository.findAllByMember(member,PageRequest.of(page,size,
+                    Sort.by("createdAt").descending()));
+        }
+
+        return fourProducts;
+    }
+
+
+    public Page<ProductHeart> SortHeartProducts(int page, int size, int methodId, String company, Member member, Category category){
+        // 카테고리가 있을 때 진입
+        Page<ProductHeart> productHeartsPage;
+        boolean existCompany = ( (company.equals("CU")) || (company.equals("GS25")) || (company.equals("7-ELEVEN")) );
+        boolean existCategory = ( category != null);
+        Sort.Order order;
+        Sort sort;
+
+        if(methodId == 1){
+            System.out.println("좋아요순 정렬");
+            order = Sort.Order.desc("product.hearts");
+            sort = Sort.by(order);
+            if(existCompany){ // Company O
+                if (existCategory) {  //category O
+                    productHeartsPage = productHeartRepository.findAllByMemberAndProduct_CompanyAndProduct_Category(member,company,category, PageRequest.of(page,size, sort));
+                }
+                else { // category X
+                    productHeartsPage = productHeartRepository.findAllByMemberAndProduct_Company(member,company,PageRequest.of(page,size, sort));
+                }
+            }
+            else{// company X
+                if (existCategory) {  //category O
+                    productHeartsPage = productHeartRepository.findAllByMemberAndProduct_Category(member,category,PageRequest.of(page,size, sort));
+                }
+                else {   // category X
+                    productHeartsPage = productHeartRepository.findAllByMember(member,PageRequest.of(page,size, sort));
+                }
+            }
+        }
+        else if(methodId == 2){//"productHeart.product.reviews"
+            System.out.println("리뷰순 정렬");
+            order = Sort.Order.desc("product.reviews");
+            sort = Sort.by(order);
+            if(existCompany){ // Company O
+                if (existCategory) {  //category O
+                    productHeartsPage = productHeartRepository.findAllByMemberAndProduct_CompanyAndProduct_Category(member,company,category, PageRequest.of(page,size, sort));
+                }
+                else { // category X
+                    productHeartsPage = productHeartRepository.findAllByMemberAndProduct_Company(member,company,PageRequest.of(page,size, sort));
+                }
+            }
+            else{// company X
+                if (existCategory) {  //category O
+                    productHeartsPage = productHeartRepository.findAllByMemberAndProduct_Category(member,category,PageRequest.of(page,size, sort));
+                }
+                else {   // category X
+                    productHeartsPage = productHeartRepository.findAllByMember(member,PageRequest.of(page,size, sort));
+                }
+            }
+        }
+        else if(methodId == 3) {
+            System.out.println("조회순 정렬");
+            order = Sort.Order.desc("product.views");
+            sort = Sort.by(order);
+            if(existCompany){ // Company O
+                if (existCategory) {  //category O
+                    productHeartsPage = productHeartRepository.findAllByMemberAndProduct_CompanyAndProduct_Category(member,company,category, PageRequest.of(page,size, sort));
+                }
+                else { // category X
+                    productHeartsPage = productHeartRepository.findAllByMemberAndProduct_Company(member,company,PageRequest.of(page,size, sort));
+                }
+            }
+            else{// company X
+                if (existCategory) {  //category O
+                    productHeartsPage = productHeartRepository.findAllByMemberAndProduct_Category(member,category,PageRequest.of(page,size, sort));
+                }
+                else {   // category X
+                    productHeartsPage = productHeartRepository.findAllByMember(member,PageRequest.of(page,size, sort));
+                }
+            }
+        }
+        else {
+            System.out.println("최신순 정렬");  //<- 최근에 좋아요 등록한순
+            /*  이건 최신 상품순
+            order = Sort.Order.desc("product.createdAt");
+            sort = Sort.by(order);
+             */
+            if(existCompany){ // Company O
+                if (existCategory) {  //category O
+                    productHeartsPage = productHeartRepository.findAllByMemberAndProduct_CompanyAndProduct_Category(member,company,category, PageRequest.of(page,size,
+                            Sort.by("createdAt").descending()));
+                }
+                else { // category X
+                    productHeartsPage = productHeartRepository.findAllByMemberAndProduct_Company(member,company,PageRequest.of(page,size,
+                            Sort.by("createdAt").descending()));
+                }
+            }
+            else{// company X
+                if (existCategory) {  //category O
+                    productHeartsPage = productHeartRepository.findAllByMemberAndProduct_Category(member,category,PageRequest.of(page, size,
+                            Sort.by("createdAt").descending()));
+                }
+                else {   // category X
+                    productHeartsPage = productHeartRepository.findAllByMember(member,PageRequest.of(page, size,
+                            Sort.by("createdAt").descending()));
+                }
+            }
+        }
+        return productHeartsPage;
     }
 }

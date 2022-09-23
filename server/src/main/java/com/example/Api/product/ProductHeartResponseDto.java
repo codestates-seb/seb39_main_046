@@ -10,11 +10,7 @@ import java.math.BigDecimal;
 public class ProductHeartResponseDto {
     private long productHeartId;
     private long memberId;
-    private long productId;
-    private String imageURL;
-    private String productName;
-    private BigDecimal price;
-    private String company;
+    private Product product;
     private boolean heartFlag;
 
 }
