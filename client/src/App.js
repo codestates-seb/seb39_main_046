@@ -11,6 +11,7 @@ import Loading from "./components/common/loading/Loading";
 import Login from "./pages/member/LoginPage";
 import SingUp from "./pages/member/SingUp";
 import Mypage from "./pages/mypage/Mypage";
+import DetailProduct from "./pages/detailProducts/DetailProduct";
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -29,6 +30,7 @@ function App() {
           <Route path="/login" element={<Login />}></Route>
           <Route path="/singup" element={<SingUp />}></Route>
           <Route path="/mypage" element={<Mypage/>}></Route>
+          <Route path="/detail" element={<DetailProduct/>}></Route>
           <Route path="*" element={<div>NotFound</div>} />
         </Route>
       </Routes>

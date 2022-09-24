@@ -49,6 +49,7 @@ const PBanner = styled.section`
 
 const Middlecontents = styled.span`
     text-align:center;
+    margin-left: 100px;
     font-size: ${({ theme }) => theme.fontSizes.xs};
     color: ${({ theme }) => theme.colors.White};
     p {

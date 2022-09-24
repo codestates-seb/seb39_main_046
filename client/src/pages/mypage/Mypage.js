@@ -4,6 +4,7 @@ import PersonalInfo from '../../components/myPage/PersonalInfo';
 import ProductBasket from '../../components/myPage/ProductBasket';
 import PbtiBanner from '../../components/myPage/PbtiBanner';
 import PersonalRivew from '../../components/myPage/PersonalRivew';
+import MyLikeReview from '../../components/myPage/MyLikeReview';
 
 const Mypage = () => {
     return (
@@ -13,6 +14,7 @@ const Mypage = () => {
             <ProductBasket/>
             <PbtiBanner/>
             <PersonalRivew/>
+            <MyLikeReview/>
             {/* </Exper> */}
         </div>
     );

@@ -44,4 +44,3 @@ const ProductImage = styled.section`
     text-align:right;
   }
 `
-const 
