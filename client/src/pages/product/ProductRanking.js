@@ -3,6 +3,7 @@ import styled from "styled-components";
 import DropDown from "../../components/common/dropDown/DropDown";
 import Sort from "../../components/common/dropDown/Sort";
 import LineInput from "../../components/common/input/LineInput";
+import Paging from "../../components/common/pagination/Paging";
 import TabRound from "../../components/common/tab/TabRound";
 import TabSquare from "../../components/common/tab/TabSquare";
 import ProductBox from "../../components/product/ProductBox";
@@ -67,6 +68,9 @@ const ProductRanking = () => {
             <ProductBox className="itemgrid" />
           </section>
         </RMainBox>
+        <PaginationBox>
+          <Paging />
+        </PaginationBox>
       </Rcontainer>
     </>
   );
@@ -151,4 +155,10 @@ const RMainBox = styled.main`
     width: 1000px;
     text-align: right;
   }
+`;
+
+const PaginationBox = styled.div`
+  margin-top: 50px;
+  margin-bottom: 50px;
+  text-align: center;
 `;
