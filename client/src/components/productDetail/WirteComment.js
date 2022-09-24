@@ -7,29 +7,24 @@ import Button from '../../components/common/button/Button';
 
 const WirteComment = () => {
 
-  const [imgBase64, setImgBase64] = useState("");
   const [regiImg, setregiImg] = useState(Noimg);
-
-  const handleChangeFile = (e) => {
-    let reader = new FileReader();
-
-    reader.onload = () => {
-      const base64 = reader.result;
-      if (base64) {
-        setImgBase64(base64.toString());
+  
+  const encodeFileToBase64 = (fileBlob) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(fileBlob);
+    return new Promise ((resolve) => {
+      reader.onload = () => {
+        setregiImg(reader.result);
+        resolve();
       }
-    }
-    if(e.target.files[0]){
-      reader.readAsDataURL(e.target.files[0]);
-      setregiImg(e.target.files[0]);
-    }
+    })
   }
 
 
   return (
     <Maindiv>
       <label className='input-file-button' for="input-file">
-        <img src={regiImg} alt="이미지 등록" width="150px" height="150px" onChange={handleChangeFile}/>
+        <img src={regiImg} alt="이미지 등록" width="150px" height="150px" onChange={(e) => {encodeFileToBase64(e.target.files[0])}}/>
       </label>
       <input type="file" accept='image/*' id="input-file"/>
       <WriteArea>
