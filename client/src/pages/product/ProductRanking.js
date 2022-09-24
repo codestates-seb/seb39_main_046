@@ -1,7 +1,11 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
+import DropDown from "../../components/common/dropDown/DropDown";
+import Sort from "../../components/common/dropDown/Sort";
+import LineInput from "../../components/common/input/LineInput";
+import TabRound from "../../components/common/tab/TabRound";
+import TabSquare from "../../components/common/tab/TabSquare";
 import ProductBox from "../../components/product/ProductBox";
-
 const ProductRanking = () => {
   const [currentTab, setcurrentTab] = useState(0);
   const menuArr = [
@@ -41,7 +45,28 @@ const ProductRanking = () => {
             <ProductBox />
           </TabContent>
         </RHearderBox>
-        <RMainBox></RMainBox>
+        <RMainBox>
+          <TabSquare />
+          <LineInput />
+          <TabRound />
+          <div className="likebtn">
+            <DropDown />
+          </div>
+          <section className="productContainer">
+            <ProductBox className="itemgrid" />
+            <ProductBox className="itemgrid" />
+            <ProductBox className="itemgrid" />
+            <ProductBox className="itemgrid" />
+            <ProductBox className="itemgrid" />
+            <ProductBox className="itemgrid" />
+            <ProductBox className="itemgrid" />
+            <ProductBox className="itemgrid" />
+            <ProductBox className="itemgrid" />
+            <ProductBox className="itemgrid" />
+            <ProductBox className="itemgrid" />
+            <ProductBox className="itemgrid" />
+          </section>
+        </RMainBox>
       </Rcontainer>
     </>
   );
@@ -106,6 +131,24 @@ const TabContent = styled.div`
 
 /* 본문 */
 const RMainBox = styled.main`
-  width: 1280px;
-  min-height: 1000px;
+  width: 100%;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding-top: 90px;
+
+  .productContainer {
+    max-width: 1060px;
+    width: 100%;
+    padding: 20px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 20px;
+  }
+  .likebtn {
+    width: 1000px;
+    text-align: right;
+  }
 `;

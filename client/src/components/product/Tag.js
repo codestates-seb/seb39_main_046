@@ -1,6 +1,6 @@
 import React from "react";
 import styled, { css } from "styled-components";
-
+import { darken } from "polished";
 const ProductCategory = styled.button`
   display: inline-flex;
   outline: none;
@@ -8,13 +8,17 @@ const ProductCategory = styled.button`
   padding: 4px 12px;
   border-radius: 20px;
   font-size: ${({ theme }) => theme.fontSizes.xs};
-  color: white;
   cursor: pointer;
   ${(props) => {
-    const selected = props.theme.colors[props.color];
+    const buttonColor = props.theme.colors[props.buttonColor];
+    const fontColor = props.theme.colors[props.fontColor];
+    const outline = props.theme.colors[props.lineColor];
     return css`
-      background: ${selected};
+      background: ${buttonColor};
+      color: ${fontColor};
+      /* border: 1px solid ${outline}; */
       &:hover {
+        /* box-shadow: 2px 2px 2px rgba(204, 204, 204, 0.9); */
       }
     `;
   }}
@@ -29,7 +33,8 @@ const Tag = ({ children, ...rest }) => {
 };
 
 Tag.defaultProps = {
-  color: "Gray_030",
+  buttonColor: "Gray_030",
+  fontColor: "White",
 };
 
 export default Tag;

@@ -16,7 +16,7 @@ const ProductBox = () => {
       </PImage>
       <ProductsEx>
         <div className="tag-box">
-          <Tag color="Eleven">7-Eleven</Tag>
+          <Tag buttonColor="Eleven">7-Eleven</Tag>
           <Tag>안주</Tag>
         </div>
         <ProductName>고창복분자 너비아니 샌드위치</ProductName>
@@ -34,13 +34,13 @@ const ProductSection = styled.section`
   border-radius: 20px;
   background-color: #fff;
   box-shadow: 0px 4px 10px rgba(204, 204, 204, 0.5);
-
   position: relative;
+  cursor: pointer;
   .heart-box {
     position: absolute;
     right: 10px;
     top: 7px;
-    z-index: 10;
+    z-index: 2;
   }
 `;
 
