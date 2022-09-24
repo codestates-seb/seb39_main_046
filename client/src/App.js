@@ -12,6 +12,7 @@ import Login from "./pages/member/LoginPage";
 import SingUp from "./pages/member/SingUp";
 import Mypage from "./pages/mypage/Mypage";
 import ProductRanking from "./pages/product/ProductRanking";
+import ProductBasket from "./pages/mypage/ProductBasket";
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -31,6 +32,7 @@ function App() {
           <Route path="/singup" element={<SingUp />}></Route>
           <Route path="/mypage" element={<Mypage />}></Route>
           <Route path="/product" element={<ProductRanking />}></Route>
+          <Route path="/productbasket" element={<ProductBasket />}></Route>
           <Route path="*" element={<div>NotFound</div>} />
         </Route>
       </Routes>
