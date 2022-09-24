@@ -22,12 +22,27 @@ const BestReview = () => {
       </BestRiveTitle>
       <SwiperBox
         modules={[Navigation, Pagination, Autoplay]}
-        spaceBetween={23}
-        slidesPerView={5}
+        spaceBetween={20}
+        slidesPerView={2}
         navigation
         pagination={{ clickable: true }}
         loop={true}
         autoplay={true}
+        speed={1000}
+        breakpoints={{
+          740: {
+            slidesPerView: 3,
+            spaceBetween: 40,
+          },
+          1000: {
+            slidesPerView: 4,
+            spaceBetween: 20,
+          },
+          1280: {
+            slidesPerView: 5,
+            spaceBetween: 25,
+          },
+        }}
         onSwiper={(swiper) => console.log(swiper)}
         onSlideChange={() => console.log("slide change")}
       >
@@ -149,7 +164,7 @@ const BestReview = () => {
 export default BestReview;
 
 const ReivewContainer = styled.section`
-  width: 1200px;
+  max-width: 1280px;
   height: 450px;
   margin: 0 auto;
   margin-bottom: 100px;
@@ -168,6 +183,7 @@ const BestRiveTitle = styled.div`
 const SwiperBox = styled(Swiper)`
   padding-top: 50px;
   height: 330px;
+  width: 100%;
 `;
 const StyleSwipper = styled(SwiperSlide)`
   width: 220px;

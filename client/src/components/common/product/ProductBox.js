@@ -33,7 +33,7 @@ const ProductSection = styled.section`
   height: 355px;
   border-radius: 20px;
   background-color: #fff;
-  box-shadow: 0px 4px 10px rgba(204, 204, 204, 0.5);
+  /* box-shadow: 0px 4px 10px rgba(204, 204, 204, 0.5); */
   position: relative;
   cursor: pointer;
   .heart-box {

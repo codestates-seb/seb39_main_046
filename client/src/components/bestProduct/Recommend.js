@@ -21,14 +21,27 @@ const Recommend = () => {
       </RTitleContainer>
       <SwiperBox
         modules={[Navigation, Pagination, Autoplay]}
-        spaceBetween={25}
-        slidesPerView={5}
+        spaceBetween={17}
+        slidesPerView={2}
         navigation
         pagination={{ clickable: true }}
         loop={true}
         autoplay={true}
-        onSwiper={(swiper) => console.log(swiper)}
-        onSlideChange={() => console.log("slide change")}
+        speed={1000}
+        breakpoints={{
+          740: {
+            slidesPerView: 3,
+            spaceBetween: 40,
+          },
+          1000: {
+            slidesPerView: 4,
+            spaceBetween: 20,
+          },
+          1280: {
+            slidesPerView: 5,
+            spaceBetween: 17,
+          },
+        }}
       >
         <StyleSwipper>
           <ProductBox />
@@ -80,12 +93,15 @@ const RTitle = styled.div`
   }
 `;
 const SwiperBox = styled(Swiper)`
-  padding: 30px;
-  padding-left: 9px;
-  padding-right: 17px;
+  padding-top: 30px;
   width: 100%;
   height: 450px;
+  padding-left: 9px;
+  padding-right: 17px;
 `;
 const StyleSwipper = styled(SwiperSlide)`
+  box-shadow: 2px 2px 20px rgba(204, 204, 204, 0.3);
   cursor: pointer;
+  height: 355px;
+  border-radius: 20px;
 `;
