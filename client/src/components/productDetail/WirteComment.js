@@ -9,24 +9,25 @@ const WirteComment = () => {
 
   const [regiImg, setregiImg] = useState(Noimg);
   
-  const encodeFileToBase64 = (fileBlob) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(fileBlob);
-    return new Promise ((resolve) => {
-      reader.onload = () => {
-        setregiImg(reader.result);
-        resolve();
-      }
-    })
-  }
+  const saveFileImage = (e) => {
+    setregiImg(URL.createObjectURL(e.target.files[0]));
+    console.log(regiImg);
+  };
+
+
+
+
 
 
   return (
     <Maindiv>
+      {/* <label className='input-file-button' for="input-file" onChange={saveFileImage}>
+        <img src={regiImg} alt="이미지 등록" width="150px" height="2px" />
+      </label> */}
       <label className='input-file-button' for="input-file">
-        <img src={regiImg} alt="이미지 등록" width="150px" height="150px" onChange={(e) => {encodeFileToBase64(e.target.files[0])}}/>
+        {regiImg && (<img alt="sample" src={regiImg} width="150px" height="150px"/>)}
       </label>
-      <input type="file" accept='image/*' id="input-file"/>
+      <input type="file" accept='image/*' id="input-file"  onChange={saveFileImage}/>
       <WriteArea>
         <input className='textA' type="text" placeholder="최대 50자 입력가능"></input>
         <Button>후기작성</Button>
