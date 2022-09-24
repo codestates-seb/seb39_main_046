@@ -34,7 +34,7 @@ public class ProductService {
     }
 
 
-    public boolean checkDuplicatedProduct(String productName){
+    public boolean checkDuplicatedProduct(String productName){  // 상품 중복 검사
         boolean result = false;
         Optional<Product> optionalProduct = productRepository.findByProductName(productName);
         if(optionalProduct.isPresent()){
@@ -110,14 +110,7 @@ public class ProductService {
             productList = productRepository.findAll(Sort.by(Sort.Direction.DESC, "hearts"));
         }
 
-       /* //최소 리뷰수 (10) 이하인 상품들은 제거
-        long minReivews = 10;
 
-        for(int i =0 ;i<productList.size();i++){
-            if(productList.get(i).getReviews()<minReivews){
-                productList.remove(i);
-            }
-        }*/
         for (Iterator<Product> iterator = productList.iterator(); iterator.hasNext(); ) {
             long minReviews = 10;
             long reviews = iterator.next().getReviews();
@@ -125,8 +118,6 @@ public class ProductService {
                 iterator.remove();
             }
         }
-
-
 
         int maxCount = 0;
         if(productList.size()>=5){

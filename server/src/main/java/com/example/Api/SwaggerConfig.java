@@ -45,8 +45,9 @@ public class SwaggerConfig {
 
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title("Practice Swagger")
-                .description("practice swagger config")
+                .title("\uD83C\uDFEA RecoStore API")
+                .description("나만의 편의점 PB랭킹 사이트\uD83C\uDF5C")
+                .termsOfServiceUrl("https://github.com/codestates-seb/seb39_main_046")
                 .version("1.0")
                 .build();
     }

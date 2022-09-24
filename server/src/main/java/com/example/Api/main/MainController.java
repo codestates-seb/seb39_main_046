@@ -9,8 +9,13 @@ import com.example.Api.product.Product;
 import com.example.Api.product.ProductHeartService;
 import com.example.Api.product.ProductService;
 import com.example.Api.review.Review;
+import com.example.Api.review.ReviewHeartService;
 import com.example.Api.review.ReviewService;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +29,9 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+@Tag(name = "Main Page", description = "Main Page API")
+@Api(tags = "Main Page")
+
 @RestController
 @RequestMapping("/main")
 @Validated
@@ -32,18 +40,21 @@ public class MainController {
     private final ProductService productService;
     private final ReviewService reviewService;
     private final MemberService memberService;
+    private final ReviewHeartService reviewHeartService;
 
     private final ProductHeartService productHeartService;
     private final CategoryService categoryService;
 
     public MainController(ProductService productService, ReviewService reviewService,
                           MemberService memberService, CategoryService categoryService,
-                          ProductHeartService productHeartService) {
+                          ProductHeartService productHeartService,
+                          ReviewHeartService reviewHeartService) {
         this.productService = productService;
         this.reviewService = reviewService;
         this.memberService = memberService;
         this.categoryService = categoryService;
         this.productHeartService = productHeartService;
+        this.reviewHeartService = reviewHeartService;
     }
 
     @ApiOperation(value = "메인 페이지 조회",
@@ -53,31 +64,10 @@ public class MainController {
 
         //전체 top5 데이터 세팅
         String company = "all";
-        List<Product> top5 = top5 = productService.getTop5Products(company);
-
+        List<Product> top5 = productService.getTop5Products(company);
 
         // 베스트리뷰 세팅
-        List<Review> bestReviews = new ArrayList<>();
-        List<Review> reviewList = reviewService.findAllReviews(Sort.by(Sort.Direction.DESC, "hearts"));
-
-
-        for (Iterator<Review> iterator = reviewList.iterator(); iterator.hasNext(); ) {
-            long minHearts = 10;
-            long hearts = iterator.next().getHearts();
-            if (minHearts > (hearts)) {
-                iterator.remove();
-            }
-        }
-
-        int maxCount = reviewList.size();
-        if(reviewList.size()>=5){
-            maxCount = 5;
-        }
-
-        for(int i = 0 ; i<maxCount; i++){
-            Review review = reviewList.get(i);
-            bestReviews.add(review);
-        }
+        List<Review> bestReviews = reviewService.getTop5Reviews();
 
         boolean loginStatus = memberService.memberCheck(request);
         //현재 상태 비회원이면 true,  회원일시 false  반환
@@ -86,16 +76,20 @@ public class MainController {
         int size = 12;
         List<Product> recommends = new ArrayList<>();
 
-        if (loginStatus) {   //비회원일 때 추천 상품 세팅
+        if (loginStatus) {   //비회원일 때
+
+            // 추천 상품 세팅
             List<Category> allCategories = categoryService.findAllCategoryAsList();
             //연결된 상품이 최소 1개라도 있는 카테고리들로 리스트 만들기
             List<Category> atLeastOne = categoryService.checkAtLeastOneProduct(allCategories);
             recommends = productService.setRandomRecommendedProducts(atLeastOne,"main");
             checkHeartFlagsNotLongin(top5);
+            checkReviewHeartFlagsNotLongin(bestReviews);
             checkHeartFlagsNotLongin(recommends);
         }
-        else {  // 회원일 때 추천상품 세팅
+        else {  // 회원일 때
 
+            // 추천상품 세팅
             Member member = memberService.getLoginMember();
             Category memberCategory = member.getCategory();
             if((memberCategory == null) || (memberCategory.getProducts().size()<size)){
@@ -119,6 +113,7 @@ public class MainController {
                 recommends = productService.setRecommendedProducts(memberCategory,"main");
             }
             checkHeartFlagsLogin(member,top5);
+            checkReviewHeartFlagsLogin(memberService.getLoginMember(),bestReviews);
             checkHeartFlagsLogin(member,recommends);
         }
 
@@ -138,5 +133,21 @@ public class MainController {
             product.setHeartFlag(!productHeartService.checkAlreadyHeart(member, product));
         }
 
+    }
+    public void checkReviewHeartFlagsNotLongin(List<Review> reviews){
+        for(Review review : reviews){
+            review.setReviewHeartFlag(false); // 좋아요 상태 OFF
+        }
+    }
+    public void checkReviewHeartFlagsLogin(Member member, List<Review> reviews){
+        for(Review review : reviews){
+            if(reviewHeartService.checkAlreadyHeart(member,review)){
+                //이미 눌렀으면 false, 누르지 않았다면 true
+                review.setReviewHeartFlag(false);
+            }
+            else{
+                review.setReviewHeartFlag(true);
+            }
+        }
     }
 }

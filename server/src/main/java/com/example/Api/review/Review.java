@@ -26,13 +26,13 @@ public class Review extends Auditable {
     private long reviewId;
 
     @Column
-    private long hearts;
-
-    @Column
     private String content;
 
     @Column
     private String imageURL;
+
+    @Column
+    private long hearts;
 
     @ManyToOne
     @JoinColumn(name = "product_id")
@@ -42,7 +42,7 @@ public class Review extends Auditable {
     @JoinColumn(name = "member_id")
     private Member member;
 
-    @OneToMany
+    @OneToMany(mappedBy = "review",cascade = CascadeType.ALL)
     @JsonIgnore
     private List<ReviewHeart> reviewHearts = new ArrayList<>();
 

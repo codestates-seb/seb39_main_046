@@ -1,12 +1,13 @@
 package com.example.Api.review;
 
-import com.example.Api.category.Category;
 import com.example.Api.member.Member;
 import com.example.Api.member.MemberService;
 import com.example.Api.product.Product;
 import com.example.Api.product.ProductService;
 import com.example.Api.response.MultiResponseDto;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
@@ -14,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.Positive;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,189 +23,302 @@ import java.util.List;
 @RestController
 @RequestMapping("/review")
 @Validated
+@Tag(name = "Review", description = "Review API")
+@Api(tags = "Review")
 public class ReviewController {
 
     private final ReviewService reviewService;
     private final ProductService productService;
     private final MemberService memberService;
 
+    private final ReviewHeartService reviewHeartService;
+    private ReviewMapper reviewMapper;
+
     private int size = 0;
 
-    public ReviewController(ReviewService reviewService, ProductService productService, MemberService memberService) {
+    public ReviewController(ReviewService reviewService, ProductService productService, MemberService memberService,
+                            ReviewHeartService reviewHeartService, ReviewMapper reviewMapper) {
         this.reviewService = reviewService;
         this.productService = productService;
         this.memberService = memberService;
+        this.reviewHeartService = reviewHeartService;
+        this.reviewMapper = reviewMapper;
     }
 
-    /*
-    # POST("/{member-id}"), Request Parmeters : long productId
-:  리뷰 댓글 작성
-*/
+
     @ApiOperation(value = "리뷰 등록",
             notes = "✅ 상품에 대한 리뷰를 등록합니다.\n - \n " )
     @PostMapping("/{product-id}")
     public ResponseEntity postReview(@PathVariable("product-id") @Positive long productId,
-                                     @Validated @RequestBody ReviewPostDto reviewPostDto){
-        Member writter = memberService.getLoginMember();
+                                     @Validated @RequestBody ReviewPostDto reviewPostDto,
+                                     HttpServletRequest request){
 
-        Member  verifiedMember = memberService.findVerifiedMemberId(writter.getMemberId());
-        Product product = productService.findVerifiedProductId(productId);
+        boolean loginStatus = memberService.memberCheck(request);
+        if(loginStatus){
+            return new ResponseEntity<>("로그인이 필요한 서비스입니다.", HttpStatus.BAD_REQUEST);
+        }
+        else {
+            Member writter = memberService.getLoginMember();
+            memberService.findVerifiedMemberId(writter.getMemberId());
+            Product product = productService.findVerifiedProductId(productId);
 
-        Review review = new Review();
-        review.setContent(reviewPostDto.getContent());
-        review.setImageURL(reviewPostDto.getImageURL());
-        review.setMember(writter);
-        review.setProduct(product);
-        Review savedReview = reviewService.createReview(review);
+            Review review = new Review();
+            review.setContent(reviewPostDto.getContent());
+            review.setImageURL(reviewPostDto.getImageURL());
+            review.setMember(writter);
+            review.setProduct(product);
+            Review savedReview = reviewService.createReview(review);
 
-        // 리뷰 수 증가
-        Product updatedProduct = product;
-        updatedProduct.addReviews();
-        productService.updateProduct(product,updatedProduct);
+            // 상품 리뷰 수 증가
+            Product updatedProduct = product;
+            updatedProduct.addReviews();
+            productService.updateProduct(product,updatedProduct);
 
-        /*long calculatedReviews = product.addReviews();
-        Product updatedProduct = productService.updateReviews(product,calculatedReviews);*/
+            checkReviewHeartFlag(writter,savedReview);
 
-        return new ResponseEntity<>(savedReview, HttpStatus.CREATED);
+            return new ResponseEntity<>(savedReview, HttpStatus.CREATED);
+        }
     }
 
-
-/*
-# POST("/{member-id}"), Request Parmeters : long reviewId
-: 일반 사용자가 리뷰 댓글 좋아요 등록 / 취소
-- 현재 회원이 해당 댓글에 좋아요를 누르지 않았다면 -> 새로운 commentHeart 등록, comment 테이블의 hearts +1
-- 현재 회원이 해당 댓글에 이미 좋아요를 눌렀다면 -> 해당하는 commentHeartId의 값 DB에서 삭제, comment 테이블의 hearts -1
-*/
-
-/*
-# PATCH("/{member-id}"), Request Parmeters : long reviewId
-: 리뷰 댓글 수정
-*/
     @ApiOperation(value = "리뷰 수정",
              notes = "✅ 리뷰를 수정합니다.\n - \n " )
     @PatchMapping("/{review-id}")
     public ResponseEntity patchReview(@PathVariable("review-id") @Positive long reviewId,
-                                      @Validated @RequestBody ReviewPatchDto reviewPatchDto){
-        Member editor = memberService.getLoginMember();
+                                      @Validated @RequestBody ReviewPatchDto reviewPatchDto,
+                                      HttpServletRequest request){
 
-        Member  verifiedMember = memberService.findVerifiedMemberId(editor.getMemberId());
-        Review selectedReview = reviewService.findVerifiedReviewId(reviewId);
-        Product product = productService.findVerifiedProductId(selectedReview.getProduct().getProductId());
+        boolean loginStatus = memberService.memberCheck(request);
+        if(loginStatus){
+            return new ResponseEntity<>("로그인이 필요한 서비스입니다.", HttpStatus.BAD_REQUEST);
+        }
+        else {
+            Member editor = memberService.getLoginMember();
+            memberService.findVerifiedMemberId(editor.getMemberId());
+            //리뷰 원본
+            Review selectedReview = reviewService.findVerifiedReviewId(reviewId);
+            boolean auth = reviewService.checkAuth(selectedReview, editor.getMemberId());
 
-        selectedReview.setContent(reviewPatchDto.getContent());
-        selectedReview.setImageURL(reviewPatchDto.getImageURL());
-        reviewService.updateReview(selectedReview, editor);
+            if(auth){ // 현재 로그인한 사용자와 리뷰 작성자 일치
+                Product product = productService.findVerifiedProductId(selectedReview.getProduct().getProductId());
+                Review updatedReview = reviewMapper.reviewPatchDtoToReview(selectedReview,reviewPatchDto);
 
-        return new ResponseEntity<>(selectedReview, HttpStatus.OK);
+                Review result = reviewService.updateReview(selectedReview,updatedReview);
+                checkReviewHeartFlag(editor,result);
+                return new ResponseEntity<>(result, HttpStatus.OK);
+            }
+            else {
+                return new ResponseEntity<>("리뷰 수정 권한이 없습니다", HttpStatus.BAD_REQUEST);
+            }
+        }
     }
 
-    /*
-# DELETE("/{member-id}"), Request Parmeters : long reviewId
-: 리뷰 삭제
-     */
+
     @ApiOperation(value = "리뷰 삭제",
             notes = "✅ 리뷰를 삭제합니다.\n - \n " )
     @DeleteMapping("/{review-id}")
-    public ResponseEntity deleteReview(@PathVariable("review-id") @Positive long reviewId){
+    public ResponseEntity deleteReview(@PathVariable("review-id") @Positive long reviewId,
+                                       HttpServletRequest request){
+        boolean loginStatus = memberService.memberCheck(request);
+        if(loginStatus){
+            return new ResponseEntity<>("로그인이 필요한 서비스입니다.", HttpStatus.BAD_REQUEST);
+        }
+        else {
+            Member member = memberService.getLoginMember();
+            Review findReview = reviewService.findVerifiedReviewId(reviewId);
+            Product product = productService.findVerifiedProductId(findReview.getProduct().getProductId());
+            reviewService.deleteReview(findReview,member);
 
-        Member member = memberService.getLoginMember();
-
-        Review findReview = reviewService.findVerifiedReviewId(reviewId);
-        Product product = productService.findVerifiedProductId(findReview.getProduct().getProductId());
-
-        reviewService.deleteReview(findReview,member);
-
-        // 리뷰 수 감소
-        Product updatedProduct = product;
-        updatedProduct.withdrawReviews();
-        productService.updateProduct(product,updatedProduct);
-
-
-        return new ResponseEntity<>("리뷰 삭제 완료", HttpStatus.OK);
+            // 리뷰 수 감소
+            Product updatedProduct = product;
+            updatedProduct.withdrawReviews();
+            productService.updateProduct(product,updatedProduct);
+            return new ResponseEntity<>("리뷰 삭제 완료", HttpStatus.OK);
+        }
     }
 
     //베스트 리뷰 보기
-    @ApiOperation(value = " 베스트 리뷰 조회",
-            notes = "✅ TOP 5 리뷰를 조회합니다.\n - \n " )
+    @ApiOperation(tags = {"Main Page"}, value = " 베스트 리뷰 조회", notes = "✅ TOP 5 리뷰를 조회합니다.\n - \n " )
     @GetMapping("/bestReview")
-    public ResponseEntity getBestReviews(){
-        List<Review> bestReviews = new ArrayList<>();
-        List<Review> reviewList = reviewService.findAllReviews(Sort.by(Sort.Direction.DESC, "hearts"));
+    public ResponseEntity getBestReviews(HttpServletRequest request){
 
-        //최소 좋아요수 (10) 이하인 상품들은 제거
-        long minHearts = 10;
-        for(int i =0 ;i<reviewList.size();i++){
-            if(reviewList.get(i).getHearts()<minHearts){
-                reviewList.remove(i);
-            }
+        List<Review> bestReviews = reviewService.getTop5Reviews();
+
+        boolean loginStatus = memberService.memberCheck(request);
+        //현재 상태 비회원이면 true,  회원일시 false  반환
+        if(loginStatus){
+            checkReviewHeartFlagsNotLongin(bestReviews);
         }
-        int maxCount = 0;
-        if(reviewList.size()>=5){
-            maxCount = 5;
-        }
-        else{
-            maxCount = reviewList.size();
+        else {
+            checkReviewHeartFlagsLogin(memberService.getLoginMember(),bestReviews);
         }
 
-        for(int i = 0 ; i<maxCount; i++){
-            Review review = reviewList.get(i);
-            bestReviews.add(review);
-        }
         return new ResponseEntity<>(bestReviews, HttpStatus.OK);
     }
 
 
-    //전체 리뷰 보기 (베스트리뷰에서 전체 보기 눌렀을 때 )
+    //전체 리뷰 보기 (베스트리뷰에서 전체 보기 눌렀을 때 -- 리뷰 랭킹 페이지 느낌)
     @GetMapping("/all/{method-id}")
-    @ApiOperation(value = "전체 리뷰 조회")
+    @ApiOperation(value = "전체 리뷰 조회",
+            notes = "✅ 모든 리뷰들을 조회합니다.\n" +
+                    "정렬 : 좋아요순(1), 최신순(그 외)\n - \n " )
     public ResponseEntity getReviews(@PathVariable("method-id") @Positive int methodId,
-                                        @Positive @RequestParam int page) {
+                                     @Positive @RequestParam int page,
+                                     HttpServletRequest request) {
         size = 20;
-        Page<Review> pageReviews = reviewService.findAllReviewByMethod(page-1,size,methodId);
-        List<Review> reviews = pageReviews.getContent();
-
-        return new ResponseEntity<>(
-                new MultiResponseDto<>(reviews, pageReviews),
-                HttpStatus.OK);
-    }
-    //내가 쓴 리뷰 보기
-    @ApiOperation(value = "내 리뷰 조회",
-            notes = "✅ 본인이 작성한 리뷰들을 조회합니다.\n - \n " )
-    @GetMapping("/myReviews/{method-id}")
-    public ResponseEntity getMyReviews(@PathVariable("method-id") @Positive int methodId,
-                                       @Positive @RequestParam int page){
-        size = 5;
-        Member member = memberService.getLoginMember();
-        Page<Review> pageReviews = reviewService.findAllByMemberAndMethod(page-1,size,member,methodId);
+        Page<Review> pageReviews = reviewService.SortReviews(page-1,size,methodId,null,null);
         List<Review> reviewList = pageReviews.getContent();
 
-
+        boolean loginStatus = memberService.memberCheck(request);
+        //현재 상태 비회원이면 true,  회원일시 false  반환
+        if(loginStatus){
+            checkReviewHeartFlagsNotLongin(reviewList);
+        }
+        else {
+            checkReviewHeartFlagsLogin(memberService.getLoginMember(),reviewList);
+        }
         return new ResponseEntity<>(
                 new MultiResponseDto<>(reviewList, pageReviews),
                 HttpStatus.OK);
-
     }
 
-    @ApiOperation(value = "상품에 달린 리뷰 조회",
-            notes = "✅ 상품에 달린 리뷰들을 조회합니다.\n - \n " )
+
+    //내가 쓴 리뷰 보기
+
+    @ApiOperation(tags = "My Page", value = "내 리뷰 조회",
+            notes = "✅  나의 리뷰 목록을 조회합니다.  \n  \n  " +
+                    "정렬 : 좋아요순(1), 최신순(그 외)\n   \n " )
+    @GetMapping("/myReviews/{method-id}")
+    public ResponseEntity getMyReviews(@PathVariable("method-id") @Positive int methodId,
+                                       @Positive @RequestParam int page,
+                                       HttpServletRequest request){
+        size = 5;
+        boolean loginStatus = memberService.memberCheck(request);
+        if(loginStatus){
+            return new ResponseEntity<>("로그인이 필요한 서비스입니다.", HttpStatus.BAD_REQUEST);
+        }
+        else {
+            Member member = memberService.getLoginMember();
+            Page<Review> pageReviews = reviewService.SortReviews(page-1,size,methodId, member,null);
+            if(pageReviews.isEmpty()){
+                return new ResponseEntity<>("작성한 리뷰가 없어요",HttpStatus.NOT_FOUND);
+            }
+            else {
+                List<Review> reviewList = pageReviews.getContent();
+                checkReviewHeartFlagsLogin(memberService.getLoginMember(),reviewList);
+                return new ResponseEntity<>(
+                        new MultiResponseDto<>(reviewList, pageReviews), HttpStatus.OK);
+            }
+        }
+    }
+
+    @ApiOperation(tags = "Product Detail Page", value = "상품 상세 페이지 리뷰 조회",
+            notes = "✅ 상품에 달린 리뷰들을 조회합니다.  \n" +
+                    "정렬 : 좋아요순(1), 최신순(그 외)  \n  \n " )
     @GetMapping("/productReviews/{method-id}")
     public ResponseEntity getProductReviews(@PathVariable("method-id") @Positive int methodId,
                                             @RequestParam long productId,
-                                            @Positive @RequestParam int page) {
+                                            @Positive @RequestParam int page,
+                                            HttpServletRequest request) {
         size = 10;
         Product product = productService.findVerifiedProductId(productId);
-        Page<Review> pageReviews = reviewService.findAllByProductAndMethod(page-1,size,product,methodId);
+        Page<Review> pageReviews = reviewService.SortReviews(page-1,size,methodId, null,product);
         List<Review> reviewList = pageReviews.getContent();
 
-
+        boolean loginStatus = memberService.memberCheck(request);
+        //현재 상태 비회원이면 true,  회원일시 false  반환
+        if(loginStatus){
+            checkReviewHeartFlagsNotLongin(reviewList);
+        }
+        else {
+            checkReviewHeartFlagsLogin(memberService.getLoginMember(),reviewList);
+        }
         return new ResponseEntity<>(
                 new MultiResponseDto<>(reviewList, pageReviews),
                 HttpStatus.OK);
     }
 
+    @ApiOperation(value = "좋아요 등록 / 취소",
+            notes = "✅ 입력 받은 reviewId에 해당하는 리뷰에 좋아요를 등록합니다..\n  - \n " )
+    @PostMapping("/heart")
+    public ResponseEntity registerReviewHeart(HttpServletRequest request, @RequestParam long reviewId) {
 
-    //내가 좋아요한 리뷰 보기<< 좋아요 구현 먼저
-    // 우선 좋아요 수 랜덤 세팅으로
+        boolean loginStatus = memberService.memberCheck(request);
+        //현재 상태 비회원이면 true,  회원일시 false  반환
+        boolean result = false;
+
+        if(loginStatus){
+            return new ResponseEntity<>("로그인이 필요한 서비스입니다.", HttpStatus.BAD_REQUEST);
+        }
+        else { // 로그인한 상태일 때
+            Member member = memberService.getLoginMember();
+            Review review = reviewService.findVerifiedReviewId(reviewId);
+
+            ReviewHeart reviewHeart = new ReviewHeart();
+
+            //이미 좋아요를 누른 리뷰인지 아닌지 검사( 이미 좋아요가 있다면 false, 없다면 true )
+            boolean alreadyHeart = reviewHeartService.checkAlreadyHeart(member,review);
+
+            if(alreadyHeart){ //해당 회원이 좋아요를 눌렀던 리뷰가 아닐 때
+                reviewHeart = reviewHeartService.addHeart(member,review);
+
+                //리뷰의 좋아요 수 1 증가
+                Review updatedReview = review;
+                updatedReview.getReviewHearts().add(reviewHeart);
+                updatedReview.addHearts();
+                reviewService.updateReview(review,updatedReview);
+
+                //회원의 찜공리뷰에 리뷰 추가
+                Member updatedMember = member;
+                updatedMember.getReviewHearts().add(reviewHeart);
+                memberService.updateMember(member,updatedMember);
+
+                result = true;
+            }
+            else {// 해당 회원이 이미 좋아요를 누른 리뷰일 때 -> 좋아요 취소
+                ReviewHeart findReviewHeart = reviewHeartService.findReviewHeart(member,review);
+                reviewHeartService.cancelHeart(findReviewHeart);
+
+                //리뷰의 좋아요 수 1 감소
+                Review updatedReview = review;
+                updatedReview.withdrawHearts();
+                reviewService.updateReview(review,updatedReview);
+                result = false;
+            }
+        }
+        return result?
+                new ResponseEntity<>("좋아요가 등록되었습니다",HttpStatus.OK)
+                : new ResponseEntity<>("좋아요가 취소되었습니다",HttpStatus.OK);
+    }
+
+    @ApiOperation(tags = "My Page", value = "마이 페이지 - 내가 좋아요 누른 리뷰 목록 조회",
+            notes = "✅ 찜꽁 리뷰를 조회합니다.  \n  \n" +
+                    "methodId : 좋아요순(1), 최신 리뷰순(2), 최근 좋아요순(그 외) \n - \n " )
+    @GetMapping("/simplifiedHeartReviews")
+    public ResponseEntity getSimplifiedHeartReviews( @Positive @RequestParam int page,
+                                                      @RequestParam int methodId,
+                                                      HttpServletRequest request) {
+        int size = 4;
+        boolean loginStatus = memberService.memberCheck(request);
+        if(loginStatus){
+            return new ResponseEntity<>("로그인이 필요한 서비스입니다.", HttpStatus.BAD_REQUEST);
+        }
+        else{
+            Member member = memberService.getLoginMember();
+            Page<ReviewHeart> reviewHeartsPage = reviewHeartService.SortHeartReviews(page-1,size,methodId,member);
+            if(reviewHeartsPage.isEmpty()){
+                return new ResponseEntity<>("찜꽁한 리뷰가 없어요",HttpStatus.NOT_FOUND);
+            }
+            else {
+                List<ReviewHeart> reviewHeartList = reviewHeartsPage.getContent();
+                setReviewHeartFlagTrue(reviewHeartList);
+
+                return new ResponseEntity<>(
+                        new MultiResponseDto<>(reviewMapper.reviewHeartsToReviewHeartsResponseDto(reviewHeartList), reviewHeartsPage),
+                        HttpStatus.OK);
+            }
+        }
+    }
+
     @ApiOperation(value = "리뷰의 좋아요수 랜덤 세팅",
             notes = "✅ 리뷰의 좋아요수를 랜덤으로 세팅합니다.\",.\n - \n " )
     @PostMapping("/random")
@@ -217,6 +332,36 @@ public class ReviewController {
         return new ResponseEntity<>(reviewList, HttpStatus.OK);
     }
 
+    public void checkReviewHeartFlag(Member member, Review review){
+        if(reviewHeartService.checkAlreadyHeart(member,review)){
+            //이미 눌렀으면 false, 누르지 않았다면 true
+            review.setReviewHeartFlag(false);
+        }
+        else{
+            review.setReviewHeartFlag(true);
+        }
+    }
 
+    public void checkReviewHeartFlagsNotLongin(List<Review> reviews){
+        for(Review review : reviews){
+            review.setReviewHeartFlag(false); // 좋아요 상태 OFF
+        }
+    }
+    public void checkReviewHeartFlagsLogin(Member member, List<Review> reviews){
+        for(Review review : reviews){
+            if(reviewHeartService.checkAlreadyHeart(member,review)){
+                //이미 눌렀으면 false, 누르지 않았다면 true
+                review.setReviewHeartFlag(false);
+            }
+            else{
+                review.setReviewHeartFlag(true);
+            }
+        }
+    }
 
+    public void setReviewHeartFlagTrue(List<ReviewHeart> reviewHearts){
+        for(int i = 0; i<reviewHearts.size(); i++){
+            reviewHearts.get(i).getReview().setReviewHeartFlag(true);
+        }
+    }
 }

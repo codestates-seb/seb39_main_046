@@ -11,6 +11,5 @@ public class ProductHeartResponseDto {
     private long productHeartId;
     private long memberId;
     private Product product;
-    private boolean heartFlag;
 
 }

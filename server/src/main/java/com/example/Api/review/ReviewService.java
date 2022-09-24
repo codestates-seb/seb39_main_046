@@ -10,6 +10,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,31 +25,26 @@ public class ReviewService {
     }
 
     public Review createReview(Review review){
-
-        Review savedReview = saveReview(review);
-        return savedReview;
+        return  reviewRepository.save(review);
     }
 
-    private Review saveReview(Review review){
+
+    public Review updateReview(Review review, Review patchReview){
+
+        Optional.ofNullable(patchReview.getContent())
+                .ifPresent(content -> review.setContent(content));
+        Optional.ofNullable(patchReview.getImageURL())
+                .ifPresent(imageURL -> review.setImageURL(imageURL));
+        Optional.ofNullable(patchReview.getHearts())
+                .ifPresent(hearts -> review.setHearts(hearts));
+        Optional.ofNullable(patchReview.getReviewHearts())
+                .ifPresent(reviewHearts -> review.setReviewHearts(reviewHearts));
+       /* Optional.ofNullable(patchReview.getProduct())
+                .ifPresent(product -> review.setProduct(product));
+        Optional.ofNullable(patchReview.getMember())
+                .ifPresent(member -> review.setMember(member));  리뷰를 수정하더라도 member와 product는 고정된 데이터*/
+
         return reviewRepository.save(review);
-    }
-
-    public void updateReview(Review review, Member member){
-
-        Review findReview = findVerifiedReviewId(review.getReviewId());
-        long memberId = member.getMemberId();
-        if(checkAuth(review,memberId)){
-            Optional.ofNullable(review.getContent())
-                    .ifPresent(content -> findReview.setContent(content));
-            Optional.ofNullable(review.getImageURL())
-                    .ifPresent(imageURL -> findReview.setImageURL(imageURL));
-
-            saveReview(findReview);
-        }
-        else{
-            throw new RuntimeException("수정 권한이 없습니다.");
-        }
-
     }
 
     public Review findVerifiedReviewId(long reviewId){
@@ -59,7 +55,7 @@ public class ReviewService {
         return findReview;
     }
 
-    private boolean checkAuth(Review review, long memberId){
+    public boolean checkAuth(Review review, long memberId){
         boolean result = false;
         if(memberId == review.getMember().getMemberId()){
             result = true;
@@ -78,83 +74,59 @@ public class ReviewService {
         }
     }
 
-    public Page<Review> findAllReviewByMethod(int page, int size, int methodId){
-        if(methodId == 1){
-            System.out.println("좋아요 순 정렬");
-            return reviewRepository.findAll(PageRequest.of(page, size,
-                    Sort.by("hearts").descending()));
-        }
-        else if(methodId == 2){
-            System.out.println("리뷰 순 정렬");
-            return reviewRepository.findAll(PageRequest.of(page, size,
-                    Sort.by("reviews").descending()));
-        }
-        else if(methodId == 3){
-            System.out.println("조회 순 정렬");
-            return reviewRepository.findAll(PageRequest.of(page, size,
-                    Sort.by("views").descending()));
-        }
-
-        return reviewRepository.findAll(PageRequest.of(page, size,
-                Sort.by("createdAt").descending()));
-    }
-
     public List<Review> findAllReviews(Sort hearts){
         return reviewRepository.findAll(hearts);
     }
 
+    public List<Review> getTop5Reviews(){
+        List<Review> reviewList = new ArrayList<>();
+        List<Review> top5Reviews = new ArrayList<>();
 
-    public Page<Review> findAllByMemberAndMethod(int page, int size, Member member, int methodId){
-        Specification<Review> spec = Specification.where(ReviewSpecification.equalMember(member));
+        //리뷰 top5 기준 : 좋아요 수
+        reviewList = reviewRepository.findAll(Sort.by(Sort.Direction.DESC,"hearts"));
 
-
-        if(methodId == 1){
-            System.out.println("좋아요 순 정렬");
-            return reviewRepository.findAll(spec, PageRequest.of(page,size,
-                    Sort.by("hearts").descending()));
+        int maxCount = 0;
+        if(reviewList.size()>=5){
+            maxCount = 5;
         }
-        else if(methodId == 2){
-            System.out.println("리뷰 순 정렬");
-            return reviewRepository.findAll(spec, PageRequest.of(page,size,
-                    Sort.by("reviews").descending()));
+        else if(reviewList.size() == 0){
+            return null;
         }
-        else if(methodId == 3){
-            System.out.println("조회 순 정렬");
-            return reviewRepository.findAll(spec, PageRequest.of(page,size,
-                    Sort.by("views").descending()));
+        else {
+            maxCount = reviewList.size();
         }
-
-        return reviewRepository.findAll(PageRequest.of(page, size,
-                Sort.by("createdAt").descending()));
-    }
-
-    //findAllByProductAndMethod
-    public Page<Review> findAllByProductAndMethod(int page, int size, Product product, int methodId){
-        Specification<Review> spec = Specification.where(ReviewSpecification.equalProduct(product));
-
-
-        if(methodId == 1){
-            System.out.println("좋아요 순 정렬");
-            return reviewRepository.findAll(spec, PageRequest.of(page,size,
-                    Sort.by("hearts").descending()));
+        for(int i = 0; i<maxCount; i++){
+            Review review = reviewList.get(i);
+            top5Reviews.add(review);
         }
-        else if(methodId == 2){
-            System.out.println("리뷰 순 정렬");
-            return reviewRepository.findAll(spec, PageRequest.of(page,size,
-                    Sort.by("reviews").descending()));
-        }
-        else if(methodId == 3){
-            System.out.println("조회 순 정렬");
-            return reviewRepository.findAll(spec, PageRequest.of(page,size,
-                    Sort.by("views").descending()));
-        }
-
-        return reviewRepository.findAll(PageRequest.of(page, size,
-                Sort.by("createdAt").descending()));
+        return top5Reviews;
     }
 
 
+    // 상품 상세 페이지에 출력되는 리뷰 목록 페이지
+    public Page<Review> SortReviews(int page, int size, int methodId, Member member, Product product){
+        Specification<Review> spec = null;
+        if(member == null){
+            spec = Specification.where(ReviewSpecification.equalProduct(product));
+        } else if (product == null) {
+            spec = Specification.where(ReviewSpecification.equalMember(member));
+        }
 
+        Page<Review> reviewsPage;
+
+        if(methodId == 1){
+            System.out.println("좋아요 순 정렬");
+            reviewsPage = reviewRepository.findAll(spec, PageRequest.of(page,size,
+                    Sort.by("hearts").descending()));
+        }
+        else{
+            System.out.println("최신 순 정렬");
+            reviewsPage = reviewRepository.findAll(PageRequest.of(page, size,
+                    Sort.by("createdAt").descending()));
+        }
+        return reviewsPage;
+
+    }
 
 
     //setRenadomHearts

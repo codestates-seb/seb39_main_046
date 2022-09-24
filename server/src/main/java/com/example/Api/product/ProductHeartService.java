@@ -46,7 +46,7 @@ public class ProductHeartService {
     public ProductHeart findProductHeart(Member member, Product product){
         Optional<ProductHeart> optionalProductHeart = productHeartRepository.findByMemberAndProduct(member,product);
         return optionalProductHeart.orElseThrow(()->
-                new RuntimeException("연결된 좋아요 테이블이 없습니다"));
+                new RuntimeException("연결된 상품 좋아요 테이블이 없습니다"));
     }
 
     public void cancelHeart(ProductHeart productHeart){
@@ -132,7 +132,7 @@ public class ProductHeartService {
             }
         }
         else {
-            System.out.println("최신순 정렬");  //<- 최근에 좋아요 등록한순
+            System.out.println("최신 좋아요순 정렬");  //<- 최근에 좋아요 등록한 순서
             /*  이건 최신 상품순
             order = Sort.Order.desc("product.createdAt");
             sort = Sort.by(order);

@@ -15,16 +15,16 @@ public class MyPageResponseDto<T> {
 
     private Member member;
 
-    private MultiResponseDto<T> multiResponseDto;   // 찜꽁 상품
-   // private MultiResponseDto<T> multiResponseDto2;  // 찜꽁 리뷰
-    private MultiResponseDto<T> multiResponseDto3;  // 내가 남긴 리뷰
+    private MultiResponseDto<T> jjimProducts;   // 찜꽁 상품
+    private MultiResponseDto<T> myReviews; // 내가 남긴 리뷰
+    private MultiResponseDto<T> jjimReviews;  // 찜꽁 리뷰
 
 
-    public MyPageResponseDto(Member member, MultiResponseDto<T> multiResponseDto, MultiResponseDto<T> multiResponseDto3) {
+    public MyPageResponseDto(Member member, MultiResponseDto<T> jjimProducts, MultiResponseDto<T> myReviews,
+                             MultiResponseDto<T> jjimReviews) {
         this.member = member;
-        this.multiResponseDto = multiResponseDto;
-        this.multiResponseDto3 = multiResponseDto3;
+        this.jjimProducts = jjimProducts;
+        this.myReviews = myReviews;
+        this.jjimReviews = jjimReviews;
     }
-
-
 }

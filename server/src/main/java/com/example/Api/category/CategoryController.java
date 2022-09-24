@@ -2,7 +2,10 @@ package com.example.Api.category;
 
 
 import com.example.Api.response.MultiResponseDto;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +18,8 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/category")
+@Tag(name = "Category", description = "Category API")
+@Api(tags = "Category")
 public class CategoryController {
 
     private final CategoryMapper mapper;
@@ -86,11 +91,8 @@ public class CategoryController {
 
         List<Category> savedCategories = new ArrayList<>();
 
-
         for(int i = 0;i<categoryPosts.size();i++){
-
             Category category = mapper.categoryPostDtoToCategory(categoryPosts.get(i));
-
             if(categoryService.checkDuplicatedCategory(category.getCategoryName())){
                 continue;
             }
@@ -102,10 +104,11 @@ public class CategoryController {
         return new ResponseEntity<>(savedCategories, HttpStatus.CREATED);
     }
 
-    //123
+
     @PatchMapping("/{category-id}")//카테고리 수정
     @ApiOperation(value = "카테고리 수정")
-    public ResponseEntity patchCategory(@PathVariable("category-id") @Positive long categoryId,
+    public ResponseEntity patchCategory(@ApiParam(value = "수정하려는 카테고리 ID ", required = true, example = "1")
+                                        @PathVariable("category-id") @Positive long categoryId,
                                         @Validated @RequestBody CategoryPatchDto categoryPatchDto) {
 
         categoryPatchDto.setCategoryId(categoryId);
