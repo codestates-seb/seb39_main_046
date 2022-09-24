@@ -1,17 +1,27 @@
 import React from 'react';
 import styled from 'styled-components';
 import ProductDetail from '../../components/productDetail/ProductDetail';
+import WriteComment from '../../components/productDetail/WirteComment';
+import CommentList from '../../components/productDetail/CommentList';
+
+
 
 const DetailProduct = () => {
   const ReturnMsg = "< 리스트 돌아가기";
   return (
     <Allcontent>
-      <Returndiv>
-        <Titlediv>
-          <span>{ReturnMsg}</span>
-        </Titlediv>
-        <ProductDetail/>
-      </Returndiv>
+        <Returndiv>
+          <Titlediv>
+            <span>{ReturnMsg}</span>
+          </Titlediv>
+          <Middlecontent>
+            <ProductDetail/>
+            <CommentAreat>
+              <WriteComment/>
+              <CommentList/>
+            </CommentAreat>
+          </Middlecontent>
+        </Returndiv>
     </Allcontent>
   );
 };
@@ -20,10 +30,15 @@ export default DetailProduct;
 
 const Allcontent = styled.div`
   display:flex;
-  flex-direction:column;
   justify-content:center;
-  align-items:center;
 `
+const Middlecontent = styled.div`
+  display:flex;
+`
+const CommentAreat = styled.section`
+  margin-left: 24px;
+`
+
 
 const Returndiv = styled.div`
   width:1280px;
