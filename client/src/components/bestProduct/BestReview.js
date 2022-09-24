@@ -1,30 +1,26 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
-import { Navigation, Pagination, Autoplay } from "swiper";
+import { Pagination, Autoplay } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/autoplay";
-
 import ReviewImg1 from "../../assets/images/main/Review-1.png";
-import ReviewImg2 from "../../assets/images/main/Review-2.png";
-import ReviewImg3 from "../../assets/images/main/Review-3.png";
-import ReviewImg4 from "../../assets/images/main/Review-4.png";
-import ReviewImg5 from "../../assets/images/main/Review-5.png";
-
 import HeartButton from "../../components/common/button/HeartButton";
+
 const BestReview = () => {
+  const [swiper, setSwiper] = useState(null);
+  const [index, setIndex] = useState([0, 1, 2, 3, 4]);
   return (
     <ReivewContainer>
       <BestRiveTitle>
         <h2>베스트 리뷰</h2>
       </BestRiveTitle>
       <SwiperBox
-        modules={[Navigation, Pagination, Autoplay]}
+        modules={[Pagination, Autoplay]}
         spaceBetween={20}
         slidesPerView={2}
-        navigation
         pagination={{ clickable: true }}
         loop={true}
         autoplay={true}
@@ -43,119 +39,45 @@ const BestReview = () => {
             spaceBetween: 25,
           },
         }}
-        onSwiper={(swiper) => console.log(swiper)}
-        onSlideChange={() => console.log("slide change")}
+        onSlideChange={(s) => {
+          setSwiper(s.realIndex);
+        }}
       >
-        <StyleSwipper>
-          <ReviewInnerBox>
-            <span>
-              <HeartButton />
-            </span>
-            <img src={ReviewImg1} />
-            <div className="review_contents_box">
-              <h4>타이틀타이틀타이틀타이틀타이틀타이틀타이틀타이틀</h4>
-              <p className="review_contents">
-                리뷰에요 리뷰를 쓸꺼에요리뷰에요 리뷰를 쓸꺼에요리뷰에요 리뷰를
-                쓸꺼에요리뷰에요 리뷰를 쓸꺼에요리뷰에요 리뷰를 쓸꺼에요리뷰에요
-                리뷰를 쓸꺼에요
-              </p>
-              <div className="member_container">
-                <div className="member_info">
-                  <p>reco</p>
+        {index.map((e, idx) => {
+          let num = idx;
+          if (swiper < 3) {
+            num = idx - 2;
+          } else if (swiper >= 3) {
+            num = idx + 3;
+          }
+          return (
+            <StyleSwipper
+              key={idx}
+              className={swiper === index[num] ? "active" : null}
+            >
+              <ReviewInnerBox>
+                <span>
+                  <HeartButton />
+                </span>
+                <img src={ReviewImg1} />
+                <div className="review_contents_box">
+                  <h4>타이틀타이틀타이틀타이틀타이틀타이틀타이틀타이틀</h4>
+                  <p className="review_contents">
+                    리뷰에요 리뷰를 쓸꺼에요리뷰에요 리뷰를 쓸꺼에요리뷰에요
+                    리뷰를 쓸꺼에요리뷰에요 리뷰를 쓸꺼에요리뷰에요 리뷰를
+                    쓸꺼에요리뷰에요 리뷰를 쓸꺼에요
+                  </p>
+                  <div className="member_container">
+                    <div className="member_info">
+                      <p>reco</p>
+                    </div>
+                    <div className="member_date">yyyy. mm. dd</div>
+                  </div>
                 </div>
-                <div className="member_date">yyyy. mm. dd</div>
-              </div>
-            </div>
-          </ReviewInnerBox>
-        </StyleSwipper>
-        <StyleSwipper>
-          <ReviewInnerBox>
-            <span>
-              <HeartButton />
-            </span>
-            <img src={ReviewImg2} />
-            <div className="review_contents_box">
-              <h4>타이틀타이틀타이틀타이틀타이틀타이틀타이틀타이틀</h4>
-              <p className="review_contents">
-                리뷰에요 리뷰를 쓸꺼에요리뷰에요 리뷰를 쓸꺼에요리뷰에요 리뷰를
-                쓸꺼에요리뷰에요 리뷰를 쓸꺼에요리뷰에요 리뷰를 쓸꺼에요리뷰에요
-                리뷰를 쓸꺼에요
-              </p>
-              <div className="member_container">
-                <div className="member_info">
-                  <p>reco</p>
-                </div>
-                <div className="member_date">yyyy. mm. dd</div>
-              </div>
-            </div>
-          </ReviewInnerBox>
-        </StyleSwipper>
-        <StyleSwipper>
-          <ReviewInnerBox>
-            <span>
-              <HeartButton />
-            </span>
-            <img src={ReviewImg3} />
-            <div className="review_contents_box">
-              <h4>타이틀타이틀타이틀타이틀타이틀타이틀타이틀타이틀</h4>
-              <p className="review_contents">
-                리뷰에요 리뷰를 쓸꺼에요리뷰에요 리뷰를 쓸꺼에요리뷰에요 리뷰를
-                쓸꺼에요리뷰에요 리뷰를 쓸꺼에요리뷰에요 리뷰를 쓸꺼에요리뷰에요
-                리뷰를 쓸꺼에요
-              </p>
-              <div className="member_container">
-                <div className="member_info">
-                  <p>reco</p>
-                </div>
-                <div className="member_date">yyyy. mm. dd</div>
-              </div>
-            </div>
-          </ReviewInnerBox>
-        </StyleSwipper>
-        <StyleSwipper>
-          <ReviewInnerBox>
-            <span>
-              <HeartButton />
-            </span>
-            <img src={ReviewImg4} />
-            <div className="review_contents_box">
-              <h4>타이틀타이틀타이틀타이틀타이틀타이틀타이틀타이틀</h4>
-              <p className="review_contents">
-                리뷰에요 리뷰를 쓸꺼에요리뷰에요 리뷰를 쓸꺼에요리뷰에요 리뷰를
-                쓸꺼에요리뷰에요 리뷰를 쓸꺼에요리뷰에요 리뷰를 쓸꺼에요리뷰에요
-                리뷰를 쓸꺼에요
-              </p>
-              <div className="member_container">
-                <div className="member_info">
-                  <p>reco</p>
-                </div>
-                <div className="member_date">yyyy. mm. dd</div>
-              </div>
-            </div>
-          </ReviewInnerBox>
-        </StyleSwipper>
-        <StyleSwipper>
-          <ReviewInnerBox>
-            <span>
-              <HeartButton />
-            </span>
-            <img src={ReviewImg5} />
-            <div className="review_contents_box">
-              <h4>타이틀타이틀타이틀타이틀타이틀타이틀타이틀타이틀</h4>
-              <p className="review_contents">
-                리뷰에요 리뷰를 쓸꺼에요리뷰에요 리뷰를 쓸꺼에요리뷰에요 리뷰를
-                쓸꺼에요리뷰에요 리뷰를 쓸꺼에요리뷰에요 리뷰를 쓸꺼에요리뷰에요
-                리뷰를 쓸꺼에요
-              </p>
-              <div className="member_container">
-                <div className="member_info">
-                  <p>reco</p>
-                </div>
-                <div className="member_date">yyyy. mm. dd</div>
-              </div>
-            </div>
-          </ReviewInnerBox>
-        </StyleSwipper>
+              </ReviewInnerBox>
+            </StyleSwipper>
+          );
+        })}
       </SwiperBox>
     </ReivewContainer>
   );
@@ -183,7 +105,18 @@ const BestRiveTitle = styled.div`
 const SwiperBox = styled(Swiper)`
   padding-top: 50px;
   height: 330px;
-  width: 100%;
+  /* width: 100%; */
+  .active {
+    transform: translateY(-20px);
+    transition: all 1s;
+    img {
+      opacity: 0.3;
+    }
+    .review_contents_box {
+      transition-delay: 2s;
+      display: block;
+    }
+  }
 `;
 const StyleSwipper = styled(SwiperSlide)`
   width: 220px;
@@ -213,11 +146,12 @@ const ReviewInnerBox = styled.div`
   .review_contents_box {
     display: none;
     position: absolute;
-    right: 0px;
+    right: 12px;
     top: 0px;
     width: 223px;
     height: 220px;
     padding: 30px 20px;
+
     h4 {
       height: 30px;
       font-size: ${({ theme }) => theme.fontSizes.base};
