@@ -7,6 +7,7 @@ import RecomendProduct from "../../components/bestProduct/RecomendProduct";
 import BestReview from "../../components/bestProduct/BestReview";
 import PbtiBanner from "../../components/common/banner/PbtiBanner";
 import HeartButton from "../../components/common/button/HeartButton";
+import Recommend from "../../components/bestProduct/Recommend";
 const Main = () => {
   return (
     <div>
@@ -22,7 +23,7 @@ const Main = () => {
         </BImg>
       </Banner>
       <BestProdct />
-      <RecomendProduct />
+      <Recommend />
       <PbtiBanner />
       <BestReview />
       {/* <NearStore/> */}
