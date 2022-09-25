@@ -106,22 +106,31 @@ public class ReviewService {
     // 상품 상세 페이지에 출력되는 리뷰 목록 페이지
     public Page<Review> SortReviews(int page, int size, int methodId, Member member, Product product){
         Specification<Review> spec = null;
-        if(member == null){
-            spec = Specification.where(ReviewSpecification.equalProduct(product));
-        } else if (product == null) {
-            spec = Specification.where(ReviewSpecification.equalMember(member));
-        }
+        boolean productDetailPage = ( (product != null) && (member==null) );
+        boolean myReviews = ((product == null)&&(member!=null));
 
         Page<Review> reviewsPage;
 
         if(methodId == 1){
             System.out.println("좋아요 순 정렬");
+            if(productDetailPage){
+                spec = Specification.where(ReviewSpecification.equalProduct(product));
+            }
+            else if(myReviews){
+                spec = Specification.where(ReviewSpecification.equalMember(member));
+            }
             reviewsPage = reviewRepository.findAll(spec, PageRequest.of(page,size,
                     Sort.by("hearts").descending()));
         }
         else{
             System.out.println("최신 순 정렬");
-            reviewsPage = reviewRepository.findAll(PageRequest.of(page, size,
+            if(productDetailPage){
+                spec = Specification.where(ReviewSpecification.equalProduct(product));
+            }
+            else if(myReviews){
+                spec = Specification.where(ReviewSpecification.equalMember(member));
+            }
+            reviewsPage = reviewRepository.findAll(spec, PageRequest.of(page,size,
                     Sort.by("createdAt").descending()));
         }
         return reviewsPage;
