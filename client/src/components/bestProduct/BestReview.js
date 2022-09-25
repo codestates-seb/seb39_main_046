@@ -24,7 +24,7 @@ const BestReview = () => {
         pagination={{ clickable: true }}
         loop={true}
         autoplay={true}
-        speed={1000}
+        speed={1500}
         breakpoints={{
           740: {
             slidesPerView: 3,

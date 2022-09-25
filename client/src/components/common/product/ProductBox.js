@@ -42,6 +42,20 @@ const ProductSection = styled.section`
     top: 7px;
     z-index: 2;
   }
+  box-sizing: content-box;
+  &:hover {
+    transform: translate(-3px, -3px);
+    border: 3px solid transparent;
+    background-image: linear-gradient(#fff, #fff),
+      linear-gradient(
+        150deg,
+        rgba(248, 132, 8, 1),
+        rgba(255, 255, 255, 1),
+        rgba(15, 98, 254, 1)
+      );
+    background-origin: border-box;
+    background-clip: content-box, border-box;
+  }
 `;
 
 const PImage = styled.div`

@@ -27,7 +27,7 @@ const Recommend = () => {
         pagination={{ clickable: true }}
         loop={true}
         autoplay={true}
-        speed={1000}
+        speed={1500}
         breakpoints={{
           740: {
             slidesPerView: 3,
@@ -96,11 +96,11 @@ const SwiperBox = styled(Swiper)`
   padding-top: 30px;
   width: 100%;
   height: 450px;
-  padding-left: 9px;
-  padding-right: 17px;
+  padding-left: 10px;
+  padding-right: 10px;
 `;
 const StyleSwipper = styled(SwiperSlide)`
-  box-shadow: 2px 2px 20px rgba(204, 204, 204, 0.3);
+  box-shadow: 0px 5px 10px rgba(204, 204, 204, 0.5);
   cursor: pointer;
   height: 355px;
   border-radius: 20px;
