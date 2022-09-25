@@ -31,59 +31,17 @@ public class CategoryController {
         this.mapper = mapper;
         this.categoryService = categoryService;
         this.categoryRepository = categoryRepository;
-
-        Category dummy1 = new Category();
-        dummy1.setCategoryName("음료");
-        categoryService.createCategory(dummy1);
-
-        Category dummy2 = new Category();
-        dummy2.setCategoryName("커피");
-        categoryService.createCategory(dummy2);
-
-        Category dummy3 = new Category();
-        dummy3.setCategoryName("아이스크림");
-        categoryService.createCategory(dummy3);
-
-        Category dummy4 = new Category();
-        dummy4.setCategoryName("과자");
-        categoryService.createCategory(dummy4);
-
-        Category dummy5 = new Category();
-        dummy5.setCategoryName("도시락/컵밥");
-        categoryService.createCategory(dummy5);
-
-        Category dummy6 = new Category();
-        dummy6.setCategoryName("라면");
-        categoryService.createCategory(dummy6);
-
-        Category dummy7 = new Category();
-        dummy7.setCategoryName("김밥");
-        categoryService.createCategory(dummy7);
-
-
-        Category dummy8 = new Category();
-        dummy8.setCategoryName("샐러드");
-        categoryService.createCategory(dummy8);
-
-
-        Category dummy9 = new Category();
-        dummy9.setCategoryName("디저트류");
-        categoryService.createCategory(dummy9);
-
-
-        Category dummy10 = new Category();
-        dummy10.setCategoryName("샌드위치");
-        categoryService.createCategory(dummy10);
-
-        Category dummy11 = new Category();
-        dummy11.setCategoryName("버거");
-        categoryService.createCategory(dummy11);
-
-        Category dummy12 = new Category();
-        dummy12.setCategoryName("안주");
-        categoryService.createCategory(dummy12);
-
     }
+
+    @PostMapping("/default")
+    @ApiOperation(value = "기본 카테고리 등록")
+    public ResponseEntity postDefaultCategory(){
+        categoryService.registerDefaultCategory();
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
+
+
 
     @PostMapping //카테고리 등록
     @ApiOperation(value = "카테고리 등록")

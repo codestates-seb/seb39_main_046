@@ -52,6 +52,12 @@ public class MemberController {
     private final ReviewHeartService reviewHeartService;
 
 
+    @PostMapping
+    @ApiOperation(value = "관리자 계정 등록")
+    public ResponseEntity registerAdmin(){
+        memberService.registerAdmin();
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
 
     @PostMapping("/signup")
     @ApiOperation(value = "회원 가입")
@@ -62,7 +68,7 @@ public class MemberController {
     Member response = memberService.createMember(member);
 
     return new ResponseEntity<>(mapper.memberToMemberResponseDto(response) , HttpStatus.OK);
-}
+    }
 
      @PatchMapping("/{patch-id}")
      @ApiOperation(value = "회원 정보 수정", notes = "✅ patch-id가 1이면 닉네임 수정, 2면 패스워드 수정")

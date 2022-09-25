@@ -21,29 +21,6 @@ public class MemberService {
     private final MemberRepository memberRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    @PostConstruct
-    public void init(){
-        String password = bCryptPasswordEncoder.encode("abcd");
-        Member member1 = new Member(1L,"a@gmail.com","관리자1",password);
-        member1.setRoles("ROLE_ADMIN");
-        memberRepository.save(member1);
-        Member member2 = new Member(2L,"b@gmail.com","관리자2",password);
-        member2.setRoles("ROLE_ADMIN");
-        memberRepository.save(member2);
-        Member member3 = new Member(3L,"b@gmail.com","관리자3",password);
-        member3.setRoles("ROLE_ADMIN");
-        memberRepository.save(member3);
-        Member member4 = new Member(4L,"c@gmail.com","관리자4",password);
-        member4.setRoles("ROLE_ADMIN");
-        memberRepository.save(member4);
-        Member member5 = new Member(5L,"d@gmail.com","관리자5",password);
-        member5.setRoles("ROLE_ADMIN");
-        memberRepository.save(member5);
-        String password2 = bCryptPasswordEncoder.encode("string");
-        Member member6 = new Member(6L,"string","관리자5",password2);
-        member6.setRoles("ROLE_ADMIN");
-        memberRepository.save(member6);
-        }
 
     public MemberService(MemberRepository memberRepository, BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.memberRepository = memberRepository;
@@ -155,5 +132,21 @@ public class MemberService {
     public Boolean memberCheck(HttpServletRequest request){
        if(request.getHeader("Authorization") == null) return true; //현재 상태 비회원이면 트루 출력 회원일시 false 반환
        else return false;
+    }
+
+    public void registerAdmin(){
+        String password = bCryptPasswordEncoder.encode("1234");
+        Member member1 = new Member(1L,"a@gmail.com","관리자1",password);
+        member1.setRoles("ROLE_ADMIN");
+        memberRepository.save(member1);
+        Member member2 = new Member(2L,"b@gmail.com","관리자2",password);
+        member2.setRoles("ROLE_ADMIN");
+        memberRepository.save(member2);
+        Member member3 = new Member(3L,"b@gmail.com","관리자3",password);
+        member3.setRoles("ROLE_ADMIN");
+        memberRepository.save(member3);
+        Member member4 = new Member(4L,"c@gmail.com","관리자4",password);
+        member4.setRoles("ROLE_ADMIN");
+        memberRepository.save(member4);
     }
 }
