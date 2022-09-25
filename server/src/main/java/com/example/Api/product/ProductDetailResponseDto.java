@@ -9,10 +9,10 @@ public class ProductDetailResponseDto<T> {
 
     private Product product;
 
-    private MultiResponseDto<T> multiResponseDto;
+    private MultiResponseDto<T> reviews;
 
-    public ProductDetailResponseDto(Product product, MultiResponseDto<T> multiResponseDto) {
+    public ProductDetailResponseDto(Product product, MultiResponseDto<T> reviews) {
         this.product = product;
-        this.multiResponseDto = multiResponseDto;
+        this.reviews = reviews;
     }
 }

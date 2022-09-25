@@ -63,6 +63,11 @@ public class CategoryService {
         return findCategory;
     }
 
+    public Category findCategory(long categoryId){
+        Category category = categoryRepository.findByCategoryId(categoryId);
+        return category;
+    }
+
     public Page<Category> findCategories(int page, int size) {
         return categoryRepository.findAll(PageRequest.of(page, size,
                 Sort.by("categoryId").descending()));

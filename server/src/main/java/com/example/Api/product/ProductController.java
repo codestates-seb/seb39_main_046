@@ -1,6 +1,7 @@
 package com.example.Api.product;
 
 import com.example.Api.category.Category;
+import com.example.Api.category.CategoryRepository;
 import com.example.Api.category.CategoryService;
 import com.example.Api.member.*;
 import com.example.Api.response.MultiResponseDto;
@@ -35,6 +36,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @RestController
@@ -231,6 +233,7 @@ public class ProductController {
         int page = 1;
         size = 10;   ///질문 상세 페이지에 한 번에 출력할 리뷰의 수
         int methodId = 2;  // 초기 페이지 정렬( 최신 리뷰순 )
+        MultiResponseDto reviews;
         Page<Review> pageReviews = reviewService.SortReviews(page-1,size,methodId,null,result);
         List<Review> reviewList = pageReviews.getContent();
 
@@ -239,15 +242,20 @@ public class ProductController {
         //현재 상태 비회원이면 true,  회원일시 false  반환
         if (loginStatus) {   //비회원일 때
             result.setHeartFlag(false); // 좋아요 상태 OFF
-            checkReviewHeartFlagsNotLongin(reviewList);
+            if(reviewList!=null){
+                checkReviewHeartFlagsNotLongin(reviewList);
+            }
         }
         else{
             checkHeartFlag(memberService.getLoginMember(),result);
-            checkReviewHeartFlagsLogin(memberService.getLoginMember(),reviewList);
+            if(reviewList!=null){
+                checkReviewHeartFlagsLogin(memberService.getLoginMember(),reviewList);
+            }
         }
+        reviews = new MultiResponseDto<>(reviewList,pageReviews);
 
         return new ResponseEntity<>(
-                new ProductDetailResponseDto<>(result,new MultiResponseDto<>(reviewList,pageReviews)),
+                new ProductDetailResponseDto<>(result,reviews),
                 HttpStatus.OK);
     }
 
@@ -265,10 +273,14 @@ public class ProductController {
         boolean loginStatus = memberService.memberCheck(request);
         //현재 상태 비회원이면 true,  회원일시 false  반환
         if(loginStatus){
-            checkHeartFlagsNotLongin(top5);
+            if(top5!=null){
+                checkHeartFlagsNotLongin(top5);
+            }
         }
         else{
-            checkHeartFlagsLogin(memberService.getLoginMember(),top5);
+            if(top5!=null){
+                checkHeartFlagsLogin(memberService.getLoginMember(),top5);
+            }
         }
         return new ResponseEntity<>(top5, HttpStatus.OK);
     }
@@ -295,11 +307,18 @@ public class ProductController {
         boolean loginStatus = memberService.memberCheck(request);
         //현재 상태 비회원이면 true,  회원일시 false  반환
         if(loginStatus){
-            checkHeartFlagsNotLongin(top5);
+            if(top5!=null){
+                checkHeartFlagsNotLongin(top5);
+            }
+
         }
         else{
-            checkHeartFlagsLogin(memberService.getLoginMember(),top5);
-            checkHeartFlagsLogin(memberService.getLoginMember(),productList);
+            if(top5!=null){
+                checkHeartFlagsLogin(memberService.getLoginMember(),top5);
+            }
+            if(productList!=null){
+                checkHeartFlagsLogin(memberService.getLoginMember(),productList);
+            }
         }
 
         return new ResponseEntity<>(
@@ -320,18 +339,28 @@ public class ProductController {
                                                           HttpServletRequest request) {
         // 랭킹 페이지 아래 12개 데이터 정렬 요청
         size = 12;
-        Category category = categoryService.findVerifiedCategoryId(categoryId);
-        Page<Product> pageProducts = productService.SortProducts(page-1,size,methodId,company,category);
+        Category category = categoryService.findCategory(categoryId);
+        Page<Product> pageProducts;
+        if(category!=null){
+            pageProducts = productService.SortProducts(page-1,size,methodId,company,category);
+        }
+        else {
+            pageProducts = productService.SortProducts(page-1,size,methodId,company,null);
+        }
         List<Product> productList = pageProducts.getContent();
 
 
         boolean loginStatus = memberService.memberCheck(request);
         //현재 상태 비회원이면 true,  회원일시 false  반환
         if(loginStatus){
-            checkHeartFlagsNotLongin(productList);
+            if(productList!=null){
+                checkHeartFlagsNotLongin(productList);
+            }
         }
         else{
-            checkHeartFlagsLogin(memberService.getLoginMember(),productList);
+            if(productList!=null){
+                checkHeartFlagsLogin(memberService.getLoginMember(),productList);
+            }
         }
 
         return new ResponseEntity<>(
@@ -354,8 +383,9 @@ public class ProductController {
             //연결된 상품이 최소 1개라도 있는 카테고리들로 리스트 만들기
             List<Category> atLeastOne = categoryService.checkAtLeastOneProduct(allCategories);
             recommends = productService.setRandomRecommendedProducts(atLeastOne,"main");
-            checkHeartFlagsNotLongin(recommends);
-
+            if(recommends!=null){
+                checkHeartFlagsNotLongin(recommends);
+            }
         }
         else {  // 회원일 때 추천상품 세팅
             Member member = memberService.getLoginMember();
@@ -380,11 +410,12 @@ public class ProductController {
             else {
                 recommends = productService.setRecommendedProducts(memberCategory,"main");
             }
-            checkHeartFlagsLogin(member,recommends);
+            if(recommends!=null){
+                checkHeartFlagsLogin(member,recommends);
+            }
         }
         return new ResponseEntity<>(recommends, HttpStatus.OK);
     }
-
 
     @ApiOperation(value = "좋아요 등록 / 취소",
             notes = "✅ 입력 받은 productId에 해당하는 상품에 좋아요를 등록합니다..\n  - \n " )
@@ -461,7 +492,9 @@ public class ProductController {
             }
             else {
                 List<ProductHeart> productHeartList = productHeartsPage.getContent();
-                setHeartFlagTrue(productHeartList);
+                if(productHeartList!=null){
+                    setHeartFlagTrue(productHeartList);
+                }
 
                 return new ResponseEntity<>(
                         new MultiResponseDto<>(productMapper.productHeartsToProductHeartResponseDto(productHeartList), productHeartsPage),
@@ -487,16 +520,25 @@ public class ProductController {
         else {
             Member member = memberService.getLoginMember();
             List<Category> allCategories = categoryService.findAllCategoryAsList();
-            Category category = categoryService.findVerifiedCategoryId(categoryId);
+            Category category = categoryService.findCategory(categoryId);
+            //Category category = categoryService.findVerifiedCategoryId(categoryId);
             Page<ProductHeart> productHeartsPage;
-            productHeartsPage = productHeartService.SortHeartProducts(page-1,size,methodId,company,member, category);
+            if(category!=null){
+                productHeartsPage = productHeartService.SortHeartProducts(page-1,size,methodId,company,member, category);
+            }
+            else{
+                productHeartsPage = productHeartService.SortHeartProducts(page-1,size,methodId,company,member, null);
+            }
+
 
             if(productHeartsPage.isEmpty()){
                 return new ResponseEntity<>("찜꽁한 상품이 없어요", HttpStatus.NOT_FOUND);
             }
             else {
                 List<ProductHeart> productHeartList = productHeartsPage.getContent();
-                setHeartFlagTrue(productHeartList);
+                if(productHeartList!=null){
+                    setHeartFlagTrue(productHeartList);
+                }
 
                 return new ResponseEntity<>(
                         new MultiResponseDto<>(productMapper.productHeartsToProductHeartResponseDto(productHeartList), productHeartsPage),

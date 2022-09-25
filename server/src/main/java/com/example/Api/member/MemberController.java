@@ -119,7 +119,9 @@ public class MemberController {
             }
             else {
                 productHeartList = productHeartsPage.getContent();
-                setHeartFlagTrue(productHeartList);
+                if(productHeartList!=null){
+                    setHeartFlagTrue(productHeartList);
+                }
                 jjimProducts = new MultiResponseDto<>(productMapper.productHeartsToProductHeartResponseDto(productHeartList), productHeartsPage);
             }
             // 나의 리뷰
@@ -132,7 +134,9 @@ public class MemberController {
             }
             else {
                 List<Review> reviewList = pageReviews.getContent();
-                checkReviewHeartFlagsLogin(member,reviewList);
+                if(reviewList!=null){
+                    checkReviewHeartFlagsLogin(member,reviewList);
+                }
                 myReviews = new MultiResponseDto<>(reviewList,pageReviews);
             }
 
@@ -145,7 +149,9 @@ public class MemberController {
             }
             else {
                 List<ReviewHeart> reviewHeartList = reviewHeartsPage.getContent();
-                setReviewHeartFlagTrue(reviewHeartList);
+                if(reviewHeartList!=null){
+                    setReviewHeartFlagTrue(reviewHeartList);
+                }
                 jjimReviews = new MultiResponseDto<>(reviewMapper.reviewHeartsToReviewHeartsResponseDto(reviewHeartList),reviewHeartsPage);
             }
 
@@ -220,7 +226,9 @@ public class MemberController {
             else {
                 recommends = productService.setRecommendedProducts(memberCategory,"PBTI");
             }
-            checkHeartFlagsLogin(member,recommends); // 상품 좋아요 플래그 적용
+            if(recommends!=null){
+                checkHeartFlagsLogin(member,recommends); // 상품 좋아요 플래그 적용
+            }
         }
 
     return new ResponseEntity<>(recommends, HttpStatus.OK);

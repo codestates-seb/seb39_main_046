@@ -25,9 +25,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 @Tag(name = "Main Page", description = "Main Page API")
 @Api(tags = "Main Page")
@@ -83,9 +81,20 @@ public class MainController {
             //연결된 상품이 최소 1개라도 있는 카테고리들로 리스트 만들기
             List<Category> atLeastOne = categoryService.checkAtLeastOneProduct(allCategories);
             recommends = productService.setRandomRecommendedProducts(atLeastOne,"main");
-            checkHeartFlagsNotLongin(top5);
-            checkReviewHeartFlagsNotLongin(bestReviews);
-            checkHeartFlagsNotLongin(recommends);
+
+            if(top5!=null){
+                checkHeartFlagsNotLongin(top5);
+            }
+            if(bestReviews!=null) {
+                checkReviewHeartFlagsNotLongin(bestReviews);
+            }
+            if(recommends!=null) {
+                checkHeartFlagsNotLongin(recommends);
+            }
+
+            return new ResponseEntity<>(
+                    new MainResponseDto<>(top5,recommends, bestReviews),
+                    HttpStatus.OK);
         }
         else {  // 회원일 때
 
@@ -112,41 +121,58 @@ public class MainController {
             else {
                 recommends = productService.setRecommendedProducts(memberCategory,"main");
             }
-            checkHeartFlagsLogin(member,top5);
-            checkReviewHeartFlagsLogin(memberService.getLoginMember(),bestReviews);
-            checkHeartFlagsLogin(member,recommends);
+
+            if(top5!=null){
+                checkHeartFlagsLogin(member,top5);
+            }
+            if(bestReviews!=null) {
+                checkReviewHeartFlagsLogin(member,bestReviews);
+            }
+            if(recommends!=null) {
+                checkHeartFlagsLogin(member,recommends);
+            }
+
+            return new ResponseEntity<>(
+                    new MainResponseDto<>(top5,recommends, bestReviews),
+                    HttpStatus.OK);
         }
 
-        return new ResponseEntity<>(
-                new MainResponseDto<>(top5,recommends, bestReviews),
-                HttpStatus.OK);
     }
 
     public void checkHeartFlagsNotLongin(List<Product> products){
-        for(Product product : products){
+        if(!products.isEmpty()){
+            for(Product product : products){
                 product.setHeartFlag(false); // 좋아요 상태 OFF
+            }
         }
+
     }
     public void checkHeartFlagsLogin(Member member, List<Product> products){
-        for(Product product : products){
-            //이미 눌렀으면 false, 누르지 않았다면 true
-            product.setHeartFlag(!productHeartService.checkAlreadyHeart(member, product));
+        if(!products.isEmpty()){
+            for(Product product : products){
+                //이미 눌렀으면 false, 누르지 않았다면 true
+                product.setHeartFlag(!productHeartService.checkAlreadyHeart(member, product));
+            }
         }
 
     }
     public void checkReviewHeartFlagsNotLongin(List<Review> reviews){
-        for(Review review : reviews){
-            review.setReviewHeartFlag(false); // 좋아요 상태 OFF
+        if(!reviews.isEmpty()){
+            for(Review review : reviews){
+                review.setReviewHeartFlag(false); // 좋아요 상태 OFF
+            }
         }
     }
     public void checkReviewHeartFlagsLogin(Member member, List<Review> reviews){
-        for(Review review : reviews){
-            if(reviewHeartService.checkAlreadyHeart(member,review)){
-                //이미 눌렀으면 false, 누르지 않았다면 true
-                review.setReviewHeartFlag(false);
-            }
-            else{
-                review.setReviewHeartFlag(true);
+        if(!reviews.isEmpty()){
+            for(Review review : reviews){
+                if(reviewHeartService.checkAlreadyHeart(member,review)){
+                    //이미 눌렀으면 false, 누르지 않았다면 true
+                    review.setReviewHeartFlag(false);
+                }
+                else{
+                    review.setReviewHeartFlag(true);
+                }
             }
         }
     }
