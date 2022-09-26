@@ -142,7 +142,7 @@ public class MemberService {
         Member member2 = new Member(2L,"b@gmail.com","관리자2",password);
         member2.setRoles("ROLE_ADMIN");
         memberRepository.save(member2);
-        Member member3 = new Member(3L,"b@gmail.com","관리자3",password);
+        Member member3 = new Member(3L,"d@gmail.com","관리자3",password);
         member3.setRoles("ROLE_ADMIN");
         memberRepository.save(member3);
         Member member4 = new Member(4L,"c@gmail.com","관리자4",password);
