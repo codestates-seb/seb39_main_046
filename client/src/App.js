@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { Route, Routes } from "react-router-dom";
+import {QueryClient, QueryClientProvider} from "react-query";
+
 import Layout from "./components/layout/Layout";
 import Main from "./pages/main/Main";
 import FindStore from "./pages/findStore/FindStore";
@@ -15,30 +17,35 @@ import DetailProduct from "./pages/detailProducts/DetailProduct";
 import Products from "./pages/product/Products";
 import ProductBasket from "./pages/mypage/ProductBasket";
 
+const queryClient = new QueryClient();
+
+
 function App() {
   const [loading, setLoading] = useState(true);
 
   return (
-    <>
-      <Routes>
-        <Route path="/" element={<Layout />}>
-          <Route index element={<Main />}></Route>
-          <Route path="/findstore" element={<FindStore />}></Route>
-          <Route path="/foodtest" element={<FootTest />}>
-            <Route index element={<FoodTestHome />}></Route>
-            <Route path="question" element={<FoodTestQuestion />}></Route>
-            <Route path="result" element={<FoodTestResult />}></Route>
+    <QueryClientProvider client ={queryClient}>
+      <>
+        <Routes>
+          <Route path="/" element={<Layout />}>
+            <Route index element={<Main />}></Route>
+            <Route path="/findstore" element={<FindStore />}></Route>
+            <Route path="/foodtest" element={<FootTest />}>
+              <Route index element={<FoodTestHome />}></Route>
+              <Route path="question" element={<FoodTestQuestion />}></Route>
+              <Route path="result" element={<FoodTestResult />}></Route>
+            </Route>
+            <Route path="/login" element={<Login />}></Route>
+            <Route path="/singup" element={<SingUp />}></Route>
+            <Route path="/mypage" element={<Mypage />}></Route>
+            <Route path="/productbasket" element={<ProductBasket />}></Route>
+            <Route path="/products" element={<Products />}></Route>
+            <Route path="/productdetail" element={<DetailProduct />}></Route>
+            <Route path="*" element={<div>NotFound</div>} />
           </Route>
-          <Route path="/login" element={<Login />}></Route>
-          <Route path="/singup" element={<SingUp />}></Route>
-          <Route path="/mypage" element={<Mypage />}></Route>
-          <Route path="/productbasket" element={<ProductBasket />}></Route>
-          <Route path="/products" element={<Products />}></Route>
-          <Route path="/productdetail" element={<DetailProduct />}></Route>
-          <Route path="*" element={<div>NotFound</div>} />
-        </Route>
-      </Routes>
-    </>
+        </Routes>
+      </>
+    </QueryClientProvider>
   );
 }
 
