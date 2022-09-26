@@ -1,4 +1,6 @@
 #!/bin/bash
+echo "빌드 시작" >> /home/ubuntu/action/deploy.log
+
 BUILD_JAR=$(ls /home/ubuntu/action/build/libs/API-0.0.1-SNAPSHOT.jar)
 JAR_NAME=$(basename $BUILD_JAR)
 
