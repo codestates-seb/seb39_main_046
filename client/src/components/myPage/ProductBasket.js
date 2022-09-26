@@ -2,7 +2,6 @@ import React from 'react';
 import styled from 'styled-components';
 import "../bestProduct/slick-theme.css";
 import "../bestProduct/slick.css";
-import Slider from "react-slick";
 import titleimg from '../../assets/images/userinfo/title.png';
 
 
@@ -58,98 +57,7 @@ const ProductBasket = () => {
                 </section>
             </BasketTitle>
             <CarashelContent>
-            <Slider {...settings}>                
-                <ProductSection>
-                    <RecoProducts />                                        
-                    <ProductsEx>                    
-                        <ProductCategory>category</ProductCategory>
-                        <ProductName>Product name</ProductName>                        
-                        <div></div>
-                        <ProductPrice>5,300원</ProductPrice>
-                    </ProductsEx>
-                </ProductSection>
-                <ProductSection>                    
-                    <RecoProducts />
-                    <ProductsEx>
-                        <ProductCategory>category</ProductCategory>
-                        <ProductName>Product name</ProductName>
-                        <div></div>
-                        <ProductPrice>5,300원</ProductPrice>
-                    </ProductsEx>
-                </ProductSection>
-                <ProductSection>
-                <RecoProducts />
-            <ProductsEx>
-              <ProductCategory>category</ProductCategory>
-              <ProductName>Product name</ProductName>
-              <div></div>
-              <ProductPrice>5,300원</ProductPrice>
-            </ProductsEx>
-          </ProductSection>
-          <ProductSection>
-            <RecoProducts />
-            <ProductsEx>
-              <ProductCategory>category</ProductCategory>
-              <ProductName>Product name</ProductName>
-              <div></div>
-              <ProductPrice>5,300원</ProductPrice>
-            </ProductsEx>
-          </ProductSection>
-          <ProductSection>
-            <RecoProducts />
-            <ProductsEx>
-              <ProductCategory>category</ProductCategory>
-              <ProductName>Product name</ProductName>
-              <div></div>
-              <ProductPrice>5,300원</ProductPrice>
-            </ProductsEx>
-          </ProductSection>
-          <ProductSection>
-            <RecoProducts />
-            <ProductsEx>
-              <ProductCategory>category</ProductCategory>
-              <ProductName>Product name</ProductName>
-              <div></div>
-              <ProductPrice>5,300원</ProductPrice>
-            </ProductsEx>
-          </ProductSection>
-          <ProductSection>
-            <RecoProducts />
-            <ProductsEx>
-              <ProductCategory>category</ProductCategory>
-              <ProductName>Product name</ProductName>
-              <div></div>
-              <ProductPrice>5,300원</ProductPrice>
-            </ProductsEx>
-          </ProductSection>
-          <ProductSection>
-            <RecoProducts />
-            <ProductsEx>
-              <ProductCategory>category</ProductCategory>
-              <ProductName>Product name</ProductName>
-              <div></div>
-              <ProductPrice>5,300원</ProductPrice>
-            </ProductsEx>
-          </ProductSection>
-          <ProductSection>
-            <RecoProducts />
-            <ProductsEx>
-              <ProductCategory>category</ProductCategory>
-              <ProductName>Product name</ProductName>
-              <div></div>
-              <ProductPrice>5,300원</ProductPrice>
-            </ProductsEx>
-          </ProductSection>
-          <ProductSection>
-            <RecoProducts />
-            <ProductsEx>
-              <ProductCategory>category</ProductCategory>
-              <ProductName>Product name</ProductName>
-              <div></div>
-              <ProductPrice>5,300원</ProductPrice>
-            </ProductsEx>
-          </ProductSection>
-        </Slider>
+
             </CarashelContent>
         </Topdiv>
     );
@@ -165,7 +73,7 @@ const BasketTitle = styled.section`
     section{
         display:flex;
         margin: 0 auto;
-        justify-content: space-around;
+        justify-content: space-between;
     }
     img{
         /* margin-top:${({ theme }) => theme.margins.xl}; */
@@ -185,6 +93,7 @@ const Username = styled.span`
     font-weight: 700;
     text-align:center;
     color:${({ theme }) => theme.colors.Blue_040};
+    margin-right: 42px;
     span{
         font-size: ${({ theme }) => theme.fontSizes.titleSize};
         font-weight: 700;

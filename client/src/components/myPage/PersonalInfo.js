@@ -35,7 +35,7 @@ const PersonalInfo = () => {
                         <TextInput/>                        
                     </UserForm>
                 </UserPassing>                                
-            </UserInfo>
+            </UserInfo>            
         </TopDiv>
     );
 };
