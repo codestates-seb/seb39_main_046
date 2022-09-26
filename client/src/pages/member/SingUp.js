@@ -56,12 +56,22 @@ const SingUp = () => {
   //   return <p>로딩중..</p>
   // }
 
-  // if(isError){
-  //   <p>("뭔가 잘못됨..")</p>
-  // }
 
-  const {mutate: addPerson} = useSignup()
 
+  const onSuccess = (data) => {
+    console.log('Perform side effect after data fetching', data)
+  }
+
+  const onError = (error) => {
+    console.log('Perfrom side effect after encountering error', error)
+  }
+
+
+  const {mutate: addPerson, isError} = useSignup()
+
+  if(isError){
+    <p>("뭔가 잘못됨..")</p>
+  }
 
 
   const onsubmit = () => {

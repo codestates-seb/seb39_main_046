@@ -1,11 +1,17 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
+import {useLogin} from "../../lib/api/useLogin";
 import TextInput from "../../components/common/input/TextInput";
 
 const Login = () => {
   const navigate = useNavigate();
   const [disabled, setDisabled] = useState(true);
+  const [userName, setUserName] = useState("");
+  const [password, setpassword] = useState("");
+
+
+
   const inputChange = (e) => {
     console.log(e.target.value);
     const length = e.target.value.length;
@@ -14,8 +20,24 @@ const Login = () => {
     } else if (!disabled) {
       setDisabled(true);
     }
+    setUserName(e.target.value);
   };
+
+  const inputpwChange =(e) => {
+    console.log(e.target.value);
+    setpassword(e.target.value);
+  }
+
   const label = disabled ? "로그인" : "로그인";
+
+  const {mutate: loginperson, isError} = useLogin();
+
+
+  const onsubmit = () => {
+    console.log({userName, password})
+    const log = {userName, password}
+    loginperson(log);
+  }
   return (
     <>
       <MemberContainer>
@@ -33,12 +55,13 @@ const Login = () => {
           <InputBox>
             <div>
               <p>아이디</p>
-              <TextInput />
+              {/* <TextInput /> */}
+              <Thisinpu placeholder="아이디" onChange={inputChange} />
             </div>
             <div>
               <p>비밀번호</p>
               {/* <input onChange={inputChange} /> */}
-              <TextInput placeholder="비밀번호" onChange={inputChange} />
+              <Thisinpu placeholder="비밀번호" onChange={inputpwChange} />
             </div>
           </InputBox>
           <IdPwFind>
@@ -46,7 +69,7 @@ const Login = () => {
             <span>|</span>
             <span>패스워드찾기</span>
           </IdPwFind>
-          <LoginConfirmBtn>{label}</LoginConfirmBtn>
+          <LoginConfirmBtn onClick={onsubmit}>{label}</LoginConfirmBtn>
         </MiddleBox>
       </MemberContainer>
     </>
@@ -54,6 +77,21 @@ const Login = () => {
 };
 
 export default Login;
+
+const Thisinpu = styled.input`
+  width: 320px;
+  height: 40px;
+  border: 0px;
+  font-size: ${({ theme }) => theme.fontSizes.small};
+  line-height: 1rem;
+  border: none;
+  background-color: ${({ theme }) => theme.colors.White};
+  border-radius: 20px;
+  padding-left: 15px;
+  &:focus {
+    outline: 1px solid ${({ theme }) => theme.colors.Blue_040};
+  }
+`
 
 const MemberContainer = styled.section`
   margin: 0 auto;
