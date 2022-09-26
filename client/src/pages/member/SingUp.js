@@ -46,7 +46,7 @@ const SingUp = () => {
   const [username, setUserName] = useState("");
   const [confirm, setConfrim] = useState("");
 
-  // const {mutate, isLoading, isError} = useMutation(PostSign,{
+  // const {mutate, isLoading} = useMutation(addPerson,{
   //   onSuccess: () => {
   //     alert("회원가입 성공");
   //   }
@@ -67,7 +67,12 @@ const SingUp = () => {
   }
 
 
-  const {mutate: addPerson, isError} = useSignup()
+  const {mutate: addPerson, isError} = useSignup({
+    onSuccess:() => {
+      alert("회원가입 성공");
+    }
+  });
+  
 
   if(isError){
     <p>("뭔가 잘못됨..")</p>
