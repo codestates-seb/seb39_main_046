@@ -21,7 +21,7 @@ else
   sudo kill -15 $CURRENT_PID
   sleep 7
 fi
-echo "4914" >> /home/ubuntu/action/deploy.log
+echo "test" >> /home/ubuntu/action/deploy.log
 
 DEPLOY_JAR=$DEPLOY_PATH$JAR_NAME
 echo "> DEPLOY_JAR 배포"    >> /home/ubuntu/action/deploy.log
