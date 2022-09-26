@@ -1,5 +1,8 @@
 import React, { useState } from "react";
 import { Route, Routes } from "react-router-dom";
+import { QueryClient, QueryClientProvider } from "react-query";
+
+import { ReactQueryDevtools } from "react-query/devtools";
 import Layout from "./components/layout/Layout";
 import Main from "./pages/main/Main";
 import FindStore from "./pages/findStore/FindStore";
@@ -15,11 +18,13 @@ import DetailProduct from "./pages/detailProducts/DetailProduct";
 import Products from "./pages/product/Products";
 import ProductBasket from "./pages/mypage/ProductBasket";
 
+const queryClient = new QueryClient();
+
 function App() {
   const [loading, setLoading] = useState(true);
 
   return (
-    <>
+    <QueryClientProvider client={queryClient}>
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<Main />}></Route>
@@ -38,7 +43,8 @@ function App() {
           <Route path="*" element={<div>NotFound</div>} />
         </Route>
       </Routes>
-    </>
+      <ReactQueryDevtools initialIsOpen={true} />
+    </QueryClientProvider>
   );
 }
 
