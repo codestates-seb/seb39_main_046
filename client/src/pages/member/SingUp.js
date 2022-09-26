@@ -52,7 +52,7 @@ const MemberContainer = styled.section`
 
 const TopBtnBox = styled.div`
   margin: 0 auto;
-  width: 320px;
+  width: 200px;
   height: 40px;
   border-radius: 20px;
   background-color: ${({ theme }) => theme.colors.Gray_020};
@@ -60,7 +60,7 @@ const TopBtnBox = styled.div`
 `;
 
 const LoginBtn = styled.button`
-  width: 160px;
+  width: 100px;
   height: 40px;
   border-radius: 20px;
   border: none;
@@ -69,12 +69,12 @@ const LoginBtn = styled.button`
 `;
 
 const SingUpBtn = styled.button`
-  width: 160px;
+  width: 100px;
   height: 40px;
   border-radius: 20px;
   border: none;
   color: #fff;
-  background-color: ${({ theme }) => theme.colors.Orange_030};
+  background-color: ${({ theme }) => theme.colors.Blue_030};
   animation: slide2 1s;
   @keyframes slide2 {
     from {

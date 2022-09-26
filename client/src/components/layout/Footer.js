@@ -5,8 +5,8 @@ const Footer = () => {
   return (
     <FooterContainer>
       <FMain>
-        <h3>RecoStore</h3>
-        <p>최서은 | 이도현 | 구건회 | 장종인 | 신지민</p>
+        {/* <h3>RecoStore</h3>
+        <p>최서은 | 이도현 | 구건회 | 장종인 | 신지민</p> */}
       </FMain>
     </FooterContainer>
   );
@@ -15,10 +15,10 @@ const Footer = () => {
 export default Footer;
 const FooterContainer = styled.footer`
   width: 100%;
-  height: 150px;
+  height: 350px;
   /* position: fixed; */
   bottom: 0;
-  background-color: ${({ theme }) => theme.colors.Gray_090};
+  background-color: ${({ theme }) => theme.colors.Gray_050};
 `;
 
 const FMain = styled.main`
