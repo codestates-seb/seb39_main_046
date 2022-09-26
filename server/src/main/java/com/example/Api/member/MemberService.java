@@ -21,7 +21,6 @@ public class MemberService {
     private final MemberRepository memberRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
-
     public MemberService(MemberRepository memberRepository, BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.memberRepository = memberRepository;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
@@ -130,8 +129,12 @@ public class MemberService {
     }
 
     public Boolean memberCheck(HttpServletRequest request){
-       if(request.getHeader("Authorization") == null) return true; //현재 상태 비회원이면 트루 출력 회원일시 false 반환
-       else return false;
+        if(request.getHeader("Authorization") == null) return true; //현재 상태 비회원이면 트루 출력 회원일시 false 반환
+        else return false;
+    }
+    public void imgUpdate(Member member,String photo){
+        member.setProfile(photo);
+        memberRepository.save(member);
     }
 
     public void registerAdmin(){

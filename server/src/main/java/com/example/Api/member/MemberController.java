@@ -3,6 +3,7 @@ package com.example.Api.member;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.example.Api.S3Upload;
 import com.example.Api.category.Category;
 import com.example.Api.category.CategoryService;
 import com.example.Api.product.*;
@@ -50,6 +51,8 @@ public class MemberController {
     private final ProductService productService;
     private final ProductHeartService productHeartService;
     private final ReviewHeartService reviewHeartService;
+
+    private final S3Upload s3Upload;
 
 
     @PostMapping
@@ -237,25 +240,13 @@ public class MemberController {
 
     @PostMapping("/profile")
     @ApiOperation(value = "프로필 사진 추가",
-                  notes = "✅ 로그인 상태 -> 프로필 사진 추가  \n  \n")
+            notes = "✅ 로그인 상태 -> 프로필 사진 추가  \n  \n")
     public ResponseEntity profile(@RequestPart("file") MultipartFile mfile) throws IOException {
-    //이미지 저장 url 추가
-
         Member member = memberService.getLoginMember();
-        Member updatedMember = member;
-        try {
-            String savePath = System.getProperty("user.dir") + "\\src\\main\\resources\\static\\images\\";
-            mfile.transferTo(new File(savePath + mfile.getOriginalFilename()));  // 경로에 업로드
-            System.out.println(savePath);
-            updatedMember.setProfile(mfile.getOriginalFilename());
-            memberService.updateMember(member,updatedMember);
 
-            /*memberService.imgUpdate(member, mfile.getOriginalFilename());*/
-            return new ResponseEntity<>("등록 완료", HttpStatus.OK);
 
-        }catch(Exception e) {
-            e.printStackTrace();
-        }
+        memberService.imgUpdate(member, s3Upload.upload(mfile));
+
         return new ResponseEntity<>("등록 완료",HttpStatus.OK);
     }
 
