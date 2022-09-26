@@ -1,0 +1,53 @@
+name: Java CI with Gradle
+
+on:
+  push:
+    branches: [ "swagger" ]
+
+permissions:
+  contents: read
+  
+env:
+  S3_BUCKET_NAME: pre-project2
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up JDK 11
+      uses: actions/setup-java@v3
+      with:
+        java-version: '11'
+        distribution: 'temurin'
+    - name: Build with Gradle
+      uses: gradle/gradle-build-action@67421db6bd0bf253fb4bd25b31ebb98943c375e1
+      with:
+        arguments: build
+    
+    # build한 후 프로젝트를 압축합니다.
+    - name: Make zip file
+      run: zip -r ./practice-deploy.zip .
+      shell: bash
+    
+    # Access Key와 Secret Access Key를 통해 권한을 확인합니다.
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ap-northeast-2
+    
+    # 압축한 프로젝트를 S3로 전송합니다.
+    - name: Upload to S3
+      run: aws s3 cp --region ap-northeast-2 ./practice-deploy.zip s3://$S3_BUCKET_NAME/practice-deploy.zip
+    
+    # CodeDeploy에게 배로 명령을 내립니다.
+    - name: Code Deploy
+      run: >
+        aws deploy create-deployment --application-name citest
+        --deployment-config-name CodeDeployDefault.AllAtOnce
+        --deployment-group-name citest-group
+        --s3-location bucket=$S3_BUCKET_NAME,bundleType=zip,key=practice-deploy.zip
