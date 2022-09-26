@@ -10,7 +10,6 @@ import HeartButton from "../../components/common/button/HeartButton";
 const Main = () => {
   return (
     <div>
-      <HeartButton />
       <Banner>
         <BHeader>
           흩어져있는 편의점 PB상품
