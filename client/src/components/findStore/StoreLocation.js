@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import "./StoreLocation.css";
+import { FiSearch } from "react-icons/fi";
 
 const { kakao } = window;
 
@@ -360,7 +361,6 @@ const StoreLocation = () => {
     });
   }, [place]);
 
-
   return (
     <div className="mapsection">
       <div
@@ -405,12 +405,13 @@ const StoreLocation = () => {
               />
             </li>
             <li>
-              <button type="submit">검색</button>
+              <button type="submit" className="serchBtn">
+                <FiSearch size={30} />
+              </button>
             </li>
           </ul>
         </form>
         <Listtitle>
-          <StoreMaker></StoreMaker>
           <Storenameing>매장명</Storenameing>
           <Storeadressing>주소</Storeadressing>
         </Listtitle>
@@ -420,13 +421,13 @@ const StoreLocation = () => {
               {/* <span>{i + 1}</span> */}
               <Detail>
                 {item.place_name.includes("CU") ? (
-                  <StoreMaker>CU</StoreMaker>
+                  <CUMaker />
                 ) : item.place_name.includes("GS25") ? (
-                  <StoreMaker>GS25</StoreMaker>
+                  <GSMaker />
                 ) : item.place_name.includes("세븐일레븐") ? (
-                  <StoreMaker>세븐</StoreMaker>
+                  <SevenMaker />
                 ) : (
-                  <StoreMaker />
+                  <ETCMaker />
                 )}
                 <Storename>{item.place_name}</Storename>
                 {item.road_address_name ? (
@@ -455,42 +456,68 @@ export default StoreLocation;
 const Listtitle = styled.div`
   display: flex;
   width: 100%;
-  height: 40px;
+  height: 50px;
   justify-content: center;
   align-items: center;
   text-align: center;
-  border-top: 1px solid rgba(0, 0, 0, 0.5);
+  border-top: 1px solid rgba(0, 0, 0, 0.2);
+  background: #e9f1ff;
 `;
 
 const Storenameing = styled.div`
-  width: 40%;
+  width: 45%;
   font-weight: 500;
   color: #0946bf;
-  font-size: 12px;
 `;
 
 const Storeadressing = styled.div`
   width: 60%;
   font-weight: 500;
   color: #0946bf;
-  font-size: 12px;
 `;
 
 const Storename = styled.div`
   width: 40%;
   text-align: center;
-  font-size: 12px;
-  font-weight: 400;
+  font-size: 16px;
+  color: #454545;
 `;
 const Storeadress = styled.div`
   width: 60%;
   text-align: center;
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 400;
+  color: #454545;
 `;
 const Detail = styled.div`
   display: flex;
 `;
-const StoreMaker = styled.div`
-  width: 10%;
+const CUMaker = styled.div`
+  width: 13px;
+  height: 13px;
+  border-radius: 13px;
+  background-color: #9e10e1;
+  margin-left: 20px;
+`;
+const GSMaker = styled.div`
+  width: 13px;
+  height: 13px;
+  border-radius: 13px;
+  margin-left: 20px;
+  background-color: #4eabef;
+`;
+const SevenMaker = styled.div`
+  width: 13px;
+  height: 13px;
+  border-radius: 13px;
+  margin-left: 20px;
+  background-color: #0c8f41;
+`;
+
+const ETCMaker = styled.div`
+  width: 13px;
+  height: 13px;
+  border-radius: 13px;
+  margin-left: 20px;
+  background-color: #aeaeb2;
 `;
