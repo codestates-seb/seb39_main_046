@@ -48,7 +48,7 @@ jobs:
     
     # 압축한 프로젝트를 S3로 전송합니다.
     - name: Upload to S3
-      run: aws s3 cp --region ap-northeast-2 ./deploy-server.zip s3://$S3_BUCKET_NAME/deploy-server.zip
+      run: aws s3 cp --region ap-northeast-2 ./practice-deploy.zip s3://$S3_BUCKET_NAME/practice-deploy.zip
     
     # CodeDeploy에게 배로 명령을 내립니다.
     - name: Code Deploy
