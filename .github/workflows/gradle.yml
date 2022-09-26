@@ -9,6 +9,7 @@ permissions:
   
 env:
   S3_BUCKET_NAME: pre-project2
+  RESOURCE_PATH: ./server/src/main/resources/application.yml
 
 jobs:
   build:
