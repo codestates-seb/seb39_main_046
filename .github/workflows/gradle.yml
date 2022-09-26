@@ -13,7 +13,7 @@ env:
 jobs:
   build:
 
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
 
     steps:
     - uses: actions/checkout@v3
@@ -22,19 +22,23 @@ jobs:
       with:
         java-version: '11'
         distribution: 'temurin'
-
-    - name: Change directory
-      run: cd server
-
-    - name: Grant execute permission for gradlew
-      run: chmod +x gradlew
-
-    - name: Build with Gradle
-      run: ./gradlew build -x test -x asciidoctor
+        
+    - name: Server Build
+      run: |                                        # 개별 실행 옵션, 없으면 29 ~ 35줄까지 모두 한줄에 실행됨
+        mkdir -p deploy-server/                     # 압축할 임시 폴더 생성 (deploy-server)
+        cd server/                                  # 리포지토리에서 server 폴더로 이동
+        chmod +x ./gradlew                          # GitHub Action 에서 gradle build를 위한 권한설정
+        ./gradlew clean bootjar -x test -x asciidoctor   # 테스트를 제외한 빌드 진행, 테스트를 원하면 -x test 옵션 삭제
+        cd ..                                       # 리포지토리 기본 위치로 이동
+        cp server/build/libs/*.jar deploy-server/   # jar 파일 임시 폴더로 복사
+      shell: bash
     
     # build한 후 프로젝트를 압축합니다.
     - name: Make zip file
-      run: zip -r ./practice-deploy.zip .
+      run: |
+        cp appspec.yml deploy-server/appspec.yml
+        cp -r scripts/deploy-aws deploy-server/scripts
+        zip -r deploy-server.zip ./deploy-server        # 임시 폴더 전체 deploy.zip 폴더로
       shell: bash
     
     # Access Key와 Secret Access Key를 통해 권한을 확인합니다.
@@ -47,7 +51,7 @@ jobs:
     
     # 압축한 프로젝트를 S3로 전송합니다.
     - name: Upload to S3
-      run: aws s3 cp --region ap-northeast-2 ./practice-deploy.zip s3://$S3_BUCKET_NAME/practice-deploy.zip
+      run: aws s3 cp --region ap-northeast-2 ./deploy-server.zip s3://$S3_BUCKET_NAME/deploy-server.zip
     
     # CodeDeploy에게 배로 명령을 내립니다.
     - name: Code Deploy
@@ -55,4 +59,4 @@ jobs:
         aws deploy create-deployment --application-name citest
         --deployment-config-name CodeDeployDefault.AllAtOnce
         --deployment-group-name citest-group
-        --s3-location bucket=$S3_BUCKET_NAME,bundleType=zip,key=practice-deploy.zip
+        --s3-location bucket=$S3_BUCKET_NAME,bundleType=zip,key=deploy-server.zip
