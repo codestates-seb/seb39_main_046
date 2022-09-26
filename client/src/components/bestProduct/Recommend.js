@@ -96,8 +96,8 @@ const SwiperBox = styled(Swiper)`
   padding-top: 30px;
   width: 100%;
   height: 450px;
-  padding-left: 10px;
-  padding-right: 10px;
+  padding-left: 8px;
+  padding-right: 12px;
 `;
 const StyleSwipper = styled(SwiperSlide)`
   cursor: pointer;

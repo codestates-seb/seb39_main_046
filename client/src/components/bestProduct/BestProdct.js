@@ -202,6 +202,7 @@ const ProductBox = styled.div`
     font-weight: 500;
   }
   .heart_btn {
+    top: 7px;
     right: 45px;
     z-index: 3;
   }
