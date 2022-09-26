@@ -15,7 +15,7 @@ const Login = () => {
       setDisabled(true);
     }
   };
-  const label = disabled ? "Disabled" : "로그인";
+  const label = disabled ? "로그인" : "로그인";
   return (
     <>
       <MemberContainer>
@@ -68,7 +68,7 @@ const MemberContainer = styled.section`
 
 const TopBtnBox = styled.div`
   margin: 0 auto;
-  width: 320px;
+  width: 200px;
   height: 40px;
   border-radius: 20px;
   background-color: ${({ theme }) => theme.colors.Gray_020};
@@ -76,11 +76,11 @@ const TopBtnBox = styled.div`
 `;
 
 const LoginBtn = styled.button`
-  width: 160px;
+  width: 100px;
   height: 40px;
   border-radius: 20px;
   border: none;
-  background-color: ${({ theme }) => theme.colors.Orange_030};
+  background-color: ${({ theme }) => theme.colors.Blue_030};
   color: #fff;
   animation: slide 1s;
   @keyframes slide {
@@ -94,7 +94,7 @@ const LoginBtn = styled.button`
 `;
 
 const SingUpBtn = styled.button`
-  width: 160px;
+  width: 100px;
   height: 40px;
   border-radius: 20px;
   border: none;

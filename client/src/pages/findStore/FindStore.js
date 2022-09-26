@@ -9,9 +9,9 @@ const FindStore = () => {
     <div>
       <Banner>
         <BHeader>
-          흩어져있는 편의점 PB상품
+          내 주변 편의점을 찾아보려면
           <br />
-          <span>다들 헤쳐 모여!</span>
+          <span>주변 편의점 찾기</span>
         </BHeader>
         <BImg>
           <img src={BChracter} alt="배너 캐릭터" />
