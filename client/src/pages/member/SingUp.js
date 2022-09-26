@@ -1,11 +1,12 @@
 import React, {useState} from "react";
 import styled from "styled-components";
 import axios from 'axios';
+import {useSignup} from "../../lib/api/useSignup";
 import { useNavigate } from "react-router-dom";
 import {useQuery, useMutation} from 'react-query';
 import { useEffect } from "react";
 
-import TextInput from "../../components/common/input/TextInput";
+// import TextInput from "../../components/common/input/TextInput";
 // import { useState } from "react";
 
 // async function PostSign(){
@@ -23,49 +24,51 @@ import TextInput from "../../components/common/input/TextInput";
 //   })
 // }
 
-const PostSign = async user => {
-  const response = await axios.post('/member/signup',{
-    headers:{
-      "Content-Type" : "application/json",
-    },
-    data: {
-      nickName: user.Nick_Name,
-      password: user.password,
-      username: user.userName,
-    }
-  })
-  return response.json()
-}
-
-
+// const PostSign = async user => {
+//   const response = await axios.post('/member/signup',{
+//     headers:{
+//       "Content-Type" : "application/json",
+//     },
+//     data: {
+//       nickName: user.Nick_Name,
+//       password: "user.passWord",
+//       username: user.userName,
+//     }
+//   })
+//   return response.json()
+// }
 
 
 const SingUp = () => {
   const navigate = useNavigate();
   const [nickName, setNickName] = useState('')
   const [password, setPassword] = useState("");
-  const [userName, setUserName] = useState("");
+  const [username, setUserName] = useState("");
   const [confirm, setConfrim] = useState("");
 
-  const {mutate, isLoading, isError} = useMutation(PostSign,{
-    onSuccess: () => {
-      alert("회원가입 성공");
-    }
-  })
+  // const {mutate, isLoading, isError} = useMutation(PostSign,{
+  //   onSuccess: () => {
+  //     alert("회원가입 성공");
+  //   }
+  // })
 
-  if(isLoading) {
-    return <p>로딩중..</p>
-  }
+  // if(isLoading) {
+  //   return <p>로딩중..</p>
+  // }
 
-  if(isError){
-    alert("뭔가 잘못됨..")
-  }
+  // if(isError){
+  //   <p>("뭔가 잘못됨..")</p>
+  // }
+
+  const {mutate: addPerson} = useSignup()
 
 
 
   const onsubmit = () => {
     if(password === confirm){
-      mutate({nick_Name: nickName, password: password, userName: userName})
+      console.log({nickName, password, username})
+      const person = {nickName, password, username }
+      addPerson(person)
     }
     else{
       alert('비밀번호가 맞지 않아요');
