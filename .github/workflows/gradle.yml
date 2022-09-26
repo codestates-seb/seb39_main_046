@@ -35,10 +35,7 @@ jobs:
     
     # build한 후 프로젝트를 압축합니다.
     - name: Make zip file
-      run: |
-        cp appspec.yml deploy-server/appspec.yml
-        cp -r scripts/deploy-aws deploy-server/scripts
-        zip -r deploy-server.zip ./deploy-server        # 임시 폴더 전체 deploy.zip 폴더로
+      run: zip -r ./practice-deploy.zip .        # 임시 폴더 전체 deploy.zip 폴더로
       shell: bash
     
     # Access Key와 Secret Access Key를 통해 권한을 확인합니다.
