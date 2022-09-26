@@ -56,7 +56,7 @@ public class MemberController {
 
 
     @PostMapping
-    @ApiOperation(value = "관리자 계정 등록")
+    @ApiOperation(value = "관리자 계정 등록!")
     public ResponseEntity registerAdmin(){
         memberService.registerAdmin();
         return new ResponseEntity<>(HttpStatus.CREATED);
