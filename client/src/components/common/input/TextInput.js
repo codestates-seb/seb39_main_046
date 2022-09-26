@@ -1,5 +1,5 @@
 import React from "react";
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 
 const StyledInput = styled.input.attrs({
   placeholder: "입력해주세요.",

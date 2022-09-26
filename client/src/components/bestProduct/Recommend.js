@@ -100,7 +100,6 @@ const SwiperBox = styled(Swiper)`
   padding-right: 10px;
 `;
 const StyleSwipper = styled(SwiperSlide)`
-  box-shadow: 0px 5px 10px rgba(204, 204, 204, 0.5);
   cursor: pointer;
   height: 355px;
   border-radius: 20px;

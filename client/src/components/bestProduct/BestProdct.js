@@ -126,6 +126,7 @@ const PickyPicky = styled.p`
   color: ${({ theme }) => theme.colors.Gray_030};
   line-height: 160%;
   padding-left: 50px;
+  height: 60px;
 `;
 
 const More = styled.p`

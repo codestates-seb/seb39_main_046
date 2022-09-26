@@ -1,6 +1,6 @@
 import React from "react";
 import styled, { css } from "styled-components";
-import { darken } from "polished";
+
 const ProductCategory = styled.button`
   display: inline-flex;
   outline: none;

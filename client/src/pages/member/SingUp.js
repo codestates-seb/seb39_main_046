@@ -2,7 +2,6 @@ import React from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import TextInput from "../../components/common/input/TextInput";
-import { IoIosArrowForward } from "react-icons/io";
 
 const SingUp = () => {
   const navigate = useNavigate();
@@ -101,22 +100,7 @@ const MiddleBox = styled.div`
   }
 `;
 
-const MemberRemember = styled.div`
-  width: 320px;
-  height: 25px;
-  div {
-    display: flex;
-    justify-content: flex-end;
-  }
-`;
 const InputBox = styled.div``;
-
-const IdPwFind = styled.div`
-  width: 200px;
-  display: flex;
-  justify-content: space-around;
-  color: ${({ theme }) => theme.colors.Gray_040};
-`;
 
 const LoginConfirmBtn = styled.button`
   width: 320px;

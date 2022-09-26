@@ -12,9 +12,8 @@ import Login from "./pages/member/LoginPage";
 import SingUp from "./pages/member/SingUp";
 import Mypage from "./pages/mypage/Mypage";
 import DetailProduct from "./pages/detailProducts/DetailProduct";
-import ProductRanking from "./pages/product/ProductRanking";
+import Products from "./pages/product/Products";
 import ProductBasket from "./pages/mypage/ProductBasket";
-
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -32,10 +31,10 @@ function App() {
           </Route>
           <Route path="/login" element={<Login />}></Route>
           <Route path="/singup" element={<SingUp />}></Route>
-          <Route path="/mypage" element={<Mypage/>}></Route>
-          <Route path="/detail" element={<DetailProduct/>}></Route>
-          <Route path="/product" element={<ProductRanking />}></Route>
+          <Route path="/mypage" element={<Mypage />}></Route>
           <Route path="/productbasket" element={<ProductBasket />}></Route>
+          <Route path="/products" element={<Products />}></Route>
+          <Route path="/productdetail" element={<DetailProduct />}></Route>
           <Route path="*" element={<div>NotFound</div>} />
         </Route>
       </Routes>

@@ -1,13 +1,9 @@
-import React, { Component } from "react";
+import React from "react";
 import styled from "styled-components";
 import Slider from "react-slick";
 import "./slick-theme.css";
 import "./slick.css";
 import RecommendReco from "../../assets/images/main/RecommendCharcter.png";
-import RecommendImg1 from "../../assets/images/main/Recommend-1.png";
-import RecommendImg2 from "../../assets/images/main/Recommend-2.png";
-import RecommendImg3 from "../../assets/images/main/Recommend-3.png";
-import RecommendImg4 from "../../assets/images/main/Recommend-4.png";
 
 const RecomendProduct = () => {
   const settings = {

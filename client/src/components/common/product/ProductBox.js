@@ -29,11 +29,11 @@ const ProductBox = () => {
 
 export default ProductBox;
 const ProductSection = styled.section`
-  width: 240px;
+  width: 236px;
   height: 355px;
   border-radius: 20px;
   background-color: #fff;
-  /* box-shadow: 0px 4px 10px rgba(204, 204, 204, 0.5); */
+  box-shadow: 0px 3px 10px rgba(204, 204, 204, 0.4);
   position: relative;
   cursor: pointer;
   .heart-box {
@@ -43,9 +43,8 @@ const ProductSection = styled.section`
     z-index: 2;
   }
   box-sizing: content-box;
+  border: 3px solid transparent;
   &:hover {
-    transform: translate(-3px, -3px);
-    border: 3px solid transparent;
     background-image: linear-gradient(#fff, #fff),
       linear-gradient(
         150deg,

@@ -1,21 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import styled from "styled-components";
 import DropDown from "../../components/common/dropDown/DropDown";
 import TabSquare from "../../components/common/tab/TabSquare";
-import ProductBox from "../../components/product/ProductBox";
+import ProductBox from "../../components/common/product/ProductBox";
 import BasketChracter from "../../assets/images/userinfo/BasketTitle.svg";
 import Paging from "../../components/common/pagination/Paging";
 const ProductBasket = () => {
-  const [currentTab, setcurrentTab] = useState(0);
-  const menuArr = [
-    { name: "전체 편의점", content: "Tab menu ONE" },
-    { name: "GS25", content: "Tab menu TWO" },
-    { name: "CU", content: "Tab menu THREE" },
-    { name: "7-Eleven", content: "Tab menu THREE" },
-  ];
-  const selectMenuHandler = (index) => {
-    setcurrentTab(index);
-  };
   return (
     <>
       <Rcontainer>

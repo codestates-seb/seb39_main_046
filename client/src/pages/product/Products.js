@@ -1,12 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import DropDown from "../../components/common/dropDown/DropDown";
-import Sort from "../../components/common/dropDown/Sort";
 import LineInput from "../../components/common/input/LineInput";
 import Paging from "../../components/common/pagination/Paging";
 import TabRound from "../../components/common/tab/TabRound";
 import TabSquare from "../../components/common/tab/TabSquare";
-import ProductBox from "../../components/product/ProductBox";
+import ProductBox from "../../components/common/product/ProductBox";
 const ProductRanking = () => {
   const [currentTab, setcurrentTab] = useState(0);
   const menuArr = [
@@ -150,6 +149,11 @@ const RMainBox = styled.main`
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
     gap: 20px;
+
+    .itemgrid {
+      box-shadow: 0px 4px 10px rgba(204, 204, 204, 0.5);
+      background-color: blue;
+    }
   }
   .likebtn {
     width: 1000px;

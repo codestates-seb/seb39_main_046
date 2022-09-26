@@ -137,7 +137,7 @@ const ReviewInnerBox = styled.div`
     position: absolute;
     right: 5px;
     top: 5px;
-    z-index: 10;
+    z-index: 2;
   }
   img {
     border-radius: 20px;
