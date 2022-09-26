@@ -1,10 +1,80 @@
-import React from "react";
+import React, {useState} from "react";
 import styled from "styled-components";
+import axios from 'axios';
 import { useNavigate } from "react-router-dom";
+import {useQuery, useMutation} from 'react-query';
+import { useEffect } from "react";
+
 import TextInput from "../../components/common/input/TextInput";
+// import { useState } from "react";
+
+// async function PostSign(){
+//   const response = await fetch(
+//     '/member/signup',{method:"POST", data: {nickName: "lastcarol", password:"qwe123123123", username:"lastcarol@gmail.com"}}
+//   );
+//   return response.json();
+// }
+
+// const addSingUp = (nickName, password, userNmae) => {
+//   return axios.post('/member/signup', {
+//     nickNmae: nickName,
+//     password: password,
+//     userNmae: userNmae
+//   })
+// }
+
+const PostSign = async user => {
+  const response = await axios.post('/member/signup',{
+    headers:{
+      "Content-Type" : "application/json",
+    },
+    data: {
+      nickName: user.Nick_Name,
+      password: user.password,
+      username: user.userName,
+    }
+  })
+  return response.json()
+}
+
+
+
 
 const SingUp = () => {
   const navigate = useNavigate();
+  const [nickName, setNickName] = useState('')
+  const [password, setPassword] = useState("");
+  const [userName, setUserName] = useState("");
+  const [confirm, setConfrim] = useState("");
+
+  const {mutate, isLoading, isError} = useMutation(PostSign,{
+    onSuccess: () => {
+      alert("회원가입 성공");
+    }
+  })
+
+  if(isLoading) {
+    return <p>로딩중..</p>
+  }
+
+  if(isError){
+    alert("뭔가 잘못됨..")
+  }
+
+
+
+  const onsubmit = () => {
+    if(password === confirm){
+      mutate({nick_Name: nickName, password: password, userName: userName})
+    }
+    else{
+      alert('비밀번호가 맞지 않아요');
+    }
+  }
+
+  // const PostMutation = useMutation(() => PostSign())
+
+
 
   return (
     <MemberContainer>
@@ -16,28 +86,48 @@ const SingUp = () => {
         <InputBox>
           <div>
             <p>아이디</p>
-            <TextInput />
+            {/* <TextInput /> */}
+            <Thisinpu type="text" onChange={(e) => {setUserName(e.target.value);}}></Thisinpu>
           </div>
           <div>
             <p>닉네임</p>
-            <TextInput />
+            {/* <TextInput /> */}
+            <Thisinpu type="text" onChange={(e) => {setNickName(e.target.value);}}></Thisinpu>            
           </div>
           <div>
             <p>패스워드</p>
-            <TextInput />
+            {/* <TextInput /> */}
+            <Thisinpu type="password" onChange={(e) => {setPassword(e.target.value);}}></Thisinpu>            
           </div>
           <div>
             <p>패스워드확인</p>
-            <TextInput />
+            {/* <TextInput /> */}
+            <Thisinpu type="password" onChange={(e) => {setConfrim(e.target.value);}}></Thisinpu>
           </div>
         </InputBox>
-        <LoginConfirmBtn>회원가입</LoginConfirmBtn>
+        <LoginConfirmBtn onClick={onsubmit}>회원가입</LoginConfirmBtn>
       </MiddleBox>
     </MemberContainer>
   );
 };
 
 export default SingUp;
+
+const Thisinpu = styled.input`
+  width: 320px;
+  height: 40px;
+  border: 0px;
+  font-size: ${({ theme }) => theme.fontSizes.small};
+  line-height: 1rem;
+  border: none;
+  background-color: ${({ theme }) => theme.colors.White};
+  border-radius: 20px;
+  padding-left: 15px;
+  &:focus {
+    outline: 1px solid ${({ theme }) => theme.colors.Blue_040};
+  }
+`
+
 const MemberContainer = styled.section`
   margin: 0 auto;
   width: 900px;
@@ -116,3 +206,5 @@ const LoginConfirmBtn = styled.button`
     background: ${({ theme }) => theme.colors.Blue_050};
   }
 `;
+
+
