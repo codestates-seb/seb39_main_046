@@ -27,6 +27,17 @@ jobs:
       uses: gradle/gradle-build-action@67421db6bd0bf253fb4bd25b31ebb98943c375e1
       with:
         arguments: build
+        
+        
+    - name: Server Build
+      run: |                                        # 개별 실행 옵션, 없으면 29 ~ 35줄까지 모두 한줄에 실행됨
+        mkdir -p deploy-server/                     # 압축할 임시 폴더 생성 (deploy-server)
+        cd server/                                  # 리포지토리에서 server 폴더로 이동
+        chmod +x ./gradlew                          # GitHub Action 에서 gradle build를 위한 권한설정
+        ./gradlew clean bootjar -x test -x asciidoctor   # 테스트를 제외한 빌드 진행, 테스트를 원하면 -x test 옵션 삭제
+        cd ..                                       # 리포지토리 기본 위치로 이동
+        cp server/build/libs/*.jar deploy-server/   # jar 파일 임시 폴더로 복사
+      shell: bash    
     
     # build한 후 프로젝트를 압축합니다.
     - name: Make zip file
