@@ -7,6 +7,9 @@ const addPerson = (person) => {
   })
 }
 
-export const useSignup = () => {
-  return useMutation(addPerson)
+export const useSignup = (onSuccess, onError) => {
+  return useMutation(addPerson,{
+    onSuccess,
+    onError
+  })
 }

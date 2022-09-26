@@ -1,9 +1,7 @@
 import React, {useState} from "react";
 import styled from "styled-components";
-import axios from 'axios';
 import {useSignup} from "../../lib/api/useSignup";
 import { useNavigate } from "react-router-dom";
-import {useQuery, useMutation} from 'react-query';
 import { useEffect } from "react";
 
 // import TextInput from "../../components/common/input/TextInput";
@@ -59,19 +57,16 @@ const SingUp = () => {
 
 
   const onSuccess = (data) => {
-    console.log('Perform side effect after data fetching', data)
+    alert("회원가입 성공");
+    navigate("/login");
   }
 
   const onError = (error) => {
-    console.log('Perfrom side effect after encountering error', error)
+    alert("회원가입 실패");
   }
 
 
-  const {mutate: addPerson, isError} = useSignup({
-    onSuccess:() => {
-      alert("회원가입 성공");
-    }
-  });
+  const {mutate: addPerson, isError} = useSignup(onSuccess, onError);
   
 
   if(isError){
