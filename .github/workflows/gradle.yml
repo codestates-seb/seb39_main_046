@@ -56,4 +56,4 @@ jobs:
         aws deploy create-deployment --application-name citest
         --deployment-config-name CodeDeployDefault.AllAtOnce
         --deployment-group-name citest-group
-        --s3-location bucket=$S3_BUCKET_NAME,bundleType=zip,key=practice-server.zip
+        --s3-location bucket=$S3_BUCKET_NAME,bundleType=zip,key=practice-deploy.zip
