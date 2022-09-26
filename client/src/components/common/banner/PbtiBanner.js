@@ -23,7 +23,7 @@ const PBanner = styled.section`
   background-color: ${({ theme }) => theme.colors.Orange_030};
   margin-bottom: 80px;
   section {
-    width: 1280px;
+    max-width: 1280px;
     margin: 0 auto;
     display: flex;
     justify-content: space-around;

@@ -6,6 +6,7 @@ import Paging from "../../components/common/pagination/Paging";
 import TabRound from "../../components/common/tab/TabRound";
 import TabSquare from "../../components/common/tab/TabSquare";
 import ProductBox from "../../components/common/product/ProductBox";
+import TabCategory from "../../components/common/tab/TabCategory";
 const ProductRanking = () => {
   const [currentTab, setcurrentTab] = useState(0);
   const menuArr = [
@@ -24,19 +25,7 @@ const ProductRanking = () => {
           <h2>
             <strong>P</strong>ick your <strong>B</strong>est <strong>5</strong>
           </h2>
-          <TabMenu>
-            {menuArr.map((el, index) => {
-              return (
-                <li
-                  key={index}
-                  className={`${index === currentTab ? " focused" : null}`}
-                  onClick={() => selectMenuHandler(index)}
-                >
-                  {el.name}
-                </li>
-              );
-            })}
-          </TabMenu>
+          <TabRound />
           <TabContent>
             <ProductBox />
             <ProductBox />
@@ -48,7 +37,7 @@ const ProductRanking = () => {
         <RMainBox>
           <TabSquare />
           <LineInput />
-          <TabRound />
+          <TabCategory />
           <div className="likebtn">
             <DropDown />
           </div>

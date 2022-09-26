@@ -29,7 +29,7 @@ const ProductBox = () => {
 
 export default ProductBox;
 const ProductSection = styled.section`
-  width: 236px;
+  width: 100%;
   height: 355px;
   border-radius: 20px;
   background-color: #fff;

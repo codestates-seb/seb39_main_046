@@ -127,7 +127,7 @@ const StyleSwipper = styled(SwiperSlide)`
   overflow: hidden;
   cursor: pointer;
   &:hover {
-    transform: translateY(-30px);
+    transform: translateY(-20px);
     transition: all 1s;
   }
 `;
@@ -141,15 +141,14 @@ const ReviewInnerBox = styled.div`
   }
   img {
     border-radius: 20px;
-    width: 235px;
+    width: 100%;
   }
   .review_contents_box {
     display: none;
     position: absolute;
-    right: 12px;
+    right: 0px;
     top: 0px;
-    width: 223px;
-    height: 220px;
+    width: 100%;
     padding: 30px 20px;
 
     h4 {
