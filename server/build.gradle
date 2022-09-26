@@ -57,6 +57,9 @@ dependencyManagement {
 		mavenBom "io.awspring.cloud:spring-cloud-aws-dependencies:2.3.3"
 	}
 }
+wrapper {
+	gradleVersion = '7.5'
+}
 
 
 
