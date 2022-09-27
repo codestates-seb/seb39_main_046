@@ -6,8 +6,8 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/autoplay";
-import ReviewImg1 from "../../assets/images/main/Review-1.png";
-import HeartButton from "../../components/common/button/HeartButton";
+import ReviewImg1 from "../../../assets/images/main/Review-1.png";
+import HeartButton from "../../common/button/HeartButton";
 
 const BestReview = () => {
   const [swiper, setSwiper] = useState(null);

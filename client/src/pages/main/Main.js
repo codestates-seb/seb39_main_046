@@ -2,13 +2,14 @@ import React from "react";
 import styled from "styled-components";
 import Banner from "../../components/common/banner/Banner";
 import BChracter from "../../assets/images/banner/BannerCharater.png";
-import BestProdct from "../../components/bestProduct/BestProdct";
-import RecomendProduct from "../../components/bestProduct/RecomendProduct";
-import BestReview from "../../components/bestProduct/BestReview";
+import BestProdcts from "../../components/main/bestProducts/BestProdcts";
+import BestReview from "../../components/main/bestReviews/BestReview";
 import PbtiBanner from "../../components/common/banner/PbtiBanner";
-import HeartButton from "../../components/common/button/HeartButton";
-import Recommend from "../../components/bestProduct/Recommend";
+import Recommend from "../../components/main/recommendProducts/Recommend";
+import { useMainProducts } from "../../lib/api/useProducts";
 const Main = () => {
+  const mainProducts = useMainProducts();
+  // console.log(mainProducts);
   return (
     <div>
       <Banner>
@@ -21,10 +22,10 @@ const Main = () => {
           <img src={BChracter} alt="배너 캐릭터" />
         </BImg>
       </Banner>
-      <BestProdct />
-      <Recommend />
+      <BestProdcts data={mainProducts.allTop5} />
+      <Recommend data={mainProducts.recommendProducts} />
       <PbtiBanner />
-      <BestReview />
+      <BestReview data={mainProducts.bestReviews} />
       {/* <NearStore/> */}
     </div>
   );

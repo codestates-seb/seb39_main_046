@@ -7,8 +7,8 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/autoplay";
 import "./Recommend.css";
-import ProductBox from "../../components/common/product/ProductBox";
-import RecommendReco from "../../assets/images/main/RecommendCharcter.png";
+import ProductBox from "../../../components/common/product/ProductBox";
+import RecommendReco from "../../../assets/images/main/RecommendCharcter.png";
 
 const Recommend = () => {
   return (
