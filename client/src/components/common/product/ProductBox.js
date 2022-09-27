@@ -3,14 +3,8 @@ import styled from "styled-components";
 import HeartButton from "../button/HeartButton";
 import Tag from "./Tag";
 const ProductBox = ({ data }) => {
-  const [color, setColor] = useState(null);
-  const ChangeColor = () => {
-    if (data.company === "7-ELEVEN") return setColor("ELEVEN");
-    else return setColor(data.company);
-  };
-  console.log(color);
   return (
-    <ProductSection onChange={ChangeColor}>
+    <ProductSection>
       <span className="heart-box">
         <HeartButton />
       </span>

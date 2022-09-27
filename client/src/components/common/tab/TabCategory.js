@@ -1,24 +1,24 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import useStore from "../../../lib/store";
 
 const TabCategory = () => {
-  const [currentTab, setcurrentTab] = useState(0);
+  const { categoryTab, setCategoryTab } = useStore();
   const menuArr = [
-    { name: "ALL", content: "" },
-    { name: "음료", content: "" },
-    { name: "커피", content: "" },
-    { name: "아이스크림", content: "" },
-    { name: "과자", content: "" },
-    { name: "도시락", content: "" },
-    { name: "김밥", content: "" },
-    { name: "샐러드", content: "" },
-    { name: "디저트류", content: "" },
-    { name: "샌드위치", content: "" },
-    { name: "버거", content: "" },
-    { name: "냉동식품", content: "" },
+    "ALL",
+    "음료",
+    "커피",
+    "아이스크림",
+    "과자",
+    "도시락",
+    "김밥",
+    "샐러드",
+    "샌드위치",
+    "버거",
+    "냉동식품",
   ];
   const selectMenuHandler = (index) => {
-    setcurrentTab(index);
+    setCategoryTab(index);
   };
   return (
     <TabMenu>
@@ -26,10 +26,10 @@ const TabCategory = () => {
         return (
           <li
             key={index}
-            className={`${index === currentTab ? " focused" : null}`}
+            className={`${index === categoryTab ? " focused" : null}`}
             onClick={() => selectMenuHandler(index)}
           >
-            {el.name}
+            {el}
           </li>
         );
       })}

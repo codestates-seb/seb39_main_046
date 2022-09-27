@@ -1,14 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components";
+import useStore from "../../../lib/store";
 
 const TabRound = () => {
-  const [currentTab, setcurrentTab] = useState(0);
-  const menuArr = [
-    { name: "전체 편의점", content: "Tab menu ONE" },
-    { name: "GS25", content: "Tab menu TWO" },
-    { name: "CU", content: "Tab menu THREE" },
-    { name: "7-Eleven", content: "Tab menu THREE" },
-  ];
+  const { currentTab, setcurrentTab } = useStore();
+  const menuArr = ["전체 편의점", "GS25", "CU", "7-Eleven"];
   const selectMenuHandler = (index) => {
     setcurrentTab(index);
   };
@@ -21,7 +17,7 @@ const TabRound = () => {
             className={`${index === currentTab ? " focused" : null}`}
             onClick={() => selectMenuHandler(index)}
           >
-            {el.name}
+            {el}
           </li>
         );
       })}
