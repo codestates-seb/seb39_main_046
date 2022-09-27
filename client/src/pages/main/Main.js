@@ -6,10 +6,7 @@ import BestProdcts from "../../components/main/bestProducts/BestProdcts";
 import BestReview from "../../components/main/bestReviews/BestReview";
 import PbtiBanner from "../../components/common/banner/PbtiBanner";
 import Recommend from "../../components/main/recommendProducts/Recommend";
-import { useMainProducts } from "../../lib/api/useProducts";
 const Main = () => {
-  const mainProducts = useMainProducts();
-  // console.log(mainProducts);
   return (
     <div>
       <Banner>
@@ -22,10 +19,10 @@ const Main = () => {
           <img src={BChracter} alt="배너 캐릭터" />
         </BImg>
       </Banner>
-      <BestProdcts data={mainProducts.allTop5} />
-      <Recommend data={mainProducts.recommendProducts} />
+      <BestProdcts />
+      <Recommend />
       <PbtiBanner />
-      <BestReview data={mainProducts.bestReviews} />
+      <BestReview />
       {/* <NearStore/> */}
     </div>
   );

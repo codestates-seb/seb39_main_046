@@ -1,7 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import { Route, Routes } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "react-query";
-
 import { ReactQueryDevtools } from "react-query/devtools";
 import Layout from "./components/layout/Layout";
 import Main from "./pages/main/Main";
@@ -10,7 +9,6 @@ import FootTest from "./pages/foodTest/FootTest";
 import FoodTestHome from "./components/foodTest/FoodTestHome";
 import FoodTestQuestion from "./components/foodTest/FoodTestQuestion";
 import FoodTestResult from "./components/foodTest/FoodTestResult";
-import Loading from "./components/common/loading/Loading";
 import Login from "./pages/member/LoginPage";
 import SingUp from "./pages/member/SingUp";
 import Mypage from "./pages/mypage/Mypage";
@@ -21,8 +19,6 @@ import ProductBasket from "./pages/mypage/ProductBasket";
 const queryClient = new QueryClient();
 
 function App() {
-  const [loading, setLoading] = useState(true);
-
   return (
     <QueryClientProvider client={queryClient}>
       <Routes>
