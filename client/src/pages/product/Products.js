@@ -7,8 +7,8 @@ import TabRound from "../../components/common/tab/TabRound";
 import TabSquare from "../../components/common/tab/TabSquare";
 import ProductBox from "../../components/common/product/ProductBox";
 import TabCategory from "../../components/common/tab/TabCategory";
-import { useProducts } from "../../lib/api/useProduct";
-import { useTop5Products } from "../../lib/api/useTop5";
+import { useProducts } from "../../lib/api/useProducts";
+import { useTop5Products } from "../../lib/api/useProductTop5";
 const ProductRanking = () => {
   const { data } = useProducts();
   const topData = useTop5Products();
@@ -25,7 +25,11 @@ const ProductRanking = () => {
             {topData.data &&
               topData.data.map((data, idx) => {
                 return (
-                  <ProductBox key={idx} data={data} className="top5_item" />
+                  <ProductBox
+                    key={data.productId}
+                    data={data}
+                    className="top5_item"
+                  />
                 );
               })}
           </TabContent>
@@ -41,7 +45,11 @@ const ProductRanking = () => {
             {data &&
               data.map((data, idx) => {
                 return (
-                  <ProductBox className="itemgrid" key={idx} data={data} />
+                  <ProductBox
+                    className="itemgrid"
+                    key={data.productId}
+                    data={data}
+                  />
                 );
               })}
           </section>

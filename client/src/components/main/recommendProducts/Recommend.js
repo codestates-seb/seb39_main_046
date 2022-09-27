@@ -9,7 +9,7 @@ import "swiper/css/autoplay";
 import "./Recommend.css";
 import ProductBox from "../../../components/common/product/ProductBox";
 import RecommendReco from "../../../assets/images/main/RecommendCharcter.png";
-import { useMainProducts } from "../../../lib/api/useProducts";
+import { useMainProducts } from "../../../lib/api/useMainProducts";
 
 const Recommend = () => {
   const { recommendProducts } = useMainProducts();

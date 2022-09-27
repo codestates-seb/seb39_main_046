@@ -1,17 +1,27 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
 import HeartButton from "../button/HeartButton";
 import Tag from "./Tag";
 const ProductBox = ({ data }) => {
+  const navigate = useNavigate();
+  const [heart, setHeart] = useState(data.heartFlag);
+  const HeartChange = () => {
+    setHeart((prev) => !prev);
+  };
+  const goDetail = () => {
+    navigate(`/product/${data.productId}`);
+  };
+
   return (
     <ProductSection>
       <span className="heart-box">
-        <HeartButton />
+        <HeartButton onClick={HeartChange} />
       </span>
-      <PImage>
+      <PImage onClick={goDetail}>
         <img src={data.imageURL} alt={data.productName} />
       </PImage>
-      <ProductsEx>
+      <ProductsEx onClick={goDetail}>
         <div className="tag-box">
           <Tag buttonColor={data.company}>{data.company}</Tag>
           <Tag>{data.category.categoryName}</Tag>
@@ -37,7 +47,7 @@ const ProductSection = styled.section`
     position: absolute;
     right: 10px;
     top: 7px;
-    z-index: 2;
+    z-index: 10;
   }
   box-sizing: content-box;
   border: 3px solid transparent;

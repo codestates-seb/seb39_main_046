@@ -13,10 +13,12 @@ const ProductCategory = styled.button`
     const buttonColor = props.theme.colors[props.buttonColor];
     const fontColor = props.theme.colors[props.fontColor];
     const outline = props.theme.colors[props.lineColor];
+    const fontSize = props.theme.fontSizes[props.fontSize];
     return css`
       background: ${buttonColor};
       color: ${fontColor};
       /* border: 1px solid ${outline}; */
+      font-size: ${fontSize};
       &:hover {
         /* box-shadow: 2px 2px 2px rgba(204, 204, 204, 0.9); */
       }
@@ -34,6 +36,7 @@ const Tag = ({ children, ...rest }) => {
 Tag.defaultProps = {
   buttonColor: "Gray_030",
   fontColor: "White",
+  fontSize: "xxs",
 };
 
 export default Tag;

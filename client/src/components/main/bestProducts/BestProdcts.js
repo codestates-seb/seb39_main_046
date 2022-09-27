@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import TabRound from "../../common/tab/TabRound";
 import ProductBox from "./BestProduct";
-import { useMainProducts } from "../../../lib/api/useProducts";
-import { useTop5Products } from "../../../lib/api/useTop5";
+import { useMainProducts } from "../../../lib/api/useMainProducts";
+import { useTop5Products } from "../../../lib/api/useProductTop5";
 
 const BestProdct = () => {
   const { allTop5 } = useMainProducts();
