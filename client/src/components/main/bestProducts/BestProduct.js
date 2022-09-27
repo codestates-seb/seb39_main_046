@@ -14,7 +14,7 @@ const BestProduct = ({ idx, data }) => {
       </div>
       <div className="product_contents">
         <p className="product_title">{data.productName}</p>
-        <p className="product_price">{data.price}</p>
+        <p className="product_price">{data.price}원</p>
       </div>
     </ProductBox>
   );

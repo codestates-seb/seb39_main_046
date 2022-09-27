@@ -1,12 +1,10 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import TabRound from "../../common/tab/TabRound";
-import HeartButton from "../../common/button/HeartButton";
 import ProductBox from "./BestProduct";
 import { useMainProducts } from "../../../lib/api/useProducts";
 const BestProdct = () => {
   const { allTop5 } = useMainProducts();
-  console.log(allTop5);
   let more = "더보기 >";
   const completionWord = "Pick your Best 5";
   // const [Title, setTitle] = useState("");

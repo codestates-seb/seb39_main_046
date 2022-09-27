@@ -1,27 +1,30 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import HeartButton from "../button/HeartButton";
 import Tag from "./Tag";
-const ProductBox = () => {
+const ProductBox = ({ data }) => {
+  const [color, setColor] = useState(null);
+  const ChangeColor = () => {
+    if (data.company === "7-ELEVEN") return setColor("ELEVEN");
+    else return setColor(data.company);
+  };
+  console.log(color);
   return (
-    <ProductSection>
+    <ProductSection onChange={ChangeColor}>
       <span className="heart-box">
         <HeartButton />
       </span>
       <PImage>
-        <img
-          src="https://www.7-eleven.co.kr/upload/product/8809350/888359.1.jpg"
-          alt="상품"
-        />
+        <img src={data.imageURL} alt={data.productName} />
       </PImage>
       <ProductsEx>
         <div className="tag-box">
-          <Tag buttonColor="Eleven">7-Eleven</Tag>
+          <Tag buttonColor={data.company}>{data.company}</Tag>
           <Tag>안주</Tag>
         </div>
-        <ProductName>고창복분자 너비아니 샌드위치</ProductName>
+        <ProductName>{data.productName}</ProductName>
         <div className="line"></div>
-        <ProductPrice>5,300원</ProductPrice>
+        <ProductPrice>{data.price}원</ProductPrice>
       </ProductsEx>
     </ProductSection>
   );
@@ -64,8 +67,8 @@ const PImage = styled.div`
   align-items: center;
   img {
     border-radius: 20px;
-    max-width: 190px;
-    min-width: 130px;
+    max-width: 180px;
+    max-height: 150px;
   }
 `;
 

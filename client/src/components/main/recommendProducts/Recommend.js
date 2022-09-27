@@ -9,8 +9,10 @@ import "swiper/css/autoplay";
 import "./Recommend.css";
 import ProductBox from "../../../components/common/product/ProductBox";
 import RecommendReco from "../../../assets/images/main/RecommendCharcter.png";
+import { useMainProducts } from "../../../lib/api/useProducts";
 
 const Recommend = () => {
+  const { recommendProducts } = useMainProducts();
   return (
     <ReivewContainer>
       <RTitleContainer>
@@ -43,21 +45,19 @@ const Recommend = () => {
           },
         }}
       >
-        <StyleSwipper>
-          <ProductBox />
-        </StyleSwipper>
-        <StyleSwipper>
-          <ProductBox />
-        </StyleSwipper>
-        <StyleSwipper>
-          <ProductBox />
-        </StyleSwipper>
-        <StyleSwipper>
-          <ProductBox />
-        </StyleSwipper>
-        <StyleSwipper>
-          <ProductBox />
-        </StyleSwipper>
+        {recommendProducts &&
+          recommendProducts.map((data, idx) => {
+            return (
+              <StyleSwipper>
+                <ProductBox
+                  className="item"
+                  key={idx}
+                  data={data}
+                  idx={idx}
+                ></ProductBox>
+              </StyleSwipper>
+            );
+          })}
       </SwiperBox>
     </ReivewContainer>
   );
