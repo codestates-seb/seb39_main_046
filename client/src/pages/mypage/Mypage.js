@@ -33,6 +33,8 @@ const Mypage = () => {
     // staleTime:2000,
   })
 
+  if(isLoading) return <h3>로딩중</h3>;
+
   // useEffect(()=>{
   //   setNickname(data.data.member.nickName);
   //   setEmail(data.data.member.username);
@@ -44,13 +46,10 @@ const Mypage = () => {
   // console.log(data.data.member.memberId);
 
 
-
-
-
   return (
     <div>
       {/* <Exper> */}
-      <PersonalInfo  />
+      <PersonalInfo  userdata = {data.data.member}/>
       <ProductBasket />
       <PbtiBanner2 />
       <PersonalRivew />
