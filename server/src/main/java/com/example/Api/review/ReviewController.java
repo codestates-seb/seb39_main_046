@@ -49,6 +49,7 @@ public class ReviewController {
     @ApiOperation(value = "리뷰 등록",
             notes = "✅ 상품에 대한 리뷰를 등록합니다.\n - \n " )
     @PostMapping("/{product-id}")
+   // @RequestPart(value="file",required = false)
     public ResponseEntity postReview(@PathVariable("product-id") @Positive long productId,
                                      @Validated @RequestBody ReviewPostDto reviewPostDto,
                                      HttpServletRequest request){

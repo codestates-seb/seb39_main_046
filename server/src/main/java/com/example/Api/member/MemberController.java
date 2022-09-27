@@ -239,7 +239,7 @@ public class MemberController {
     }
 
 
-    @PostMapping(value = "/profile",consumes = {MediaType.APPLICATION_JSON_VALUE,MediaType.MULTIPART_FORM_DATA_VALUE})
+    @PostMapping(value = "/profile",consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     @ApiOperation(value = "프로필 사진 추가",
             notes = "✅ 로그인 상태 -> 프로필 사진 추가  \n  \n")
     public ResponseEntity profile(@RequestPart("file") MultipartFile mfile) throws IOException {
