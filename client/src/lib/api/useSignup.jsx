@@ -2,9 +2,7 @@ import {useMutation } from 'react-query';
 import axios from 'axios';
 
 const addPerson = (person) => {
-  return axios.post('/member/signup', person).then(function(res){
-    console.log(res.data);
-  })
+  return axios.post('/member/signup', person)
 }
 
 export const useSignup = (onSuccess, onError) => {

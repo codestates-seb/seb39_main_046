@@ -13,7 +13,6 @@ const Login = () => {
 
 
   const inputChange = (e) => {
-    console.log(e.target.value);
     const length = e.target.value.length;
     if (length >= 4) {
       setDisabled(false);
@@ -24,17 +23,26 @@ const Login = () => {
   };
 
   const inputpwChange =(e) => {
-    console.log(e.target.value);
     setpassword(e.target.value);
   }
 
   const label = disabled ? "로그인" : "로그인";
 
-  const {mutate: loginperson, isError} = useLogin();
+  const onSuccess = (res) =>{
+    alert(`${userName}님 환영합니다.`);
+    sessionStorage.setItem("token", res.data);    
+    navigate('/');
+    window.location.reload();
+  }
+  
+  const onError = (error) => {
+    alert("아이디 비밀번호를 다시한번 확인하세요");
+  }
+
+  const {mutate: loginperson, isError} = useLogin(onSuccess,onError);
 
 
   const onsubmit = () => {
-    console.log({userName, password})
     const log = {userName, password}
     loginperson(log);
   }

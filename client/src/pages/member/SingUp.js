@@ -2,7 +2,6 @@ import React, {useState} from "react";
 import styled from "styled-components";
 import {useSignup} from "../../lib/api/useSignup";
 import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
 
 // import TextInput from "../../components/common/input/TextInput";
 // import { useState } from "react";
