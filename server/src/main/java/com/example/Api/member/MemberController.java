@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Positive;
 import java.io.File;
 import java.io.IOException;
@@ -74,25 +75,40 @@ public class MemberController {
     return new ResponseEntity<>(mapper.memberToMemberResponseDto(response) , HttpStatus.OK);
     }
 
-     @PatchMapping("/{patch-id}")
-     @ApiOperation(value = "회원 정보 수정", notes = "✅ patch-id가 1이면 닉네임 수정, 2면 패스워드 수정")
+//     @PatchMapping("/{patch-id}")
+//     @ApiOperation(value = "회원 정보 수정", notes = "✅ patch-id가 1이면 닉네임 수정, 2면 패스워드 수정")
+//
+//     public ResponseEntity memberPatch(@PathVariable("patch-id")@Positive int patchId,
+//                                       @RequestBody String patch){
+//
+//    Member member = memberService.getLoginMember();
+//    Member updatedMember = member;
+//
+//    if(patchId == 1) {
+//          updatedMember.setNickName(patch);
+//    }
+//    else {
+//          String password = memberService.endcodePassword(patch);
+//          updatedMember.setPassword(password);
+//    }
+//
+//    return new ResponseEntity<>(memberService.updateMember(member,updatedMember),HttpStatus.OK);
+//
+//    }
+    @PatchMapping("/nickname")
+    public ResponseEntity patchName(@Validated @RequestBody MemberPatchDtoN memberPatchDtoN){
+        Member member = memberService.getLoginMember();
+        member.setNickName(memberPatchDtoN.getNickName());
 
-     public ResponseEntity memberPatch(@PathVariable("patch-id")@Positive int patchId,
-                                       @RequestBody String patch){
-
-    Member member = memberService.getLoginMember();
-    Member updatedMember = member;
-
-    if(patchId == 1) {
-          updatedMember.setNickName(patch);
+        return new ResponseEntity<>("변경 완료", HttpStatus.OK);
     }
-    else {
-          String password = memberService.endcodePassword(patch);
-          updatedMember.setPassword(password);
-    }
 
-    return new ResponseEntity<>(memberService.updateMember(member,updatedMember),HttpStatus.OK);
+    @PatchMapping("/password")
+    public ResponseEntity patchPassword(@Validated @RequestBody MemberPatchDtoP memberPatchDtoP){
+        Member member = memberService.getLoginMember();
+        member.setPassword(memberPatchDtoP.getPassword());
 
+        return new ResponseEntity<>("변경 완료", HttpStatus.OK);
     }
     @Tag(name = "My Page", description = "My Page API")
     @GetMapping("/myPage")
@@ -249,6 +265,15 @@ public class MemberController {
         memberService.imgUpdate(member, s3Upload.upload(mfile));
 
         return new ResponseEntity<>("등록 완료",HttpStatus.OK);
+    }
+    @DeleteMapping(value = "/profile")
+    @ApiOperation(value = "프로필 사진 삭제",
+            notes = "✅ 로그인 상태 -> 프로필 사진 삭제  \n  \n")
+    public ResponseEntity profileDelete() throws IOException {
+     Member member = memberService.getLoginMember();
+     s3Upload.removeFile(member.getProfile());
+     member.setProfile(null);
+        return new ResponseEntity<>("삭제 완료",HttpStatus.OK);
     }
 
     @ApiOperation(value = "전체 멤버조회", notes = "✅관리자 전용 기능")

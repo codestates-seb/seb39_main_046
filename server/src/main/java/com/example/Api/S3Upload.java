@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+
 import java.io.IOException;
 import java.util.UUID;
 
@@ -28,5 +29,9 @@ public class S3Upload {
 
         amazonS3.putObject(bucket, s3FileName, multipartFile.getInputStream(), objMeta);
         return amazonS3.getUrl(bucket, s3FileName).toString();
+    }
+
+    public void removeFile(String s3FileName) throws IOException{
+        amazonS3.deleteObject(bucket,s3FileName);
     }
 }
