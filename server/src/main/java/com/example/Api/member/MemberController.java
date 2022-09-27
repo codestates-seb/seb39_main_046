@@ -17,6 +17,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.validation.annotation.Validated;
@@ -238,7 +239,7 @@ public class MemberController {
     }
 
 
-    @PostMapping("/profile")
+    @PostMapping(value = "/profile",consumes = {MediaType.APPLICATION_JSON_VALUE,MediaType.MULTIPART_FORM_DATA_VALUE})
     @ApiOperation(value = "프로필 사진 추가",
             notes = "✅ 로그인 상태 -> 프로필 사진 추가  \n  \n")
     public ResponseEntity profile(@RequestPart("file") MultipartFile mfile) throws IOException {

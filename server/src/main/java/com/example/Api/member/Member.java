@@ -12,6 +12,8 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -27,11 +29,15 @@ public class Member extends Auditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long memberId;
-    @Column
+    @Column(unique = true)
+    @NotBlank
+    //@Email
     private String username;
-    @Column
+    @Column(length = 100)
+    @NotBlank
     private String password;
-    @Column
+    @Column(unique = true)
+    @NotBlank
     private String nickName;
 
     @ManyToOne
