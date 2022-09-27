@@ -6,6 +6,7 @@ import BestProdcts from "../../components/main/bestProducts/BestProdcts";
 import BestReview from "../../components/main/bestReviews/BestReview";
 import PbtiBanner from "../../components/common/banner/PbtiBanner";
 import Recommend from "../../components/main/recommendProducts/Recommend";
+
 const Main = () => {
   return (
     <div>

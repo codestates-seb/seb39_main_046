@@ -4,7 +4,7 @@ import useStore from "../../../lib/store";
 
 const TabRound = () => {
   const { isMainTab, setMainTab } = useStore();
-  const menuArr = ["전체 편의점", "GS25", "CU", "7-Eleven"];
+  const menuArr = ["전체 편의점", "GS25", "CU", "7-ELEVEN"];
   const selectMenuHandler = (index) => {
     setMainTab(index);
   };
@@ -28,7 +28,7 @@ const TabRound = () => {
 export default TabRound;
 
 const TabMenu = styled.ul`
-  width: 450px;
+  width: 460px;
   margin: 0 auto;
   display: flex;
   justify-items: center;

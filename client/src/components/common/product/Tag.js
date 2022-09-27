@@ -5,9 +5,9 @@ const ProductCategory = styled.button`
   display: inline-flex;
   outline: none;
   border: 3px solid transparent;
-  padding: 4px 12px;
+  padding: 4px 10px;
   border-radius: 20px;
-  font-size: ${({ theme }) => theme.fontSizes.xs};
+  font-size: ${({ theme }) => theme.fontSizes.xxs};
   cursor: pointer;
   ${(props) => {
     const buttonColor = props.theme.colors[props.buttonColor];

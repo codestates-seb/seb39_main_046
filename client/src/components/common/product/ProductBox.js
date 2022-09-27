@@ -14,7 +14,7 @@ const ProductBox = ({ data }) => {
       <ProductsEx>
         <div className="tag-box">
           <Tag buttonColor={data.company}>{data.company}</Tag>
-          <Tag>안주</Tag>
+          <Tag>{data.category.categoryName}</Tag>
         </div>
         <ProductName>{data.productName}</ProductName>
         <div className="line"></div>

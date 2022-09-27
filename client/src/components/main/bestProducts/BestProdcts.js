@@ -3,15 +3,19 @@ import styled from "styled-components";
 import TabRound from "../../common/tab/TabRound";
 import ProductBox from "./BestProduct";
 import { useMainProducts } from "../../../lib/api/useProducts";
+import { useTop5Products } from "../../../lib/api/useTop5";
 
 const BestProdct = () => {
   const { allTop5 } = useMainProducts();
+  const data = useTop5Products();
+  console.log(data.data);
 
   let more = "더보기 >";
   const completionWord = "Pick your Best 5";
 
   // const [Title, setTitle] = useState("");
   // const [count, setCount] = useState(0);
+  // let count = 0;
 
   // useEffect(() => {
   //   const typingInterval = setInterval(() => {
@@ -42,17 +46,28 @@ const BestProdct = () => {
       </BHeader>
       <TabRound />
       <ProductContainer>
-        {allTop5 &&
-          allTop5.map((data, idx) => {
+        {data.data &&
+          data.data.map((el, idx) => {
             return (
               <ProductBox
                 className="item"
                 key={idx}
-                data={data}
+                data={el}
                 idx={idx}
               ></ProductBox>
             );
           })}
+        {/* {allTop5 &&
+          allTop5.map((el, idx) => {
+            return (
+              <ProductBox
+                className="item"
+                key={idx}
+                data={el}
+                idx={idx}
+              ></ProductBox>
+            );
+          })} */}
       </ProductContainer>
     </BestContainer>
   );

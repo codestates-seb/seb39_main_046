@@ -4,7 +4,7 @@ import useStore from "../../../lib/store";
 
 const TabSquare = () => {
   const { isStoreTab, setStoreTab } = useStore();
-  const menuArr = ["전체 편의점", "GS25", "CU", "7-Eleven"];
+  const menuArr = ["전체 편의점", "GS25", "CU", "7-ELEVEN"];
   const selectMenuHandler = (el) => {
     setStoreTab(el);
   };
