@@ -3,16 +3,12 @@ import styled from "styled-components";
 import TabRound from "../../common/tab/TabRound";
 import ProductBox from "./BestProduct";
 import { useMainProducts } from "../../../lib/api/useProducts";
-import axiosInstance from "../../../utils/axiosInastance";
-import { useQuery, useQueryClient } from "react-query";
 
 const BestProdct = () => {
   const { allTop5 } = useMainProducts();
 
   let more = "더보기 >";
   const completionWord = "Pick your Best 5";
-
-  const queryClient = useQueryClient();
 
   // const [Title, setTitle] = useState("");
   // const [count, setCount] = useState(0);

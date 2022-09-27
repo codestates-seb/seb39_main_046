@@ -2,6 +2,7 @@ import { useQuery } from "react-query";
 import axiosInstance from "../../utils/axiosInastance";
 import { queryKeys } from "../react-query/constant";
 import Loading from "../../components/common/loading/Loading";
+
 const getMainProducts = async () => {
   const { data } = await axiosInstance.get("/main");
   return data;

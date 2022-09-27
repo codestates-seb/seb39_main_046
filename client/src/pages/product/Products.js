@@ -7,7 +7,12 @@ import TabRound from "../../components/common/tab/TabRound";
 import TabSquare from "../../components/common/tab/TabSquare";
 import ProductBox from "../../components/common/product/ProductBox";
 import TabCategory from "../../components/common/tab/TabCategory";
+import { useProducts } from "../../lib/api/useProduct";
+
 const ProductRanking = () => {
+  const { data } = useProducts();
+  console.log(data);
+
   return (
     <>
       <Rcontainer>
@@ -32,18 +37,12 @@ const ProductRanking = () => {
             <DropDown />
           </div>
           <section className="productContainer">
-            {/* <ProductBox className="itemgrid" />
-            <ProductBox className="itemgrid" />
-            <ProductBox className="itemgrid" />
-            <ProductBox className="itemgrid" />
-            <ProductBox className="itemgrid" />
-            <ProductBox className="itemgrid" />
-            <ProductBox className="itemgrid" />
-            <ProductBox className="itemgrid" />
-            <ProductBox className="itemgrid" />
-            <ProductBox className="itemgrid" />
-            <ProductBox className="itemgrid" />
-            <ProductBox className="itemgrid" /> */}
+            {data &&
+              data.map((data, idx) => {
+                return (
+                  <ProductBox className="itemgrid" key={idx} data={data} />
+                );
+              })}
           </section>
         </RMainBox>
         <PaginationBox>

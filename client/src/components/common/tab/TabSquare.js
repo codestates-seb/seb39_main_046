@@ -3,10 +3,10 @@ import styled from "styled-components";
 import useStore from "../../../lib/store";
 
 const TabSquare = () => {
-  const { productsTab, setProductsTab } = useStore();
+  const { isStoreTab, setStoreTab } = useStore();
   const menuArr = ["전체 편의점", "GS25", "CU", "7-Eleven"];
-  const selectMenuHandler = (index) => {
-    setProductsTab(index);
+  const selectMenuHandler = (el) => {
+    setStoreTab(el);
   };
   return (
     <TabMenu>
@@ -14,8 +14,8 @@ const TabSquare = () => {
         return (
           <li
             key={index}
-            className={`${index === productsTab ? " focused" : null}`}
-            onClick={() => selectMenuHandler(index)}
+            className={`${el === isStoreTab ? " focused" : null}`}
+            onClick={() => selectMenuHandler(el)}
           >
             {el}
           </li>
