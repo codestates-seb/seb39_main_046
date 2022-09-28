@@ -1,35 +1,37 @@
 import React from "react";
 import styled from "styled-components";
 import HeartButton from "../common/button/HeartButton";
-import Noimg from "../../assets/images/userinfo/Noimg.png";
+import ReviewImg from "../../assets/images/products/ReviewImg.png";
 import Usering from "../../assets/images/userinfo/Userimg.jpg";
-
-import pencil from "../../assets/images/controlimag/Pencil.png";
-import TrashBox from "../../assets/images/controlimag/trashbox.png";
-
-const Comment = () => {
-    const userName = "리코";
-    const createAt = "1986.06.28";
-    const comment =
-        "WeCanDoitWeCanDoitWeCanDoitWeCanDoitWeCanDoitWeCanDoitWeCanDoitWeCanDoitWeCanDoitWeCanDoitWeCanDoitWeCanDoitWeCanDoitWeCanDoitWeCanDoitWeCanDoitWeCanDoitWeCanDoitWeCanDoitWeCanDoitWeCanDoitWeCanDoitWeCanDoitWeCanDoit";
+import { FiTrash } from "react-icons/fi";
+import { RiEdit2Fill } from "react-icons/ri";
+const Comment = (data) => {
     return (
         <Maindiv>
-            <img src={Noimg} alt="이미지 없다" width="150px" height="150px" />
+            <div className="img_box">
+                <img src={ReviewImg} alt="리뷰 이미지" className="review_img" />
+            </div>
             <ReviewDetail>
                 <div className="userInfo">
-                    <img src={Usering} alt="유저 프로필" width="25px" height="25px" />
-                    <span>{userName}</span>
-                    <span>
-                        <HeartButton />
-                    </span>
+                    <div className="uesrNick">
+                        <img src={Usering} alt="유저 프로필" width="25px" height="25px" />
+                        <span>{data.data.member.nickName}</span>
+                    </div>
+                    <HeartButton />
                 </div>
                 <Commentex>
-                    <p>{comment}</p>
+                    <p>
+                        리뷰리뷰리뷰리뷰리뷰리뷰리뷰리뷰리뷰리뷰리뷰리뷰리뷰리리뷰리뷰리뷰리뷰리뷰리뷰리뷰리뷰리뷰리뷰리뷰리뷰리뷰리리뷰리뷰리뷰리뷰리뷰리...
+                    </p>
                 </Commentex>
                 <Controlbar>
-                    <img src={pencil} alt="수정버튼" />
-                    <img src={TrashBox} alt="삭제버튼" />
-                    <span>{createAt}</span>
+                    <span className="icon">
+                        <RiEdit2Fill size={20} color="rgba(174, 174, 178, 1)" />
+                    </span>
+                    <span className="icon">
+                        <FiTrash size={20} color="rgba(253, 169, 79, 1)" />
+                    </span>
+                    <span className="date">{data.data.createdAt.substr(0, 10)}</span>
                 </Controlbar>
             </ReviewDetail>
         </Maindiv>
@@ -40,32 +42,51 @@ export default Comment;
 
 const Maindiv = styled.div`
     display: flex;
-    margin-left: ${({ theme }) => theme.margins.base};
-    margin-right: 20px;
+    justify-content: space-between;
     border-radius: ${({ theme }) => theme.radius.small};
     background-color: #fff;
-    margin-bottom: 10px;
+    margin: 0 15px 15px 0;
+    padding: 14px 14px;
+    box-sizing: border-box;
+    .img_box {
+        width: 135px;
+        height: 135px;
+        border-radius: ${({ theme }) => theme.radius.small};
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
+        .review_img {
+            min-width: 140px;
+            max-width: 180px;
+        }
+    }
 `;
 const ReviewDetail = styled.section`
-    width: 100%;
+    max-width: 75%;
     .userInfo {
-        margin-bottom: 10px;
         width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        img {
+            border-radius: 30px;
+            background-color: ${({ theme }) => theme.colors.Gray_030};
+        }
+        .uesrNick {
+            span {
+                margin-left: ${({ theme }) => theme.margins.base};
+            }
+        }
     }
-    img {
-        margin-top: 10px;
-    }
-    span {
-        margin-left: ${({ theme }) => theme.margins.base};
-    }
+
     span:last-child {
-        margin-top: 3px;
         float: right;
     }
 `;
 const Commentex = styled.div`
-    width: 420px;
-    height: 48px;
+    height: 70px;
+    margin: 5px 0;
     p {
         word-wrap: break-word;
         white-space: normal;
@@ -77,13 +98,11 @@ const Commentex = styled.div`
 `;
 
 const Controlbar = styled.section`
-    margin-top: 20px;
-
-    img {
-        margin-right: 10px;
+    height: 18px;
+    .icon {
+        margin-right: ${({ theme }) => theme.margins.base};
     }
-    span {
-        line-height: 2;
+    .date {
         color: ${({ theme }) => theme.colors.Gray_030};
     }
 `;

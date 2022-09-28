@@ -89,7 +89,7 @@ const ReivewContainer = styled.section`
     max-width: 1280px;
     height: 450px;
     margin: 0 auto;
-    margin-bottom: 100px;
+    margin-bottom: 70px;
     margin-top: 100px;
 `;
 const BestRiveTitle = styled.div`

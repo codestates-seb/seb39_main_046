@@ -25,7 +25,7 @@ const Header = () => {
                     <li onClick={() => navigate("/productbasket")}>찜꽁바구니</li>
                 </HMenu>
                 <HTab>
-                    <li>서비스 소개</li>
+                    <li onClick={() => navigate("/")}>서비스 소개</li>
                     <li onClick={() => navigate("/products")}>PB상품 랭킹</li>
                     <li>
                         <img onClick={() => navigate("/")} src={logo} alt="logo" />
@@ -44,7 +44,7 @@ const HeaderContainer = styled.nav`
     margin: 0 auto;
     position: fixed;
     top: 0;
-    height: 75px;
+    height: 90px;
     box-shadow: 0px 4px 20px #ececec;
     background-color: #fff;
     z-index: 100;
@@ -60,7 +60,7 @@ const HMenu = styled.ul`
     margin-top: 10px;
     li {
         width: 100%;
-        font-size: ${({ theme }) => theme.fontSizes.xxs};
+        font-size: ${({ theme }) => theme.fontSizes.xs};
         color: ${({ theme }) => theme.colors.Gray_040};
         cursor: pointer;
     }
@@ -69,11 +69,12 @@ const HMenu = styled.ul`
 const HTab = styled.ul`
     display: flex;
     width: 100%;
-    line-height: 50px;
+    line-height: 60px;
     text-align: center;
     li {
         width: 20%;
         cursor: pointer;
+        font-size: ${({ theme }) => theme.fontSizes.small};
     }
     img {
         margin-top: -25px;

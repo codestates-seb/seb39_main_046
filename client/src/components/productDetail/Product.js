@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import HeartButton from "../common/button/HeartButton";
 import Tag from "../common/product/Tag";
-import link from "../../assets/images/common/link.png";
+import link from "../../assets/icons/SharelinkBtn.png";
 
 const ProductDetail = (data) => {
     const detialData = data.data;
@@ -22,7 +22,7 @@ const ProductDetail = (data) => {
             </ProductImage>
             <ProductEx>
                 <Badge>
-                    <Tag color={detialData.company} fontSize="xs">
+                    <Tag buttonColor={detialData.company} fontSize="xs">
                         {detialData.company}
                     </Tag>
                     <Tag fontSize="xs">{detialData.category.categoryName}</Tag>
@@ -40,7 +40,7 @@ export default ProductDetail;
 
 const MainContent = styled.div`
     width: 590px;
-    height: 590px;
+    height: 600px;
     border-radius: ${({ theme }) => theme.radius.base};
     box-shadow: 0px 4px 20px rgba(204, 204, 204, 0.3);
     display: flex;
@@ -66,6 +66,7 @@ const ProductImage = styled.section`
     align-items: center;
     .img_box {
         img {
+            max-width: 380px;
             min-width: 280px;
             background-color: red;
         }
