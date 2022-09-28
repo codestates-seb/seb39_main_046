@@ -19,9 +19,12 @@ const TabCategory = () => {
         "버거",
         "냉동식품",
     ];
+
     const selectMenuHandler = (index) => {
-        setCategoryTab(index);
+        if (index === 0) setCategoryTab(13);
+        else setCategoryTab(index);
     };
+    console.log(isCategoryTab);
     return (
         <TabMenu>
             {menuArr.map((el, index) => {

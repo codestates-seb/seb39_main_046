@@ -9,10 +9,10 @@ import ProductBox from "../../components/common/product/ProductBox";
 import TabCategory from "../../components/common/tab/TabCategory";
 import { useProducts } from "../../lib/api/useProducts";
 import { useTop5Products } from "../../lib/api/useProductTop5";
-const ProductRanking = () => {
-    const { data } = useProducts();
-    const topData = useTop5Products();
 
+const ProductRanking = () => {
+    const { data, pageInfo } = useProducts();
+    const topData = useTop5Products();
     return (
         <>
             <Rcontainer>
@@ -38,12 +38,16 @@ const ProductRanking = () => {
                     <section className="productContainer">
                         {data &&
                             data.map((data, idx) => {
-                                return <ProductBox className="itemgrid" key={data.productId} data={data} />;
+                                return (
+                                    <div>
+                                        <ProductBox className="itemgrid" key={data.productId} data={data} />
+                                    </div>
+                                );
                             })}
                     </section>
                 </RMainBox>
                 <PaginationBox>
-                    <Paging />
+                    <Paging pageInfo={pageInfo} />
                 </PaginationBox>
             </Rcontainer>
         </>

@@ -10,13 +10,12 @@ const useStore = create((set) => ({
     setStoreTab(index) {
         set((state) => ({ isStoreTab: index }));
     },
-    isCategoryTab: 0,
+    isCategoryTab: 13,
     setCategoryTab(index) {
         set((state) => ({ isCategoryTab: index }));
     },
     isCurrentPage: 1,
     isSortNum: 1,
-    isDetail: 201,
 }));
 
 export default useStore;
