@@ -3,26 +3,25 @@ import styled from "styled-components";
 import { RiHeartAddLine } from "react-icons/ri";
 import { RiHeartAddFill } from "react-icons/ri";
 
-const HeartButton = ({ onClick }) => {
-  const [toggle, setToggle] = useState(false);
-  const clickedToggle = () => {
-    setToggle((prev) => !prev);
-    console.log(toggle);
-  };
+const HeartButton = ({ heartFlag, onClick }) => {
+  // const [toggle, setToggle] = useState(heartFlag);
+  // const clickedToggle = () => {
+  //   setToggle((heartFlag) => !heartFlag);
+  // };
   return (
     <>
       <HeartBox>
-        {toggle ? (
+        {heartFlag ? (
           <RiHeartAddFill
             className="heart2"
-            onClick={(onClick, clickedToggle)}
-            toggle={toggle}
+            onClick={onClick}
+            heartFlag={heartFlag}
           />
         ) : (
           <RiHeartAddLine
             className="heart"
-            onClick={(onClick, clickedToggle)}
-            toggle={toggle}
+            onClick={onClick}
+            heartFlag={heartFlag}
           />
         )}
       </HeartBox>

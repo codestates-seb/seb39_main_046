@@ -1,21 +1,54 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
+import {useLogin} from "../../lib/api/useLogin";
 import TextInput from "../../components/common/input/TextInput";
 
 const Login = () => {
   const navigate = useNavigate();
   const [disabled, setDisabled] = useState(true);
+  const [userName, setUserName] = useState("");
+  const [password, setpassword] = useState("");
+
+
+
   const inputChange = (e) => {
-    console.log(e.target.value);
     const length = e.target.value.length;
     if (length >= 4) {
       setDisabled(false);
     } else if (!disabled) {
       setDisabled(true);
     }
+    setUserName(e.target.value);
   };
+
+  const inputpwChange =(e) => {
+    setpassword(e.target.value);
+  }
+
   const label = disabled ? "로그인" : "로그인";
+
+  const onSuccess = (res) =>{
+    alert(`${userName}님 환영합니다.`);
+    sessionStorage.setItem("token", res.data);    
+    navigate('/');
+    window.location.reload();
+  }
+  
+  const onError = (error) => {
+    alert("아이디 비밀번호를 다시한번 확인하세요");
+  }
+
+  const {mutate: loginperson, isError} = useLogin(onSuccess,onError);
+
+
+  const onsubmit = () => {
+    const log = {userName, password}
+    const key = "login"
+    loginperson(log , key);
+  }
+
+  
   return (
     <>
       <MemberContainer>
@@ -33,12 +66,13 @@ const Login = () => {
           <InputBox>
             <div>
               <p>아이디</p>
-              <TextInput />
+              {/* <TextInput /> */}
+              <Thisinpu placeholder="아이디" onChange={inputChange} />
             </div>
             <div>
               <p>비밀번호</p>
               {/* <input onChange={inputChange} /> */}
-              <TextInput placeholder="비밀번호" onChange={inputChange} />
+              <Thisinpu placeholder="비밀번호" onChange={inputpwChange} />
             </div>
           </InputBox>
           <IdPwFind>
@@ -46,7 +80,7 @@ const Login = () => {
             <span>|</span>
             <span>패스워드찾기</span>
           </IdPwFind>
-          <LoginConfirmBtn>{label}</LoginConfirmBtn>
+          <LoginConfirmBtn onClick={onsubmit}>{label}</LoginConfirmBtn>
         </MiddleBox>
       </MemberContainer>
     </>
@@ -54,6 +88,21 @@ const Login = () => {
 };
 
 export default Login;
+
+const Thisinpu = styled.input`
+  width: 320px;
+  height: 40px;
+  border: 0px;
+  font-size: ${({ theme }) => theme.fontSizes.small};
+  line-height: 1rem;
+  border: none;
+  background-color: ${({ theme }) => theme.colors.White};
+  border-radius: 20px;
+  padding-left: 15px;
+  &:focus {
+    outline: 1px solid ${({ theme }) => theme.colors.Blue_040};
+  }
+`
 
 const MemberContainer = styled.section`
   margin: 0 auto;

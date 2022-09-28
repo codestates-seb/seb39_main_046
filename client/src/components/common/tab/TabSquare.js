@@ -1,16 +1,12 @@
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components";
+import useStore from "../../../lib/store";
 
 const TabSquare = () => {
-  const [currentTab, setcurrentTab] = useState(0);
-  const menuArr = [
-    { name: "전체 편의점", content: "Tab menu ONE" },
-    { name: "GS25", content: "Tab menu TWO" },
-    { name: "CU", content: "Tab menu THREE" },
-    { name: "7-Eleven", content: "Tab menu THREE" },
-  ];
-  const selectMenuHandler = (index) => {
-    setcurrentTab(index);
+  const { isStoreTab, setStoreTab } = useStore();
+  const menuArr = ["전체 편의점", "GS25", "CU", "7-ELEVEN"];
+  const selectMenuHandler = (el) => {
+    setStoreTab(el);
   };
   return (
     <TabMenu>
@@ -18,10 +14,10 @@ const TabSquare = () => {
         return (
           <li
             key={index}
-            className={`${index === currentTab ? " focused" : null}`}
-            onClick={() => selectMenuHandler(index)}
+            className={`${el === isStoreTab ? " focused" : null}`}
+            onClick={() => selectMenuHandler(el)}
           >
-            {el.name}
+            {el}
           </li>
         );
       })}

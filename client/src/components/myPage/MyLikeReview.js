@@ -1,14 +1,12 @@
 import React from "react";
 import styled from "styled-components";
 
-import Noimg from "../../assets/images/userinfo/Noimg.png";
-import HeartButton from "../common/button/HeartButton";
+import MyLikeReviewContain from "./MyLikeReviewContain";
+import Paging from "../common/pagination/Paging";
 
-const MyLikeReview = () => {
-  const userName = "리코";
-  const explanation =
-    "할수있어할수있어할수있어할수있어할수있어할수있어할수있어할수있어할수있어할수있어할수있어할수있어할수있어할수있어할수있어할수있어할수있어할수있어할수있어할수있어할수있어할수있어할수있어할수있어할수있어할수있어할수있어할수있어할수있어할수있어할수있어할수있어할수있어할수있어할수있어할수있어할수있어할수있어할수있어할수있어";
-  const create_At = "1986.06.28";
+const MyLikeReview = ({Infodata, InfolikeRives}) => {
+  const userName = Infodata.nickName;
+  console.log(InfolikeRives.data);
 
   return (
     <Maindiv>
@@ -18,67 +16,15 @@ const MyLikeReview = () => {
           <span>님이 찜꽁한 리뷰</span>
         </PageTtitle>
         <RivewSection>
-          <div className="Productinformation">
-            <img src={Noimg} alt="이미지 없음" />
-            <section className="contents-box">
-              <div className="title">
-                <div className="productName">상품명</div>
-                <span>
-                  <HeartButton />
-                </span>
-              </div>
-              <Productsulmung>
-                <p>{explanation}</p>
-              </Productsulmung>
-              <CreateAt>{create_At}</CreateAt>
-            </section>
-          </div>
-          <div className="Productinformation">
-            <img src={Noimg} alt="이미지 없음" />
-            <section className="contents-box">
-              <div className="title">
-                <div className="productName">상품명</div>
-                <span>
-                  <HeartButton />
-                </span>
-              </div>
-              <Productsulmung>
-                <p>{explanation}</p>
-              </Productsulmung>
-              <CreateAt>{create_At}</CreateAt>
-            </section>
-          </div>
-          <div className="Productinformation">
-            <img src={Noimg} alt="이미지 없음" />
-            <section className="contents-box">
-              <div className="title">
-                <div className="productName">상품명</div>
-                <span>
-                  <HeartButton />
-                </span>
-              </div>
-              <Productsulmung>
-                <p>{explanation}</p>
-              </Productsulmung>
-              <CreateAt>{create_At}</CreateAt>
-            </section>
-          </div>
-          <div className="Productinformation">
-            <img src={Noimg} alt="이미지 없음" />
-            <section className="contents-box">
-              <div className="title">
-                <div className="productName">상품명</div>
-                <span>
-                  <HeartButton />
-                </span>
-              </div>
-              <Productsulmung>
-                <p>{explanation}</p>
-              </Productsulmung>
-              <CreateAt>{create_At}</CreateAt>
-            </section>
-          </div>
+          {InfolikeRives.data && InfolikeRives.data.map((data, idx) =>{
+            return(
+              <MyLikeReviewContain key={idx} data={data}/>
+            )
+          })}          
         </RivewSection>
+        <Pagibox>
+          <Paging/>
+        </Pagibox>
       </PageSection>
     </Maindiv>
   );
@@ -128,52 +74,11 @@ const RivewSection = styled.section`
     box-shadow: 0px 2px 16px rgba(204, 204, 204, 0.6);
     border-radius: 20px;
     padding: 14px;
-    img {
-      width: 200px;
-      height: 200px;
-      border-radius: 20px;
-      background-color: ${({ theme }) => theme.colors.Blue_010};
-    }
-    .contents-box {
-    }
-    .title {
-      display: flex;
-      margin-bottom: ${({ theme }) => theme.margins.xl};
-      .productName {
-        margin-top: 20px;
-        width: 350px;
-        height: 16px;
-        font-size: ${({ theme }) => theme.fontSizes.base};
-        color: ${({ theme }) => theme.colors.Gray_090};
-        font-weight: 700;
-        text-align: left;
-      }
-      span {
-        margin-top: ${({ theme }) => theme.margins.xl};
-      }
-    }
   }
 `;
 
-const Productsulmung = styled.div`
-  width: 355px;
-  height: 90px;
-
-  p {
-    text-align: left;
-    font-size: ${({ theme }) => theme.fontSizes.base};
-    font-weight: 400;
-    color: ${({ theme }) => theme.colors.Gray_050};
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-  }
-`;
-const CreateAt = styled.div`
-  margin-top: 10px;
-  color: ${({ theme }) => theme.colors.Gray_030};
-  font-weight: 400;
-  font-size: ${({ theme }) => theme.fontSizes.small};
-  text-align: right;
-`;
+const Pagibox = styled.div`
+  margin-top: 50px;
+  margin-bottom: 50px;
+  text-align: center;
+`

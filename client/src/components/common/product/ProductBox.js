@@ -1,27 +1,34 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
 import HeartButton from "../button/HeartButton";
 import Tag from "./Tag";
-const ProductBox = () => {
+const ProductBox = ({ data }) => {
+  const navigate = useNavigate();
+  const [heart, setHeart] = useState(data.heartFlag);
+  const HeartChange = () => {
+    setHeart((prev) => !prev);
+  };
+  const goDetail = () => {
+    navigate(`/product/${data.productId}`);
+  };
+
   return (
     <ProductSection>
       <span className="heart-box">
-        <HeartButton />
+        <HeartButton onClick={HeartChange} />
       </span>
-      <PImage>
-        <img
-          src="https://www.7-eleven.co.kr/upload/product/8809350/888359.1.jpg"
-          alt="상품"
-        />
+      <PImage onClick={goDetail}>
+        <img src={data.imageURL} alt={data.productName} />
       </PImage>
-      <ProductsEx>
+      <ProductsEx onClick={goDetail}>
         <div className="tag-box">
-          <Tag buttonColor="Eleven">7-Eleven</Tag>
-          <Tag>안주</Tag>
+          <Tag buttonColor={data.company}>{data.company}</Tag>
+          <Tag>{data.category.categoryName}</Tag>
         </div>
-        <ProductName>고창복분자 너비아니 샌드위치</ProductName>
+        <ProductName>{data.productName}</ProductName>
         <div className="line"></div>
-        <ProductPrice>5,300원</ProductPrice>
+        <ProductPrice>{data.price}원</ProductPrice>
       </ProductsEx>
     </ProductSection>
   );
@@ -29,7 +36,7 @@ const ProductBox = () => {
 
 export default ProductBox;
 const ProductSection = styled.section`
-  width: 236px;
+  width: 100%;
   height: 355px;
   border-radius: 20px;
   background-color: #fff;
@@ -40,7 +47,7 @@ const ProductSection = styled.section`
     position: absolute;
     right: 10px;
     top: 7px;
-    z-index: 2;
+    z-index: 10;
   }
   box-sizing: content-box;
   border: 3px solid transparent;
@@ -64,8 +71,8 @@ const PImage = styled.div`
   align-items: center;
   img {
     border-radius: 20px;
-    max-width: 190px;
-    min-width: 130px;
+    max-width: 180px;
+    max-height: 150px;
   }
 `;
 
