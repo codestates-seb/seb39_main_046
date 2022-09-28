@@ -1,5 +1,5 @@
-import React from 'react';
-import styled from 'styled-components';
+import React from "react";
+import styled from "styled-components";
 
 const NearStore = () => {
     return (
@@ -14,13 +14,13 @@ const NearStore = () => {
 export default NearStore;
 
 const NearTitle = styled.div`
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    margin-top:129px;
-`
-const NearWrite = styled.p `
-    font-weight:700;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 129px;
+`;
+const NearWrite = styled.p`
+    font-weight: 700;
     font-size: ${({ theme }) => theme.fontSizes.titleSize};
     color: ${({ theme }) => theme.colors.Gray_090};
-`
+`;

@@ -35,10 +35,17 @@
 }
 
 #searchInput {
-    width: 360px;
+    width: 420px;
     border: 0 solid black;
+    background: #f2f2f2;
+    border-radius: 35px;
+    padding: 13px 16px;
 }
-
+.serchBtn {
+    border: none;
+    background-color: transparent;
+    padding-top: 3px;
+}
 #pagination {
     text-align: center;
 }
@@ -90,4 +97,7 @@
     font-weight: 400;
     font-size: 14px;
     line-height: 100%;
+    background-color: rgba(242, 242, 242, 1);
+    padding: 13px 16px;
+    border-radius: 35px;
 }

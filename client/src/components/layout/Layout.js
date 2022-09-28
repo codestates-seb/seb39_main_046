@@ -6,34 +6,34 @@ import Header from "./Header";
 import Scroll from "../common/scroll/ScrollToTopBtn";
 
 const Layout = () => {
-  const handleScroll = (e) => {
-    if (!window.scrollY) return;
+    const handleScroll = (e) => {
+        if (!window.scrollY) return;
 
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    });
-  };
-  return (
-    <Container>
-      <Header />
-      <MainSection>
-        <Outlet />
-        <Scroll handleClick={handleScroll} />
-      </MainSection>
-      <Footer />
-    </Container>
-  );
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth",
+        });
+    };
+    return (
+        <Container>
+            <Header />
+            <MainSection>
+                <Outlet />
+                <Scroll handleClick={handleScroll} />
+            </MainSection>
+            <Footer />
+        </Container>
+    );
 };
 
 export default Layout;
 const Container = styled.div`
-  width: 100%;
-  height: 100%;
+    width: 100%;
+    height: 100%;
 `;
 const MainSection = styled.section`
-  margin: 0 auto;
-  max-width: 100%;
-  min-height: 500px;
-  margin-top: 75px;
+    margin: 0 auto;
+    max-width: 100%;
+    min-height: 500px;
+    margin-top: 75px;
 `;
