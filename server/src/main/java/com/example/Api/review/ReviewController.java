@@ -201,7 +201,7 @@ public class ReviewController {
     @ApiOperation(tags = "My Page", value = "내 리뷰 조회",
             notes = "✅  나의 리뷰 목록을 조회합니다.  \n  \n  " +
                     "정렬 : 좋아요순(1), 최신순(그 외)\n   \n " )
-    @GetMapping("/member/myPage//myReviews/{method-id}")
+    @GetMapping("/member/myPage/myReviews/{method-id}")
     public ResponseEntity getMyReviews(@PathVariable("method-id") @Positive int methodId,
                                        @Positive @RequestParam int page,
                                        HttpServletRequest request){
