@@ -98,6 +98,9 @@ public class MemberController {
     @PatchMapping("/nickname")
     public ResponseEntity patchName(@Validated @RequestBody MemberPatchDtoN memberPatchDtoN){
         Member member = memberService.getLoginMember();
+        Member updatedMember = member;
+        updatedMember.setNickName(memberPatchDtoN.getNickName());
+        memberService.updateMember(member, updatedMember);
         member.setNickName(memberPatchDtoN.getNickName());
 
         return new ResponseEntity<>("변경 완료", HttpStatus.OK);
@@ -106,6 +109,9 @@ public class MemberController {
     @PatchMapping("/password")
     public ResponseEntity patchPassword(@Validated @RequestBody MemberPatchDtoP memberPatchDtoP){
         Member member = memberService.getLoginMember();
+        Member updatedMember = member;
+        updatedMember.setPassword(memberPatchDtoP.getPassword());
+        memberService.updateMember(member,updatedMember);
         member.setPassword(memberPatchDtoP.getPassword());
 
         return new ResponseEntity<>("변경 완료", HttpStatus.OK);
@@ -270,11 +276,15 @@ public class MemberController {
     @ApiOperation(value = "프로필 사진 삭제",
             notes = "✅ 로그인 상태 -> 프로필 사진 삭제  \n  \n")
     public ResponseEntity profileDelete() throws IOException {
-     Member member = memberService.getLoginMember();
-     s3Upload.removeFile(member.getProfile());
-     member.setProfile(null);
+        Member member = memberService.getLoginMember();
+        System.out.println(member.getProfile());
+        s3Upload.removeFile(member.getProfile().replace("https://pre-project2.s3.ap-northeast-2.amazonaws.com/",""));
+        Member updatedMember = member;
+        updatedMember.setProfile(null);
+        memberService.updateMember(member,updatedMember);
         return new ResponseEntity<>("삭제 완료",HttpStatus.OK);
     }
+
 
     @ApiOperation(value = "전체 멤버조회", notes = "✅관리자 전용 기능")
     @GetMapping("/all")

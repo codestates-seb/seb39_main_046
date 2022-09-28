@@ -1,5 +1,6 @@
 package com.example.Api.review;
 
+import com.example.Api.S3Upload;
 import com.example.Api.member.Member;
 import com.example.Api.member.MemberService;
 import com.example.Api.product.Product;
@@ -11,13 +12,15 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.Positive;
-import java.util.ArrayList;
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -33,26 +36,28 @@ public class ReviewController {
 
     private final ReviewHeartService reviewHeartService;
     private ReviewMapper reviewMapper;
+    private final S3Upload s3Upload;
 
     private int size = 0;
 
     public ReviewController(ReviewService reviewService, ProductService productService, MemberService memberService,
-                            ReviewHeartService reviewHeartService, ReviewMapper reviewMapper) {
+                            ReviewHeartService reviewHeartService, ReviewMapper reviewMapper, S3Upload s3Upload) {
         this.reviewService = reviewService;
         this.productService = productService;
         this.memberService = memberService;
         this.reviewHeartService = reviewHeartService;
         this.reviewMapper = reviewMapper;
+        this.s3Upload = s3Upload;
     }
 
 
     @ApiOperation(value = "리뷰 등록",
             notes = "✅ 상품에 대한 리뷰를 등록합니다.\n - \n " )
-    @PostMapping("/{product-id}")
+    @PostMapping(value = "/{product-id}", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE,MediaType.APPLICATION_JSON_VALUE})
    // @RequestPart(value="file",required = false)
     public ResponseEntity postReview(@PathVariable("product-id") @Positive long productId,
-                                     @Validated @RequestBody ReviewPostDto reviewPostDto,
-                                     HttpServletRequest request){
+                                     @Validated @RequestBody ReviewPostDto reviewPostDto,@RequestPart(value = "file",required = false) MultipartFile rfile,
+                                     HttpServletRequest request) throws IOException {
 
         boolean loginStatus = memberService.memberCheck(request);
         if(loginStatus){
@@ -65,7 +70,7 @@ public class ReviewController {
 
             Review review = new Review();
             review.setContent(reviewPostDto.getContent());
-            review.setImageURL(reviewPostDto.getImageURL());
+            review.setImageURL(s3Upload.upload(rfile));
             review.setMember(writter);
             review.setProduct(product);
             Review savedReview = reviewService.createReview(review);

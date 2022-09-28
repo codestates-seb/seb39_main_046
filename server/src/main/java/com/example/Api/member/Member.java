@@ -29,14 +29,14 @@ public class Member extends Auditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long memberId;
-    @Column(unique = true)
+    @Column(unique = true,nullable = false)
     @NotBlank
     //@Email
     private String username;
-    @Column(length = 100)
+    @Column(length = 100,nullable = false)
     @NotBlank
     private String password;
-    @Column(unique = true)
+    @Column(unique = true,nullable = false)
     @NotBlank
     private String nickName;
 

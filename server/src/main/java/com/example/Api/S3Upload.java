@@ -1,6 +1,7 @@
 package com.example.Api;
 
 import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.model.DeleteObjectRequest;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -32,6 +33,6 @@ public class S3Upload {
     }
 
     public void removeFile(String s3FileName) throws IOException{
-        amazonS3.deleteObject(bucket,s3FileName);
+        amazonS3.deleteObject(new DeleteObjectRequest(bucket,s3FileName));
     }
 }
