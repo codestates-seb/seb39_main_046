@@ -8,6 +8,8 @@
     "@testing-library/user-event": "^13.5.0",
     "axios": "^0.27.2",
     "dotenv": "^16.0.2",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-prettier": "^4.2.1",
     "polished": "^4.2.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -15,8 +17,6 @@
     "react-js-pagination": "^3.0.3",
     "react-router-dom": "^6.4.0",
     "react-slick": "^0.29.0",
-    "sass": "^1.55.0",
-    "slick-carousel": "^1.8.1",
     "styled-components": "^5.3.5",
     "styled-reset": "^4.4.2",
     "swiper": "^8.4.2",
@@ -49,6 +49,8 @@
     ]
   },
   "devDependencies": {
+    "eslint": "^8.24.0",
+    "prettier": "2.7.1",
     "react-query": "^3.39.2",
     "react-scripts": "5.0.1"
   }
