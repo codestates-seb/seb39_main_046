@@ -2,15 +2,28 @@ import React from "react";
 import styled from "styled-components";
 import logo from "../../assets/images/logo/logo2.svg";
 import { useNavigate } from "react-router-dom";
+import store from "../../lib/store";
 
 const Header = () => {
   const navigate = useNavigate();
+  const {logInfo} = store();
+
+  const logout = () =>{
+    console.log("로그아웃 버튼 클릭");
+    if(window.confirm("정말로 로그아웃 하시겠습니까?")){
+      sessionStorage.removeItem('token');
+      window.location.reload();
+    }
+
+  }
 
   return (
     <HeaderContainer>
       <HMain>
         <HMenu>
-          <li onClick={() => navigate("/login")}>로그인</li>
+          {!logInfo? (<li onClick={() => navigate("/login")}>로그인</li>) : (
+            <li onClick={logout}>로그아웃</li>
+          )}          
           <li onClick={() => navigate("/mypage")}>마이페이지</li>
           <li onClick={() => navigate("/productbasket")}>찜꽁바구니</li>
         </HMenu>

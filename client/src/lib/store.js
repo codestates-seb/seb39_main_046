@@ -1,6 +1,7 @@
 import create from "zustand";
 
 const useStore = create((set) => ({
+  logInfo: sessionStorage.getItem("token"),
   isMainTab: "전체 편의점",
   setMainTab(index) {
     set((state) => ({ isMainTab: index }));
