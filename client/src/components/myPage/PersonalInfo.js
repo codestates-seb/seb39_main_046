@@ -6,13 +6,17 @@ import Button from "../common/button/Button";
 import TextInput from "../common/input/TextInput";
 import axios from "axios";
 import store from "../../lib/store";
+import { useMypage } from "../../lib/api/useMypage";
 
 
-const PersonalInfo = ({userdata}) => {
-  const {logInfo}=store();
-  const userName = userdata.nickName;
+const PersonalInfo = ({Infodata}) => {
+  const {logInfo} = store();
+  // const { member } = useMypage();
+
+  console.log (Infodata);
+  const userName = Infodata.nickName;
   const welcommsg = " 님, 안녕하세요 :)";
-  const email = userdata.username;
+  const email = Infodata.username;
   const userImg = Userimg;
 
   const [changeName, setchangeName] = useState("");
@@ -42,6 +46,7 @@ const PersonalInfo = ({userdata}) => {
   // const saveFileImage = (e) => {
   //   setregiImg(URL.createObjectURL(e.target.files[0]));
   // };
+
 
   const saveFileImage =(event) => {
     console.log(event.target.files)
@@ -119,10 +124,11 @@ const PersonalInfo = ({userdata}) => {
           <UserExer>
             {/* <img src={userImg} alt="프로필 사진" /> */}
             <br/>
-            <label className="input-file-button" for="input-file"></label>
-              {userdata.profile && (
-              <img alt="sample" src={userdata.profile} width="150px" height="150px" />
-              )}
+            <label className="input-file-button" for="input-file">
+              {/* {member.profile && (
+              <img alt="sample" src={member.profile} width="150px" height="150px" />
+              )} */}
+              <img src={userImg} alt="프로필 사진" />
             </label>
             <Button onClick={onImgSubmit}>수정</Button>
             <input

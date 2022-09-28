@@ -22,13 +22,11 @@ const Getinfo= (logInfo) => {
 
 const Mypage = () => {
   const {logInfo}=store();
-  const [nickname, setNickname] =useState("");
-  const [email, setEmail] = useState("");
 
 
-  const queryClient = useQueryClient();
+  // const queryClient = useQueryClient();
 
-  const {data, isError, error, isLoading, isFetching} = useQuery("infos", () =>Getinfo(logInfo),{
+  const {data, isLoading} = useQuery("infos", () =>Getinfo(logInfo),{
     // keepPreviousData:true,
     // staleTime:2000,
   })
@@ -49,11 +47,11 @@ const Mypage = () => {
   return (
     <div>
       {/* <Exper> */}
-      <PersonalInfo  userdata = {data.data.member}/>
+      <PersonalInfo  Infodata = {data.data.member}/>
       <ProductBasket />
       <PbtiBanner2 />
-      <PersonalRivew />
-      <MyLikeReview />
+      <PersonalRivew Infodata = {data.data.member} InfoRives = {data.data.myReviews} />
+      <MyLikeReview Infodata = {data.data.member} InfolikeRives = {data.data.jjimReviews}/>
       {/* </Exper> */}
     </div>
   );
