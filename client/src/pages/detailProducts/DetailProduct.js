@@ -1,10 +1,18 @@
 import React from "react";
 import styled from "styled-components";
+import { useParams } from "react-router-dom";
 import ProductDetail from "../../components/productDetail/ProductDetail";
 import WriteComment from "../../components/productDetail/WirteComment";
 import CommentList from "../../components/productDetail/CommentList";
+import useStore from "../../lib/store";
+import { useProduct } from "../../lib/api/useProduct";
 
 const DetailProduct = () => {
+  const { id } = useParams();
+  const { product, reviews } = useProduct();
+  console.log(product);
+  // useStore.setState({ isDetail: id });
+  // console.log(id);
   const ReturnMsg = "< 리스트 돌아가기";
   return (
     <Allcontent>
@@ -13,7 +21,7 @@ const DetailProduct = () => {
           <span>{ReturnMsg}</span>
         </Titlediv>
         <Middlecontent>
-          <ProductDetail />
+          <ProductDetail data={product} />
           <CommentAreat>
             <WriteComment />
             <CommentList />

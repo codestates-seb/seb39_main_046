@@ -3,10 +3,10 @@ import styled from "styled-components";
 import useStore from "../../../lib/store";
 
 const TabRound = () => {
-  const { currentTab, setcurrentTab } = useStore();
-  const menuArr = ["전체 편의점", "GS25", "CU", "7-Eleven"];
+  const { isMainTab, setMainTab } = useStore();
+  const menuArr = ["전체 편의점", "GS25", "CU", "7-ELEVEN"];
   const selectMenuHandler = (index) => {
-    setcurrentTab(index);
+    setMainTab(index);
   };
   return (
     <TabMenu>
@@ -14,8 +14,8 @@ const TabRound = () => {
         return (
           <li
             key={index}
-            className={`${index === currentTab ? " focused" : null}`}
-            onClick={() => selectMenuHandler(index)}
+            className={`${el === isMainTab ? " focused" : null}`}
+            onClick={() => selectMenuHandler(el)}
           >
             {el}
           </li>
@@ -28,7 +28,7 @@ const TabRound = () => {
 export default TabRound;
 
 const TabMenu = styled.ul`
-  width: 450px;
+  width: 460px;
   margin: 0 auto;
   display: flex;
   justify-items: center;

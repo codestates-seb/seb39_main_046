@@ -35,7 +35,7 @@ function App() {
           <Route path="/mypage" element={<Mypage />}></Route>
           <Route path="/productbasket" element={<ProductBasket />}></Route>
           <Route path="/products" element={<Products />}></Route>
-          <Route path="/productdetail" element={<DetailProduct />}></Route>
+          <Route path="/product/:id" element={<DetailProduct />}></Route>
           <Route path="*" element={<div>NotFound</div>} />
         </Route>
       </Routes>
