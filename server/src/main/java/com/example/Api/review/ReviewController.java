@@ -24,7 +24,7 @@ import java.io.IOException;
 import java.util.List;
 
 @RestController
-@RequestMapping("/review")
+/*@RequestMapping("/review")*/
 @Validated
 @Tag(name = "Review", description = "Review API")
 @Api(tags = "Review")
@@ -53,8 +53,8 @@ public class ReviewController {
 
     @ApiOperation(value = "리뷰 등록",
             notes = "✅ 상품에 대한 리뷰를 등록합니다.\n - \n " )
-    @PostMapping(value = "/{product-id}", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE,MediaType.APPLICATION_JSON_VALUE})
-   // @RequestPart(value="file",required = false)
+    @PostMapping(value = "/review/{product-id}", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE,MediaType.APPLICATION_JSON_VALUE})
+    // @RequestPart(value="file",required = false)
     public ResponseEntity postReview(@PathVariable("product-id") @Positive long productId,
                                      @Validated @RequestBody ReviewPostDto reviewPostDto,@RequestPart(value = "file",required = false) MultipartFile rfile,
                                      HttpServletRequest request) throws IOException {
@@ -87,8 +87,8 @@ public class ReviewController {
     }
 
     @ApiOperation(value = "리뷰 수정",
-             notes = "✅ 리뷰를 수정합니다.\n - \n " )
-    @PatchMapping("/{review-id}")
+            notes = "✅ 리뷰를 수정합니다.\n - \n " )
+    @PatchMapping("/review/{review-id}")
     public ResponseEntity patchReview(@PathVariable("review-id") @Positive long reviewId,
                                       @Validated @RequestBody ReviewPatchDto reviewPatchDto,
                                       HttpServletRequest request){
@@ -121,7 +121,7 @@ public class ReviewController {
 
     @ApiOperation(value = "리뷰 삭제",
             notes = "✅ 리뷰를 삭제합니다.\n - \n " )
-    @DeleteMapping("/{review-id}")
+    @DeleteMapping("/review/{review-id}")
     public ResponseEntity deleteReview(@PathVariable("review-id") @Positive long reviewId,
                                        HttpServletRequest request){
         boolean loginStatus = memberService.memberCheck(request);
@@ -144,7 +144,7 @@ public class ReviewController {
 
     //베스트 리뷰 보기
     @ApiOperation(tags = {"Main Page"}, value = " 베스트 리뷰 조회", notes = "✅ TOP 5 리뷰를 조회합니다.\n - \n " )
-    @GetMapping("/bestReview")
+    @GetMapping("/review/bestReview")
     public ResponseEntity getBestReviews(HttpServletRequest request){
 
         List<Review> bestReviews = reviewService.getTop5Reviews();
@@ -167,7 +167,7 @@ public class ReviewController {
 
 
     //전체 리뷰 보기 (베스트리뷰에서 전체 보기 눌렀을 때 -- 리뷰 랭킹 페이지 느낌)
-    @GetMapping("/all/{method-id}")
+    @GetMapping("/review/all/{method-id}")
     @ApiOperation(value = "전체 리뷰 조회",
             notes = "✅ 모든 리뷰들을 조회합니다.\n" +
                     "정렬 : 좋아요순(1), 최신순(그 외)\n - \n " )
@@ -201,7 +201,7 @@ public class ReviewController {
     @ApiOperation(tags = "My Page", value = "내 리뷰 조회",
             notes = "✅  나의 리뷰 목록을 조회합니다.  \n  \n  " +
                     "정렬 : 좋아요순(1), 최신순(그 외)\n   \n " )
-    @GetMapping("/myReviews/{method-id}")
+    @GetMapping("/member/myPage//myReviews/{method-id}")
     public ResponseEntity getMyReviews(@PathVariable("method-id") @Positive int methodId,
                                        @Positive @RequestParam int page,
                                        HttpServletRequest request){
@@ -230,7 +230,7 @@ public class ReviewController {
     @ApiOperation(tags = "Product Detail Page", value = "상품 상세 페이지 리뷰 조회",
             notes = "✅ 상품에 달린 리뷰들을 조회합니다.  \n" +
                     "정렬 : 좋아요순(1), 최신순(그 외)  \n  \n " )
-    @GetMapping("/productReviews/{method-id}")
+    @GetMapping("/review/productReviews/{method-id}")
     public ResponseEntity getProductReviews(@PathVariable("method-id") @Positive int methodId,
                                             @RequestParam long productId,
                                             @Positive @RequestParam int page,
@@ -259,7 +259,7 @@ public class ReviewController {
 
     @ApiOperation(value = "좋아요 등록 / 취소",
             notes = "✅ 입력 받은 reviewId에 해당하는 리뷰에 좋아요를 등록합니다..\n  - \n " )
-    @PostMapping("/heart")
+    @PostMapping("/review/heart")
     public ResponseEntity registerReviewHeart(HttpServletRequest request, @RequestParam long reviewId) {
 
         boolean loginStatus = memberService.memberCheck(request);
@@ -313,10 +313,10 @@ public class ReviewController {
     @ApiOperation(tags = "My Page", value = "마이 페이지 - 내가 좋아요 누른 리뷰 목록 조회",
             notes = "✅ 찜꽁 리뷰를 조회합니다.  \n  \n" +
                     "methodId : 좋아요순(1), 최신 리뷰순(2), 최근 좋아요순(그 외) \n - \n " )
-    @GetMapping("/simplifiedHeartReviews")
+    @GetMapping("/member/myPage//simplifiedHeartReviews")
     public ResponseEntity getSimplifiedHeartReviews( @Positive @RequestParam int page,
-                                                      @RequestParam int methodId,
-                                                      HttpServletRequest request) {
+                                                     @RequestParam int methodId,
+                                                     HttpServletRequest request) {
         int size = 4;
         boolean loginStatus = memberService.memberCheck(request);
         if(loginStatus){
@@ -343,7 +343,7 @@ public class ReviewController {
 
     @ApiOperation(value = "리뷰의 좋아요수 랜덤 세팅",
             notes = "✅ 리뷰의 좋아요수를 랜덤으로 세팅합니다.\",.\n - \n " )
-    @PostMapping("/random")
+    @PostMapping("/review/random")
     public ResponseEntity setRandomhearts(){
         List<Review> reviewList = reviewService.findAllReviews(Sort.by(Sort.Direction.DESC, "createdAt"));
         for(int i = 0 ; i<reviewList.size();i++){

@@ -40,7 +40,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @RestController
-@RequestMapping("/product")
+/*@RequestMapping("/product")*/
 @Validated
 @Tag(name = "Product", description = "Product API")
 @Api(tags = "Product")
@@ -75,7 +75,7 @@ public class ProductController {
 
     @ApiOperation(value = "상품 등록",
             notes = "✅ Excel File을 업로드합니다.\n - \n " )
-    @PostMapping("/admin")
+    @PostMapping("/product/admin")
     public ResponseEntity postProducts(@RequestPart("file") MultipartFile file) throws IOException {
 
         List<Product>  products = new ArrayList<>();
@@ -159,7 +159,7 @@ public class ProductController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "productName", value = "상품명", required = true, example = "햄)백종원더블버거")
     })
-    @GetMapping
+    @GetMapping("/product")
     public ResponseEntity getProductByProductName(@RequestParam String productName,
                                                   HttpServletRequest request){
 
@@ -180,7 +180,7 @@ public class ProductController {
 
     @ApiOperation(value = "상품 정보 수정",
             notes = "✅ 상품 정보를 수정합니다.\n - \n " )
-    @PatchMapping("/admin")
+    @PatchMapping("/product/admin")
     public ResponseEntity patchProduct(
                                 @RequestParam long productId,
                                 @Valid @RequestBody ProductPatchDto productPatchDto,
@@ -207,7 +207,7 @@ public class ProductController {
 
     @ApiOperation(value = "상품 삭제",
             notes = "✅ 입력받은 productId에 해당하는 상품을 삭제합니다.\n - \n " )
-    @DeleteMapping("/admin")
+    @DeleteMapping("/product/admin")
     public ResponseEntity deleteProduct(@RequestParam long productId){
 
         productService.deleteProduct(productId);
@@ -219,7 +219,7 @@ public class ProductController {
     @Tag(name = "Product Detail Page", description = "Product Detail Page API")
     @ApiOperation(value = "상품 조회 (상세 페이지 (Product Detail page) )",
             notes = "✅ 상품의 상세 페이지로 이동합니다.  \n  (조회수 1 증가)  \n   \n " )
-    @GetMapping("/{product-id}")
+    @GetMapping("/product/{product-id}")
     public ResponseEntity getProductByProductName(@PathVariable("product-id") @Positive long productId,
                                                   HttpServletRequest request){
         // 해당 상품 정보 + 리뷰
@@ -264,7 +264,7 @@ public class ProductController {
 
     @ApiOperation(tags = {"Main Page", "Products Page"}, value = " TOP5 상품 회사별 정렬 요청",
             notes = "✅ TOP 5 상품을 회사별로 정렬합니다.\n   \n ")
-    @GetMapping("/top5")
+    @GetMapping("/product/top5")
     public ResponseEntity getTop5Products(@RequestParam String company,
                                           HttpServletRequest request){
 
@@ -290,7 +290,7 @@ public class ProductController {
             notes = "✅ Products 페이지 최초 데이터 요청 ( Top5, 12개의 상품목록 )  \n " +
                     " - company에 잘못된 값 입력 시  전체 상품 조회  \n " +
                     " - methodId (1 : 좋아요순 / 2: 리뷰순 / 3. 조회순 / 그 외: 최신순)  \n   \n " )
-    @GetMapping("/allByCompany/{method-id}")
+    @GetMapping("/product/allByCompany/{method-id}")
     public ResponseEntity getProductRankingPage(@PathVariable("method-id") @Positive int methodId,
                                                @RequestParam String company,
                                                @Positive @RequestParam int page,
@@ -331,7 +331,7 @@ public class ProductController {
             notes = "✅ 회사별 / 전체 + 카테고리별  + 좋아요순/리뷰순/조회순/최신순 정렬 기능(랭킹 페이지 하위 12개 데이터)  \n " +
                     " - company에 잘못된 값 입력 시  전체 상품 카테고리별 조회  \n" +
                     " - methodId (1 : 좋아요순 / 2: 리뷰순 / 3. 조회순 / 그 외: 최신순)  \n   \n " )
-    @GetMapping("/allByCompany/{category-id}/{method-id}")
+    @GetMapping("/product/allByCompany/{category-id}/{method-id}")
     public ResponseEntity getSortedProductsByCompanyAndCategory(@PathVariable("category-id") @Positive int categoryId,
                                                           @PathVariable("method-id") @Positive int methodId,
                                                           @RequestParam String company,
@@ -369,7 +369,7 @@ public class ProductController {
     }
 
     @ApiOperation(tags = {"Main Page", "PBTI Page"}, value = " 추천 상품 조회", notes = "✅ 추천 상품 목록을 조회합니다.\n - \n ")
-    @GetMapping("/recommend")
+    @GetMapping("/product/recommend")
     public ResponseEntity getRecommendedProduct(HttpServletRequest request) {
 
         // 추천 상품 세팅
@@ -419,7 +419,7 @@ public class ProductController {
 
     @ApiOperation(value = "좋아요 등록 / 취소",
             notes = "✅ 입력 받은 productId에 해당하는 상품에 좋아요를 등록합니다..\n  - \n " )
-    @PostMapping("/heart")
+    @PostMapping("/product/heart")
     public ResponseEntity registerProductHeart(HttpServletRequest request, @RequestParam long productId) {
 
         boolean loginStatus = memberService.memberCheck(request);
@@ -474,7 +474,7 @@ public class ProductController {
 
     @ApiOperation(tags = "My Page", value = "마이 페이지 - 내가 좋아요 누른 상품 목록 회사별 정렬 요청",
             notes = "✅ 찜꽁 바구니를 조회합니다.(회사별 정렬 요청) \n - \n " )
-    @GetMapping("/simplifiedHeartProducts")
+    @GetMapping("/member/myPage/simplifiedProducts")
     public ResponseEntity getsimplifiedHeartProducts( @Positive @RequestParam int page,
                                                       @RequestParam String company,
                                                       HttpServletRequest request) {
@@ -506,7 +506,7 @@ public class ProductController {
     @Tag(name = "JJIMProducts Page", description = "JJIMProducts Page API")
     @ApiOperation(value = "찜꽁 바구니 - 더보기",
             notes = "✅ 전체 찜꽁 바구니를 조회합니다.  \n  \n  ( 정렬 요청 : 회사 종류 + 카테고리 + 좋아요(1)/리뷰(2)/조회(3)/최신순(4) )\n - \n " )
-    @GetMapping("/allHeartProducts/{category-id}/{method-id}")
+    @GetMapping("/product/allHeartProducts/{category-id}/{method-id}")
     public ResponseEntity getAllHeartProducts( @PathVariable("category-id") @Positive int categoryId,
                                                @PathVariable("method-id") @Positive int methodId,
                                                @RequestParam String company,
@@ -549,7 +549,7 @@ public class ProductController {
 
     @ApiOperation(value = "상품의 좋아요수 / 리뷰수 / 조회수 랜덤 세팅",
             notes = "✅ 상품의 정보(좋아요수 / 리뷰수 / 조회수)를 랜덤으로 세팅합니다.\",.\n - \n " )
-    @PostMapping("/random")
+    @PostMapping("/product/random")
     public ResponseEntity setRandomValues(){
 
         List<Product>  products = productService.findAllProduct(Sort.by(Sort.Direction.DESC, "createdAt"));
