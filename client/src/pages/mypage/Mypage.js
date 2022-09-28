@@ -44,20 +44,13 @@ const Mypage = () => {
 
     return (
         <>
-            {/* <Exper> */}
             <PersonalInfo Infodata={member} />
             <ProductBasket />
             <PbtiBanner2 />
             <PersonalRivew Infodata={member} InfoRives={myReviews} />
             <MyLikeReview Infodata={member} InfolikeRives={jjimReviews} />
-            {/* </Exper> */}
         </>
     );
 };
-
-// const Exper = styled.div`
-//     margin-left: 311px;
-//     margin-right:311px;
-// `
 
 export default Mypage;

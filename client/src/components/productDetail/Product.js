@@ -1,4 +1,5 @@
 import React from "react";
+import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import HeartButton from "../common/button/HeartButton";
 import Tag from "../common/product/Tag";
@@ -7,10 +8,14 @@ import link from "../../assets/icons/SharelinkBtn.png";
 const ProductDetail = (data) => {
     const detialData = data.data;
 
+    console.log(detialData.productId);
     return (
         <MainContent>
             <span className="heartbtn">
-                <HeartButton />
+                <HeartButton
+                    id={detialData.productId && detialData.productId}
+                    heartFlag={detialData.heartFlag && detialData.heartFlag}
+                />
             </span>
             <span className="sharebtn">
                 <img src={link} width="30px" height="30px" alt="링크이미지" />

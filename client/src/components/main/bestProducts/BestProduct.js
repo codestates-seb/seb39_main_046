@@ -12,7 +12,7 @@ const BestProduct = ({ idx, data }) => {
         <ProductBox className="item">
             <span className="rank_number">{idx + 1}</span>
             <span className="heart_btn">
-                <HeartButton />
+                <HeartButton id={data.productId && data.productId} />
             </span>
             <div className="product_img" onClick={goDetail}>
                 <img src={data.imageURL} alt={data.productName} />

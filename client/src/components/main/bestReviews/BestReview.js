@@ -12,7 +12,7 @@ import ReviewImg2 from "../../../assets/images/main/Review-2.png";
 import ReviewImg3 from "../../../assets/images/main/Review-3.png";
 import ReviewImg4 from "../../../assets/images/main/Review-4.png";
 import ReviewImg5 from "../../../assets/images/main/Review-5.png";
-import HeartButton from "../../common/button/HeartButton";
+import ReviewHeartButton from "../../common/button/ReviewHeartButton";
 import { useMainProducts } from "../../../lib/api/useMainProducts";
 
 const BestReview = () => {
@@ -61,7 +61,7 @@ const BestReview = () => {
                             <StyleSwipper key={idx} className={swiper === num ? "active" : null}>
                                 <ReviewInnerBox>
                                     <span>
-                                        <HeartButton />
+                                        <ReviewHeartButton id={data.reviewId && data.reviewId} />
                                     </span>
                                     <img src={ReviewImg1} alt={data.content} />
                                     <div className="review_contents_box">

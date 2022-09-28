@@ -5,10 +5,6 @@ import HeartButton from "../button/HeartButton";
 import Tag from "./Tag";
 const ProductBox = ({ data }) => {
     const navigate = useNavigate();
-    const [heart, setHeart] = useState(data.heartFlag);
-    const HeartChange = () => {
-        setHeart((prev) => !prev);
-    };
     const goDetail = () => {
         navigate(`/product/${data.productId}`);
     };
@@ -16,7 +12,7 @@ const ProductBox = ({ data }) => {
     return (
         <ProductSection>
             <span className="heart-box">
-                <HeartButton onClick={HeartChange} />
+                <HeartButton id={data.productId && data.productId} />
             </span>
             <PImage onClick={goDetail}>
                 <img src={data.imageURL} alt={data.productName} />

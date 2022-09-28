@@ -3,10 +3,10 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { RiHeartAddLine } from "react-icons/ri";
 import { RiHeartAddFill } from "react-icons/ri";
-import useHeart from "../../../lib/api/useHeart";
+import useReviewHeart from "../../../lib/api/useReviewHeart";
 import useStore from "../../../lib/store";
 
-const HeartButton = ({ heartFlag, id }) => {
+const ReviewHeartButton = ({ heartFlag, id }) => {
     const navigate = useNavigate();
     const { logInfo } = useStore();
 
@@ -18,7 +18,7 @@ const HeartButton = ({ heartFlag, id }) => {
         alert("좋아요 실패");
     };
 
-    const { mutate: changeHeart, isError } = useHeart(onSuccess, onError);
+    const { mutate: changeHeart, isError } = useReviewHeart(onSuccess, onError);
 
     if (isError) {
         <p>("하트가 안 눌리는 중..")</p>;
@@ -44,7 +44,7 @@ const HeartButton = ({ heartFlag, id }) => {
     );
 };
 
-export default HeartButton;
+export default ReviewHeartButton;
 
 const HeartBox = styled.span`
     width: 30px;

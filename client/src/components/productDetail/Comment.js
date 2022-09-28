@@ -1,11 +1,11 @@
 import React from "react";
 import styled from "styled-components";
-import HeartButton from "../common/button/HeartButton";
+import ReviewHeartButton from "../common/button/ReviewHeartButton";
 import ReviewImg from "../../assets/images/products/ReviewImg.png";
 import Usering from "../../assets/images/userinfo/Userimg.jpg";
 import { FiTrash } from "react-icons/fi";
 import { RiEdit2Fill } from "react-icons/ri";
-const Comment = (data) => {
+const Comment = ({ data }) => {
     return (
         <Maindiv>
             <div className="img_box">
@@ -15,9 +15,9 @@ const Comment = (data) => {
                 <div className="userInfo">
                     <div className="uesrNick">
                         <img src={Usering} alt="유저 프로필" width="25px" height="25px" />
-                        <span>{data.data.member.nickName}</span>
+                        <span>{data.member.nickName}</span>
                     </div>
-                    <HeartButton />
+                    <ReviewHeartButton id={data.reviewId && data.reviewId} />
                 </div>
                 <Commentex>
                     <p>
@@ -31,7 +31,7 @@ const Comment = (data) => {
                     <span className="icon">
                         <FiTrash size={20} color="rgba(253, 169, 79, 1)" />
                     </span>
-                    <span className="date">{data.data.createdAt.substr(0, 10)}</span>
+                    <span className="date">{data.createdAt.substr(0, 10)}</span>
                 </Controlbar>
             </ReviewDetail>
         </Maindiv>
