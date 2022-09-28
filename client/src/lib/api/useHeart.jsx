@@ -1,20 +1,28 @@
-import { useMutation } from "react-query";
+import { useMutation, useQueryClient } from "react-query";
 import axiosInstance from "../../utils/axiosInastance";
+import { queryKeys } from "../react-query/constant";
 
-const changeHeart = (productId, token) => {
+const changeHeart = (productId) => {
     return axiosInstance
-        .post(`/product/heart?productId=${productId}`, {
-            headers: {
-                Authorization: token,
+        .post(
+            `/product/heart?productId=${productId}`,
+            {},
+            {
+                headers: {
+                    Authorization: sessionStorage.getItem("token"),
+                },
             },
-        })
+        )
         .then((res) => console.log(res));
 };
 
-const useHeart = (onSuccess, onError) => {
+const useHeart = () => {
+    const queryClient = useQueryClient();
     return useMutation(changeHeart, {
-        onSuccess,
-        onError,
+        onSuccess: () => {
+            queryClient.invalidateQueries([queryKeys.products, queryKeys.product]);
+        },
+        onError: (e) => {},
     });
 };
 

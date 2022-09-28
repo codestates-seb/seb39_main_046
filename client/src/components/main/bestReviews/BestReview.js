@@ -61,7 +61,10 @@ const BestReview = () => {
                             <StyleSwipper key={idx} className={swiper === num ? "active" : null}>
                                 <ReviewInnerBox>
                                     <span>
-                                        <ReviewHeartButton id={data.reviewId && data.reviewId} />
+                                        <ReviewHeartButton
+                                            id={data.reviewId && data.reviewId}
+                                            heartFlag={data.reviewHeartFlag && data.reviewHeartFlag}
+                                        />
                                     </span>
                                     <img src={ReviewImg1} alt={data.content} />
                                     <div className="review_contents_box">

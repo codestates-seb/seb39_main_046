@@ -8,11 +8,12 @@ const BestProduct = ({ idx, data }) => {
     const goDetail = () => {
         navigate(`/product/${data.productId}`);
     };
+    console.log(data);
     return (
         <ProductBox className="item">
             <span className="rank_number">{idx + 1}</span>
             <span className="heart_btn">
-                <HeartButton id={data.productId && data.productId} />
+                <HeartButton id={data.productId && data.productId} heartFlag={data.heartFlag && data.heartFlag} />
             </span>
             <div className="product_img" onClick={goDetail}>
                 <img src={data.imageURL} alt={data.productName} />

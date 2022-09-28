@@ -7,7 +7,7 @@ import CommentList from "../../components/productDetail/CommentList";
 import { useQuery } from "react-query";
 import Loading from "../../components/common/loading/Loading";
 import axiosInstance from "../../utils/axiosInastance";
-
+import { queryKeys } from "../../lib/react-query/constant";
 const getDeatilProduct = async (productNum) => {
     const { data } = await axiosInstance.get(`/product/${productNum}`);
     return data;
@@ -15,7 +15,7 @@ const getDeatilProduct = async (productNum) => {
 
 const DetailProduct = () => {
     const { id } = useParams();
-    const { status, data, error, isFetching } = useQuery(["product", id], () => getDeatilProduct(id), {
+    const { status, data, error, isFetching } = useQuery([queryKeys.product, id], () => getDeatilProduct(id), {
         staleTime: 2000,
         keepPreviousData: true,
         refetchOnWindowFocus: false,

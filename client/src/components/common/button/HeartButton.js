@@ -9,35 +9,25 @@ import useStore from "../../../lib/store";
 const HeartButton = ({ heartFlag, id }) => {
     const navigate = useNavigate();
     const { logInfo } = useStore();
-
-    const onSuccess = (data) => {
-        alert("좋아요 성공");
-    };
-
-    const onError = (error) => {
-        alert("좋아요 실패");
-    };
-
-    const { mutate: changeHeart, isError } = useHeart(onSuccess, onError);
-
+    console.log(heartFlag);
+    const { mutate: changeHeart, isError } = useHeart();
     if (isError) {
         <p>("하트가 안 눌리는 중..")</p>;
     }
-
-    const onsubmit = () => {
+    const onsubmit = (id) => {
         if (logInfo === null) {
             alert("로그인을 해주세요");
             navigate("/login");
         }
-        changeHeart(id, logInfo);
+        changeHeart(id);
     };
     return (
         <>
             <HeartBox>
                 {heartFlag ? (
-                    <RiHeartAddFill className="heart2" onClick={() => onsubmit()} />
+                    <RiHeartAddFill className="heart2" onClick={() => onsubmit(id)} />
                 ) : (
-                    <RiHeartAddLine className="heart" onClick={() => onsubmit()} />
+                    <RiHeartAddLine className="heart" onClick={() => onsubmit(id)} />
                 )}
             </HeartBox>
         </>

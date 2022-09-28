@@ -3,11 +3,15 @@ import axiosInstance from "../../utils/axiosInastance";
 
 const changeReviewHeart = (reviewId, token) => {
     return axiosInstance
-        .post(`/review/heart?reviewId=${reviewId}`, {
-            headers: {
-                Authorization: token,
+        .post(
+            `/review/heart?reviewId=${reviewId}`,
+            {},
+            {
+                headers: {
+                    Authorization: token,
+                },
             },
-        })
+        )
         .then((res) => console.log(res));
 };
 

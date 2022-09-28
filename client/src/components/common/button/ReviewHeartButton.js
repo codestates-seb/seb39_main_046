@@ -1,43 +1,40 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { RiHeartAddLine } from "react-icons/ri";
 import { RiHeartAddFill } from "react-icons/ri";
 import useReviewHeart from "../../../lib/api/useReviewHeart";
 import useStore from "../../../lib/store";
-
+import axios from "axios";
 const ReviewHeartButton = ({ heartFlag, id }) => {
-    const navigate = useNavigate();
+    const [heart, setHeart] = useState(heartFlag);
     const { logInfo } = useStore();
-
-    const onSuccess = (data) => {
-        alert("좋아요 성공");
-    };
-
-    const onError = (error) => {
-        alert("좋아요 실패");
-    };
-
-    const { mutate: changeHeart, isError } = useReviewHeart(onSuccess, onError);
-
-    if (isError) {
-        <p>("하트가 안 눌리는 중..")</p>;
-    }
-
-    const onsubmit = () => {
-        if (logInfo === null) {
-            alert("로그인을 해주세요");
-            navigate("/login");
-        }
-        changeHeart(id, logInfo);
+    const onsubmit = async () => {
+        await axios
+            .post(
+                `/review/heart?reviewId=${id}`,
+                {},
+                {
+                    headers: {
+                        Authorization: logInfo,
+                    },
+                },
+            )
+            .then((res) => {
+                if (res.data) {
+                    console.log(res.data);
+                }
+                console.log(res);
+            })
+            .catch((err) => {});
     };
     return (
         <>
             <HeartBox>
                 {heartFlag ? (
-                    <RiHeartAddFill className="heart2" onClick={() => onsubmit()} />
+                    <RiHeartAddFill className="heart2" onClick={onsubmit} />
                 ) : (
-                    <RiHeartAddLine className="heart" onClick={() => onsubmit()} />
+                    <RiHeartAddLine className="heart" onClick={onsubmit} />
                 )}
             </HeartBox>
         </>
