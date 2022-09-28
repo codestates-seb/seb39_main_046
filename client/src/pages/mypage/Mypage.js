@@ -21,38 +21,38 @@ import { useMypage } from "../../lib/api/useMypage";
 // }
 
 const Mypage = () => {
-  const { member, myReviews, jjimReviews } = useMypage();
-  console.log(member);
-  // const {logInfo}=store();
+    const { member, myReviews, jjimReviews } = useMypage();
+    console.log(member);
+    // const {logInfo}=store();
 
-  // const queryClient = useQueryClient();
+    // const queryClient = useQueryClient();
 
-  // const {data, isLoading} = useQuery("infos", () =>Getinfo(logInfo),{
-  //   keepPreviousData:true,
-  //   staleTime:2000,
-  // })
+    // const {data, isLoading} = useQuery("infos", () =>Getinfo(logInfo),{
+    //   keepPreviousData:true,
+    //   staleTime:2000,
+    // })
 
-  // if(isLoading) return <h3>로딩중</h3>;
+    // if(isLoading) return <h3>로딩중</h3>;
 
-  // useEffect(()=>{
-  //   setNickname(data.data.member.nickName);
-  //   setEmail(data.data.member.username);
-  //   console.log(nickname,email)
-  // },[])
+    // useEffect(()=>{
+    //   setNickname(data.data.member.nickName);
+    //   setEmail(data.data.member.username);
+    //   console.log(nickname,email)
+    // },[])
 
-  // console.log(data.data.member.memberId);
+    // console.log(data.data.member.memberId);
 
-  return (
-    <>
-      {/* <Exper> */}
-      <PersonalInfo Infodata={member} />
-      <ProductBasket />
-      <PbtiBanner2 />
-      <PersonalRivew Infodata={member} InfoRives={myReviews} />
-      <MyLikeReview Infodata={member} InfolikeRives={jjimReviews} />
-      {/* </Exper> */}
-    </>
-  );
+    return (
+        <>
+            {/* <Exper> */}
+            <PersonalInfo Infodata={member} />
+            <ProductBasket />
+            <PbtiBanner2 />
+            <PersonalRivew Infodata={member} InfoRives={myReviews} />
+            <MyLikeReview Infodata={member} InfolikeRives={jjimReviews} />
+            {/* </Exper> */}
+        </>
+    );
 };
 
 // const Exper = styled.div`

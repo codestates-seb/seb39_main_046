@@ -28,27 +28,27 @@
 } */
 
 .swiper-button-next {
-  position: absolute;
-  top: 200px;
-  right: 13px;
-  color: #fff;
-  width: 36px;
-  height: 36px;
-  border-radius: 36px;
-  background-color: rgb(253, 169, 79, 0.7);
-  font-size: 20px;
+    position: absolute;
+    top: 200px;
+    right: 13px;
+    color: #fff;
+    width: 36px;
+    height: 36px;
+    border-radius: 36px;
+    background-color: rgb(253, 169, 79, 0.7);
+    font-size: 20px;
 }
 
 .swiper-button-prev {
-  position: absolute;
-  top: 200px;
-  left: 15px;
-  color: #1c1c1e;
+    position: absolute;
+    top: 200px;
+    left: 15px;
+    color: #1c1c1e;
 }
 
 .swiper-button-next::after {
-  font-size: 20px;
-  font-weight: bold;
+    font-size: 20px;
+    font-weight: bold;
 }
 .swiper-button-prev::after {
 }

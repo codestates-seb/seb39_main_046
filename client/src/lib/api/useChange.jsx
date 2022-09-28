@@ -1,17 +1,17 @@
-import {useMutation } from 'react-query';
-import axios from 'axios';
+import { useMutation } from "react-query";
+import axios from "axios";
 
-const changeInfo = (content, id, token) =>{
-  return axios.patch(`/member/${id}`,{
-    headers:{
-      "Authorization": token,
-    }
-  })
-}
+const changeInfo = (content, id, token) => {
+    return axios.patch(`/member/${id}`, {
+        headers: {
+            Authorization: token,
+        },
+    });
+};
 
 export const useInfo = (onSuccess, onError) => {
-  return useMutation(changeInfo,{
-    onSuccess,
-    onError
-  })
-}
+    return useMutation(changeInfo, {
+        onSuccess,
+        onError,
+    });
+};

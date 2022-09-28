@@ -10,119 +10,107 @@ import TabCategory from "../../components/common/tab/TabCategory";
 import { useProducts } from "../../lib/api/useProducts";
 import { useTop5Products } from "../../lib/api/useProductTop5";
 const ProductRanking = () => {
-  const { data } = useProducts();
-  const topData = useTop5Products();
+    const { data } = useProducts();
+    const topData = useTop5Products();
 
-  return (
-    <>
-      <Rcontainer>
-        <RHearderBox>
-          <h2>
-            <strong>P</strong>ick your <strong>B</strong>est <strong>5</strong>
-          </h2>
-          <TabRound />
-          <TabContent>
-            {topData.data &&
-              topData.data.map((data, idx) => {
-                return (
-                  <ProductBox
-                    key={data.productId}
-                    data={data}
-                    className="top5_item"
-                  />
-                );
-              })}
-          </TabContent>
-        </RHearderBox>
-        <RMainBox>
-          <TabSquare />
-          <LineInput />
-          <TabCategory />
-          <div className="likebtn">
-            <DropDown />
-          </div>
-          <section className="productContainer">
-            {data &&
-              data.map((data, idx) => {
-                return (
-                  <ProductBox
-                    className="itemgrid"
-                    key={data.productId}
-                    data={data}
-                  />
-                );
-              })}
-          </section>
-        </RMainBox>
-        <PaginationBox>
-          <Paging />
-        </PaginationBox>
-      </Rcontainer>
-    </>
-  );
+    return (
+        <>
+            <Rcontainer>
+                <RHearderBox>
+                    <h2>
+                        <strong>P</strong>ick your <strong>B</strong>est <strong>5</strong>
+                    </h2>
+                    <TabRound />
+                    <TabContent>
+                        {topData.data &&
+                            topData.data.map((data, idx) => {
+                                return <ProductBox key={data.productId} data={data} className="top5_item" />;
+                            })}
+                    </TabContent>
+                </RHearderBox>
+                <RMainBox>
+                    <TabSquare />
+                    <LineInput />
+                    <TabCategory />
+                    <div className="likebtn">
+                        <DropDown />
+                    </div>
+                    <section className="productContainer">
+                        {data &&
+                            data.map((data, idx) => {
+                                return <ProductBox className="itemgrid" key={data.productId} data={data} />;
+                            })}
+                    </section>
+                </RMainBox>
+                <PaginationBox>
+                    <Paging />
+                </PaginationBox>
+            </Rcontainer>
+        </>
+    );
 };
 
 export default ProductRanking;
 const Rcontainer = styled.section`
-  text-align: center;
+    text-align: center;
 `;
 const RHearderBox = styled.header`
-  width: 100%;
-  height: 700px;
-  background-color: ${({ theme }) => theme.colors.Blue_010};
-  padding: 65px;
+    width: 100%;
+    height: 700px;
+    background-color: ${({ theme }) => theme.colors.Blue_010};
+    padding: 65px;
 
-  h2 {
-    text-align: center;
-    font-size: ${({ theme }) => theme.fontSizes.titleSize};
-    color: ${({ theme }) => theme.colors.Gray_030};
-    margin-bottom: 30px;
-    strong {
-      color: ${({ theme }) => theme.colors.Blue_030};
-      font-weight: bold;
+    h2 {
+        text-align: center;
+        font-size: ${({ theme }) => theme.fontSizes.titleSize};
+        color: ${({ theme }) => theme.colors.Gray_030};
+        margin-bottom: 30px;
+        strong {
+            color: ${({ theme }) => theme.colors.Blue_030};
+            font-weight: bold;
+        }
     }
-  }
 `;
 
 const TabContent = styled.div`
-  margin: 0 auto;
-  max-width: 1280px;
-  display: grid;
-  gap: 20px;
-  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    margin: 0 auto;
+    max-width: 1280px;
+    display: grid;
+    gap: 20px;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
 `;
 
 /* 본문 */
 const RMainBox = styled.main`
-  width: 100%;
-  margin: 0 auto;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  padding-top: 90px;
-
-  .productContainer {
-    max-width: 1060px;
     width: 100%;
-    padding: 20px;
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-    gap: 20px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding-top: 90px;
 
-    .itemgrid {
-      box-shadow: 0px 4px 10px rgba(204, 204, 204, 0.5);
-      background-color: blue;
+    .productContainer {
+        max-width: 1060px;
+        width: 100%;
+        padding: 20px;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+        gap: 20px;
+
+        .itemgrid {
+            box-shadow: 0px 4px 10px rgba(204, 204, 204, 0.5);
+            background-color: blue;
+        }
     }
-  }
-  .likebtn {
-    width: 1000px;
-    text-align: right;
-  }
+    .likebtn {
+        width: 1000px;
+        text-align: right;
+    }
 `;
 
 const PaginationBox = styled.div`
-  margin-top: 50px;
-  margin-bottom: 50px;
-  text-align: center;
+    margin-top: 50px;
+    margin-bottom: 50px;
+    text-align: center;
 `;

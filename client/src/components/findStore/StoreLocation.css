@@ -1,103 +1,103 @@
 #result-list {
-  height: 300px;
-  overflow: auto;
+    height: 300px;
+    overflow: auto;
 }
 
 #pagination {
-  margin-top: 3rem;
+    margin-top: 3rem;
 }
 
 #pagination a {
-  color: black;
-  font-size: 20px;
-  text-decoration: none;
-  margin: 0 10px;
+    color: black;
+    font-size: 20px;
+    text-decoration: none;
+    margin: 0 10px;
 }
 
 #pagination a.on {
-  color: lightblue;
-  font-weight: bold;
+    color: lightblue;
+    font-weight: bold;
 }
 
 #searchwrite {
-  margin-right: 36px;
-  font-weight: 700;
-  color: #000000;
+    margin-right: 36px;
+    font-weight: 700;
+    color: #000000;
 }
 
 #searchStore {
-  margin-right: 36px;
-  font-weight: 700;
+    margin-right: 36px;
+    font-weight: 700;
 }
 
 #myMap {
-  border-radius: 30px;
+    border-radius: 30px;
 }
 
 #searchInput {
-  width: 420px;
-  border: 0 solid black;
-  background: #f2f2f2;
-  border-radius: 35px;
-  padding: 13px 16px;
+    width: 420px;
+    border: 0 solid black;
+    background: #f2f2f2;
+    border-radius: 35px;
+    padding: 13px 16px;
 }
 .serchBtn {
-  border: none;
-  background-color: transparent;
-  padding-top: 3px;
+    border: none;
+    background-color: transparent;
+    padding-top: 3px;
 }
 #pagination {
-  text-align: center;
+    text-align: center;
 }
 
 .mapsection {
-  display: flex;
-  width: 100%;
-  justify-content: center;
-  margin-top: 18px;
-  margin-bottom: 150px;
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    margin-top: 18px;
+    margin-bottom: 150px;
 }
 
 .detailContent {
-  width: 100%;
+    width: 100%;
 }
 
 .listSection {
-  width: 50%;
-  height: 500px;
-  margin-left: 30px;
+    width: 50%;
+    height: 500px;
+    margin-left: 30px;
 }
 
 .searchbar1 {
-  display: flex;
-  width: 100%;
-  height: 40px;
-  line-height: 40px;
+    display: flex;
+    width: 100%;
+    height: 40px;
+    line-height: 40px;
 }
 
 .searchbar2 {
-  display: flex;
-  width: 100%;
-  height: 40px;
-  margin-top: 18px;
-  margin-bottom: 46px;
-  line-height: 40px;
+    display: flex;
+    width: 100%;
+    height: 40px;
+    margin-top: 18px;
+    margin-bottom: 46px;
+    line-height: 40px;
 }
 
 .searchunit {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-right: 36px;
-  border-radius: 35px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 36px;
+    border-radius: 35px;
 }
 
 .searchSelect {
-  border: none;
-  font-weight: 400;
-  font-size: 14px;
-  line-height: 100%;
-  background-color: rgba(242, 242, 242, 1);
-  padding: 13px 16px;
-  border-radius: 35px;
+    border: none;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 100%;
+    background-color: rgba(242, 242, 242, 1);
+    padding: 13px 16px;
+    border-radius: 35px;
 }

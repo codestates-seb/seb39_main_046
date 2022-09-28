@@ -10,12 +10,11 @@ module.exports = {
         "eslint:recommended",
         "plugin:react/recommended",
         "plugin:react-hooks/recommended",
-        "plugin:jsx-a11y/strict",
         "plugin:import/recommended",
         "plugin:testing-library/react",
         "prettier",
     ],
-    plugins: ["react", "react-hooks", "jsx-a11y", "import"],
+    plugins: ["react", "react-hooks", "import"],
     settings: {
         "import/resolver": {
             node: {
@@ -45,8 +44,8 @@ module.exports = {
             env: {
                 "jest/globals": true,
             },
-            plugins: ["jest", "jest-dom", "testing-library"],
-            extends: ["plugin:jest/recommended", "plugin:jest-dom/recommended", "plugin:testing-library/react"],
+            plugins: ["jest", "testing-library"],
+            extends: ["plugin:jest/recommended", "plugin:testing-library/react"],
         },
     ],
 };
