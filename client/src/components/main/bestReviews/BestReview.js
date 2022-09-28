@@ -6,12 +6,13 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/autoplay";
-import ReviewImg1 from "../../assets/images/main/Review-1.png";
-import HeartButton from "../../components/common/button/HeartButton";
+import ReviewImg1 from "../../../assets/images/main/Review-1.png";
+import HeartButton from "../../common/button/HeartButton";
+import { useMainProducts } from "../../../lib/api/useProducts";
 
 const BestReview = () => {
+  const { bestReviews } = useMainProducts();
   const [swiper, setSwiper] = useState(null);
-  const [index, setIndex] = useState([0, 1, 2, 3, 4]);
   return (
     <ReivewContainer>
       <BestRiveTitle>
@@ -43,41 +44,40 @@ const BestReview = () => {
           setSwiper(s.realIndex);
         }}
       >
-        {index.map((e, idx) => {
-          let num = idx;
-          if (swiper < 3) {
-            num = idx - 2;
-          } else if (swiper >= 3) {
-            num = idx + 3;
-          }
-          return (
-            <StyleSwipper
-              key={idx}
-              className={swiper === index[num] ? "active" : null}
-            >
-              <ReviewInnerBox>
-                <span>
-                  <HeartButton />
-                </span>
-                <img src={ReviewImg1} />
-                <div className="review_contents_box">
-                  <h4>타이틀타이틀타이틀타이틀타이틀타이틀타이틀타이틀</h4>
-                  <p className="review_contents">
-                    리뷰에요 리뷰를 쓸꺼에요리뷰에요 리뷰를 쓸꺼에요리뷰에요
-                    리뷰를 쓸꺼에요리뷰에요 리뷰를 쓸꺼에요리뷰에요 리뷰를
-                    쓸꺼에요리뷰에요 리뷰를 쓸꺼에요
-                  </p>
-                  <div className="member_container">
-                    <div className="member_info">
-                      <p>reco</p>
+        {bestReviews &&
+          bestReviews.map((data, idx) => {
+            let num = idx;
+            if (swiper < 3) {
+              num = idx - 2;
+            } else if (swiper >= 3) {
+              num = idx + 3;
+            }
+            return (
+              <StyleSwipper
+                key={idx}
+                className={swiper === num ? "active" : null}
+              >
+                <ReviewInnerBox>
+                  <span>
+                    <HeartButton />
+                  </span>
+                  <img src={ReviewImg1} alt={data.content} />
+                  <div className="review_contents_box">
+                    <h4>{data.product.productName}</h4>
+                    <p className="review_contents">{data.content}</p>
+                    <div className="member_container">
+                      <div className="member_info">
+                        <p>{data.member.nickName}</p>
+                      </div>
+                      <div className="member_date">
+                        {data.createdAt.substr(0, 10)}
+                      </div>
                     </div>
-                    <div className="member_date">yyyy. mm. dd</div>
                   </div>
-                </div>
-              </ReviewInnerBox>
-            </StyleSwipper>
-          );
-        })}
+                </ReviewInnerBox>
+              </StyleSwipper>
+            );
+          })}
       </SwiperBox>
     </ReivewContainer>
   );
@@ -127,7 +127,7 @@ const StyleSwipper = styled(SwiperSlide)`
   overflow: hidden;
   cursor: pointer;
   &:hover {
-    transform: translateY(-30px);
+    transform: translateY(-20px);
     transition: all 1s;
   }
 `;
@@ -141,15 +141,14 @@ const ReviewInnerBox = styled.div`
   }
   img {
     border-radius: 20px;
-    width: 235px;
+    width: 100%;
   }
   .review_contents_box {
     display: none;
     position: absolute;
-    right: 12px;
+    right: 0px;
     top: 0px;
-    width: 223px;
-    height: 220px;
+    width: 100%;
     padding: 30px 20px;
 
     h4 {

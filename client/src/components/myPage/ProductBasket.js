@@ -1,112 +1,69 @@
-import React from 'react';
-import styled from 'styled-components';
-import "../bestProduct/slick-theme.css";
-import "../bestProduct/slick.css";
-import titleimg from '../../assets/images/userinfo/title.png';
-
+import React from "react";
+import styled from "styled-components";
+import titleimg from "../../assets/images/userinfo/title.png";
 
 const ProductBasket = () => {
+  const userName = "리코";
+  const more = "더보기 >";
 
-    const userName = "리코";
-    const more = "더보기 >"
-    const settings = {
-        dots: true,
-        infinite: true,
-        autoplay: true,
-        autoplaySpeed: 1500,
-        speed: 2000,
-        slidesToShow: 4,
-        slidesToScroll: 2,
-        initialSlide: 0,
-        responsive: [
-          {
-            breakpoint: 1024,
-            settings: {
-              slidesToShow: 3,
-              slidesToScroll: 3,
-              infinite: true,
-              dots: true,
-            },
-          },
-          {
-            breakpoint: 600,
-            settings: {
-              slidesToShow: 2,
-              slidesToScroll: 2,
-              initialSlide: 2,
-            },
-          },
-          {
-            breakpoint: 480,
-            settings: {
-              slidesToShow: 1,
-              slidesToScroll: 1,
-            },
-          },
-        ],
-      };
-
-
-    return (
-        <Topdiv>
-            <BasketTitle>
-                <section>
-                    <img src={titleimg} alt="이틀 이미지"/>
-                    <Username>{userName}<span>님의 찜꽁바구니</span></Username>
-                    <p>{more}</p>                 
-                </section>
-            </BasketTitle>
-            <CarashelContent>
-
-            </CarashelContent>
-        </Topdiv>
-    );
+  return (
+    <Topdiv>
+      <BasketTitle>
+        <section>
+          <img src={titleimg} alt="이틀 이미지" />
+          <Username>
+            {userName}
+            <span>님의 찜꽁바구니</span>
+          </Username>
+          <p>{more}</p>
+        </section>
+      </BasketTitle>
+      <CarashelContent></CarashelContent>
+    </Topdiv>
+  );
 };
 
-
 const Topdiv = styled.div`
-    margin-left:300px;
-    margin-right:300px;
-`
+  margin-left: 300px;
+  margin-right: 300px;
+`;
 const BasketTitle = styled.section`
-    width:100%;
-    section{
-        display:flex;
-        margin: 0 auto;
-        justify-content: space-between;
-    }
-    img{
-        /* margin-top:${({ theme }) => theme.margins.xl}; */
-        width: 119px;
-        height:140px;
-    }
-    p{
-        font-size:${({ theme }) => theme.fontSizes.small};
-        color:${({ theme }) => theme.colors.Orange_040};
-        padding-top:${({ theme }) => theme.paddings.xl};
-        cursor: pointer;
-    }
-
-`
+  width: 100%;
+  section {
+    display: flex;
+    margin: 0 auto;
+    justify-content: space-between;
+  }
+  img {
+    /* margin-top:${({ theme }) => theme.margins.xl}; */
+    width: 119px;
+    height: 140px;
+  }
+  p {
+    font-size: ${({ theme }) => theme.fontSizes.small};
+    color: ${({ theme }) => theme.colors.Orange_040};
+    padding-top: ${({ theme }) => theme.paddings.xl};
+    cursor: pointer;
+  }
+`;
 const Username = styled.span`
+  font-size: ${({ theme }) => theme.fontSizes.titleSize};
+  font-weight: 700;
+  text-align: center;
+  color: ${({ theme }) => theme.colors.Blue_040};
+  margin-right: 42px;
+  span {
     font-size: ${({ theme }) => theme.fontSizes.titleSize};
     font-weight: 700;
-    text-align:center;
-    color:${({ theme }) => theme.colors.Blue_040};
-    margin-right: 42px;
-    span{
-        font-size: ${({ theme }) => theme.fontSizes.titleSize};
-        font-weight: 700;
-        color:${({ theme }) => theme.colors.Gray_090};           
-    }
-`
+    color: ${({ theme }) => theme.colors.Gray_090};
+  }
+`;
 const CarashelContent = styled.section`
   margin: 0 auto;
   width: 1280px;
   margin-bottom: 100px;
   margin-right: 250px;
-`
-
+`;
 
 const ProductSection = styled.section`
   width: 240px;
@@ -137,7 +94,6 @@ const RecoProducts = styled.div`
   background-color: #fff9f3;
 `;
 
-
 const ProductCategory = styled.p`
   font-size: ${({ theme }) => theme.fontSizes.xs};
   font-weight: 500;
@@ -153,8 +109,5 @@ const ProductPrice = styled.p`
   font-weight: 700;
   color: ${({ theme }) => theme.colors.Gray_030};
 `;
-
-
-
 
 export default ProductBasket;

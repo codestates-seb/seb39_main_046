@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components";
 import DropDown from "../../components/common/dropDown/DropDown";
 import LineInput from "../../components/common/input/LineInput";
@@ -6,17 +6,8 @@ import Paging from "../../components/common/pagination/Paging";
 import TabRound from "../../components/common/tab/TabRound";
 import TabSquare from "../../components/common/tab/TabSquare";
 import ProductBox from "../../components/common/product/ProductBox";
+import TabCategory from "../../components/common/tab/TabCategory";
 const ProductRanking = () => {
-  const [currentTab, setcurrentTab] = useState(0);
-  const menuArr = [
-    { name: "전체 편의점", content: "Tab menu ONE" },
-    { name: "GS25", content: "Tab menu TWO" },
-    { name: "CU", content: "Tab menu THREE" },
-    { name: "7-Eleven", content: "Tab menu THREE" },
-  ];
-  const selectMenuHandler = (index) => {
-    setcurrentTab(index);
-  };
   return (
     <>
       <Rcontainer>
@@ -24,35 +15,24 @@ const ProductRanking = () => {
           <h2>
             <strong>P</strong>ick your <strong>B</strong>est <strong>5</strong>
           </h2>
-          <TabMenu>
-            {menuArr.map((el, index) => {
-              return (
-                <li
-                  key={index}
-                  className={`${index === currentTab ? " focused" : null}`}
-                  onClick={() => selectMenuHandler(index)}
-                >
-                  {el.name}
-                </li>
-              );
-            })}
-          </TabMenu>
+          <TabRound />
           <TabContent>
+            {/* <ProductBox />
             <ProductBox />
             <ProductBox />
             <ProductBox />
-            <ProductBox />
-            <ProductBox />
+            <ProductBox /> */}
           </TabContent>
         </RHearderBox>
         <RMainBox>
           <TabSquare />
           <LineInput />
-          <TabRound />
+          <TabCategory />
           <div className="likebtn">
             <DropDown />
           </div>
           <section className="productContainer">
+            {/* <ProductBox className="itemgrid" />
             <ProductBox className="itemgrid" />
             <ProductBox className="itemgrid" />
             <ProductBox className="itemgrid" />
@@ -63,8 +43,7 @@ const ProductRanking = () => {
             <ProductBox className="itemgrid" />
             <ProductBox className="itemgrid" />
             <ProductBox className="itemgrid" />
-            <ProductBox className="itemgrid" />
-            <ProductBox className="itemgrid" />
+            <ProductBox className="itemgrid" /> */}
           </section>
         </RMainBox>
         <PaginationBox>

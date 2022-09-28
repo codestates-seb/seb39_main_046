@@ -7,10 +7,12 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/autoplay";
 import "./Recommend.css";
-import ProductBox from "../../components/common/product/ProductBox";
-import RecommendReco from "../../assets/images/main/RecommendCharcter.png";
+import ProductBox from "../../../components/common/product/ProductBox";
+import RecommendReco from "../../../assets/images/main/RecommendCharcter.png";
+import { useMainProducts } from "../../../lib/api/useProducts";
 
 const Recommend = () => {
+  const { recommendProducts } = useMainProducts();
   return (
     <ReivewContainer>
       <RTitleContainer>
@@ -43,21 +45,19 @@ const Recommend = () => {
           },
         }}
       >
-        <StyleSwipper>
-          <ProductBox />
-        </StyleSwipper>
-        <StyleSwipper>
-          <ProductBox />
-        </StyleSwipper>
-        <StyleSwipper>
-          <ProductBox />
-        </StyleSwipper>
-        <StyleSwipper>
-          <ProductBox />
-        </StyleSwipper>
-        <StyleSwipper>
-          <ProductBox />
-        </StyleSwipper>
+        {recommendProducts &&
+          recommendProducts.map((data, idx) => {
+            return (
+              <StyleSwipper>
+                <ProductBox
+                  className="item"
+                  key={idx}
+                  data={data}
+                  idx={idx}
+                ></ProductBox>
+              </StyleSwipper>
+            );
+          })}
       </SwiperBox>
     </ReivewContainer>
   );
@@ -96,8 +96,8 @@ const SwiperBox = styled(Swiper)`
   padding-top: 30px;
   width: 100%;
   height: 450px;
-  padding-left: 10px;
-  padding-right: 10px;
+  padding-left: 8px;
+  padding-right: 12px;
 `;
 const StyleSwipper = styled(SwiperSlide)`
   cursor: pointer;
