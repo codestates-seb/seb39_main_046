@@ -4,9 +4,9 @@ import styled from "styled-components";
 import MyLikeReviewContain from "./MyLikeReviewContain";
 import Paging from "../common/pagination/Paging";
 
-const MyLikeReview = ({Infodata, InfolikeRives}) => {
+const MyLikeReview = (Infodata, InfolikeRives) => {
   const userName = Infodata.nickName;
-  console.log(InfolikeRives.data);
+  console.log(InfolikeRives);
 
   return (
     <Maindiv>
@@ -16,14 +16,13 @@ const MyLikeReview = ({Infodata, InfolikeRives}) => {
           <span>님이 찜꽁한 리뷰</span>
         </PageTtitle>
         <RivewSection>
-          {InfolikeRives.data && InfolikeRives.data.map((data, idx) =>{
-            return(
-              <MyLikeReviewContain key={idx} data={data}/>
-            )
-          })}          
+          {InfolikeRives.data &&
+            InfolikeRives.data.map((data, idx) => {
+              return <MyLikeReviewContain key={idx} data={data} />;
+            })}
         </RivewSection>
         <Pagibox>
-          <Paging/>
+          <Paging />
         </Pagibox>
       </PageSection>
     </Maindiv>
@@ -81,4 +80,4 @@ const Pagibox = styled.div`
   margin-top: 50px;
   margin-bottom: 50px;
   text-align: center;
-`
+`;

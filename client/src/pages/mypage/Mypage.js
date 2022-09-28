@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
-import axios from 'axios';
-import store from '../../lib/store';
+import axios from "axios";
+import store from "../../lib/store";
 
 import PersonalInfo from "../../components/myPage/PersonalInfo";
 import ProductBasket from "../../components/myPage/ProductBasket";
@@ -11,27 +11,28 @@ import MyLikeReview from "../../components/myPage/MyLikeReview";
 import { useQuery, useQueryClient } from "react-query";
 import { useEffect } from "react";
 import { useState } from "react";
-
-const Getinfo= (logInfo) => {
-  return axios.get('member/myPage',{
-    headers:{
-      "Authorization": logInfo,
-    }
-  })
-}
+import { useMypage } from "../../lib/api/useMypage";
+// const Getinfo= (logInfo) => {
+//   return axios.get('member/myPage',{
+//     headers:{
+//       "Authorization": logInfo,
+//     }
+//   })
+// }
 
 const Mypage = () => {
-  const {logInfo}=store();
-
+  const { member, myReviews, jjimReviews } = useMypage();
+  console.log(member);
+  // const {logInfo}=store();
 
   // const queryClient = useQueryClient();
 
-  const {data, isLoading} = useQuery("infos", () =>Getinfo(logInfo),{
-    // keepPreviousData:true,
-    // staleTime:2000,
-  })
+  // const {data, isLoading} = useQuery("infos", () =>Getinfo(logInfo),{
+  //   keepPreviousData:true,
+  //   staleTime:2000,
+  // })
 
-  if(isLoading) return <h3>로딩중</h3>;
+  // if(isLoading) return <h3>로딩중</h3>;
 
   // useEffect(()=>{
   //   setNickname(data.data.member.nickName);
@@ -39,21 +40,18 @@ const Mypage = () => {
   //   console.log(nickname,email)
   // },[])
 
-
-
   // console.log(data.data.member.memberId);
 
-
   return (
-    <div>
+    <>
       {/* <Exper> */}
-      <PersonalInfo  Infodata = {data.data.member}/>
+      <PersonalInfo Infodata={member} />
       <ProductBasket />
       <PbtiBanner2 />
-      <PersonalRivew Infodata = {data.data.member} InfoRives = {data.data.myReviews} />
-      <MyLikeReview Infodata = {data.data.member} InfolikeRives = {data.data.jjimReviews}/>
+      <PersonalRivew Infodata={member} InfoRives={myReviews} />
+      <MyLikeReview Infodata={member} InfolikeRives={jjimReviews} />
       {/* </Exper> */}
-    </div>
+    </>
   );
 };
 

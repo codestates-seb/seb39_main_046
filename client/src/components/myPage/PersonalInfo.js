@@ -8,12 +8,11 @@ import axios from "axios";
 import store from "../../lib/store";
 import { useMypage } from "../../lib/api/useMypage";
 
-
-const PersonalInfo = ({Infodata}) => {
-  const {logInfo} = store();
+const PersonalInfo = (Infodata) => {
+  const { logInfo } = store();
   // const { member } = useMypage();
 
-  console.log (Infodata);
+  console.log(Infodata);
   const userName = Infodata.nickName;
   const welcommsg = " 님, 안녕하세요 :)";
   const email = Infodata.username;
@@ -26,51 +25,47 @@ const PersonalInfo = ({Infodata}) => {
   const [imgBase64, setImgBase64] = useState([]);
   const [comment, setComment] = useState();
 
-
   const checkclick = () => {
     console.log("수정클릭");
-  }
+  };
 
   const InputNickName = (e) => {
     setchangeName(e.target.value);
-  }
+  };
 
   const InputPw = (e) => {
     setChangePw(e.target.value);
-  }
+  };
 
   const InputConfrim = (e) => {
     setconfrim(e.target.value);
-  }
+  };
 
   // const saveFileImage = (e) => {
   //   setregiImg(URL.createObjectURL(e.target.files[0]));
   // };
 
-
-  const saveFileImage =(event) => {
-    console.log(event.target.files)
+  const saveFileImage = (event) => {
+    console.log(event.target.files);
     setregiImg(event.target.files);
     setImgBase64([]);
-    for(var i = 0; i < event.target.files.length; i++){
-      if(event.target.files[i]){
+    for (var i = 0; i < event.target.files.length; i++) {
+      if (event.target.files[i]) {
         let reader = new FileReader();
         reader.readAsDateURL(event.target.files[i]);
         reader.onloadend = () => {
           const base64 = reader.result;
-          console.log(base64)
-          if(base64){
-            let base64Sub = base64.toString()
-            setImgBase64(imgBase64 => [...imgBase64, base64Sub]);
+          console.log(base64);
+          if (base64) {
+            let base64Sub = base64.toString();
+            setImgBase64((imgBase64) => [...imgBase64, base64Sub]);
           }
-        }
+        };
       }
     }
-  }
+  };
 
-
-  
-  const onSubmit = () => {}
+  const onSubmit = () => {};
 
   // const onImgSubmit = (e) => {
   //   // e.preventDefault();
@@ -79,7 +74,7 @@ const PersonalInfo = ({Infodata}) => {
   //   axios.post("/member/profile", formData,{
   //     headers: {
   //       "Content-Type": "multipart/form-data",
-  //       "Authorization": logInfo,        
+  //       "Authorization": logInfo,
   //     },
   //   })
   //   .then(res => {
@@ -90,28 +85,24 @@ const PersonalInfo = ({Infodata}) => {
   //   });
   // };
 
-  const onImgSubmit = async() => {
+  const onImgSubmit = async () => {
     const fd = new FormData();
-    Object.values(regiImg).forEach((file) => fd.append("file",file));
+    Object.values(regiImg).forEach((file) => fd.append("file", file));
 
-    fd.append(
-      "comment",
-      comment
-    );
-    await axios.post("/member/profile", fd, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-        "Authorization": logInfo,
-      }
-    })
-    .then((res) => {
-      if(res.data){
-        console.log(res.data)
-      }
-    })
-  }
-
-
+    fd.append("comment", comment);
+    await axios
+      .post("/member/profile", fd, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: logInfo,
+        },
+      })
+      .then((res) => {
+        if (res.data) {
+          console.log(res.data);
+        }
+      });
+  };
 
   return (
     <TopDiv>
@@ -123,7 +114,7 @@ const PersonalInfo = ({Infodata}) => {
         <UserPassing>
           <UserExer>
             {/* <img src={userImg} alt="프로필 사진" /> */}
-            <br/>
+            <br />
             <label className="input-file-button" for="input-file">
               {/* {member.profile && (
               <img alt="sample" src={member.profile} width="150px" height="150px" />
@@ -132,25 +123,31 @@ const PersonalInfo = ({Infodata}) => {
             </label>
             <Button onClick={onImgSubmit}>수정</Button>
             <input
-            type="file"
-            accept="image/*"
-            id="input-file"
-            onChange={saveFileImage}
+              type="file"
+              accept="image/*"
+              id="input-file"
+              onChange={saveFileImage}
             />
-            <br/>
+            <br />
             <span>ID:{email}</span>
           </UserExer>
           <UserForm>
             <p>닉네임</p>
             {/* <TextInput /> */}
-            <Thisinpu placeholder="입력해주세요." onChange={InputNickName}></Thisinpu>
+            <Thisinpu
+              placeholder="입력해주세요."
+              onChange={InputNickName}
+            ></Thisinpu>
             <Button onClick={onSubmit}>완료</Button>
             <p>패스워드</p>
             {/* <TextInput /> */}
             <Thisinpu placeholder="입력해주세요." onChange={InputPw}></Thisinpu>
             <Button>수정</Button>
             <p>패스워드 확인</p>
-            <Thisinpu placeholder="입력해주세요." onChange={InputConfrim}></Thisinpu>
+            <Thisinpu
+              placeholder="입력해주세요."
+              onChange={InputConfrim}
+            ></Thisinpu>
           </UserForm>
         </UserPassing>
       </UserInfo>
@@ -173,7 +170,7 @@ const Thisinpu = styled.input`
   &:focus {
     outline: 1px solid ${({ theme }) => theme.colors.Blue_040};
   }
-`
+`;
 
 const TopDiv = styled.div`
   background-color: ${({ theme }) => theme.colors.Blue_010};

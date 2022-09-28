@@ -4,9 +4,10 @@ import RivesBundle from "./RivesBundle";
 import Paging from "../common/pagination/Paging";
 // import { useMypage } from "../../lib/api/useMypage";
 
-const PersonalRivew = ({Infodata, InfoRives}) => {
+const PersonalRivew = (Infodata, InfoRives) => {
   // const {myReviews} = useMypage();
   const userName = Infodata.nickName;
+  console.log(InfoRives);
   return (
     <Maindive>
       <TitleDiv>
@@ -16,19 +17,17 @@ const PersonalRivew = ({Infodata, InfoRives}) => {
         </UserName>
       </TitleDiv>
       <Productbox>
-        {InfoRives.data && InfoRives.data.map((data, idx) => {
-          return (
-            <RivesBundle key={idx} data={data}/>
-          );
-        })}        
+        {InfoRives.data &&
+          InfoRives.data.map((data, idx) => {
+            return <RivesBundle key={idx} data={data} />;
+          })}
       </Productbox>
       <Pagibox>
-        <Paging/>
+        <Paging />
       </Pagibox>
     </Maindive>
   );
 };
-
 
 export default PersonalRivew;
 
@@ -64,5 +63,4 @@ const Pagibox = styled.div`
   margin-top: 50px;
   margin-bottom: 50px;
   text-align: center;
-`
-
+`;
