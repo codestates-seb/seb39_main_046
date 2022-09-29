@@ -60,7 +60,7 @@ const Rcontainer = styled.section`
 `;
 const RHearderBox = styled.header`
     width: 100%;
-    height: 700px;
+    min-height: 700px;
     background-color: ${({ theme }) => theme.colors.Blue_010};
     padding: 65px;
 
@@ -93,7 +93,11 @@ const RMainBox = styled.main`
     align-items: center;
     flex-direction: column;
     padding-top: 90px;
-
+    /* .tab-box {
+        background-color: red;
+        min-width: 670px;
+        margin: 0 auto;
+    } */
     .productContainer {
         max-width: 1060px;
         width: 100%;

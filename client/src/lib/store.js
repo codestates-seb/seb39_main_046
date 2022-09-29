@@ -16,6 +16,7 @@ const useStore = create((set) => ({
     },
     isCurrentPage: 1,
     isSortNum: 1,
+    isTestNum: 0,
 }));
 
 export default useStore;

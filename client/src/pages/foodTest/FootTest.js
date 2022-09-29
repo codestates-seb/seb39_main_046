@@ -3,8 +3,11 @@ import { Outlet } from "react-router-dom";
 import styled from "styled-components";
 import Banner from "../../components/common/banner/Banner";
 import BChracter from "../../assets/images/banner/BannerCharater.png";
+import useStore from "../../lib/store";
+import Recommend from "../../components/main/recommendProducts/Recommend";
 
 const FootTestLayout = () => {
+    const { isTestNum } = useStore();
     return (
         <>
             <Banner>
@@ -45,12 +48,9 @@ const BImg = styled.span`
 `;
 
 const FoodTestContainer = styled.section`
-    width: 100%;
-    height: 600px;
+    max-width: 100%;
+    min-height: 630px;
     background-color: ${({ theme }) => theme.colors.Blue_010};
-    display: flex;
-    justify-content: center;
-    align-items: center;
     border-radius: 10px;
     margin-bottom: 260px;
 `;

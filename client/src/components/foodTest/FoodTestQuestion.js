@@ -47,7 +47,6 @@ const FoodTestQuestion = () => {
                     })}`,
                 });
             } else {
-                console.log(result3);
                 navigate({
                     pathname: "/foodtest/result",
                     search: `?${createSearchParams({
@@ -59,7 +58,7 @@ const FoodTestQuestion = () => {
     };
 
     return (
-        <div>
+        <Fcontainer>
             <ProgressBox>
                 <ProgressBar width={(questionNo / QuestionData.length) * 100 + "%"}></ProgressBar>
                 <Dot>{/* <img src={ProgressChracter} alt="진행바" /> */}</Dot>
@@ -86,12 +85,19 @@ const FoodTestQuestion = () => {
                     <img src={EatChracter} alt="캐릭터" />
                 </FImg>
             </FContents>
-        </div>
+        </Fcontainer>
     );
 };
 
 export default FoodTestQuestion;
-
+const Fcontainer = styled.div`
+    max-width: 100%;
+    min-height: 630px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+`;
 const FContents = styled.div`
     display: flex;
     justify-content: center;
