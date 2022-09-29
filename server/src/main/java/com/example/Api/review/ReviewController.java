@@ -75,6 +75,10 @@ public class ReviewController {
             else review.setContent(reviewPostDto.getContent());
             if(rfile == null) review.setImageURL(null);
             else review.setImageURL(s3Upload.upload(rfile));
+            
+            review.setMember(writter);
+            review.setProduct(product);
+           
 
             // 상품 리뷰 수 증가
             Product updatedProduct = product;
