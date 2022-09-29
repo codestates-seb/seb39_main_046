@@ -213,7 +213,13 @@ public class ReviewController {
         else {
             Member member = memberService.getLoginMember();
             Page<Review> pageReviews = reviewService.SortReviews(page-1,size,methodId, member,null);
-            if(pageReviews.isEmpty()){
+            List<Review> reviewList = pageReviews.getContent();
+            if(reviewList!=null){
+                checkReviewHeartFlagsLogin(memberService.getLoginMember(),reviewList);
+            }
+            return new ResponseEntity<>(
+                    new MultiResponseDto<>(reviewList, pageReviews), HttpStatus.OK);
+            /*if(pageReviews.isEmpty()){
                 return new ResponseEntity<>("작성한 리뷰가 없어요",HttpStatus.NOT_FOUND);
             }
             else {
@@ -223,7 +229,7 @@ public class ReviewController {
                 }
                 return new ResponseEntity<>(
                         new MultiResponseDto<>(reviewList, pageReviews), HttpStatus.OK);
-            }
+            }*/
         }
     }
 
@@ -325,7 +331,15 @@ public class ReviewController {
         else{
             Member member = memberService.getLoginMember();
             Page<ReviewHeart> reviewHeartsPage = reviewHeartService.SortHeartReviews(page-1,size,methodId,member);
-            if(reviewHeartsPage.isEmpty()){
+            List<ReviewHeart> reviewHeartList = reviewHeartsPage.getContent();
+            if(reviewHeartList!=null){
+                setReviewHeartFlagTrue(reviewHeartList);
+            }
+
+            return new ResponseEntity<>(
+                    new MultiResponseDto<>(reviewMapper.reviewHeartsToReviewHeartsResponseDto(reviewHeartList), reviewHeartsPage),
+                    HttpStatus.OK);
+           /* if(reviewHeartsPage.isEmpty()){
                 return new ResponseEntity<>("찜꽁한 리뷰가 없어요",HttpStatus.NOT_FOUND);
             }
             else {
@@ -337,7 +351,7 @@ public class ReviewController {
                 return new ResponseEntity<>(
                         new MultiResponseDto<>(reviewMapper.reviewHeartsToReviewHeartsResponseDto(reviewHeartList), reviewHeartsPage),
                         HttpStatus.OK);
-            }
+            }*/
         }
     }
 

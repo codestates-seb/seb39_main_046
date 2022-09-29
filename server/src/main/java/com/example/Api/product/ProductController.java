@@ -487,7 +487,15 @@ public class ProductController {
             Member member = memberService.getLoginMember();
             int methodId = 1;
             Page<ProductHeart> productHeartsPage = productHeartService.SortHeartProducts(page-1,size,1,company,member,null);
-            if(productHeartsPage.isEmpty()){
+            List<ProductHeart> productHeartList = productHeartsPage.getContent();
+            if(productHeartList!=null){
+                setHeartFlagTrue(productHeartList);
+            }
+
+            return new ResponseEntity<>(
+                    new MultiResponseDto<>(productMapper.productHeartsToProductHeartResponseDto(productHeartList), productHeartsPage),
+                    HttpStatus.OK);
+            /*if(productHeartsPage.isEmpty()){
                 return new ResponseEntity<>("찜꽁한 상품이 없어요", HttpStatus.NOT_FOUND);
             }
             else {
@@ -499,7 +507,7 @@ public class ProductController {
                 return new ResponseEntity<>(
                         new MultiResponseDto<>(productMapper.productHeartsToProductHeartResponseDto(productHeartList), productHeartsPage),
                         HttpStatus.OK);
-            }
+            }*/
         }
     }
 
@@ -521,7 +529,7 @@ public class ProductController {
             Member member = memberService.getLoginMember();
             List<Category> allCategories = categoryService.findAllCategoryAsList();
             Category category = categoryService.findCategory(categoryId);
-            //Category category = categoryService.findVerifiedCategoryId(categoryId);
+
             Page<ProductHeart> productHeartsPage;
             if(category!=null){
                 productHeartsPage = productHeartService.SortHeartProducts(page-1,size,methodId,company,member, category);
@@ -529,9 +537,17 @@ public class ProductController {
             else{
                 productHeartsPage = productHeartService.SortHeartProducts(page-1,size,methodId,company,member, null);
             }
+            List<ProductHeart> productHeartList = productHeartsPage.getContent();
+            if(productHeartList!=null){
+                setHeartFlagTrue(productHeartList);
+            }
+
+            return new ResponseEntity<>(
+                    new MultiResponseDto<>(productMapper.productHeartsToProductHeartResponseDto(productHeartList), productHeartsPage),
+                    HttpStatus.OK);
 
 
-            if(productHeartsPage.isEmpty()){
+            /*if(productHeartsPage.isEmpty()){
                 return new ResponseEntity<>("찜꽁한 상품이 없어요", HttpStatus.NOT_FOUND);
             }
             else {
@@ -543,7 +559,7 @@ public class ProductController {
                 return new ResponseEntity<>(
                         new MultiResponseDto<>(productMapper.productHeartsToProductHeartResponseDto(productHeartList), productHeartsPage),
                         HttpStatus.OK);
-            }
+            }*/
         }
     }
 
