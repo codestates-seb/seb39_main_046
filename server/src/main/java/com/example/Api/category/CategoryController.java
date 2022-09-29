@@ -12,98 +12,85 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import javax.validation.constraints.Positive;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 @RestController
 @RequestMapping("/category")
+@Validated
 @Tag(name = "Category", description = "Category API")
 @Api(tags = "Category")
 public class CategoryController {
 
     private final CategoryMapper mapper;
     private final CategoryService categoryService;
-    private final CategoryRepository categoryRepository;
-    private final int size = 10;
 
-    public CategoryController(CategoryMapper mapper, CategoryService categoryService, CategoryRepository categoryRepository) {
+    public CategoryController(CategoryMapper mapper, CategoryService categoryService) {
         this.mapper = mapper;
         this.categoryService = categoryService;
-        this.categoryRepository = categoryRepository;
     }
 
-    @PostMapping("/default")
-    @ApiOperation(value = "기본 카테고리 등록")
-    public ResponseEntity postDefaultCategory(){
-        categoryService.registerDefaultCategory();
-        return new ResponseEntity<>(HttpStatus.CREATED);
-    }
-
-
-
-
-    @PostMapping //카테고리 등록
+    @PostMapping
     @ApiOperation(value = "카테고리 등록")
-    public ResponseEntity postCategory(@Validated @RequestBody List<CategoryPostDto> categoryPosts){
+    public ResponseEntity postCategory(@Valid @RequestBody List<CategoryPostDto> categoryPosts){
 
+        HashMap<String, Object> result = new HashMap<>();
         List<Category> savedCategories = new ArrayList<>();
-
-        for(int i = 0;i<categoryPosts.size();i++){
-            Category category = mapper.categoryPostDtoToCategory(categoryPosts.get(i));
-            if(categoryService.checkDuplicatedCategory(category.getCategoryName())){
-                continue;
-            }
-            else{
-                categoryService.createCategory(category);
-                savedCategories.add(category);
-            }
+        for (CategoryPostDto categoryPost : categoryPosts) {
+            Category category = mapper.categoryPostDtoToCategory(categoryPost);
+            savedCategories.add(categoryService.createCategory(category));
         }
-        return new ResponseEntity<>(savedCategories, HttpStatus.CREATED);
+        result.put("카테고리 등록 성공!",savedCategories);
+        return new ResponseEntity<>(result, HttpStatus.CREATED);
     }
 
 
-    @PatchMapping("/{category-id}")//카테고리 수정
+    @PatchMapping("/{category-id}")
     @ApiOperation(value = "카테고리 수정")
     public ResponseEntity patchCategory(@ApiParam(value = "수정하려는 카테고리 ID ", required = true, example = "1")
                                         @PathVariable("category-id") @Positive long categoryId,
-                                        @Validated @RequestBody CategoryPatchDto categoryPatchDto) {
+                                        @Valid @RequestBody CategoryPatchDto categoryPatchDto) {
 
+        HashMap<String, Object> result = new HashMap<>();
         categoryPatchDto.setCategoryId(categoryId);
-        Category selectedCategory = categoryService.findVerifiedCategoryId(categoryId);
+        Category category = categoryService.updateCategory(mapper.categoryPatchDtoToCategory(categoryPatchDto));
+        result.put("카테고리 수정 완료!",category);
 
-        selectedCategory.setCategoryName(categoryPatchDto.getCategoryName());
-        categoryService.updateCategory(selectedCategory);
-        return new ResponseEntity<>(selectedCategory, HttpStatus.CREATED);
+        return new ResponseEntity<>(result, HttpStatus.CREATED);
     }
 
     @GetMapping ("/{category-id}")  // 카테고리 조회
     @ApiOperation(value = "카테고리 조회")
     public ResponseEntity findCategory(@PathVariable("category-id") @Positive long categoryId)
     {
-
-        return new ResponseEntity<>(categoryService.findVerifiedCategoryId(categoryId), HttpStatus.OK);
+        HashMap<String, Object> result = new HashMap<>();
+        result.put("등록된 카테고리",categoryService.findVerifiedCategoryId(categoryId));
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @GetMapping   // 카테고리 조회
     @ApiOperation(value = "전체 카테고리 조회")
     public ResponseEntity getCategories(@Positive @RequestParam int page)
     {
-        Page<Category> pageCategories = categoryService.findCategories(page-1,size);
+        HashMap<String, Object> result = new HashMap<>();
+        int size = 10;
+        Page<Category> pageCategories = categoryService.findCategories(page-1, size);
         List<Category> categories = pageCategories.getContent();
+        result.put("등록된 전체 카테고리",new MultiResponseDto<>(categories, pageCategories));
 
-        return new ResponseEntity<>(
-                new MultiResponseDto<>(categories, pageCategories),
-                HttpStatus.OK);
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @DeleteMapping("/{category-id}") //카테고리 삭제
     @ApiOperation(value = "카테고리 삭제")
     public ResponseEntity categoryDelete(@PathVariable("category-id") @Positive long categoryId){
 
-        Category category = categoryService.findVerifiedCategoryId(categoryId);
+        HashMap<String, Object> result = new HashMap<>();
         categoryService.cancelCategory(categoryId);
-
-        return new ResponseEntity<>("카테고리 삭제 완료",HttpStatus.OK);
+        result.put("카테고리 삭제 완료 ",categoryId);
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 }

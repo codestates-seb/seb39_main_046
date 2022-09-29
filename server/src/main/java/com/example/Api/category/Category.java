@@ -10,6 +10,8 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,6 +25,8 @@ public class Category {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long categoryId;
 
+    @NotNull
+    @Column(length = 50, unique = true)
     private String categoryName;
 
 
