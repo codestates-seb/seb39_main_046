@@ -5,17 +5,24 @@ import Userimg from "../../assets/images/userinfo/Userimg.jpg";
 import Button from "../common/button/Button";
 import TextInput from "../common/input/TextInput";
 import axios from "axios";
-import store from "../../lib/store";
+import useStore from "../../lib/store";
 import { useMypage } from "../../lib/api/useMypage";
+import { useChange } from "../../lib/api/useChange";
+import { useQuery, useQueryClient } from "react-query";
 
-const PersonalInfo = (Infodata) => {
-    const { logInfo } = store();
-    // const { member } = useMypage();
+const Getinfo = (logInfo) => {
+    return axios.get("member/myPage", {
+        headers: {
+            Authorization: logInfo,
+        },
+    });
+};
 
-    console.log(Infodata);
-    const userName = Infodata.nickName;
+const PersonalInfo = ({ Persondata }) => {
+    const { logInfo } = useStore();
+    const userName = Persondata.nickName;
     const welcommsg = " 님, 안녕하세요 :)";
-    const email = Infodata.username;
+    const email = Persondata.username;
     const userImg = Userimg;
 
     const [changeName, setchangeName] = useState("");
@@ -25,9 +32,7 @@ const PersonalInfo = (Infodata) => {
     const [imgBase64, setImgBase64] = useState([]);
     const [comment, setComment] = useState();
 
-    const checkclick = () => {
-        console.log("수정클릭");
-    };
+
 
     const InputNickName = (e) => {
         setchangeName(e.target.value);
@@ -65,7 +70,36 @@ const PersonalInfo = (Infodata) => {
         }
     };
 
-    const onSubmit = () => {};
+    const onSuccess = (res) => {
+        alert("변경완료");
+    };
+
+    const onError = (error) => {
+        alert("형식의 맞지 않습니다!");
+        console.log(error);
+    };
+
+    const { mutate: changeInfo, isError } = useChange(onSuccess, onError);
+
+    const onSubmit = () => {
+        const id = "nickname";
+        const token = logInfo;
+        const log = { nickName: changeName };
+        console.log(log);
+        changeInfo({ id, token, log });
+    };
+
+    const pwSubmit = () => {
+        if (changePw === confrim) {
+            const token = logInfo;
+            const log = { password: changePw };
+            const id = "password";
+            console.log(token);
+            changeInfo(id, token, log);
+        } else {
+            alert("비밀번호 확인해주세요~");
+        }
+    };
 
     // const onImgSubmit = (e) => {
     //   // e.preventDefault();
@@ -117,8 +151,8 @@ const PersonalInfo = (Infodata) => {
                         <br />
                         <label className="input-file-button" for="input-file">
                             {/* {member.profile && (
-              <img alt="sample" src={member.profile} width="150px" height="150px" />
-              )} */}
+                            <img alt="sample" src={member.profile} width="150px" height="150px" />
+                            )} */}
                             <img src={userImg} alt="프로필 사진" />
                         </label>
                         <Button onClick={onImgSubmit}>수정</Button>
@@ -134,7 +168,7 @@ const PersonalInfo = (Infodata) => {
                         <p>패스워드</p>
                         {/* <TextInput /> */}
                         <Thisinpu placeholder="입력해주세요." onChange={InputPw}></Thisinpu>
-                        <Button>수정</Button>
+                        <Button onClick={pwSubmit}>수정</Button>
                         <p>패스워드 확인</p>
                         <Thisinpu placeholder="입력해주세요." onChange={InputConfrim}></Thisinpu>
                     </UserForm>

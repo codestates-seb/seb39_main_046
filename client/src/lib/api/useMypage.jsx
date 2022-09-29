@@ -3,11 +3,12 @@ import { useQuery, useQueryClient } from "react-query";
 import useStore from "../store";
 import axiosInstance from "../../utils/axiosInastance";
 import Loading from "../../components/common/loading/Loading";
+import axios from "axios";
 
-const getInfomation = async (logInfo) => {
-    const { data } = await axiosInstance.get("/member/myPage", {
+
+const Getinfo = async (logInfo) => {
+    const {data} =  await axios.get("member/myPage", {
         headers: {
-            "Content-Type": "application/json",
             Authorization: logInfo,
         },
     });
@@ -18,7 +19,7 @@ export function useMypage() {
     // const queryClient = useQueryClient();
 
     const { logInfo } = useStore();
-    const { status, data, error, isFetching } = useQuery(["infos", logInfo], () => getInfomation(logInfo), {
+    const { status, data, error, isFetching, isLoading } = useQuery(["infos"], () => Getinfo(logInfo), {
         keepPreviousData: true,
         staleTime: 2000,
         onSuccess: (data) => {
@@ -29,7 +30,7 @@ export function useMypage() {
         },
     });
 
-    if (status === "loading") {
+    if (isLoading) {
         return <Loading />;
     }
 

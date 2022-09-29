@@ -9,20 +9,37 @@ const Header = () => {
     const { logInfo } = store();
 
     const logout = () => {
-        console.log("로그아웃 버튼 클릭");
         if (window.confirm("정말로 로그아웃 하시겠습니까?")) {
             sessionStorage.removeItem("token");
             window.location.reload();
         }
     };
 
+    const checkLogin = () => {
+        if(!logInfo){
+            alert("로그인 먼저 하세요");
+            navigate("/login")
+        }else{
+            navigate("/productbasket")
+        }
+    }
+
+    const checkLogin2 = () => {
+        if(!logInfo) {
+            alert("로그인 먼저 하세요");
+            navigate("/login")
+        }else{
+            navigate("/mypage")
+        }
+    }
+
     return (
         <HeaderContainer>
             <HMain>
                 <HMenu>
                     {!logInfo ? <li onClick={() => navigate("/login")}>로그인</li> : <li onClick={logout}>로그아웃</li>}
-                    <li onClick={() => navigate("/mypage")}>마이페이지</li>
-                    <li onClick={() => navigate("/productbasket")}>찜꽁바구니</li>
+                    <li onClick={checkLogin2}>마이페이지</li>
+                    <li onClick={checkLogin}>찜꽁바구니</li>
                 </HMenu>
                 <HTab>
                     <li>서비스 소개</li>

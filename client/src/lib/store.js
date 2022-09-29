@@ -15,6 +15,8 @@ const useStore = create((set) => ({
         set((state) => ({ isCategoryTab: index }));
     },
     isCurrentPage: 1,
+    isCurrentPage2: 1,
+    isCurrentPage3: 1,
     isSortNum: 1,
     isDetail: 201,
 }));
