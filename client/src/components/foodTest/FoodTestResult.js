@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { useSearchParams, useNavigate } from "react-router-dom";
-import { ResultData } from "../../assets/foodData/resultdata";
+import { ResultData } from "../../assets/data/foodData/resultdata";
 import Button from "../common/button/Button";
 import KakaoShareButton from "../common/button/KakaoShareButton";
 import useTest from "../../lib/api/useTest";

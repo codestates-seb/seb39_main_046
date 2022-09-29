@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import StoreLocation from "../../components/findStore/StoreLocation";
+import FindStoreFunc from "../../components/findStore/FindStoreFunc";
 import Banner from "../../components/common/banner/Banner";
 import BChracter from "../../assets/images/banner/FindStoreBanner.png";
 
@@ -18,7 +18,7 @@ const FindStore = () => {
                 </BImg>
             </Banner>
             <FindStoreContiner>
-                <StoreLocation />
+                <FindStoreFunc />
             </FindStoreContiner>
         </div>
     );

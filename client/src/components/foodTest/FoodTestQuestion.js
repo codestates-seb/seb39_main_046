@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { createSearchParams, useNavigate } from "react-router-dom";
-import { QuestionData } from "../../assets/foodData/questionData";
+import { QuestionData } from "../../assets/data/foodData/questionData";
 import Button from "../common/button/Button";
 import EatChracter from "../../assets/images/foodTest/FoodTestQuestion.png";
 import ProgressChracter from "../../assets/images/foodTest/ProgressBar.gif";
