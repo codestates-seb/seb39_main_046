@@ -148,4 +148,9 @@ public class ReviewService {
         reviewRepository.save(findReview);
 
     }
+
+    public void imgUpdate(Review review,String photo){
+        review.setImageURL(photo);
+        reviewRepository.save(review);
+    }
 }
