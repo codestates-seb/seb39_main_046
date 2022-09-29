@@ -67,15 +67,16 @@ public class MemberController {
     @PostMapping("/signup")
     @ApiOperation(value = "회원 가입")
     public ResponseEntity signUp(@Validated @RequestBody MemberPostDto memberPostDto) {
-    Member member = mapper.memberPostDtoToMember(memberPostDto);
-    member.setPassword(bCryptPasswordEncoder.encode(member.getPassword()));
-    member.setRoles("ROLE_USER");
-    Member response = memberService.createMember(member);
+        Member member = mapper.memberPostDtoToMember(memberPostDto);
+        member.setPassword(bCryptPasswordEncoder.encode(member.getPassword()));
+        member.setRoles("ROLE_USER");
+        member.setProfile("https://pre-project2.s3.ap-northeast-2.amazonaws.com/156af666-d249-456f-8866-b5274ac87acd-Userimg.jpg");
+        Member response = memberService.createMember(member);
 
-    return new ResponseEntity<>(mapper.memberToMemberResponseDto(response) , HttpStatus.OK);
+        return new ResponseEntity<>(mapper.memberToMemberResponseDto(response) , HttpStatus.OK);
     }
 
-//     @PatchMapping("/{patch-id}")
+    //     @PatchMapping("/{patch-id}")
 //     @ApiOperation(value = "회원 정보 수정", notes = "✅ patch-id가 1이면 닉네임 수정, 2면 패스워드 수정")
 //
 //     public ResponseEntity memberPatch(@PathVariable("patch-id")@Positive int patchId,
@@ -189,17 +190,17 @@ public class MemberController {
 
     @DeleteMapping
     @ApiOperation(value = "회원 탈퇴",
-                  notes = "✅ 로그인 상태 -> 회원 탈퇴  \n  \n")
+            notes = "✅ 로그인 상태 -> 회원 탈퇴  \n  \n")
     public ResponseEntity deleteMember(){
-       Member member = memberService.getLoginMember();
-       memberService.deleteMember(member.getMemberId());
+        Member member = memberService.getLoginMember();
+        memberService.deleteMember(member.getMemberId());
         return new ResponseEntity<>("삭제 완료",HttpStatus.OK);
     }
 
     @Tag(name = "PBTI Page", description = "PBTI Page API")
     @PostMapping("/pbti/{category-id}")
     @ApiOperation(value = "PBTI 결과 등록",
-                  notes = "✅ PBTI 페이지 ( 회원 / 비회원 )  \n " +
+            notes = "✅ PBTI 페이지 ( 회원 / 비회원 )  \n " +
                     " - categoryId : 선택된 카테고리명에 해당하는 카테고리ID  \n " +
                     " - 추천 상품 : 선택된 카테고리에 해당하는 추천상품 6가지  \n  \n  ")
     public ResponseEntity pbti(@PathVariable("category-id") @Positive long categoryId,
@@ -257,7 +258,7 @@ public class MemberController {
             }
         }
 
-    return new ResponseEntity<>(recommends, HttpStatus.OK);
+        return new ResponseEntity<>(recommends, HttpStatus.OK);
     }
 
 
@@ -266,7 +267,7 @@ public class MemberController {
             notes = "✅ 로그인 상태 -> 프로필 사진 추가  \n  \n")
     public ResponseEntity profile(@RequestPart("file") MultipartFile mfile) throws IOException {
         Member member = memberService.getLoginMember();
-
+        s3Upload.removeFile(member.getProfile().replace("https://pre-project2.s3.ap-northeast-2.amazonaws.com/",""));
 
         memberService.imgUpdate(member, s3Upload.upload(mfile));
 
@@ -277,10 +278,9 @@ public class MemberController {
             notes = "✅ 로그인 상태 -> 프로필 사진 삭제  \n  \n")
     public ResponseEntity profileDelete() throws IOException {
         Member member = memberService.getLoginMember();
-        System.out.println(member.getProfile());
-        s3Upload.removeFile(member.getProfile().replace("https://pre-project2.s3.ap-northeast-2.amazonaws.com/",""));
         Member updatedMember = member;
-        updatedMember.setProfile(null);
+        s3Upload.removeFile(updatedMember.getProfile().replace("https://pre-project2.s3.ap-northeast-2.amazonaws.com/",""));
+        updatedMember.setProfile("https://pre-project2.s3.ap-northeast-2.amazonaws.com/156af666-d249-456f-8866-b5274ac87acd-Userimg.jpg");
         memberService.updateMember(member,updatedMember);
         return new ResponseEntity<>("삭제 완료",HttpStatus.OK);
     }
@@ -299,7 +299,7 @@ public class MemberController {
 
     @PostMapping("/login")
     @ApiOperation(value = "로그인  -> 토큰 반환(유효기간 하루)",
-                  notes = "✅ 로그인 후 응답으로 받은 토큰은 Authorize - Value에 대입  \n  \n")
+            notes = "✅ 로그인 후 응답으로 받은 토큰은 Authorize - Value에 대입  \n  \n")
     public ResponseEntity login (@Validated @RequestBody MemberLoginDto memberLoginDto){
 
         Member loginMember = memberService.authenticate(memberLoginDto.getUserName(), memberLoginDto.getPassword());
