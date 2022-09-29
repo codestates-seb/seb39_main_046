@@ -22,6 +22,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.Positive;
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 /*@RequestMapping("/review")*/
@@ -56,33 +57,32 @@ public class ReviewController {
     @PostMapping(value = "/review/{product-id}", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE,MediaType.APPLICATION_JSON_VALUE})
     // @RequestPart(value="file",required = false)
     public ResponseEntity postReview(@PathVariable("product-id") @Positive long productId,
-                                     @Validated @RequestBody ReviewPostDto reviewPostDto,@RequestPart(value = "file",required = false) MultipartFile rfile,
+                                     @RequestPart(value = "content",required = false) ReviewPostDto reviewPostDto,@RequestPart(value = "file",required = false) MultipartFile rfile,
                                      HttpServletRequest request) throws IOException {
 
         boolean loginStatus = memberService.memberCheck(request);
-        if(loginStatus){
+        if(loginStatus)
             return new ResponseEntity<>("로그인이 필요한 서비스입니다.", HttpStatus.BAD_REQUEST);
-        }
+
         else {
             Member writter = memberService.getLoginMember();
             memberService.findVerifiedMemberId(writter.getMemberId());
             Product product = productService.findVerifiedProductId(productId);
 
+
             Review review = new Review();
-            review.setContent(reviewPostDto.getContent());
-            review.setImageURL(s3Upload.upload(rfile));
-            review.setMember(writter);
-            review.setProduct(product);
-            Review savedReview = reviewService.createReview(review);
+            if (reviewPostDto == null) review.setContent(null);
+            else review.setContent(reviewPostDto.getContent());
+            if(rfile == null) review.setImageURL(null);
+            else review.setImageURL(s3Upload.upload(rfile));
 
             // 상품 리뷰 수 증가
             Product updatedProduct = product;
             updatedProduct.addReviews();
             productService.updateProduct(product,updatedProduct);
 
-            //checkReviewHeartFlag(writter,savedReview);
 
-            return new ResponseEntity<>(savedReview, HttpStatus.CREATED);
+            return new ResponseEntity<>(review, HttpStatus.CREATED);
         }
     }
 
