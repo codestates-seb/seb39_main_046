@@ -1,8 +1,8 @@
 cloud:
   aws:
     credentials:
-      accessKey: AKIAULHXGIALG42ZLXFV
-      secretKey: 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
+      accessKey:
+      secretKey:
     s3:
       bucket: mainproject-test-bucket
       dir:
@@ -18,8 +18,8 @@ spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/test3?serverTimezone=UTC&characterEncoding=UTF-8
-    username: root
-    password: whd13!
+    username:
+    password:
     jpa:
       database: mysql
       database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
