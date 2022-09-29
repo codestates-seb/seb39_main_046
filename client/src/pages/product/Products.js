@@ -15,7 +15,6 @@ const ProductRanking = () => {
     const { data, pageInfo } = useProducts();
     const topData = useTop5Products();
     const serchData = useSerchProduct();
-    console.log(data);
     console.log(serchData.data);
     return (
         <>

@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import { FiSearch } from "react-icons/fi";
-import { BsArrowUpLeft } from "react-icons/bs";
-import { TiDeleteOutline } from "react-icons/ti";
+import { FiSearch, FiArrowUpLeft, FiXCircle } from "react-icons/fi";
 import useStore from "../../../lib/store";
+import { useAllProducts } from "../../../lib/api/useAllProducts";
 
 const LineInput = () => {
     const { isKeyWord, setKeyWord } = useStore();
@@ -12,13 +11,11 @@ const LineInput = () => {
     const onChangeData = (e) => {
         setKeyWord(e.target.value);
     };
+    const { data } = useAllProducts();
 
     const updateData = async () => {
-        const res = await fetch(`/product/all`)
-            .then((res) => res.json())
-            .then((data) => data.slice(0, 100));
-        let b = res && res.filter((data) => data.productName.includes(isKeyWord) === true).slice(0, 10);
-        setKeyItems(b);
+        let serchResult = data && data.filter((data) => data.productName.includes(isKeyWord) === true).slice(0, 10);
+        setKeyItems(serchResult);
     };
 
     useEffect(() => {
@@ -33,9 +30,9 @@ const LineInput = () => {
     return (
         <LineInputBox>
             <input placeholder="제품명을 검색하세요." value={isKeyWord} onChange={onChangeData} />
-            {isKeyWord.length > 0 ? (
+            {isKeyWord && isKeyWord.length > 0 ? (
                 <button>
-                    <TiDeleteOutline size={27} onClick={() => setKeyWord("")} />
+                    <FiXCircle size={25} onClick={() => setKeyWord("")} />
                 </button>
             ) : (
                 <button>
@@ -54,7 +51,7 @@ const LineInput = () => {
                             >
                                 {search.productName}
                                 <span>
-                                    <BsArrowUpLeft size={20} />
+                                    <FiArrowUpLeft size={25} />
                                 </span>
                             </AutoSearchData>
                         ))}

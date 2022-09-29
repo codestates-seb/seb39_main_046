@@ -4,7 +4,7 @@ import { queryKeys } from "../react-query/constant";
 import Loading from "../../components/common/loading/Loading";
 
 const getAllProducts = async () => {
-    const { data } = await axiosInstance.get("/product/all");
+    const data = await axiosInstance.get("/product/all");
     return data;
 };
 
