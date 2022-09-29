@@ -259,6 +259,14 @@ public class ProductController {
                 HttpStatus.OK);
     }
 
+    @ApiOperation(value = "전체 상품 조회 (list)",
+            notes = "✅ 정렬 방식 ( productId , ASC )  \n   \n " )
+    @GetMapping("/product/all")
+    public ResponseEntity getAllProducts(){
+        List<Product>  allProducts = productService.findAllProduct(Sort.by(Sort.Direction.ASC, "productId"));
+        return new ResponseEntity<>(allProducts, HttpStatus.OK);
+    }
+
 
     // 편의점별 top 5, 메인 페이지에서 회사 버튼 클릭할 때마다 회사별 top5 출력 // 공백 입력 시 전체 top5 출력
 
