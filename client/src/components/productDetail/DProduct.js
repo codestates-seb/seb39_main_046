@@ -1,5 +1,4 @@
 import React from "react";
-import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import HeartButton from "../common/button/HeartButton";
 import Tag from "../common/product/Tag";
@@ -8,18 +7,19 @@ import link from "../../assets/icons/SharelinkBtn.png";
 const ProductDetail = (data) => {
     const detialData = data.data;
 
-    console.log(detialData.productId);
+    console.log(detialData.heartFlag);
     return (
         <MainContent>
-            <span className="heartbtn">
+            <p className="heartbtn">
                 <HeartButton
                     id={detialData.productId && detialData.productId}
                     heartFlag={detialData.heartFlag && detialData.heartFlag}
                 />
-            </span>
-            <span className="sharebtn">
+                <p>{detialData.hearts}</p>
+            </p>
+            <p className="sharebtn">
                 <img src={link} width="30px" height="30px" alt="링크이미지" />
-            </span>
+            </p>
             <ProductImage>
                 <div className="img_box">
                     <img src={detialData.imageURL} alt={detialData.productName} />
@@ -57,11 +57,16 @@ const MainContent = styled.div`
         position: absolute;
         right: 20px;
         top: 20px;
+        display: flex;
+        p {
+            padding: 3px 0 0 3px;
+            color: ${({ theme }) => theme.colors.Orange_040};
+        }
     }
     .sharebtn {
         position: absolute;
-        right: 20px;
-        top: 60px;
+        left: 20px;
+        top: 20px;
     }
 `;
 const ProductImage = styled.section`

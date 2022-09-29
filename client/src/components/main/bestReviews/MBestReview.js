@@ -57,6 +57,7 @@ const BestReview = () => {
                         } else if (swiper >= 3) {
                             num = idx + 3;
                         }
+                        console.log(data.reviewHeartFlag);
                         return (
                             <StyleSwipper key={idx} className={swiper === num ? "active" : null}>
                                 <ReviewInnerBox>

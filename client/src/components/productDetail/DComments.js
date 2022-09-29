@@ -1,12 +1,13 @@
 import React from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
-import Comment from "./Comment";
+import DComment from "./DComment";
 import Paging from "../common/pagination/Paging";
 import axiosInstance from "../../utils/axiosInastance";
 import { useQuery } from "react-query";
 import Loading from "../common/loading/Loading";
 import useStore from "../../lib/store";
+
 const getDeatilReview = async (productNum, pageNum) => {
     const { data } = await axiosInstance.get(`/review/productReviews/1?productId=${productNum}&page=${pageNum}`);
     return data;
@@ -47,8 +48,8 @@ const CommentList = () => {
             <div className="line"></div>
             <p className="review_count">{data.pageInfo.totalElements}개의 리뷰가 있어요!</p>
             <CommentArea>
-                {data.data && data.data.map((data) => <Comment data={data} />)}
-                <Paging />
+                {data.data && data.data.map((data) => <DComment data={data} />)}
+                <Paging pageInfo={data.pageInfo} />
             </CommentArea>
         </MainDiv>
     );

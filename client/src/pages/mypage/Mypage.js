@@ -1,16 +1,9 @@
 import React from "react";
-import styled from "styled-components";
-import axios from "axios";
-import store from "../../lib/store";
-
 import PersonalInfo from "../../components/myPage/PersonalInfo";
 import ProductBasket from "../../components/myPage/ProductBasket";
 import PbtiBanner2 from "../../components/myPage/PbtiBanner2";
 import PersonalRivew from "../../components/myPage/PersonalRivew";
 import MyLikeReview from "../../components/myPage/MyLikeReview";
-import { useQuery, useQueryClient } from "react-query";
-import { useEffect } from "react";
-import { useState } from "react";
 import { useMypage } from "../../lib/api/useMypage";
 // const Getinfo= (logInfo) => {
 //   return axios.get('member/myPage',{

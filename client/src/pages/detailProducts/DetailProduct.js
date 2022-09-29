@@ -1,9 +1,9 @@
 import React from "react";
 import styled from "styled-components";
 import { useParams } from "react-router-dom";
-import Product from "../../components/productDetail/Product";
-import WriteComment from "../../components/productDetail/WirteComment";
-import CommentList from "../../components/productDetail/CommentList";
+import DProduct from "../../components/productDetail/DProduct";
+import DWriteComment from "../../components/productDetail/DWirteComment";
+import DComments from "../../components/productDetail/DComments";
 import { useQuery } from "react-query";
 import Loading from "../../components/common/loading/Loading";
 import axiosInstance from "../../utils/axiosInastance";
@@ -49,10 +49,10 @@ const DetailProduct = () => {
                     <span>{ReturnMsg}</span>
                 </Titlediv>
                 <Middlecontent>
-                    <Product data={data.product} />
+                    <DProduct data={data.product} />
                     <CommentAreat>
-                        <WriteComment />
-                        <CommentList />
+                        <DWriteComment />
+                        <DComments />
                     </CommentAreat>
                 </Middlecontent>
             </Returndiv>

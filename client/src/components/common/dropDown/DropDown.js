@@ -5,7 +5,6 @@ import useStore from "../../../lib/store";
 
 const DropDown = () => {
     const [isOpen, setIsOpen] = useState(false);
-    const { isSortNum } = useStore();
     const handleSortChange = (e) => {
         useStore.setState({ isSortNum: e });
         setIsOpen(false);
@@ -50,19 +49,24 @@ const DropDownContainer = styled.div`
     }
 `;
 const Menu = styled.ul`
-    font-size: ${({ theme }) => theme.fontSizes.small};
-    background: #ffdcb6;
-    border-radius: 8px;
     width: 80px;
-    color: ${({ theme }) => theme.colors.Orange_040};
     text-align: left;
-    padding: 5px 7px;
-    z-index: 10;
+    z-index: 30;
+    padding: 5px 7px 5px 10px;
+    border-radius: 0 0 8px 8px;
     position: absolute;
     top: 30px;
     right: 0;
+    font-size: ${({ theme }) => theme.fontSizes.small};
+    background-color: ${({ theme }) => theme.colors.Gray_010};
+    color: ${({ theme }) => theme.colors.Gray_030};
+    box-shadow: 0px 5px 8px rgba(204, 204, 204, 0.2);
     li {
         cursor: pointer;
         height: 30px;
+        &:hover {
+            color: ${({ theme }) => theme.colors.Orange_040};
+            text-decoration: underline;
+        }
     }
 `;

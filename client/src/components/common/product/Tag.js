@@ -5,7 +5,7 @@ const ProductCategory = styled.button`
     display: inline-flex;
     outline: none;
     border: 3px solid transparent;
-    padding: 4px 10px;
+    padding: 3px 10px;
     border-radius: 20px;
     font-size: ${({ theme }) => theme.fontSizes.xxs};
     cursor: pointer;

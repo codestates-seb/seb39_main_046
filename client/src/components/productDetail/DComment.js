@@ -6,6 +6,7 @@ import Usering from "../../assets/images/userinfo/Userimg.jpg";
 import { FiTrash } from "react-icons/fi";
 import { RiEdit2Fill } from "react-icons/ri";
 const Comment = ({ data }) => {
+    console.log(data.reviewHeartFlag);
     return (
         <Maindiv>
             <div className="img_box">

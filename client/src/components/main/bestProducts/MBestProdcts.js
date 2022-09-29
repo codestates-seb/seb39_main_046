@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import TabRound from "../../common/tab/TabRound";
-import ProductBox from "./BestProduct";
+import ProductBox from "./MBestProduct";
 import { useTop5Products } from "../../../lib/api/useProductTop5";
 
 const BestProdct = () => {

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import Noimg from "../../assets/images/userinfo/Noimg.png";
-import Button from "../../components/common/button/Button";
+import Button from "../common/button/Button";
 import { BiCamera } from "react-icons/bi";
 
 const WirteComment = () => {

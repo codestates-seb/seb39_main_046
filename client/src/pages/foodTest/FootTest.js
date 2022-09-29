@@ -3,11 +3,8 @@ import { Outlet } from "react-router-dom";
 import styled from "styled-components";
 import Banner from "../../components/common/banner/Banner";
 import BChracter from "../../assets/images/banner/BannerCharater.png";
-import useStore from "../../lib/store";
-import Recommend from "../../components/main/recommendProducts/Recommend";
 
 const FootTestLayout = () => {
-    const { isTestNum } = useStore();
     return (
         <>
             <Banner>
