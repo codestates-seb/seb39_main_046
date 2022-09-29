@@ -9,7 +9,6 @@ import useStore from "../../../lib/store";
 const HeartButton = ({ heartFlag, id }) => {
     const navigate = useNavigate();
     const { logInfo } = useStore();
-    console.log(heartFlag);
     const { mutate: changeHeart, isError } = useHeart();
     if (isError) {
         <p>("하트가 안 눌리는 중..")</p>;

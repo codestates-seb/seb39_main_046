@@ -6,7 +6,7 @@ import Tag from "./Tag";
 const ProductBox = ({ data }) => {
     const navigate = useNavigate();
     const goDetail = () => {
-        navigate(`/product/${data.productId}`);
+        data && navigate(`/product/${data.productId}`);
     };
 
     return (
@@ -20,7 +20,7 @@ const ProductBox = ({ data }) => {
             <ProductsEx onClick={goDetail}>
                 <div className="tag-box">
                     <Tag buttonColor={data.company}>{data.company}</Tag>
-                    <Tag>{data.category.categoryName}</Tag>
+                    <Tag>{data.category && data.category.categoryName}</Tag>
                 </div>
                 <ProductName>{data.productName}</ProductName>
                 <div className="line"></div>

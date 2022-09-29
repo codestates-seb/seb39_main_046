@@ -4,4 +4,6 @@ export const queryKeys = {
     products: "products",
     product: "product",
     foodTest: "foodTest",
+    serchProduct: "serchProduct",
+    allProducts: "allProducts",
 };

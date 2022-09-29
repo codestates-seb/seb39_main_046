@@ -9,10 +9,14 @@ import ProductBox from "../../components/common/product/ProductBox";
 import TabCategory from "../../components/common/tab/TabCategory";
 import { useProducts } from "../../lib/api/useProducts";
 import { useTop5Products } from "../../lib/api/useProductTop5";
+import { useSerchProduct } from "../../lib/api/useSerchProduct";
 
 const ProductRanking = () => {
     const { data, pageInfo } = useProducts();
     const topData = useTop5Products();
+    const serchData = useSerchProduct();
+    console.log(data);
+    console.log(serchData.data);
     return (
         <>
             <Rcontainer>
@@ -36,13 +40,10 @@ const ProductRanking = () => {
                         <DropDown />
                     </div>
                     <section className="productContainer">
+                        {serchData.data && <ProductBox className="itemgrid" data={serchData.data} />}
                         {data &&
-                            data.map((data, idx) => {
-                                return (
-                                    <div>
-                                        <ProductBox className="itemgrid" key={data.productId} data={data} />
-                                    </div>
-                                );
+                            data.map((data) => {
+                                return <ProductBox className="itemgrid" key={data.productId} data={data} />;
                             })}
                     </section>
                 </RMainBox>

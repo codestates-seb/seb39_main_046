@@ -10,7 +10,6 @@ const DropDown = () => {
         useStore.setState({ isSortNum: e });
         setIsOpen(false);
     };
-    console.log(isSortNum);
     return (
         <DropDownContainer>
             <button

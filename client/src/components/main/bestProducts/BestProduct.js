@@ -8,7 +8,6 @@ const BestProduct = ({ idx, data }) => {
     const goDetail = () => {
         navigate(`/product/${data.productId}`);
     };
-    console.log(data);
     return (
         <ProductBox className="item">
             <span className="rank_number">{idx + 1}</span>
