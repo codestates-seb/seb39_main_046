@@ -79,7 +79,7 @@ public class ReviewController {
             review.setMember(writter);
             review.setProduct(product);
            
-
+reviewService.createReview(review);
             // 상품 리뷰 수 증가
             Product updatedProduct = product;
             updatedProduct.addReviews();
@@ -94,8 +94,8 @@ public class ReviewController {
             notes = "✅ 리뷰를 수정합니다.\n - \n " )
     @PatchMapping("/review/{review-id}")
     public ResponseEntity patchReview(@PathVariable("review-id") @Positive long reviewId,
-                                      @Validated @RequestBody ReviewPatchDto reviewPatchDto,
-                                      HttpServletRequest request){
+                                      @RequestPart(value = "content",required = false) ReviewPatchDto reviewPatchDto,@RequestPart(value = "file",required = false) MultipartFile rfile,
+                                      HttpServletRequest request) throws IOException{
 
         boolean loginStatus = memberService.memberCheck(request);
         if(loginStatus){
@@ -109,9 +109,18 @@ public class ReviewController {
             boolean auth = reviewService.checkAuth(selectedReview, editor.getMemberId());
 
             if(auth){ // 현재 로그인한 사용자와 리뷰 작성자 일치
-                Product product = productService.findVerifiedProductId(selectedReview.getProduct().getProductId());
-                Review updatedReview = reviewMapper.reviewPatchDtoToReview(selectedReview,reviewPatchDto);
 
+                Product product = productService.findVerifiedProductId(selectedReview.getProduct().getProductId());
+                Review updatedReview = reviewMapper.reviewPatchDtoToReview(selectedReview, reviewPatchDto);
+                if(rfile== null)
+
+                {
+                    updatedReview.setContent(reviewPatchDto.getContent());
+                }
+
+                else {
+                    updatedReview.setImageURL(s3Upload.upload(rfile));
+                }
                 Review result = reviewService.updateReview(selectedReview,updatedReview);
                 checkReviewHeartFlag(editor,result);
                 return new ResponseEntity<>(result, HttpStatus.OK);
@@ -121,6 +130,7 @@ public class ReviewController {
             }
         }
     }
+
 
 
     @ApiOperation(value = "리뷰 삭제",

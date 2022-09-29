@@ -10,6 +10,5 @@ import javax.validation.constraints.Pattern;
 public class MemberPatchDtoP {
 
     @NotBlank
-    @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[$@!%*#?&])[a-z0-9$@!%*#?&]{8,}$")
     private String password;
 }

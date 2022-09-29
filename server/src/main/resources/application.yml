@@ -36,3 +36,5 @@ aws:
     prefix: /spring-boot-aws
     name: main
     profileSeparator: _
+jwt:
+  secret:
