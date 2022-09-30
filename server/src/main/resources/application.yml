@@ -1,0 +1,38 @@
+
+cloud:
+  aws:
+    credentials:
+      accessKey: ${access.key}
+      secretKey: ${secret.key}
+    s3:
+      bucket: pre-project2
+      dir:
+    region:
+      static: ap-northeast-2
+    stack:
+      auto: false
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+    url: ${aws.url}
+    username: admin
+    password: ${aws.password}
+    jpa:
+      database: mysql
+      database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+      generate-ddl: true
+      show-sql: true
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+
+  config:
+    import: 'aws-parameterstore:'
+aws:
+  paramstore:
+    enabled: true
+    prefix: /spring-boot-aws
+    name: main
+    profileSeparator: _
