@@ -5,6 +5,7 @@ import PbtiBanner2 from "../../components/myPage/PbtiBanner2";
 import PersonalRivew from "../../components/myPage/PersonalRivew";
 import MyLikeReview from "../../components/myPage/MyLikeReview";
 import { useMypage } from "../../lib/api/useMypage";
+
 // const Getinfo= (logInfo) => {
 //   return axios.get('member/myPage',{
 //     headers:{
@@ -15,7 +16,9 @@ import { useMypage } from "../../lib/api/useMypage";
 
 const Mypage = () => {
     const { member, myReviews, jjimReviews } = useMypage();
-    console.log(member);
+    console.log(myReviews);
+
+
     // const {logInfo}=store();
 
     // const queryClient = useQueryClient();
@@ -35,14 +38,22 @@ const Mypage = () => {
 
     // console.log(data.data.member.memberId);
 
-    return (
-        <>
-            <PersonalInfo Infodata={member} />
-            <ProductBasket />
-            <PbtiBanner2 />
-            <PersonalRivew Infodata={member} InfoRives={myReviews} />
-            <MyLikeReview Infodata={member} InfolikeRives={jjimReviews} />
-        </>
+    return ( <
+        >
+        <
+        PersonalInfo Infodata = { member }
+        /> <
+        ProductBasket / >
+        <
+        PbtiBanner2 / >
+        <
+        PersonalRivew Infodata = { member }
+        InfoRives = { myReviews }
+        /> <
+        MyLikeReview Infodata = { member }
+        InfolikeRives = { jjimReviews }
+        /> < /
+        >
     );
 };
 
