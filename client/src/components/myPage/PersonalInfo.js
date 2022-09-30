@@ -5,59 +5,77 @@ import Userimg from "../../assets/images/userinfo/Userimg.jpg";
 import Button from "../common/button/Button";
 import TextInput from "../common/input/TextInput";
 import axios from "axios";
-import store from "../../lib/store";
-import { useMypage } from "../../lib/api/useMypage";
+import useStore from "../../lib/store";
+import { useChange } from "../../lib/api/useChange";
 
-const PersonalInfo = (Infodata) => {
-    const { logInfo } = store();
-    // const { member } = useMypage();
-
-    console.log(Infodata);
-    const userName = Infodata.nickName;
+const PersonalInfo = ({ Persondata }) => {
+    const { logInfo } = useStore();
+    const userName = Persondata.member.nickName;
     const welcommsg = " 님, 안녕하세요 :)";
-    const email = Infodata.username;
+    const email = Persondata.member.username;
     const userImg = Userimg;
 
     const [changeName, setchangeName] = useState("");
     const [changePw, setChangePw] = useState("");
     const [confrim, setconfrim] = useState("");
-    const [regiImg, setregiImg] = useState(null);
+    const [imgFile, setImgFile] = useState(null);
     const [imgBase64, setImgBase64] = useState([]);
     const [comment, setComment] = useState();
-
-    const checkclick = () => {
-        console.log("수정클릭");
-    };
 
     const InputNickName = (e) => {
         setchangeName(e.target.value);
     };
-
     const InputPw = (e) => {
         setChangePw(e.target.value);
     };
-
     const InputConfrim = (e) => {
         setconfrim(e.target.value);
     };
+    const onSuccess = (res) => {
+        alert("변경완료");
+    };
+    const onError = (error) => {
+        alert("형식의 맞지 않습니다!");
+        console.log(error);
+    };
 
-    // const saveFileImage = (e) => {
-    //   setregiImg(URL.createObjectURL(e.target.files[0]));
-    // };
+    const { mutate: changeInfo, isError } = useChange(onSuccess, onError);
 
-    const saveFileImage = (event) => {
+    const onSubmit = () => {
+        const id = "nickname";
+        const token = logInfo;
+        const log = { nickName: changeName };
+        console.log(log);
+        changeInfo({ id, token, log });
+    };
+
+    const pwSubmit = () => {
+        if (changePw === confrim) {
+            const token = logInfo;
+            const log = { password: changePw };
+            const id = "password";
+            console.log(token);
+            changeInfo(id, token, log);
+        } else {
+            alert("비밀번호 확인해주세요~");
+        }
+    };
+
+    // 회원처리 알고리즘
+
+    const handleChangeFile = (event) => {
         console.log(event.target.files);
-        setregiImg(event.target.files);
+        setImgFile(event.target.files);
         setImgBase64([]);
         for (var i = 0; i < event.target.files.length; i++) {
             if (event.target.files[i]) {
                 let reader = new FileReader();
-                reader.readAsDateURL(event.target.files[i]);
+                reader.readAsDataURL(event.target.files[i]);
                 reader.onloadend = () => {
                     const base64 = reader.result;
                     console.log(base64);
                     if (base64) {
-                        let base64Sub = base64.toString();
+                        var base64Sub = base64.toString();
                         setImgBase64((imgBase64) => [...imgBase64, base64Sub]);
                     }
                 };
@@ -65,44 +83,26 @@ const PersonalInfo = (Infodata) => {
         }
     };
 
-    const onSubmit = () => {};
-
-    // const onImgSubmit = (e) => {
-    //   // e.preventDefault();
-    //   const formData = new FormData();
-    //   formData.append("file", regiImg);
-    //   axios.post("/member/profile", formData,{
-    //     headers: {
-    //       "Content-Type": "multipart/form-data",
-    //       "Authorization": logInfo,
-    //     },
-    //   })
-    //   .then(res => {
-    //     console.log(res);
-    //   })
-    //   .catch(err => {
-    //     console.log("fail");
-    //   });
-    // };
-
-    const onImgSubmit = async () => {
+    const WriteBoard = async () => {
         const fd = new FormData();
-        Object.values(regiImg).forEach((file) => fd.append("file", file));
+        Object.values(imgFile).forEach((file) => fd.append("file", file));
 
         fd.append("comment", comment);
         await axios
             .post("/member/profile", fd, {
                 headers: {
-                    "Content-Type": "multipart/form-data",
+                    "Content-Type": `multipart/form-data`,
                     Authorization: logInfo,
                 },
             })
-            .then((res) => {
-                if (res.data) {
-                    console.log(res.data);
+            .then((response) => {
+                if (response.data) {
+                    console.log(response.data);
                 }
             });
     };
+
+    //이미지 전처리 알고리즘
 
     return (
         <TopDiv>
@@ -116,13 +116,16 @@ const PersonalInfo = (Infodata) => {
                         {/* <img src={userImg} alt="프로필 사진" /> */}
                         <br />
                         <label className="input-file-button" for="input-file">
-                            {/* {member.profile && (
-              <img alt="sample" src={member.profile} width="150px" height="150px" />
-              )} */}
-                            <img src={userImg} alt="프로필 사진" />
+                            <img src={Persondata.profile} alt="프로필 사진" />
                         </label>
-                        <Button onClick={onImgSubmit}>수정</Button>
-                        <input type="file" accept="image/*" id="input-file" onChange={saveFileImage} />
+                        <input
+                            type="file"
+                            accept="image/*"
+                            id="input-file"
+                            onChange={handleChangeFile}
+                            multiple="multiple"
+                        />
+                        <Button onClick={WriteBoard}>수정</Button>
                         <br />
                         <span>ID:{email}</span>
                     </UserExer>
@@ -134,7 +137,7 @@ const PersonalInfo = (Infodata) => {
                         <p>패스워드</p>
                         {/* <TextInput /> */}
                         <Thisinpu placeholder="입력해주세요." onChange={InputPw}></Thisinpu>
-                        <Button>수정</Button>
+                        <Button onClick={pwSubmit}>수정</Button>
                         <p>패스워드 확인</p>
                         <Thisinpu placeholder="입력해주세요." onChange={InputConfrim}></Thisinpu>
                     </UserForm>
@@ -188,9 +191,10 @@ const UserPassing = styled.div`
 const UserExer = styled.div`
     width: 193px;
     height: 193px;
-    #input-file {
+    input {
         display: none;
     }
+
     /* .input-file-button{
     cursor: pointer;
     display: inline-flex;

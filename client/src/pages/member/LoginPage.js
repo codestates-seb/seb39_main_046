@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { useLogin } from "../../lib/api/useLogin";
 import TextInput from "../../components/common/input/TextInput";
+import axios from "axios";
 
 const Login = () => {
     const navigate = useNavigate();
@@ -26,7 +27,7 @@ const Login = () => {
 
     const label = disabled ? "로그인" : "로그인";
 
-    const onSuccess = (res) => {
+    const onSuccess = (res) => {        
         alert(`${userName}님 환영합니다.`);
         sessionStorage.setItem("token", res.data);
         navigate("/");
@@ -68,7 +69,7 @@ const Login = () => {
                         <div>
                             <p>비밀번호</p>
                             {/* <input onChange={inputChange} /> */}
-                            <Thisinpu placeholder="비밀번호" onChange={inputpwChange} />
+                            <Thisinpu type="password" placeholder="비밀번호" onChange={inputpwChange} />
                         </div>
                     </InputBox>
                     <IdPwFind>
