@@ -48,6 +48,7 @@ public class CategoryService {
 
 
     public Category updateCategory(Category category){
+        verifyExistCategory(category.getCategoryName());
         Category findCategory = findVerifiedCategoryId(category.getCategoryId());
 
         //카테고리명 변경

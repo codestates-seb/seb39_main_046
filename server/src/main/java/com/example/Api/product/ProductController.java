@@ -131,10 +131,10 @@ public class ProductController {
             //ExcelData 유효성 검사 추가
             productService.validateExcelData(data);
 
-            Product product = productMapper.excelDataToProduct(data);
-            productService.createProduct(product);
+            Product inputProduct = productMapper.excelDataToProduct(data);
+            Product savedProduct = productService.createProduct(inputProduct);
             dataList.add(data);
-            productList.add(product);
+            productList.add(savedProduct);
 
         }
         if(dataList.isEmpty()){

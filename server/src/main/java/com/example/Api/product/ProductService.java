@@ -55,13 +55,22 @@ public class ProductService {
 
     }
 
-    public Product createProduct(Product product){ //product : ExcelData -> Product
-        if(!checkDuplicatedProductName(product.getProductName())){
-            return productRepository.save(product);
+    public Product createProduct(Product inputProduct){ //product : ExcelData -> Product
+        if(!checkDuplicatedProductName(inputProduct.getProductName())){
+            return productRepository.save(inputProduct);
         }
         else{  //  중복된 상품명일 경우 해당 상품 업데이트
-            Product original = findVerifiedProductName(product.getProductName());
-            return updateProduct(original, product);
+            Product original = findVerifiedProductName(inputProduct.getProductName());
+            //바로 업데이트하면 기존 정보들(좋아요수, 리뷰수, 조회수 등 )이 사라짐
+            //기존 정보 추가
+            Product updatedProduct = original;
+            //변경 사항 대입 (엑셀 데이터로 전달 받은 상품 정보)
+            updatedProduct.setImageURL(inputProduct.getImageURL());
+            updatedProduct.setProductName(inputProduct.getProductName());
+            updatedProduct.setPrice(inputProduct.getPrice());
+            updatedProduct.setCategory(inputProduct.getCategory());
+            updatedProduct.setCompany(inputProduct.getCompany());
+            return updateProduct(original, updatedProduct);
         }
     }
 
@@ -98,7 +107,6 @@ public class ProductService {
                 .ifPresent(reviewList->product.setReviewList(reviewList));
         Optional.ofNullable(patchProduct.getProductHearts())
                 .ifPresent(productHearts -> product.setProductHearts(productHearts));
-
 
         return productRepository.save(product);
 

@@ -6,11 +6,12 @@ public enum ExceptionCode {
     EXCELDATA_NOT_VALID(400, "ExcelData not valid"),
     CATEGORY_NOT_FOUND(404, "Category not found"),
     CANNOT_DELETE_CATEGORY(403,"Category can not delete"),
-    CATEGORY_NAME_EXISTS(409, "Category Code exists"),
+    CATEGORY_NAME_EXISTS(409, "Category Name exists"),
     MEMBER_NOT_FOUND(404, "Member Not Found"),
     MEMBER_EXISTS(409, "Member exists"),
     PRODUCT_NOT_FOUND(404,"Product not found"),
     PRODUCT_EXISTS(409, "Product exists"),
+
     REVIEW_NOT_FOUND(404, "Review not found"),
     REVIEW_EXISTS(409, "Review exists");
     /*
