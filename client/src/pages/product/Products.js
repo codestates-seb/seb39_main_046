@@ -38,16 +38,17 @@ const ProductRanking = () => {
                         <DropDown />
                     </div>
                     <section className="productContainer">
-                        {serchData.data && <ProductBox className="itemgrid" data={serchData.data} />}
-                        {data &&
+                        {serchData.data ? (
+                            <ProductBox className="itemgrid" data={serchData.data} />
+                        ) : (
+                            data &&
                             data.map((data) => {
                                 return <ProductBox className="itemgrid" key={data.productId} data={data} />;
-                            })}
+                            })
+                        )}
                     </section>
                 </RMainBox>
-                <PaginationBox>
-                    <Paging pageInfo={pageInfo} />
-                </PaginationBox>
+                <PaginationBox>{serchData.data ? null : <Paging pageInfo={pageInfo} />}</PaginationBox>
             </Rcontainer>
         </>
     );

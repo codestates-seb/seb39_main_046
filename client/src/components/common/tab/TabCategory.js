@@ -5,35 +5,75 @@ import useStore from "../../../lib/store";
 const TabCategory = () => {
     const { isCategoryTab, setCategoryTab } = useStore();
     const menuArr = [
-        "ALL",
-        "음료",
-        "커피",
-        "아이스크림",
-        "과자",
-        "도시락/컵밥",
-        "라면",
-        "김밥",
-        "샐러드",
-        "디저트류",
-        "샌드위치",
-        "버거",
-        "냉동식품",
+        {
+            categoryId: 13,
+            categoryName: "ALL",
+        },
+        {
+            categoryId: 1,
+            categoryName: "음료",
+        },
+        {
+            categoryId: 2,
+            categoryName: "커피",
+        },
+        {
+            categoryId: 3,
+            categoryName: "아이스크림",
+        },
+        {
+            categoryId: 4,
+            categoryName: "과자",
+        },
+        {
+            categoryId: 5,
+            categoryName: "도시락/컵밥",
+        },
+        {
+            categoryId: 6,
+            categoryName: "라면",
+        },
+        {
+            categoryId: 7,
+            categoryName: "김밥",
+        },
+        {
+            categoryId: 8,
+            categoryName: "샐러드",
+        },
+        {
+            categoryId: 9,
+            categoryName: "디저트류",
+        },
+        {
+            categoryId: 10,
+            categoryName: "샌드위치",
+        },
+        {
+            categoryId: 11,
+            categoryName: "버거",
+        },
+
+        {
+            categoryId: 12,
+            categoryName: "안주",
+        },
     ];
 
     const selectMenuHandler = (index) => {
-        if (index === 0) setCategoryTab(13);
-        else setCategoryTab(index);
+        setCategoryTab(index);
     };
+
     return (
         <TabMenu>
-            {menuArr.map((el, index) => {
+            {menuArr.map((el) => {
                 return (
                     <li
-                        key={index}
-                        className={`${index === isCategoryTab ? " focused" : null}`}
-                        onClick={() => selectMenuHandler(index)}
+                        key={el.categoryId}
+                        className={`${el.categoryId === isCategoryTab ? " focused" : null}`}
+                        onClick={() => selectMenuHandler(el.categoryId)}
                     >
-                        {el}
+                        {el.categoryName}
                     </li>
                 );
             })}

@@ -138,7 +138,7 @@ const ReviewInnerBox = styled.div`
     position: relative;
     .heart_box {
         position: absolute;
-        right: 6px;
+        right: 8px;
         top: 6px;
         z-index: 10;
         display: flex;
