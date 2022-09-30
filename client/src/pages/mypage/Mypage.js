@@ -18,7 +18,7 @@ const Mypage = () => {
     const { member, myReviews, jjimReviews } = useMypage();
     console.log(myReviews);
 
-
+    
     // const {logInfo}=store();
 
     // const queryClient = useQueryClient();
@@ -38,22 +38,14 @@ const Mypage = () => {
 
     // console.log(data.data.member.memberId);
 
-    return ( <
-        >
-        <
-        PersonalInfo Infodata = { member }
-        /> <
-        ProductBasket / >
-        <
-        PbtiBanner2 / >
-        <
-        PersonalRivew Infodata = { member }
-        InfoRives = { myReviews }
-        /> <
-        MyLikeReview Infodata = { member }
-        InfolikeRives = { jjimReviews }
-        /> < /
-        >
+    return (
+        <>
+            <PersonalInfo Infodata={member} />
+            <ProductBasket />
+            <PbtiBanner2 />
+            <PersonalRivew Infodata={member} InfoRives={myReviews} />
+            <MyLikeReview Infodata={member} InfolikeRives={jjimReviews} />
+        </>
     );
 };
 
