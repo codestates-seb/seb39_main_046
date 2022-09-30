@@ -20,8 +20,8 @@ const Getinfo = (logInfo) => {
 
 const Mypage = () => {
     const { logInfo } = store();
-    const { member } = useMypage();
-    console.log(member);
+    // const { member } = useMypage();
+    // console.log(member);
 
     // const queryClient = useQueryClient();
 

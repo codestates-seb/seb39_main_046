@@ -10,13 +10,6 @@ import { useMypage } from "../../lib/api/useMypage";
 import { useChange } from "../../lib/api/useChange";
 import { useQuery, useQueryClient } from "react-query";
 
-const Getinfo = (logInfo) => {
-    return axios.get("member/myPage", {
-        headers: {
-            Authorization: logInfo,
-        },
-    });
-};
 
 const PersonalInfo = ({ Persondata }) => {
     const { logInfo } = useStore();
@@ -32,8 +25,6 @@ const PersonalInfo = ({ Persondata }) => {
     const [imgBase64, setImgBase64] = useState([]);
     const [comment, setComment] = useState();
 
-
-
     const InputNickName = (e) => {
         setchangeName(e.target.value);
     };
@@ -45,6 +36,8 @@ const PersonalInfo = ({ Persondata }) => {
     const InputConfrim = (e) => {
         setconfrim(e.target.value);
     };
+
+
 
     // const saveFileImage = (e) => {
     //   setregiImg(URL.createObjectURL(e.target.files[0]));
@@ -63,7 +56,7 @@ const PersonalInfo = ({ Persondata }) => {
                     console.log(base64);
                     if (base64) {
                         let base64Sub = base64.toString();
-                        setImgBase64((imgBase64) => [...imgBase64, base64Sub]);
+                        setImgBase64(imgBase64 => [...imgBase64, base64Sub]);
                     }
                 };
             }

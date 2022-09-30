@@ -68,7 +68,7 @@ const Login = () => {
                         <div>
                             <p>비밀번호</p>
                             {/* <input onChange={inputChange} /> */}
-                            <Thisinpu placeholder="비밀번호" onChange={inputpwChange} />
+                            <Thisinpu type="password" placeholder="비밀번호" onChange={inputpwChange} />
                         </div>
                     </InputBox>
                     <IdPwFind>

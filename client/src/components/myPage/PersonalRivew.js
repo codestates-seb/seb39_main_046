@@ -10,8 +10,8 @@ import { useEffect } from "react";
 // import { useMypage } from "../../lib/api/useMypage";
 
 const GetmyRivew = async (method, page, logInfo) => {
-    const {data} = await axios.get(`/member/myPage/myReviews/${method}&page=${page}`,{
-        headers:{
+    const { data } = await axios.get(`/member/myPage/myReviews/${method}?page=${page}`, {
+        headers: {
             Authorization: logInfo,
         },
     });
@@ -26,21 +26,21 @@ const PersonalRivew = ({ Persondata }) => {
     const method = 1;
 
     useEffect(() => {
-        queryClient.prefetchQuery(["MyReivew",isCurrentPage2], ()=> GetmyRivew(method, isCurrentPage2, logInfo));
-    }, [method, isCurrentPage2, logInfo, queryClient ]);
-    
+        queryClient.prefetchQuery(["MyReivew", isCurrentPage2], () => GetmyRivew(method, isCurrentPage2, logInfo));
+    }, [method, isCurrentPage2, logInfo, queryClient]);
 
-    const {data, isError, error, isLoading, isFetching } = useQuery (["MyReivew", isCurrentPage2], () => GetmyRivew(method,isCurrentPage2,logInfo),
-    {
-        staleTime: 2000,
-        keepPreviousData: true,
-        refetchOnWindowFocus: false,
-        retry: 0,
-    },
+    const { data, isError, error, isLoading, isFetching } = useQuery(
+        ["MyReivew", isCurrentPage2],
+        () => GetmyRivew(method, isCurrentPage2, logInfo),
+        {
+            staleTime: 2000,
+            keepPreviousData: true,
+            refetchOnWindowFocus: false,
+            retry: 0,
+        },
     );
 
-
-    if (isLoading) return <Loading/>;
+    if (isLoading) return <Loading />;
     if (isFetching) return <Loading />;
     if (isError)
         return (
@@ -49,10 +49,6 @@ const PersonalRivew = ({ Persondata }) => {
                 <p>{error.toString()}</p>
             </>
         );
-
-
-
-
 
     return (
         <Maindive>

@@ -5,7 +5,7 @@ import useStore from "../../lib/store";
 
 import MyLikeReviewContain from "./MyLikeReviewContain";
 import Paging3 from "../common/pagination/paging3";
-import { useQuery,useQueryClient } from "react-query";
+import { useQuery, useQueryClient } from "react-query";
 import Loading from "../common/loading/Loading";
 
 const GetmyLikeReviews = async (page, methodId, logInfo) => {
@@ -26,21 +26,24 @@ const MyLikeReview = ({ Persondata }) => {
     // console.log(PersonlikeReview);
 
     useEffect(() => {
-        queryClient.prefetchQuery(["LikeReviews", isCurrentPage3], () => GetmyLikeReviews(isCurrentPage3, methodId, logInfo));
-    }, [isCurrentPage3,methodId, queryClient,logInfo]);
+        queryClient.prefetchQuery(["LikeReviews", isCurrentPage3], () =>
+            GetmyLikeReviews(isCurrentPage3, methodId, logInfo),
+        );
+    }, [isCurrentPage3, methodId, queryClient, logInfo]);
 
-    const { data, isError, error, isLoading, isFetching } = useQuery(["LikeReviews", isCurrentPage3], () =>
-        GetmyLikeReviews(isCurrentPage3, methodId, logInfo),{
+    const { data, isError, error, isLoading, isFetching } = useQuery(
+        ["LikeReviews", isCurrentPage3],
+        () => GetmyLikeReviews(isCurrentPage3, methodId, logInfo),
+        {
             staleTime: 2000,
             keepPreviousData: true,
             refetchOnWindowFocus: false,
             retry: 0,
-        }
+        },
     );
 
     if (isLoading) return <h2>로딩중이에요</h2>;
-    console.log(data.data);
-    if (isFetching) return <Loading/>
+    if (isFetching) return <Loading />;
 
     return (
         <Maindiv>

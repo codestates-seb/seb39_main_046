@@ -12,7 +12,6 @@ const PersonalProducts = ({ data }) => {
     const goDetail = () => {
         navigate(`/product/${data.product.productId}`);
     };
-    console.log(data);
 
     return (
         <ProductSection>

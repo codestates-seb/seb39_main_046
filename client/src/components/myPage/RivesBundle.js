@@ -1,23 +1,41 @@
-import React from "react";
+import React,{useState} from "react";
 import styled from "styled-components";
 import HeartButton from "../common/button/HeartButton";
 import Reivew1 from "../../assets/images/main/Review-1.png";
 import Pencil from "../../assets/images/controlimag/Pencil.png";
 import TrashBox from "../../assets/images/controlimag/trashbox.png";
+import Edit from "../../assets/images/controlimag/edit.png";
+
+import { useNavigate } from "react-router-dom";
 
 const RivesBundle = ({ data }) => {
+    console.log(data.content);
+    const navigate = useNavigate();
+    const [editOn, seteditOn] = useState(false);
+    const goDetail = () => {
+        navigate(`/product/${data}`);
+    };
+
+    const editClick =  () => {
+        seteditOn(!editOn)
+    }
+
+    const deleteClick = () => {        
+    }
+
     return (
         <ProductsRivewdiv>
             <span>
                 <HeartButton />
             </span>
-            <img src={Reivew1} alt="리뷰 1"></img>
+            {editOn ? ("") : (<img src={Reivew1} alt="리뷰 1"></img>)}        
             <div className="Productex">
                 <h4>{data.product.productName}</h4>
                 <p>{data.content}</p>
             </div>
             <Productex2>
-                <img src={Pencil} alt="수정버튼"></img>
+                {editOn ? (<img onClick={editClick} src={Edit} alt="수정버튼"></img>):(<img onClick={() => seteditOn(!editOn)} src={Pencil}  alt="수정버튼"></img>)}
+                {/* <img onClick={() => seteditOn(!editOn)} src={Pencil}  alt="수정버튼"></img> */}
                 <img src={TrashBox} alt="삭제버튼"></img>
                 <div className="creatt_at">{data.createdAt}</div>
             </Productex2>
@@ -35,7 +53,7 @@ const ProductsRivewdiv = styled.div`
     align-items: center;
     width: 220px;
     margin-right: 25px;
-
+    cursor: pointer;
     img {
         border-radius: 20px;
         width: 235px;
@@ -100,5 +118,11 @@ const Productex2 = styled.div`
         color: ${({ theme }) => theme.colors.Gray_030};
         float: left;
         text-align: right;
+    }
+    button {
+        width:17px;
+        height:17px;
+        margin-top: ${({ theme }) => theme.margins.base};
+        margin-right: ${({ theme }) => theme.margins.base};
     }
 `;
