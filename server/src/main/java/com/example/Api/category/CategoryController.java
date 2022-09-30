@@ -1,6 +1,8 @@
 package com.example.Api.category;
 
 
+import com.example.Api.product.Product;
+import com.example.Api.product.ProductService;
 import com.example.Api.response.MultiResponseDto;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -27,10 +29,13 @@ public class CategoryController {
 
     private final CategoryMapper mapper;
     private final CategoryService categoryService;
+    private final ProductService productService;
 
-    public CategoryController(CategoryMapper mapper, CategoryService categoryService) {
+    public CategoryController(CategoryMapper mapper, CategoryService categoryService,
+                              ProductService productService) {
         this.mapper = mapper;
         this.categoryService = categoryService;
+        this.productService = productService;
     }
 
     @PostMapping
@@ -51,7 +56,7 @@ public class CategoryController {
     @PatchMapping("/{category-id}")
     @ApiOperation(value = "카테고리 수정")
     public ResponseEntity patchCategory(@ApiParam(value = "수정하려는 카테고리 ID ", required = true, example = "1")
-                                        @PathVariable("category-id") @Positive long categoryId,
+                                        @Positive @PathVariable("category-id") long categoryId,
                                         @Valid @RequestBody CategoryPatchDto categoryPatchDto) {
 
         HashMap<String, Object> result = new HashMap<>();
@@ -64,7 +69,7 @@ public class CategoryController {
 
     @GetMapping ("/{category-id}")  // 카테고리 조회
     @ApiOperation(value = "카테고리 조회")
-    public ResponseEntity findCategory(@PathVariable("category-id") @Positive long categoryId)
+    public ResponseEntity findCategory( @Positive @PathVariable("category-id") long categoryId)
     {
         HashMap<String, Object> result = new HashMap<>();
         result.put("등록된 카테고리",categoryService.findVerifiedCategoryId(categoryId));
@@ -73,10 +78,11 @@ public class CategoryController {
 
     @GetMapping   // 카테고리 조회
     @ApiOperation(value = "전체 카테고리 조회")
-    public ResponseEntity getCategories(@Positive @RequestParam int page)
+    public ResponseEntity getCategories(@Positive @RequestParam int page,
+                                        @Positive @RequestParam int size)
     {
         HashMap<String, Object> result = new HashMap<>();
-        int size = 10;
+       /* int size = 10;*/
         Page<Category> pageCategories = categoryService.findCategories(page-1, size);
         List<Category> categories = pageCategories.getContent();
         result.put("등록된 전체 카테고리",new MultiResponseDto<>(categories, pageCategories));
@@ -86,10 +92,12 @@ public class CategoryController {
 
     @DeleteMapping("/{category-id}") //카테고리 삭제
     @ApiOperation(value = "카테고리 삭제")
-    public ResponseEntity categoryDelete(@PathVariable("category-id") @Positive long categoryId){
+    public ResponseEntity categoryDelete(@Positive @PathVariable("category-id") long categoryId){
 
         HashMap<String, Object> result = new HashMap<>();
-        categoryService.cancelCategory(categoryId);
+        Category category = categoryService.findCategory(categoryId);
+        List<Product> relatedProducts = productService.findProductsByCategory(category);
+        categoryService.cancelCategory(category, relatedProducts);
         result.put("카테고리 삭제 완료 ",categoryId);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }

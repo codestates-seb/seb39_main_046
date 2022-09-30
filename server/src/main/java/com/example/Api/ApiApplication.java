@@ -9,7 +9,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @EnableJpaAuditing
 @SpringBootApplication
-
+//1
 public class ApiApplication {
 	@Bean
 	public BCryptPasswordEncoder passwordEncoder() {
@@ -20,3 +20,4 @@ public class ApiApplication {
 	}
 
 }
+//ignore

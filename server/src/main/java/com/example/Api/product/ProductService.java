@@ -1,7 +1,8 @@
 package com.example.Api.product;
 
 import com.example.Api.category.Category;
-import com.example.Api.review.Review;
+import com.example.Api.exception.BusinessLogicException;
+import com.example.Api.exception.ExceptionCode;
 import com.example.Api.specification.ProductSpecification;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -10,6 +11,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -28,13 +30,51 @@ public class ProductService {
         this.productHeartRepository = productHeartRepository;
     }
 
-    public Product createProduct(Product product){
+    public void validateExcelData(ExcelData excelData){
+        //공백 체크
+        if(excelData.getImageURL().isEmpty()){
+            throw new BusinessLogicException(ExceptionCode.EXCELDATA_NOT_VALID);
+        }
+        // 공백 체크, 1~50-자
+        String productName = excelData.getProductName();
+        if((productName.isEmpty()) || (productName.length()>50)){
+            throw new BusinessLogicException(ExceptionCode.EXCELDATA_NOT_VALID);
+        }
+        BigDecimal min = BigDecimal.valueOf(1);
+        int compareResult = excelData.getPrice().compareTo(min);
+        if (compareResult < 0) { // price가 1보다 작은 경우
+            throw new BusinessLogicException(ExceptionCode.EXCELDATA_NOT_VALID);
+        }
+        // 카테고리 검증은 ExcelData에 Category를 넣을 때 이미 수행된다.
 
-        return productRepository.save(product);
+        // 10자 이하, 공백 불가
+        String company = excelData.getCompany();
+        if((company.isEmpty()) || (company.length()>10)){
+            throw new BusinessLogicException(ExceptionCode.EXCELDATA_NOT_VALID);
+        }
+
     }
 
+    public Product createProduct(Product inputProduct){ //product : ExcelData -> Product
+        if(!checkDuplicatedProductName(inputProduct.getProductName())){
+            return productRepository.save(inputProduct);
+        }
+        else{  //  중복된 상품명일 경우 해당 상품 업데이트
+            Product original = findVerifiedProductName(inputProduct.getProductName());
+            //바로 업데이트하면 기존 정보들(좋아요수, 리뷰수, 조회수 등 )이 사라짐
+            //기존 정보 추가
+            Product updatedProduct = original;
+            //변경 사항 대입 (엑셀 데이터로 전달 받은 상품 정보)
+            updatedProduct.setImageURL(inputProduct.getImageURL());
+            updatedProduct.setProductName(inputProduct.getProductName());
+            updatedProduct.setPrice(inputProduct.getPrice());
+            updatedProduct.setCategory(inputProduct.getCategory());
+            updatedProduct.setCompany(inputProduct.getCompany());
+            return updateProduct(original, updatedProduct);
+        }
+    }
 
-    public boolean checkDuplicatedProduct(String productName){  // 상품 중복 검사
+    public boolean checkDuplicatedProductName(String productName){  // 상품 중복 검사
         boolean result = false;
         Optional<Product> optionalProduct = productRepository.findByProductName(productName);
         if(optionalProduct.isPresent()){
@@ -68,7 +108,6 @@ public class ProductService {
         Optional.ofNullable(patchProduct.getProductHearts())
                 .ifPresent(productHearts -> product.setProductHearts(productHearts));
 
-
         return productRepository.save(product);
 
     }
@@ -77,18 +116,16 @@ public class ProductService {
         Optional<Product> optionalProduct = productRepository.findByProductName(productName);
         Product findProduct =
                 optionalProduct.orElseThrow(() ->
-                        new RuntimeException("Product not found"));
+                        new BusinessLogicException(ExceptionCode.PRODUCT_NOT_FOUND));
         return findProduct;
     }
     public Product findVerifiedProductId(long productId) {
         Optional<Product> optionalProduct = productRepository.findById(productId);
         Product findProduct =
                 optionalProduct.orElseThrow(() ->
-                        new RuntimeException("Product not found"));
+                        new BusinessLogicException(ExceptionCode.PRODUCT_NOT_FOUND));
         return findProduct;
     }
-
-
 
 
     public List<Product> findAllProduct(Sort sort){  // 좋아요수/리뷰수/조회수 랜덤 세팅에 사용

@@ -4,6 +4,10 @@ import com.example.Api.category.Category;
 import com.example.Api.review.Review;
 import lombok.Data;
 
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -12,31 +16,21 @@ import java.util.List;
 @Data
 public class ProductPatchDto {
 
-
-    private String imageURL; // 이미지 URL
-
+    @NotBlank(message = "상품명은 공백일 수 없습니다.")
+    @Size(min = 1, max = 50, message = "상품명은 1 ~ 50자 이여야 합니다.")
     private String productName;
 
+    @NotNull(message = "가격은 공백일 수 없습니다.")
+    @DecimalMin(value = "1", message = "가격은 0보다 커야 합니다.")
     private BigDecimal price;
 
+    @NotBlank(message = "카테고리명은 공백일 수 없습니다.")
+    @Size(min = 1, max = 50, message = "카테고리명은 1 ~ 50자 이여야 합니다.")
     private String categoryName;
 
+    @NotBlank(message = "회사명은 공백일 수 없습니다.")
+    @Size(min = 1, max = 10, message = "회사명은 1 ~ 10자 이여야 합니다.")
     private  String company;
-
-/*    private long views = 0;
-
-    private long hearts = 0;
-
-    private long reviews = 0;*/
-
-   /* private Category category;*/
-
-    //product(1) : review (N) // 상품에 대한 리뷰 작성 기능
-    /*private List<Review> reviewList = new ArrayList<>();*/
-
-    //member (1)  : productHeart ( N ) : product(1)  //상품 좋아요 기능
-    // 회원 기준으로 좋아요한 상품 출력만 구현할 예정
-    // 상품 기준으로 좋아요한 회원 출력 기능은 미구현
 
 
 
