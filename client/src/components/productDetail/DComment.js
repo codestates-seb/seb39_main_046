@@ -6,7 +6,7 @@ import Usering from "../../assets/images/userinfo/Userimg.jpg";
 import { FiTrash } from "react-icons/fi";
 import { RiEdit2Fill } from "react-icons/ri";
 const Comment = ({ data }) => {
-    console.log(data.reviewHeartFlag);
+    console.log(data);
     return (
         <Maindiv>
             <div className="img_box">
@@ -18,7 +18,10 @@ const Comment = ({ data }) => {
                         <img src={Usering} alt="유저 프로필" width="25px" height="25px" />
                         <span>{data.member.nickName}</span>
                     </div>
-                    <ReviewHeartButton id={data.reviewId && data.reviewId} />
+                    <div className="userHeart">
+                        <ReviewHeartButton id={data.reviewId && data.reviewId} />
+                        <p>{data.hearts}</p>
+                    </div>
                 </div>
                 <Commentex>
                     <p>
@@ -77,6 +80,13 @@ const ReviewDetail = styled.section`
         .uesrNick {
             span {
                 margin-left: ${({ theme }) => theme.margins.base};
+            }
+        }
+        .userHeart {
+            display: flex;
+            p {
+                padding: 3px 0 0 5px;
+                color: ${({ theme }) => theme.colors.Orange_040};
             }
         }
     }

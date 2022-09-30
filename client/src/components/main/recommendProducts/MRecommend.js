@@ -49,7 +49,7 @@ const Recommend = () => {
                     recommendProducts.map((data, idx) => {
                         return (
                             <StyleSwipper>
-                                <ProductBox className="item" key={idx} data={data} idx={idx}></ProductBox>
+                                <ProductBox className="item" key={idx} data={data}></ProductBox>
                             </StyleSwipper>
                         );
                     })}

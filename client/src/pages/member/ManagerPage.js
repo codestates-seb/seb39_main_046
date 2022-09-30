@@ -2,8 +2,11 @@ import React from "react";
 import styled from "styled-components";
 import Banner from "../../components/common/banner/Banner";
 import BChracter from "../../assets/images/banner/BannerCharater.png";
+import { useCategory } from "../../lib/api/useCategory";
 
 const ManagerPage = () => {
+    const { data } = useCategory();
+    console.log(data);
     return (
         <>
             <Banner>

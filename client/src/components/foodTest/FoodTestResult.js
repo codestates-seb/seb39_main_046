@@ -7,6 +7,7 @@ import KakaoShareButton from "../common/button/KakaoShareButton";
 import useTest from "../../lib/api/useTest";
 import useStore from "../../lib/store";
 import ProductBox from "../common/product/ProductBox";
+
 const FoodTestResult = () => {
     const navigate = useNavigate();
     const [searchParams] = useSearchParams();
@@ -14,15 +15,15 @@ const FoodTestResult = () => {
     const [resultData, setResultData] = useState({});
     const [categoryNum, setCategoryNum] = useState(0);
     const { isTestNum } = useStore();
-    const { mutate: changeTest, isError } = useTest();
-    if (isError) {
-        <p>("추천상품이 안나오는 중..")</p>;
-    }
+
+    const { mutate: changeTest } = useTest();
+
     useEffect(() => {
         const result = ResultData.find((data) => data.best === mbti);
         const category = ResultData.findIndex((data) => data.best === mbti);
         setResultData(result);
         setCategoryNum(category + 1);
+        console.log(categoryNum);
         changeTest(categoryNum);
     }, [mbti, categoryNum, changeTest]);
 

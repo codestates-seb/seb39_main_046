@@ -7,9 +7,8 @@ import TabRound from "../../components/common/tab/TabRound";
 import TabSquare from "../../components/common/tab/TabSquare";
 import ProductBox from "../../components/common/product/ProductBox";
 import TabCategory from "../../components/common/tab/TabCategory";
-import { useProducts } from "../../lib/api/useProducts";
-import { useTop5Products } from "../../lib/api/useProductTop5";
-import { useSerchProduct } from "../../lib/api/useSerchProduct";
+import { useProducts, useSerchProduct } from "../../lib/api/useProducts";
+import { useTop5Products } from "../../lib/api/useMainProducts";
 
 const ProductRanking = () => {
     const { data, pageInfo } = useProducts();

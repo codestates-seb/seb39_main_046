@@ -1,9 +1,9 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
 import { RiHeartAddLine } from "react-icons/ri";
 import { RiHeartAddFill } from "react-icons/ri";
-import useHeart from "../../../lib/api/useHeart";
+import { useHeart } from "../../../lib/api/useHeart";
 import useStore from "../../../lib/store";
 
 const HeartButton = ({ heartFlag, id }) => {
@@ -13,7 +13,7 @@ const HeartButton = ({ heartFlag, id }) => {
     if (isError) {
         <p>("하트가 안 눌리는 중..")</p>;
     }
-    const onsubmit = (id) => {
+    const onsubmit = () => {
         if (logInfo === null) {
             alert("로그인을 해주세요");
             navigate("/login");
@@ -24,9 +24,9 @@ const HeartButton = ({ heartFlag, id }) => {
         <>
             <HeartBox>
                 {heartFlag ? (
-                    <RiHeartAddFill className="heart2" onClick={() => onsubmit(id)} />
+                    <RiHeartAddFill className="heart2" onClick={onsubmit} />
                 ) : (
-                    <RiHeartAddLine className="heart" onClick={() => onsubmit(id)} />
+                    <RiHeartAddLine className="heart" onClick={onsubmit} />
                 )}
             </HeartBox>
         </>
@@ -37,7 +37,7 @@ export default HeartButton;
 
 const HeartBox = styled.span`
     width: 30px;
-
+    z-index: 10;
     .heart {
         cursor: pointer;
         font-size: 30px;

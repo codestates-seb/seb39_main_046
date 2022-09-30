@@ -1,7 +1,9 @@
+import React, { useEffect } from "react";
 import { useQuery, useQueryClient } from "react-query";
 import axiosInstance from "../../utils/axiosInastance";
 import { queryKeys } from "../react-query/constant";
 import Loading from "../../components/common/loading/Loading";
+import useStore from "../store";
 
 const getMainProducts = async () => {
     const { data } = await axiosInstance.get("/main");
@@ -10,7 +12,6 @@ const getMainProducts = async () => {
 
 export function useMainProducts() {
     const { status, data, error, isFetching } = useQuery(queryKeys.mainProducts, getMainProducts, {
-        refetchOnWindowFocus: false,
         retry: 0,
         onSuccess: (data) => {
             console.log(data);
@@ -36,22 +37,35 @@ export function useMainProducts() {
     return data;
 }
 
-const getTop5Products = async () => {
-    const { data } = await axiosInstance.get("/main");
+const getTop5Products = async (companyName) => {
+    const data = await axiosInstance.get(`/product/top5?company=${companyName}`);
     return data;
 };
 
 export function useTop5Products() {
-    const { status, data, error, isFetching } = useQuery(queryKeys.productTop5, getTop5Products, {
-        refetchOnWindowFocus: false,
-        retry: 0,
-        onSuccess: (data) => {
-            console.log(data);
+    const queryClient = useQueryClient();
+    const { isMainTab } = useStore();
+
+    useEffect(() => {
+        queryClient.prefetchQuery([queryKeys.productTop5, isMainTab], () => getTop5Products(isMainTab));
+    }, [isMainTab, queryClient]);
+
+    const { status, data, error, isFetching } = useQuery(
+        [queryKeys.productTop5, isMainTab],
+        () => getTop5Products(isMainTab),
+        {
+            staleTime: 2000,
+            cacheTime: Infinity,
+            keepPreviousData: true,
+            retry: 0,
+            onSuccess: (data) => {
+                console.log(data);
+            },
+            onError: (e) => {
+                console.log(e.message);
+            },
         },
-        onError: (e) => {
-            console.log(e.message);
-        },
-    });
+    );
     if (status === "loading") {
         return <Loading />;
     }

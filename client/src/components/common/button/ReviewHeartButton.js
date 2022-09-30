@@ -1,32 +1,24 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React from "react";
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
 import { RiHeartAddLine } from "react-icons/ri";
 import { RiHeartAddFill } from "react-icons/ri";
-import useReviewHeart from "../../../lib/api/useReviewHeart";
+import { useReviewHeart } from "../../../lib/api/useHeart";
 import useStore from "../../../lib/store";
-import axios from "axios";
+
 const ReviewHeartButton = ({ heartFlag, id }) => {
-    const [heart, setHeart] = useState(heartFlag);
+    const navigate = useNavigate();
     const { logInfo } = useStore();
-    const onsubmit = async () => {
-        await axios
-            .post(
-                `/review/heart?reviewId=${id}`,
-                {},
-                {
-                    headers: {
-                        Authorization: logInfo,
-                    },
-                },
-            )
-            .then((res) => {
-                if (res.data) {
-                    console.log(res.data);
-                }
-                console.log(res);
-            })
-            .catch((err) => {});
+    const { mutate: changeHeart, isError } = useReviewHeart();
+    if (isError) {
+        <p>("하트가 안 눌리는 중..")</p>;
+    }
+    const onsubmit = () => {
+        if (logInfo === null) {
+            alert("로그인을 해주세요");
+            navigate("/login");
+        }
+        changeHeart(id);
     };
     return (
         <>

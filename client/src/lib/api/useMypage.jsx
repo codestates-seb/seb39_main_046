@@ -5,12 +5,7 @@ import axiosInstance from "../../utils/axiosInastance";
 import Loading from "../../components/common/loading/Loading";
 
 const getInfomation = async (logInfo) => {
-    const { data } = await axiosInstance.get("/member/myPage", {
-        headers: {
-            "Content-Type": "application/json",
-            Authorization: logInfo,
-        },
-    });
+    const { data } = await axiosInstance.get("/member/myPage");
     return data;
 };
 

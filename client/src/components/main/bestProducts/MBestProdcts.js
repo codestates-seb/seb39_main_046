@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import TabRound from "../../common/tab/TabRound";
-import ProductBox from "./MBestProduct";
-import { useTop5Products } from "../../../lib/api/useProductTop5";
+import MBestProduct from "./MBestProduct";
+import { useTop5Products } from "../../../lib/api/useMainProducts";
 
 const BestProdct = () => {
     const data = useTop5Products();
@@ -45,7 +45,7 @@ const BestProdct = () => {
             <ProductContainer>
                 {data.data &&
                     data.data.map((el, idx) => {
-                        return <ProductBox className="item" key={idx} data={el} idx={idx}></ProductBox>;
+                        return <MBestProduct className="item" key={idx} data={el} idx={idx}></MBestProduct>;
                     })}
             </ProductContainer>
         </BestContainer>

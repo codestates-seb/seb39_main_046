@@ -5,6 +5,7 @@ const axiosInstance = Axios.create({
     timeout: 5000,
     headers: {
         "Content-Type": "application/json",
+        Authorization: sessionStorage.getItem("token"),
     },
 });
 

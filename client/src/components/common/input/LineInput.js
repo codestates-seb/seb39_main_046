@@ -2,51 +2,51 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { FiSearch, FiArrowUpLeft, FiXCircle } from "react-icons/fi";
 import useStore from "../../../lib/store";
-import { useAllProducts } from "../../../lib/api/useAllProducts";
+import { useAllProducts } from "../../../lib/api/useProducts";
 
 const LineInput = () => {
-    const { isKeyWord, setKeyWord } = useStore();
+    const { isKeyword, setKeyword } = useStore();
     const [keyItems, setKeyItems] = useState({});
 
     const onChangeData = (e) => {
-        setKeyWord(e.target.value);
+        setKeyword(e.target.value);
     };
     const { data } = useAllProducts();
 
     const updateData = async () => {
-        let serchResult = data && data.filter((data) => data.productName.includes(isKeyWord) === true).slice(0, 10);
+        let serchResult = data && data.filter((data) => data.productName.includes(isKeyword) === true).slice(0, 10);
         setKeyItems(serchResult);
     };
 
     useEffect(() => {
         const debounce = setTimeout(() => {
-            if (isKeyWord) updateData();
+            if (isKeyword) updateData();
         }, 200);
         return () => {
             clearTimeout(debounce);
         };
-    }, [isKeyWord]);
+    }, [isKeyword]);
 
     return (
         <LineInputBox>
-            <input placeholder="제품명을 검색하세요." value={isKeyWord} onChange={onChangeData} />
-            {isKeyWord && isKeyWord.length > 0 ? (
+            <input placeholder="제품명을 검색하세요." value={isKeyword} onChange={onChangeData} />
+            {isKeyword && isKeyword.length > 0 ? (
                 <button>
-                    <FiXCircle size={25} onClick={() => setKeyWord("")} />
+                    <FiXCircle size={25} onClick={() => setKeyword("")} />
                 </button>
             ) : (
                 <button>
                     <FiSearch size={25} />
                 </button>
             )}
-            {keyItems.length > 0 && isKeyWord && (
+            {keyItems.length > 0 && isKeyword && (
                 <AutoSearchContainer>
                     <AutoSearchWrap>
                         {keyItems.map((search, idx) => (
                             <AutoSearchData
                                 key={search.productName}
                                 onClick={() => {
-                                    setKeyWord(search.productName);
+                                    setKeyword(search.productName);
                                 }}
                             >
                                 {search.productName}

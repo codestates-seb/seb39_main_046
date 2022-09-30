@@ -3,27 +3,43 @@ import axiosInstance from "../../utils/axiosInastance";
 import { queryKeys } from "../react-query/constant";
 
 const changeHeart = (productId) => {
-    return axiosInstance
-        .post(
-            `/product/heart?productId=${productId}`,
-            {},
-            {
-                headers: {
-                    Authorization: sessionStorage.getItem("token"),
-                },
-            },
-        )
-        .then((res) => console.log(res));
+    return axiosInstance.post(`/product/heart?productId=${productId}`).then((res) => console.log(res));
 };
 
-const useHeart = () => {
+export const useHeart = () => {
     const queryClient = useQueryClient();
     return useMutation(changeHeart, {
-        onSuccess: () => {
-            queryClient.invalidateQueries([queryKeys.products, queryKeys.product]);
+        onMutate: (variables) => {
+            console.log("onMutate", variables);
+        },
+        onSuccess: (data, variables, context) => {
+            queryClient.invalidateQueries([queryKeys.product]);
+            queryClient.invalidateQueries([queryKeys.productTop5]);
+            queryClient.invalidateQueries([queryKeys.mainProducts]);
+            queryClient.invalidateQueries([queryKeys.products]);
+            console.log("success", data, variables, context);
         },
         onError: (e) => {},
     });
 };
 
-export default useHeart;
+const changeReviewHeart = (reviewId, token) => {
+    return axiosInstance.post(`/review/heart?reviewId=${reviewId}`).then((res) => console.log(res));
+};
+
+export const useReviewHeart = () => {
+    const queryClient = useQueryClient();
+    return useMutation(changeReviewHeart, {
+        onMutate: (variables) => {
+            console.log("onMutate", variables);
+        },
+        onSuccess: (data, variables, context) => {
+            queryClient.invalidateQueries([queryKeys.product]);
+            queryClient.invalidateQueries([queryKeys.productTop5]);
+            queryClient.invalidateQueries([queryKeys.mainProducts]);
+            queryClient.invalidateQueries([queryKeys.products]);
+            console.log("success", data, variables, context);
+        },
+        onError: (e) => {},
+    });
+};

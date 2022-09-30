@@ -3,17 +3,7 @@ import axiosInstance from "../../utils/axiosInastance";
 import { queryKeys } from "../react-query/constant";
 import useStore from "../store";
 const postFoodTest = (categoryId) => {
-    return axiosInstance
-        .post(
-            `/member/pbti/${categoryId}`,
-            {},
-            {
-                headers: {
-                    Authorization: sessionStorage.getItem("token"),
-                },
-            },
-        )
-        .then((res) => useStore.setState({ isTestNum: res.data }));
+    return axiosInstance.post(`/member/pbti/${categoryId}`).then((res) => useStore.setState({ isTestNum: res.data }));
 };
 
 const useFoodTest = () => {
@@ -22,7 +12,9 @@ const useFoodTest = () => {
         onSuccess: () => {
             queryClient.invalidateQueries([queryKeys.foodTest]);
         },
-        onError: (e) => {},
+        onError: (e) => {
+            <p>("추천상품이 안나오는 중..")</p>;
+        },
     });
 };
 

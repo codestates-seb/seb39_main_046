@@ -57,16 +57,16 @@ const BestReview = () => {
                         } else if (swiper >= 3) {
                             num = idx + 3;
                         }
-                        console.log(data.reviewHeartFlag);
                         return (
                             <StyleSwipper key={idx} className={swiper === num ? "active" : null}>
                                 <ReviewInnerBox>
-                                    <span>
+                                    <div className="heart_box">
                                         <ReviewHeartButton
                                             id={data.reviewId && data.reviewId}
                                             heartFlag={data.reviewHeartFlag && data.reviewHeartFlag}
                                         />
-                                    </span>
+                                        <p>{data.hearts}</p>
+                                    </div>
                                     <img src={ReviewImg1} alt={data.content} />
                                     <div className="review_contents_box">
                                         <h4>{data.product.productName}</h4>
@@ -109,7 +109,6 @@ const BestRiveTitle = styled.div`
 const SwiperBox = styled(Swiper)`
     padding-top: 50px;
     height: 330px;
-    /* width: 100%; */
     .active {
         transform: translateY(-20px);
         transition: all 1s;
@@ -137,11 +136,16 @@ const StyleSwipper = styled(SwiperSlide)`
 `;
 const ReviewInnerBox = styled.div`
     position: relative;
-    span {
+    .heart_box {
         position: absolute;
-        right: 5px;
-        top: 5px;
-        z-index: 2;
+        right: 6px;
+        top: 6px;
+        z-index: 10;
+        display: flex;
+        p {
+            padding: 3px 0 0 3px;
+            color: ${({ theme }) => theme.colors.Orange_040};
+        }
     }
     img {
         border-radius: 20px;
