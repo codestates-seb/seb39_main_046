@@ -131,7 +131,7 @@ public class MemberService {
     public Boolean memberCheck(HttpServletRequest request){
         if(request.getHeader("Authorization") == null) return true;
      //   if(request.getHeader("Authorization") == "") return true;
-        if(request.getHeader("Authorization").equals(null)) return true;
+       // if(request.getHeader("Authorization").equals(null)) return true;
 
         //현재 상태 비회원이면 트루 출력 회원일시 false 반환
         else return false;
