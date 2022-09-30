@@ -15,6 +15,7 @@ import Mypage from "./pages/mypage/Mypage";
 import DetailProduct from "./pages/detailProducts/DetailProduct";
 import Products from "./pages/product/Products";
 import ProductBasket from "./pages/mypage/ProductBasket";
+import ManagerPage from "./pages/member/ManagerPage";
 
 const queryClient = new QueryClient();
 
@@ -36,6 +37,7 @@ function App() {
                     <Route path="/productbasket" element={<ProductBasket />}></Route>
                     <Route path="/products" element={<Products />}></Route>
                     <Route path="/product/:id" element={<DetailProduct />}></Route>
+                    <Route path="/manager" element={<ManagerPage />}></Route>
                     <Route path="*" element={<div>NotFound</div>} />
                 </Route>
             </Routes>

@@ -7,12 +7,14 @@ import TabRound from "../../components/common/tab/TabRound";
 import TabSquare from "../../components/common/tab/TabSquare";
 import ProductBox from "../../components/common/product/ProductBox";
 import TabCategory from "../../components/common/tab/TabCategory";
-import { useProducts } from "../../lib/api/useProducts";
-import { useTop5Products } from "../../lib/api/useProductTop5";
-const ProductRanking = () => {
-    const { data } = useProducts();
-    const topData = useTop5Products();
+import { useProducts, useSerchProduct } from "../../lib/api/useGetProducts";
+import { useTop5Products } from "../../lib/api/useGetMainProducts";
 
+const ProductRanking = () => {
+    const { data, pageInfo } = useProducts();
+    const topData = useTop5Products();
+    const serchData = useSerchProduct();
+    console.log(serchData.data);
     return (
         <>
             <Rcontainer>
@@ -36,15 +38,17 @@ const ProductRanking = () => {
                         <DropDown />
                     </div>
                     <section className="productContainer">
-                        {data &&
-                            data.map((data, idx) => {
+                        {serchData.data ? (
+                            <ProductBox className="itemgrid" data={serchData.data} />
+                        ) : (
+                            data &&
+                            data.map((data) => {
                                 return <ProductBox className="itemgrid" key={data.productId} data={data} />;
-                            })}
+                            })
+                        )}
                     </section>
                 </RMainBox>
-                <PaginationBox>
-                    <Paging />
-                </PaginationBox>
+                <PaginationBox>{serchData.data ? null : <Paging pageInfo={pageInfo} />}</PaginationBox>
             </Rcontainer>
         </>
     );
@@ -56,7 +60,7 @@ const Rcontainer = styled.section`
 `;
 const RHearderBox = styled.header`
     width: 100%;
-    height: 700px;
+    min-height: 700px;
     background-color: ${({ theme }) => theme.colors.Blue_010};
     padding: 65px;
 
@@ -89,7 +93,11 @@ const RMainBox = styled.main`
     align-items: center;
     flex-direction: column;
     padding-top: 90px;
-
+    /* .tab-box {
+        background-color: red;
+        min-width: 670px;
+        margin: 0 auto;
+    } */
     .productContainer {
         max-width: 1060px;
         width: 100%;

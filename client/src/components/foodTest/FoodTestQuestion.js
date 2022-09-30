@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { createSearchParams, useNavigate } from "react-router-dom";
-import { QuestionData } from "../../assets/foodData/questionData";
+import { QuestionData } from "../../assets/data/foodData/questionData";
 import Button from "../common/button/Button";
 import EatChracter from "../../assets/images/foodTest/FoodTestQuestion.png";
 import ProgressChracter from "../../assets/images/foodTest/ProgressBar.gif";
@@ -24,7 +24,6 @@ const FoodTestQuestion = () => {
         { id: "CupRamen", score: 0 },
         { id: "Hamburger", score: 0 },
     ]);
-    console.log(totalScore);
 
     const handleClickBtn = (no, type) => {
         const newScore = totalScore.map((s) => (s.id === type ? { id: s.id, score: s.score + no } : s));
@@ -33,25 +32,22 @@ const FoodTestQuestion = () => {
         if (QuestionData.length !== questionNo + 1) {
             setQuestionNo(questionNo + 1);
         } else {
-            //2개이상이 있으면 바로 결과값으로 들어가고
-            //1개이상만 있으면 그중에서 랜덤으로 결과값 도출
-            const result = totalScore.filter((data) => data.score >= 2);
-            const result2 = totalScore.filter((data) => data.score >= 1);
-            const result3 = result2[Math.floor(Math.random() * result2.length)];
+            const highResult = totalScore.filter((data) => data.score >= 2);
+            const upOneScore = totalScore.filter((data) => data.score >= 1);
+            const randomResult = upOneScore[Math.floor(Math.random() * upOneScore.length)];
 
-            if (result.length === 1) {
+            if (highResult.length === 1) {
                 navigate({
                     pathname: "/foodtest/result",
                     search: `?${createSearchParams({
-                        mbti: result[0].id,
+                        mbti: highResult[0].id,
                     })}`,
                 });
             } else {
-                console.log(result3);
                 navigate({
                     pathname: "/foodtest/result",
                     search: `?${createSearchParams({
-                        mbti: result3.id,
+                        mbti: randomResult.id,
                     })}`,
                 });
             }
@@ -59,10 +55,12 @@ const FoodTestQuestion = () => {
     };
 
     return (
-        <div>
+        <Fcontainer>
             <ProgressBox>
                 <ProgressBar width={(questionNo / QuestionData.length) * 100 + "%"}></ProgressBar>
-                <Dot>{/* <img src={ProgressChracter} alt="진행바" /> */}</Dot>
+                <Dot>
+                    <img src={ProgressChracter} alt="진행바" />
+                </Dot>
             </ProgressBox>
             <FContents>
                 <FText>
@@ -86,12 +84,19 @@ const FoodTestQuestion = () => {
                     <img src={EatChracter} alt="캐릭터" />
                 </FImg>
             </FContents>
-        </div>
+        </Fcontainer>
     );
 };
 
 export default FoodTestQuestion;
-
+const Fcontainer = styled.div`
+    max-width: 100%;
+    min-height: 630px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+`;
 const FContents = styled.div`
     display: flex;
     justify-content: center;
@@ -127,7 +132,6 @@ const FImg = styled.div`
     width: 280px;
     height: 400px;
     border-radius: 30px;
-    /* background-color: ${({ theme }) => theme.colors.Blue_020}; */
     display: flex;
     justify-content: center;
     align-items: center;

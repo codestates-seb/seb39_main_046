@@ -6,6 +6,7 @@ import Loading from "../../components/common/loading/Loading";
 import axios from "axios";
 
 
+
 const Getinfo = async (logInfo) => {
     const {data} =  await axios.get("member/myPage", {
         headers: {

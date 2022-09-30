@@ -1,13 +1,17 @@
 import React from "react";
+
 import styled from "styled-components";
 import axios from "axios";
 import store from "../../lib/store";
+
 import PersonalInfo from "../../components/myPage/PersonalInfo";
 import ProductBasket from "../../components/myPage/ProductBasket";
 import PbtiBanner2 from "../../components/myPage/PbtiBanner2";
 import PersonalRivew from "../../components/myPage/PersonalRivew";
 import MyLikeReview from "../../components/myPage/MyLikeReview";
+
 import { useQuery, useQueryClient } from "react-query";
+
 import { useMypage } from "../../lib/api/useMypage";
 
 const Getinfo = (logInfo) => {
@@ -34,6 +38,7 @@ const Mypage = () => {
 
     return (
         <>
+
             {" "}
             {/* <Exper> */} <PersonalInfo Persondata={data.data.member} />{" "}
             {data.data.jjimProducts === null ? (
@@ -53,9 +58,11 @@ const Mypage = () => {
                 <MyLikeReview Persondata={data.data.member} PersonlikeReview={data.data.jjimReviews} />
             )}{" "}
             {/* </Exper> */}{" "}
+
         </>
     );
 };
+
 
 const Nodata = styled.h2`
     text-align: center;
@@ -65,5 +72,6 @@ const Nodata = styled.h2`
 //     margin-left: 311px;
 //     margin-right:311px;
 // `
+
 
 export default Mypage;

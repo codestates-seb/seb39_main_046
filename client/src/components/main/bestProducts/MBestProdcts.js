@@ -1,16 +1,12 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import TabRound from "../../common/tab/TabRound";
-import ProductBox from "./BestProduct";
-import { useMainProducts } from "../../../lib/api/useMainProducts";
-import { useTop5Products } from "../../../lib/api/useProductTop5";
+import MBestProduct from "./MBestProduct";
+import { useTop5Products } from "../../../lib/api/useGetMainProducts";
 
 const BestProdct = () => {
-    const { allTop5 } = useMainProducts();
     const data = useTop5Products();
-    console.log(data.data);
-
-    let more = "더보기 >";
+    let more = "더보기 ›";
     const completionWord = "Pick your Best 5";
 
     // const [Title, setTitle] = useState("");
@@ -40,27 +36,17 @@ const BestProdct = () => {
     return (
         <BestContainer>
             <BHeader>
-                <div></div>
-                <h2>{completionWord}</h2>
-                <p className="header_more">{more}</p>
+                <h2>
+                    <strong>P</strong>ick your <strong>B</strong>est <strong>5</strong>
+                </h2>
+                {/* <p className="header_more">{more}</p> */}
+                <TabRound />
             </BHeader>
-            <TabRound />
             <ProductContainer>
                 {data.data &&
                     data.data.map((el, idx) => {
-                        return <ProductBox className="item" key={idx} data={el} idx={idx}></ProductBox>;
+                        return <MBestProduct className="item" key={idx} data={el} idx={idx}></MBestProduct>;
                     })}
-                {/* {allTop5 &&
-          allTop5.map((el, idx) => {
-            return (
-              <ProductBox
-                className="item"
-                key={idx}
-                data={el}
-                idx={idx}
-              ></ProductBox>
-            );
-          })} */}
             </ProductContainer>
         </BestContainer>
     );
@@ -78,23 +64,24 @@ const BestContainer = styled.section`
 `;
 
 const BHeader = styled.div`
-    width: 1180px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+    max-width: 1280px;
     h2 {
         text-align: center;
-        font-weight: bold;
         font-size: ${({ theme }) => theme.fontSizes.titleSize};
         color: ${({ theme }) => theme.colors.Gray_030};
         height: 60px;
-        margin-bottom: 40px;
+        margin-bottom: 30px;
+        strong {
+            color: ${({ theme }) => theme.colors.Blue_030};
+            font-weight: bold;
+        }
     }
     .header_more {
         font-size: ${({ theme }) => theme.fontSizes.small};
         font-weight: 500;
         color: ${({ theme }) => theme.colors.Orange_040};
         cursor: pointer;
+        background-color: blue;
     }
 `;
 

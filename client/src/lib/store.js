@@ -18,7 +18,13 @@ const useStore = create((set) => ({
     isCurrentPage2: 1,
     isCurrentPage3: 1,
     isSortNum: 1,
-    isDetail: 201,
+    isTestNum: 0,
+    isKeyword: "",
+    setKeyword(index) {
+        set((state) => ({ isKeyword: index }));
+    },
+    isSerchItem: {},
+    isCategoryPage: 1,
 }));
 
 export default useStore;

@@ -8,7 +8,7 @@ const FoodTestHome = () => {
     const navigate = useNavigate();
 
     return (
-        <>
+        <Fcontainer>
             <FContents>
                 <h3>
                     리코 질문에 대답하다보면,<strong> 취향조사 완료!</strong>
@@ -16,11 +16,19 @@ const FoodTestHome = () => {
                 <img src={HChracter} alt="캐릭터" />
                 <Button onClick={() => navigate("question")}>START!</Button>
             </FContents>
-        </>
+        </Fcontainer>
     );
 };
 
 export default FoodTestHome;
+
+const Fcontainer = styled.div`
+    max-width: 100%;
+    min-height: 630px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+`;
 const FContents = styled.div`
     display: flex;
     justify-content: center;

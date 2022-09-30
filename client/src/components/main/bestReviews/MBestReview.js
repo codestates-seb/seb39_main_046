@@ -12,8 +12,8 @@ import ReviewImg2 from "../../../assets/images/main/Review-2.png";
 import ReviewImg3 from "../../../assets/images/main/Review-3.png";
 import ReviewImg4 from "../../../assets/images/main/Review-4.png";
 import ReviewImg5 from "../../../assets/images/main/Review-5.png";
-import HeartButton from "../../common/button/HeartButton";
-import { useMainProducts } from "../../../lib/api/useMainProducts";
+import ReviewHeartButton from "../../common/button/ReviewHeartButton";
+import { useMainProducts } from "../../../lib/api/useGetMainProducts";
 
 const BestReview = () => {
     const { bestReviews } = useMainProducts();
@@ -60,9 +60,13 @@ const BestReview = () => {
                         return (
                             <StyleSwipper key={idx} className={swiper === num ? "active" : null}>
                                 <ReviewInnerBox>
-                                    <span>
-                                        <HeartButton />
-                                    </span>
+                                    <div className="heart_box">
+                                        <ReviewHeartButton
+                                            id={data.reviewId && data.reviewId}
+                                            heartFlag={data.reviewHeartFlag && data.reviewHeartFlag}
+                                        />
+                                        <p>{data.hearts}</p>
+                                    </div>
                                     <img src={ReviewImg1} alt={data.content} />
                                     <div className="review_contents_box">
                                         <h4>{data.product.productName}</h4>
@@ -89,7 +93,7 @@ const ReivewContainer = styled.section`
     max-width: 1280px;
     height: 450px;
     margin: 0 auto;
-    margin-bottom: 100px;
+    margin-bottom: 70px;
     margin-top: 100px;
 `;
 const BestRiveTitle = styled.div`
@@ -105,7 +109,6 @@ const BestRiveTitle = styled.div`
 const SwiperBox = styled(Swiper)`
     padding-top: 50px;
     height: 330px;
-    /* width: 100%; */
     .active {
         transform: translateY(-20px);
         transition: all 1s;
@@ -133,11 +136,16 @@ const StyleSwipper = styled(SwiperSlide)`
 `;
 const ReviewInnerBox = styled.div`
     position: relative;
-    span {
+    .heart_box {
         position: absolute;
-        right: 5px;
-        top: 5px;
-        z-index: 2;
+        right: 8px;
+        top: 6px;
+        z-index: 10;
+        display: flex;
+        p {
+            padding: 3px 0 0 3px;
+            color: ${({ theme }) => theme.colors.Orange_040};
+        }
     }
     img {
         border-radius: 20px;

@@ -69,10 +69,9 @@ const colors = {
     Orange_040: "#F88408",
     Yellow_030: "#E9F34D",
     Yellow_040: "#C1CD0D",
-    Purple: "#652F8D",
-    "7-ELEVEN": "#269546;",
-    CU: "#652F8D;",
-    GS25: "#007CFF;",
+    "7-ELEVEN": "#58B774;",
+    CU: "#9753C9;",
+    GS25: "#3691F1;",
 };
 
 const device = {

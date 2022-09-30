@@ -3,13 +3,13 @@ import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { RiHeartAddLine } from "react-icons/ri";
 import { RiHeartAddFill } from "react-icons/ri";
-import { useHeart } from "../../../lib/api/useHeartMutation";
+import { useReviewHeart } from "../../../lib/api/useHeartMutation";
 import useStore from "../../../lib/store";
 
-const HeartButton = ({ heartFlag, id }) => {
+const ReviewHeartButton = ({ heartFlag, id }) => {
     const navigate = useNavigate();
     const { logInfo } = useStore();
-    const { mutate: changeHeart, isError } = useHeart();
+    const { mutate: changeHeart, isError } = useReviewHeart();
     if (isError) {
         <p>("하트가 안 눌리는 중..")</p>;
     }
@@ -33,11 +33,11 @@ const HeartButton = ({ heartFlag, id }) => {
     );
 };
 
-export default HeartButton;
+export default ReviewHeartButton;
 
 const HeartBox = styled.span`
     width: 30px;
-    z-index: 10;
+
     .heart {
         cursor: pointer;
         font-size: 30px;

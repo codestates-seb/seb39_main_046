@@ -2,19 +2,24 @@ import React from "react";
 import styled from "styled-components";
 import HeartButton from "../common/button/HeartButton";
 import Tag from "../common/product/Tag";
-import link from "../../assets/images/common/link.png";
+import link from "../../assets/icons/SharelinkBtn.png";
 
 const ProductDetail = (data) => {
     const detialData = data.data;
 
+    console.log(detialData.heartFlag);
     return (
         <MainContent>
-            <span className="heartbtn">
-                <HeartButton />
-            </span>
-            <span className="sharebtn">
+            <p className="heartbtn">
+                <HeartButton
+                    id={detialData.productId && detialData.productId}
+                    heartFlag={detialData.heartFlag && detialData.heartFlag}
+                />
+                <p>{detialData.hearts}</p>
+            </p>
+            <p className="sharebtn">
                 <img src={link} width="30px" height="30px" alt="링크이미지" />
-            </span>
+            </p>
             <ProductImage>
                 <div className="img_box">
                     <img src={detialData.imageURL} alt={detialData.productName} />
@@ -22,7 +27,7 @@ const ProductDetail = (data) => {
             </ProductImage>
             <ProductEx>
                 <Badge>
-                    <Tag color={detialData.company} fontSize="xs">
+                    <Tag buttonColor={detialData.company} fontSize="xs">
                         {detialData.company}
                     </Tag>
                     <Tag fontSize="xs">{detialData.category.categoryName}</Tag>
@@ -40,7 +45,7 @@ export default ProductDetail;
 
 const MainContent = styled.div`
     width: 590px;
-    height: 590px;
+    height: 600px;
     border-radius: ${({ theme }) => theme.radius.base};
     box-shadow: 0px 4px 20px rgba(204, 204, 204, 0.3);
     display: flex;
@@ -52,11 +57,16 @@ const MainContent = styled.div`
         position: absolute;
         right: 20px;
         top: 20px;
+        display: flex;
+        p {
+            padding: 3px 0 0 3px;
+            color: ${({ theme }) => theme.colors.Orange_040};
+        }
     }
     .sharebtn {
         position: absolute;
-        right: 20px;
-        top: 60px;
+        left: 20px;
+        top: 20px;
     }
 `;
 const ProductImage = styled.section`
@@ -66,6 +76,7 @@ const ProductImage = styled.section`
     align-items: center;
     .img_box {
         img {
+            max-width: 380px;
             min-width: 280px;
             background-color: red;
         }
