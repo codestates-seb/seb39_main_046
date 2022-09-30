@@ -1,4 +1,4 @@
-import { useQuery, useQueryClient } from "react-query";
+import { useQuery, useQueryClient, useMutation } from "react-query";
 import axiosInstance from "../../utils/axiosInastance";
 import { queryKeys } from "../react-query/constant";
 import Loading from "../../components/common/loading/Loading";
@@ -8,24 +8,15 @@ const getCategory = async (pageNum) => {
     const { data } = await axiosInstance.get(`/category?page=${pageNum}&size=12`);
     return data;
 };
-const updateCategory = async (token) => {
-    const { data } = await axiosInstance.patch(`/category/1`, {
-        headers: {
-            "Content-Type": "application/json",
-            Authorization: token,
-        },
-    });
-    return data;
+
+const deleteCategory = (categoryId) => {
+    return axiosInstance.delete(`/category/40`);
 };
-const deleteCategory = async (token) => {
-    const { data } = await axiosInstance.delete(`/category/1`, {
-        headers: {
-            "Content-Type": "application/json",
-            Authorization: token,
-        },
-    });
-    return data;
+
+const updateCategory = (categoryId, updateData) => {
+    return axiosInstance.patch(`/category/${categoryId}`, updateData);
 };
+
 export function useCategory() {
     const { isCategoryPage } = useStore();
     const { status, data, error, isFetching } = useQuery(
@@ -54,3 +45,32 @@ export function useCategory() {
     }
     return data;
 }
+
+export const useUpdateCategory = () => {
+    const queryClient = useQueryClient();
+    return useMutation((categoryId) => updateCategory(categoryId), {
+        onMutate: (variables) => {
+            console.log("onMutate", variables);
+        },
+        onSuccess: (data, variables, context) => {
+            queryClient.setQueryData([queryKeys.category, { id: 5 }], data);
+            console.log("success", data, variables, context);
+        },
+        onError: (e) => {},
+    });
+};
+
+export const useDeleteCategory = () => {
+    const queryClient = useQueryClient();
+    return useMutation(deleteCategory, {
+        onMutate: (variables) => {
+            console.log("onMutate", variables);
+        },
+        onSuccess: (data, variables, context) => {
+            queryClient.invalidateQueries([queryKeys.category]);
+            // queryClient.setQueryData([queryKeys.category, { id: 5 }], data);
+            console.log("success", data, variables, context);
+        },
+        onError: (e) => {},
+    });
+};

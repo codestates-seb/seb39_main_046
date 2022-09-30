@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { RiHeartAddLine } from "react-icons/ri";
 import { RiHeartAddFill } from "react-icons/ri";
-import { useReviewHeart } from "../../../lib/api/useHeart";
+import { useReviewHeart } from "../../../lib/api/useHeartMutation";
 import useStore from "../../../lib/store";
 
 const ReviewHeartButton = ({ heartFlag, id }) => {

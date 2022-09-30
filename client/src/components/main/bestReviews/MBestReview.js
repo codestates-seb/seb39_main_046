@@ -13,7 +13,7 @@ import ReviewImg3 from "../../../assets/images/main/Review-3.png";
 import ReviewImg4 from "../../../assets/images/main/Review-4.png";
 import ReviewImg5 from "../../../assets/images/main/Review-5.png";
 import ReviewHeartButton from "../../common/button/ReviewHeartButton";
-import { useMainProducts } from "../../../lib/api/useMainProducts";
+import { useMainProducts } from "../../../lib/api/useGetMainProducts";
 
 const BestReview = () => {
     const { bestReviews } = useMainProducts();

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { FiSearch, FiArrowUpLeft, FiXCircle } from "react-icons/fi";
 import useStore from "../../../lib/store";
-import { useAllProducts } from "../../../lib/api/useProducts";
+import { useAllProducts } from "../../../lib/api/useGetProducts";
 
 const LineInput = () => {
     const { isKeyword, setKeyword } = useStore();
@@ -29,7 +29,7 @@ const LineInput = () => {
 
     return (
         <LineInputBox>
-            <input placeholder="제품명을 검색하세요." value={isKeyword} onChange={onChangeData} />
+            <input placeholder="상품명을 검색하세요." value={isKeyword} onChange={onChangeData} />
             {isKeyword && isKeyword.length > 0 ? (
                 <button>
                     <FiXCircle size={25} onClick={() => setKeyword("")} />
