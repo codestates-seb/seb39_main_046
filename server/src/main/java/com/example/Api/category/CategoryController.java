@@ -78,10 +78,11 @@ public class CategoryController {
 
     @GetMapping   // 카테고리 조회
     @ApiOperation(value = "전체 카테고리 조회")
-    public ResponseEntity getCategories(@Positive @RequestParam int page)
+    public ResponseEntity getCategories(@Positive @RequestParam int page,
+                                        @Positive @RequestParam int size)
     {
         HashMap<String, Object> result = new HashMap<>();
-        int size = 10;
+       /* int size = 10;*/
         Page<Category> pageCategories = categoryService.findCategories(page-1, size);
         List<Category> categories = pageCategories.getContent();
         result.put("등록된 전체 카테고리",new MultiResponseDto<>(categories, pageCategories));
