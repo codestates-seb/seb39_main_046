@@ -24,14 +24,17 @@ public class Product extends Auditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long productId;
-    @Column
-    private String imageURL; // 이미지 URL
-    @Column
-    private String productName;
-    @Column
-    private BigDecimal price;
 
     @Column
+    private String imageURL; // 이미지 URL
+
+    @Column(length = 50, unique = true, nullable = false)
+    private String productName;
+
+    @Column(precision = 19, scale = 0, nullable = false)
+    private BigDecimal price;
+
+    @Column(length = 10, nullable = false)
     private  String company;
     @Column
     private long views = 0;

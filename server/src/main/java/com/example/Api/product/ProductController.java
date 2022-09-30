@@ -31,6 +31,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -70,7 +72,6 @@ public class ProductController {
         this.reviewService = reviewService;
         this.productHeartService = productHeartService;
         this.reviewHeartService = reviewHeartService;
-
     }
 
     @ApiOperation(value = "상품 등록",
@@ -87,7 +88,6 @@ public class ProductController {
         if (!extension.equals("xlsx") && !extension.equals("xls")) {
             throw new IOException("엑셀파일만 업로드 해주세요.");
         }
-
         Workbook workbook = null;
 
         if (extension.equals("xlsx")) {
@@ -104,19 +104,14 @@ public class ProductController {
 
             ExcelData data = new ExcelData();
 
-
-            /*data.setProductId(i);*/
             data.setImageURL(row.getCell(0).getStringCellValue());
             data.setProductName(row.getCell(1).getStringCellValue());
-            /*String priceValue = row.getCell(2).getStringCellValue().replaceAll(",","");*/
             String priceValue = row.getCell(2).getStringCellValue();
-            /*String parsedValue = "";*/
-            //long price = 0;
+
             // 크롤링한 가격은 텍스트 형식으로 되어 있는 숫자, 문자열 가격에 "원"이나 ","가 있으면 모두 제거
             if(priceValue.contains(",") || priceValue.contains("원")){
                 priceValue = priceValue.replaceAll("[,원]","");
                 System.out.println(priceValue);
-                //price = Long.parseLong(parsedValue);
                /* System.out.println(price);*/
             }
             else if(priceValue.isEmpty()){
@@ -125,25 +120,23 @@ public class ProductController {
             }
 
             BigDecimal seq = new BigDecimal(priceValue).setScale(0,RoundingMode.FLOOR);
-            System.out.println(seq);
-            long categoryId = ((long)row.getCell(3).getNumericCellValue());
-            data.setCategory(categoryService.findVerifiedCategoryId(categoryId));
+            //System.out.println(seq);
+            String categoryName = row.getCell(3).getStringCellValue();
+            data.setCategory(categoryService.findCategoryByCategoryName(categoryName));
+           /* long categoryId = ((long)row.getCell(3).getNumericCellValue());
+            data.setCategory(categoryService.findVerifiedCategoryId(categoryId));*/
             data.setCompany(row.getCell(4).getStringCellValue());
             data.setPrice(seq);
 
-            // DB에 저장, 중복 삼품인지 검사 필요
-            if(productService.checkDuplicatedProduct(data.getProductName())){
-                continue;
-            }
-            else{
-                Product product = productMapper.excelDataToProduct(data);
-                productService.createProduct(product);
-                dataList.add(data);
-                productList.add(product);
-            }
+            //ExcelData 유효성 검사 추가
+            productService.validateExcelData(data);
+
+            Product product = productMapper.excelDataToProduct(data);
+            productService.createProduct(product);
+            dataList.add(data);
+            productList.add(product);
 
         }
-
         if(dataList.isEmpty()){
             throw new RuntimeException("파일 등록 실패");
         }
@@ -151,7 +144,6 @@ public class ProductController {
             products = productList;
             return new ResponseEntity<>(products, HttpStatus.CREATED);
         }
-
     }
 
     @ApiOperation(value = "상품명 검색",
@@ -160,7 +152,7 @@ public class ProductController {
             @ApiImplicitParam(name = "productName", value = "상품명", required = true, example = "햄)백종원더블버거")
     })
     @GetMapping("/product")
-    public ResponseEntity getProductByProductName(@RequestParam String productName,
+    public ResponseEntity getProductByProductName(@NotNull @RequestParam String productName,
                                                   HttpServletRequest request){
 
         Product product = productService.findVerifiedProductName(productName);
@@ -177,19 +169,19 @@ public class ProductController {
         return new ResponseEntity<>(product, HttpStatus.OK);
     }
 
-
     @ApiOperation(value = "상품 정보 수정",
             notes = "✅ 상품 정보를 수정합니다.\n - \n " )
     @PatchMapping("/product/admin")
     public ResponseEntity patchProduct(
-                                @RequestParam long productId,
+                                @Positive @RequestParam long productId,
                                 @Valid @RequestBody ProductPatchDto productPatchDto,
                                 HttpServletRequest request){
+
         //상품 원본
         Product product = productService.findVerifiedProductId(productId);
-        // 연결된 카테고리
-        Category category = categoryService.findCategoryByCategoryName(productPatchDto.getCategoryName());
 
+        // 변경하고자 하는 카테고리
+        Category category = categoryService.findCategoryByCategoryName(productPatchDto.getCategoryName());
         Product patchProduct = productMapper.productPatchDtoToProduct(product,productPatchDto,category);
 
         Product result = productService.updateProduct(product, patchProduct);
@@ -208,7 +200,7 @@ public class ProductController {
     @ApiOperation(value = "상품 삭제",
             notes = "✅ 입력받은 productId에 해당하는 상품을 삭제합니다.\n - \n " )
     @DeleteMapping("/product/admin")
-    public ResponseEntity deleteProduct(@RequestParam long productId){
+    public ResponseEntity deleteProduct(@Positive @RequestParam long productId){
 
         productService.deleteProduct(productId);
         return new ResponseEntity<>( "삭제 완료 ( ID:"+ productId + " )", HttpStatus.OK);
@@ -220,7 +212,7 @@ public class ProductController {
     @ApiOperation(value = "상품 조회 (상세 페이지 (Product Detail page) )",
             notes = "✅ 상품의 상세 페이지로 이동합니다.  \n  (조회수 1 증가)  \n   \n " )
     @GetMapping("/product/{product-id}")
-    public ResponseEntity getProductByProductName(@PathVariable("product-id") @Positive long productId,
+    public ResponseEntity getProductByProductName(@Positive @PathVariable("product-id") long productId,
                                                   HttpServletRequest request){
         // 해당 상품 정보 + 리뷰
         Product product = productService.findVerifiedProductId(productId);
@@ -273,7 +265,7 @@ public class ProductController {
     @ApiOperation(tags = {"Main Page", "Products Page"}, value = " TOP5 상품 회사별 정렬 요청",
             notes = "✅ TOP 5 상품을 회사별로 정렬합니다.\n   \n ")
     @GetMapping("/product/top5")
-    public ResponseEntity getTop5Products(@RequestParam String company,
+    public ResponseEntity getTop5Products(@NotNull @RequestParam String company,
                                           HttpServletRequest request){
 
         List<Product> top5 = productService.getTop5Products(company);
@@ -299,8 +291,8 @@ public class ProductController {
                     " - company에 잘못된 값 입력 시  전체 상품 조회  \n " +
                     " - methodId (1 : 좋아요순 / 2: 리뷰순 / 3. 조회순 / 그 외: 최신순)  \n   \n " )
     @GetMapping("/product/allByCompany/{method-id}")
-    public ResponseEntity getProductRankingPage(@PathVariable("method-id") @Positive int methodId,
-                                               @RequestParam String company,
+    public ResponseEntity getProductRankingPage(@Positive @PathVariable("method-id") int methodId,
+                                               @NotNull @RequestParam String company,
                                                @Positive @RequestParam int page,
                                                 HttpServletRequest request) {
 
@@ -340,9 +332,9 @@ public class ProductController {
                     " - company에 잘못된 값 입력 시  전체 상품 카테고리별 조회  \n" +
                     " - methodId (1 : 좋아요순 / 2: 리뷰순 / 3. 조회순 / 그 외: 최신순)  \n   \n " )
     @GetMapping("/product/allByCompany/{category-id}/{method-id}")
-    public ResponseEntity getSortedProductsByCompanyAndCategory(@PathVariable("category-id") @Positive int categoryId,
-                                                          @PathVariable("method-id") @Positive int methodId,
-                                                          @RequestParam String company,
+    public ResponseEntity getSortedProductsByCompanyAndCategory(@Positive @PathVariable("category-id") int categoryId,
+                                                                @Positive @PathVariable("method-id") int methodId,
+                                                          @NotNull @RequestParam String company,
                                                           @Positive @RequestParam int page,
                                                           HttpServletRequest request) {
         // 랭킹 페이지 아래 12개 데이터 정렬 요청
@@ -428,7 +420,8 @@ public class ProductController {
     @ApiOperation(value = "좋아요 등록 / 취소",
             notes = "✅ 입력 받은 productId에 해당하는 상품에 좋아요를 등록합니다..\n  - \n " )
     @PostMapping("/product/heart")
-    public ResponseEntity registerProductHeart(HttpServletRequest request, @RequestParam long productId) {
+    public ResponseEntity registerProductHeart(HttpServletRequest request,
+                                               @Positive @RequestParam long productId) {
 
         boolean loginStatus = memberService.memberCheck(request);
         //현재 상태 비회원이면 true,  회원일시 false  반환
@@ -484,7 +477,7 @@ public class ProductController {
             notes = "✅ 찜꽁 바구니를 조회합니다.(회사별 정렬 요청) \n - \n " )
     @GetMapping("/member/myPage/simplifiedProducts")
     public ResponseEntity getsimplifiedHeartProducts( @Positive @RequestParam int page,
-                                                      @RequestParam String company,
+                                                      @NotNull @RequestParam String company,
                                                       HttpServletRequest request) {
         int size = 4;
         boolean loginStatus = memberService.memberCheck(request);
@@ -525,7 +518,7 @@ public class ProductController {
     @GetMapping("/product/allHeartProducts/{category-id}/{method-id}")
     public ResponseEntity getAllHeartProducts( @PathVariable("category-id") @Positive int categoryId,
                                                @PathVariable("method-id") @Positive int methodId,
-                                               @RequestParam String company,
+                                               @NotNull @RequestParam String company,
                                                @Positive @RequestParam int page,
                                                HttpServletRequest request) {
         int size = 8;
