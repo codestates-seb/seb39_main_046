@@ -89,12 +89,16 @@ const PersonalInfo = ({ Persondata }) => {
 
         fd.append("comment", comment);
         await axios
-            .post("/member/profile", fd, {
-                headers: {
-                    "Content-Type": `multipart/form-data`,
-                    Authorization: logInfo,
+            .post(
+                "/review/4",
+                fd,
+                {
+                    headers: {
+                        "Content-Type": `multipart/form-data`,
+                        Authorization: logInfo,
+                    },
                 },
-            })
+            )
             .then((response) => {
                 if (response.data) {
                     console.log(response.data);
@@ -116,7 +120,7 @@ const PersonalInfo = ({ Persondata }) => {
                         {/* <img src={userImg} alt="프로필 사진" /> */}
                         <br />
                         <label className="input-file-button" for="input-file">
-                            <img src={Persondata.profile} alt="프로필 사진" />
+                            <img src={Persondata.member.profile} alt="프로필 사진" />
                         </label>
                         <input
                             type="file"
