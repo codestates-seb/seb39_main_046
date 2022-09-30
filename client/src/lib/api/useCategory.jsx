@@ -9,6 +9,11 @@ const getCategory = async (pageNum) => {
     return data;
 };
 
+const postCategory = async (newCategory) => {
+    const data = await axiosInstance.post(`/category`, newCategory);
+    return data;
+};
+
 const deleteCategory = (categoryId) => {
     return axiosInstance.delete(`/category/40`);
 };
@@ -46,18 +51,9 @@ export function useCategory() {
     return data;
 }
 
-export const useUpdateCategory = () => {
-    const queryClient = useQueryClient();
-    return useMutation((categoryId) => updateCategory(categoryId), {
-        onMutate: (variables) => {
-            console.log("onMutate", variables);
-        },
-        onSuccess: (data, variables, context) => {
-            queryClient.setQueryData([queryKeys.category, { id: 5 }], data);
-            console.log("success", data, variables, context);
-        },
-        onError: (e) => {},
-    });
+export const useCategoryMutation = (newinfo) => {
+    const { mutate, isSuccess } = useMutation(() => postCategory(newinfo));
+    return { mutate, isSuccess };
 };
 
 export const useDeleteCategory = () => {
@@ -69,6 +65,20 @@ export const useDeleteCategory = () => {
         onSuccess: (data, variables, context) => {
             queryClient.invalidateQueries([queryKeys.category]);
             // queryClient.setQueryData([queryKeys.category, { id: 5 }], data);
+            console.log("success", data, variables, context);
+        },
+        onError: (e) => {},
+    });
+};
+
+export const useUpdateCategory = () => {
+    const queryClient = useQueryClient();
+    return useMutation((categoryId) => updateCategory(categoryId), {
+        onMutate: (variables) => {
+            console.log("onMutate", variables);
+        },
+        onSuccess: (data, variables, context) => {
+            queryClient.setQueryData([queryKeys.category, { id: 5 }], data);
             console.log("success", data, variables, context);
         },
         onError: (e) => {},

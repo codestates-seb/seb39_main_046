@@ -7,11 +7,14 @@ import LineInput from "../../components/common/input/LineInput";
 import { useDeleteCategory } from "../../lib/api/useCategory";
 import axiosInstance from "../../utils/axiosInastance";
 import axios from "axios";
+import { useCategoryMutation } from "../../lib/api/useCategory";
 
 const ManagerPage = () => {
     const [updateContent, setUpdateContent] = useState({
         categoryName: "이거 수정 테스팅 중",
     });
+
+    const [newCategory, setNewCategory] = useState("");
     const data = useCategory();
     // console.log(data);
     // console.log(data && data["등록된 전체 카테고리"]);
@@ -48,6 +51,18 @@ const ManagerPage = () => {
         }
     };
 
+    const postRegister = useCategoryMutation({
+        ...newCategory,
+    });
+
+    const inputChangeHandler = (e) => {
+        setNewCategory(e.target.value);
+    };
+    const postRegisterHandler = (e) => {
+        e.preventDefault();
+        postRegister.mutate();
+    };
+    console.log(newCategory);
     return (
         <>
             <Banner>
@@ -73,6 +88,8 @@ const ManagerPage = () => {
                 <button onClick={() => deleteHandler(42)}>삭제</button>
                 <button onClick={onsubmit}>삭제222</button>
                 <button onClick={() => updateHandler(41)}>수정</button>
+                <input placeholder="카테고리 입력해라" changeHandler={inputChangeHandler} />
+                <button onClick={postRegisterHandler}>Register</button>
             </MContainer>
         </>
     );
