@@ -5,6 +5,7 @@ import Reivew1 from "../../assets/images/main/Review-1.png";
 import Pencil from "../../assets/images/controlimag/Pencil.png";
 import TrashBox from "../../assets/images/controlimag/trashbox.png";
 import Edit from "../../assets/images/controlimag/edit.png";
+import Back from "../../assets/images/controlimag/back.png";
 import Noimg from "../../assets/images/userinfo/Noimg.png";
 import { useRivesDelete } from "../../lib/api/useRivesMutation";
 import { usePatchRevies } from "../../lib/api/useRivesMutation";
@@ -18,12 +19,15 @@ const RivesBundle = ({ data }) => {
     const [baseImg, setBaseImg] = useState(Noimg);
     const navigate = useNavigate();
     const [editOn, seteditOn] = useState(false);
+    const [content, setContent] = useState("");
+    console.log(content);
     // const goDetail = () => {
     //     navigate(`/product/${data}`);
     // };
 
     const editClick = () => {
         seteditOn(!editOn);
+
     };
 
     const deleteClick = () => {
@@ -36,6 +40,15 @@ const RivesBundle = ({ data }) => {
     const saveImg = (e) => {
         setBaseImg(URL.createObjectURL(e.target.files[0]));
     };
+    
+    const Backhandle = (e) => {
+        seteditOn(false);
+        setBaseImg(Noimg);
+    }
+    const editContent = (e) => {
+        setContent(e.target.value);
+    }
+
 
     return (
         <ProductsRivewdiv>
@@ -43,16 +56,16 @@ const RivesBundle = ({ data }) => {
                 <HeartButton />
             </span>
             {editOn ? (
-                <label className="input-file-button" for="input-file">
+                <label className="Edit-button" for="Edit-file">
                     <img src={baseImg} alt="업로드용 이미지" />
                 </label>
             ) : (
                 <img src={Reivew1} alt="리뷰 1"></img>
             )}
-            <input type="file" accept="image/*" id="input-file" onChange={saveImg} />
+            <input type="file" accept="image/*" id="Edit-file" onChange={saveImg} />
             <div className="Productex">
                 <h4>{data.product.productName}</h4>
-                {editOn ? <input type="text" className="contetntSection" /> : <p>{data.content}</p>}
+                {editOn ? <input onChange={editContent} type="text" className="contetntSection" /> : <p>{data.content}</p>}
             </div>
             <Productex2>
                 {editOn ? (
@@ -62,6 +75,7 @@ const RivesBundle = ({ data }) => {
                 )}
                 {/* <img onClick={() => seteditOn(!editOn)} src={Pencil}  alt="수정버튼"></img> */}
                 <img onClick={deleteClick} src={TrashBox} alt="삭제버튼"></img>
+                {editOn ? (<img onClick={Backhandle} src={Back} alt="수정버튼"/>):("")}
                 <div className="creatt_at">{data.createdAt}</div>
             </Productex2>
         </ProductsRivewdiv>
@@ -121,7 +135,7 @@ const ProductsRivewdiv = styled.div`
         overflow: hidden;
         border: none;
     }
-    #input-file {
+    #Edit-file {
         display: none;
     }
     .Productex {
