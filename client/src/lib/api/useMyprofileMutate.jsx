@@ -30,7 +30,7 @@ export const useAddProfile = () => {
   return useMutation (ProfileAdd, {
     onSuccess: () => {
       queryClient.invalidateQueries(["infos"])
-      alert("등록 완료");
+      alert("등록 완료");      
     },
     onError: (e) => {
       console.log("등록실패");

@@ -7,6 +7,7 @@ import TextInput from "../common/input/TextInput";
 import useStore from "../../lib/store";
 import { useChange } from "../../lib/api/useChange";
 import { useAddProfile, useDelteProfile } from "../../lib/api/useMyprofileMutate";
+import { RiWindowLine } from "react-icons/ri";
 
 const PersonalInfo = ({ Persondata }) => {
     const { logInfo } = useStore();
@@ -21,6 +22,7 @@ const PersonalInfo = ({ Persondata }) => {
     const [imgFile, setImgFile] = useState(null);
     const [imgBase64, setImgBase64] = useState([]);
     const [comment, setComment] = useState();
+    const [Prw, setPrw] = useState(Persondata.member.profile);
 
     const InputNickName = (e) => {
         setchangeName(e.target.value);
@@ -63,11 +65,12 @@ const PersonalInfo = ({ Persondata }) => {
 
     // 회원처리 알고리즘
 
-    const {mutate: ProfileAdd} = useAddProfile();
-    const {mutate: ProfileDelete} = useDelteProfile();
+    const { mutate: ProfileAdd } = useAddProfile(setPrw);
+    const { mutate: ProfileDelete } = useDelteProfile();
 
     const handleChangeFile = (event) => {
         console.log(event.target.files);
+        setPrw(URL.createObjectURL(event.target.files[0]));
         setImgFile(event.target.files);
         setImgBase64([]);
         for (var i = 0; i < event.target.files.length; i++) {
@@ -90,17 +93,20 @@ const PersonalInfo = ({ Persondata }) => {
         const fd = new FormData();
         Object.values(imgFile).forEach((file) => fd.append("file", file));
 
-        fd.append("comment", comment);
-        ProfileAdd(fd);
+        fd.append("comment", comment);        
+        ProfileAdd(fd);         
+        setPrw(Persondata.member.profile);
+        window.location.reload();
+        
     };
-    
+
     //이미지 전처리 알고리즘
 
     const DeleteProfile = () => {
         ProfileDelete();
-    }
+    };
 
-    // 이미지 삭제 알고리즘 
+    // 이미지 삭제 알고리즘
 
     return (
         <TopDiv>
@@ -114,7 +120,7 @@ const PersonalInfo = ({ Persondata }) => {
                         {/* <img src={userImg} alt="프로필 사진" /> */}
                         <br />
                         <label className="input-file-button" for="input-file">
-                            <img src={Persondata.member.profile} alt="프로필 사진" />
+                            {Prw&&(<img src={Prw} alt="프로필 사진" />)}
                         </label>
                         <input
                             type="file"
