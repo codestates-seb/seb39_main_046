@@ -7,6 +7,7 @@ import TextInput from "../common/input/TextInput";
 import axios from "axios";
 import useStore from "../../lib/store";
 import { useChange } from "../../lib/api/useChange";
+import { useAddProfile, useDelteProfile } from "../../lib/api/useMyprofileMutate";
 
 const PersonalInfo = ({ Persondata }) => {
     const { logInfo } = useStore();
@@ -39,7 +40,7 @@ const PersonalInfo = ({ Persondata }) => {
         console.log(error);
     };
 
-    const { mutate: changeInfo, isError } = useChange(onSuccess, onError);
+    const { mutate: changeInfo } = useChange(onSuccess, onError);
 
     const onSubmit = () => {
         const id = "nickname";
@@ -62,6 +63,9 @@ const PersonalInfo = ({ Persondata }) => {
     };
 
     // 회원처리 알고리즘
+
+    const {mutate: ProfileAdd} = useAddProfile();
+    const {mutate: ProfileDelete} = useDelteProfile();
 
     const handleChangeFile = (event) => {
         console.log(event.target.files);
@@ -88,25 +92,16 @@ const PersonalInfo = ({ Persondata }) => {
         Object.values(imgFile).forEach((file) => fd.append("file", file));
 
         fd.append("comment", comment);
-        await axios
-            .post(
-                "/review/4",
-                fd,
-                {
-                    headers: {
-                        "Content-Type": `multipart/form-data`,
-                        Authorization: logInfo,
-                    },
-                },
-            )
-            .then((response) => {
-                if (response.data) {
-                    console.log(response.data);
-                }
-            });
+        ProfileAdd(fd);
     };
-
+    
     //이미지 전처리 알고리즘
+
+    const DeleteProfile = () => {
+        ProfileDelete();
+    }
+
+
 
     return (
         <TopDiv>
@@ -130,6 +125,7 @@ const PersonalInfo = ({ Persondata }) => {
                             multiple="multiple"
                         />
                         <Button onClick={WriteBoard}>수정</Button>
+                        <Button onClick={DeleteProfile}>삭제</Button>
                         <br />
                         <span>ID:{email}</span>
                     </UserExer>
