@@ -5,7 +5,7 @@ import Loading from "../../components/common/loading/Loading";
 import useStore from "../store";
 
 const getCategory = async (pageNum) => {
-    const { data } = await axiosInstance.get(`/category?page=${pageNum}&size=12`);
+    const { data } = await axiosInstance.get(`/category?page=${pageNum}&size=7`);
     return data;
 };
 
