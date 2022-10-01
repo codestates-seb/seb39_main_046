@@ -24,7 +24,6 @@ public interface ProductMapper {
     default Product productPatchDtoToProduct(Product product, ProductPatchDto productPatchDto, Category category){
 
         Product patchProduct = product;
-        patchProduct.setImageURL(productPatchDto.getImageURL());
         patchProduct.setProductName(productPatchDto.getProductName());
         patchProduct.setPrice(productPatchDto.getPrice());
         patchProduct.setCategory(category);

@@ -3,6 +3,7 @@ package com.example.Api.category;
 
 import com.example.Api.exception.BusinessLogicException;
 import com.example.Api.exception.ExceptionCode;
+import com.example.Api.product.Product;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -47,6 +48,7 @@ public class CategoryService {
 
 
     public Category updateCategory(Category category){
+        verifyExistCategory(category.getCategoryName());
         Category findCategory = findVerifiedCategoryId(category.getCategoryId());
 
         //카테고리명 변경
@@ -90,9 +92,11 @@ public class CategoryService {
         return result;
     }
 
-    public void cancelCategory(long categoryId){
-        Category findCategory = findVerifiedCategoryId(categoryId);
-        categoryRepository.delete(findCategory);
+    public void cancelCategory(Category category, List<Product> relatedProducts){
+        if(!relatedProducts.isEmpty()){
+            throw new BusinessLogicException(ExceptionCode.CANNOT_DELETE_CATEGORY);
+        }
+        categoryRepository.delete(category);
     }
 
     public List<Category> findAllCategoryAsList() {
