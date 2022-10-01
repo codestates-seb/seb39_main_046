@@ -4,7 +4,6 @@ import styled from "styled-components";
 import Userimg from "../../assets/images/userinfo/Userimg.jpg";
 import Button from "../common/button/Button";
 import TextInput from "../common/input/TextInput";
-import axios from "axios";
 import useStore from "../../lib/store";
 import { useChange } from "../../lib/api/useChange";
 import { useAddProfile, useDelteProfile } from "../../lib/api/useMyprofileMutate";
@@ -101,7 +100,7 @@ const PersonalInfo = ({ Persondata }) => {
         ProfileDelete();
     }
 
-
+    // 이미지 삭제 알고리즘 
 
     return (
         <TopDiv>

@@ -6,19 +6,19 @@ import Usering from "../../assets/images/userinfo/Userimg.jpg";
 import { FiTrash } from "react-icons/fi";
 import { RiEdit2Fill } from "react-icons/ri";
 import { useMypage } from "../../lib/api/useMypage";
-import { useRivesDelete } from "../../lib/api/useRivesDelete";
+import { useRivesDelete } from "../../lib/api/useRivesMutation";
 
 const Comment = ({ data }) => {
-    const  {member}  = useMypage();
+    const { member } = useMypage();
 
-    const {mutate: ReviewDelete} = useRivesDelete();
+    const { mutate: ReviewDelete } = useRivesDelete();
 
     const deleteClick = () => {
-        const ID = data.reviewId
-        if(window.confirm("정말로 삭제하시겠습니까?")){            
+        const ID = data.reviewId;
+        if (window.confirm("정말로 삭제하시겠습니까?")) {
             ReviewDelete(ID);
-        }    
-    }
+        }
+    };
 
     return (
         <Maindiv>

@@ -1,4 +1,4 @@
-import React,{useState} from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import HeartButton from "../common/button/HeartButton";
 import Reivew1 from "../../assets/images/main/Review-1.png";
@@ -6,32 +6,32 @@ import Pencil from "../../assets/images/controlimag/Pencil.png";
 import TrashBox from "../../assets/images/controlimag/trashbox.png";
 import Edit from "../../assets/images/controlimag/edit.png";
 import Noimg from "../../assets/images/userinfo/Noimg.png";
-import { useRivesDelete } from "../../lib/api/useRivesDelete";
-
+import { useRivesDelete } from "../../lib/api/useRivesMutation";
+import { usePatchRevies } from "../../lib/api/useRivesMutation";
 
 import { useNavigate } from "react-router-dom";
 
-const RivesBundle = ({ data }) => {    
-    
-    const {mutate: ReviewDelete} = useRivesDelete();
+const RivesBundle = ({ data }) => {
+    const { mutate: ReviewDelete } = useRivesDelete();
+    const {mutate: ReviewPatch} = usePatchRevies();
 
-    const [baseImg, setBaseImg] = useState(Noimg);    
+    const [baseImg, setBaseImg] = useState(Noimg);
     const navigate = useNavigate();
     const [editOn, seteditOn] = useState(false);
     // const goDetail = () => {
     //     navigate(`/product/${data}`);
     // };
 
-    const editClick =  () => {
-        seteditOn(!editOn)
-    }
+    const editClick = () => {
+        seteditOn(!editOn);
+    };
 
-    const deleteClick = () => {    
-        const id = data.reviewId
-        if(window.confirm("정말로 삭제하시겠습니까?")){            
+    const deleteClick = () => {
+        const id = data.reviewId;
+        if (window.confirm("정말로 삭제하시겠습니까?")) {
             ReviewDelete(id);
-        }    
-    }
+        }
+    };
 
     const saveImg = (e) => {
         setBaseImg(URL.createObjectURL(e.target.files[0]));
@@ -42,14 +42,24 @@ const RivesBundle = ({ data }) => {
             <span>
                 <HeartButton />
             </span>
-            {editOn ? (<label className="input-file-button" for="input-file"><img src={baseImg} alt="업로드용 이미지"/></label>) : (<img src={Reivew1} alt="리뷰 1"></img>)}
-            <input type="file" accept="image/*" id="input-file" onChange={saveImg}/>   
+            {editOn ? (
+                <label className="input-file-button" for="input-file">
+                    <img src={baseImg} alt="업로드용 이미지" />
+                </label>
+            ) : (
+                <img src={Reivew1} alt="리뷰 1"></img>
+            )}
+            <input type="file" accept="image/*" id="input-file" onChange={saveImg} />
             <div className="Productex">
                 <h4>{data.product.productName}</h4>
-                {editOn ? (<input type="text" className="contetntSection"/>):(<p>{data.content}</p>)}
+                {editOn ? <input type="text" className="contetntSection" /> : <p>{data.content}</p>}
             </div>
             <Productex2>
-                {editOn ? (<img onClick={editClick} src={Edit} alt="수정버튼"></img>):(<img onClick={() => seteditOn(!editOn)} src={Pencil}  alt="수정버튼"></img>)}
+                {editOn ? (
+                    <img onClick={editClick} src={Edit} alt="수정버튼"></img>
+                ) : (
+                    <img onClick={() => seteditOn(!editOn)} src={Pencil} alt="수정버튼"></img>
+                )}
                 {/* <img onClick={() => seteditOn(!editOn)} src={Pencil}  alt="수정버튼"></img> */}
                 <img onClick={deleteClick} src={TrashBox} alt="삭제버튼"></img>
                 <div className="creatt_at">{data.createdAt}</div>
@@ -98,7 +108,7 @@ const ProductsRivewdiv = styled.div`
         -webkit-box-orient: vertical;
         overflow: hidden;
     }
-    .contetntSection{
+    .contetntSection {
         padding-bottom: ${({ theme }) => theme.paddings.base};
         font-size: ${({ theme }) => theme.fontSizes.small};
         color: ${({ theme }) => theme.colors.Gray_060};
@@ -109,10 +119,10 @@ const ProductsRivewdiv = styled.div`
         -webkit-line-clamp: 4;
         -webkit-box-orient: vertical;
         overflow: hidden;
-        border:none;
+        border: none;
     }
-    #input-file{
-        display:none;
+    #input-file {
+        display: none;
     }
     .Productex {
         width: 100%;
@@ -151,8 +161,8 @@ const Productex2 = styled.div`
         text-align: right;
     }
     button {
-        width:17px;
-        height:17px;
+        width: 17px;
+        height: 17px;
         margin-top: ${({ theme }) => theme.margins.base};
         margin-right: ${({ theme }) => theme.margins.base};
     }
