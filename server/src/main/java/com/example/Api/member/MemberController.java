@@ -70,7 +70,7 @@ public class MemberController {
         Member member = mapper.memberPostDtoToMember(memberPostDto);
         member.setPassword(bCryptPasswordEncoder.encode(member.getPassword()));
         member.setRoles("ROLE_USER");
-        member.setProfile("https://https://pre-project2.s3.ap-northeast-2.amazonaws.com/userprofile.png");
+        member.setProfile("https://pre-project2.s3.ap-northeast-2.amazonaws.com/userprofile.png");
         Member response = memberService.createMember(member);
 
         return new ResponseEntity<>(mapper.memberToMemberResponseDto(response) , HttpStatus.OK);
@@ -285,7 +285,7 @@ public class MemberController {
         Member updatedMember = member;
         if(updatedMember.getProfile()=="https://pre-project2.s3.ap-northeast-2.amazonaws.com/userprofile.png") return new ResponseEntity<>("프로필 없음",HttpStatus.OK);
        else s3Upload.removeFile(updatedMember.getProfile().replace("https://pre-project2.s3.ap-northeast-2.amazonaws.com/",""));
-        updatedMember.setProfile("https://pre-project2.s3.ap-northeast-2.amazonaws.com/156af666-d249-456f-8866-b5274ac87acd-Userimg.jpg");
+        updatedMember.setProfile("https://pre-project2.s3.ap-northeast-2.amazonaws.com/userprofile.png");
         memberService.updateMember(member,updatedMember);
         return new ResponseEntity<>("삭제 완료",HttpStatus.OK);
     }
