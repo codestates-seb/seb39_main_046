@@ -9,6 +9,7 @@ import { useMypage } from "../../lib/api/useMypage";
 import { useRivesDelete } from "../../lib/api/useRivesMutation";
 
 const Comment = ({ data }) => {
+    console.log(data.content);
     const { member } = useMypage();
 
     const { mutate: ReviewDelete } = useRivesDelete();
@@ -38,7 +39,7 @@ const Comment = ({ data }) => {
                 </div>
                 <Commentex>
                     <p>
-                        리뷰리뷰리뷰리뷰리뷰리뷰리뷰리뷰리뷰리뷰리뷰리뷰리뷰리리뷰리뷰리뷰리뷰리뷰리뷰리뷰리뷰리뷰리뷰리뷰리뷰리뷰리리뷰리뷰리뷰리뷰리뷰리...
+                        {data.content}
                     </p>
                 </Commentex>
                 <Controlbar>
@@ -59,7 +60,7 @@ export default Comment;
 
 const Maindiv = styled.div`
     display: flex;
-    justify-content: space-between;
+    /* justify-content: space-between; */
     border-radius: ${({ theme }) => theme.radius.small};
     background-color: #fff;
     margin: 0 15px 15px 0;
@@ -80,7 +81,7 @@ const Maindiv = styled.div`
     }
 `;
 const ReviewDetail = styled.section`
-    max-width: 75%;
+    max-width: 100%;
     .userInfo {
         width: 100%;
         display: flex;
