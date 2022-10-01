@@ -70,7 +70,7 @@ public class MemberController {
         Member member = mapper.memberPostDtoToMember(memberPostDto);
         member.setPassword(bCryptPasswordEncoder.encode(member.getPassword()));
         member.setRoles("ROLE_USER");
-        member.setProfile("https://pre-project2.s3.ap-northeast-2.amazonaws.com/156af666-d249-456f-8866-b5274ac87acd-Userimg.jpg");
+        member.setProfile("https://https://pre-project2.s3.ap-northeast-2.amazonaws.com/userprofile.png");
         Member response = memberService.createMember(member);
 
         return new ResponseEntity<>(mapper.memberToMemberResponseDto(response) , HttpStatus.OK);
@@ -267,7 +267,11 @@ public class MemberController {
             notes = "✅ 로그인 상태 -> 프로필 사진 추가  \n  \n")
     public ResponseEntity profile(@RequestPart("file") MultipartFile mfile) throws IOException {
         Member member = memberService.getLoginMember();
-        s3Upload.removeFile(member.getProfile().replace("https://pre-project2.s3.ap-northeast-2.amazonaws.com/",""));
+        if(member.getProfile()=="https://pre-project2.s3.ap-northeast-2.amazonaws.com/userprofile.png") {
+            memberService.imgUpdate(member, s3Upload.upload(mfile));
+            return new ResponseEntity<>("등록 완료",HttpStatus.OK);
+        }
+      else  s3Upload.removeFile(member.getProfile().replace("https://pre-project2.s3.ap-northeast-2.amazonaws.com/",""));
 
         memberService.imgUpdate(member, s3Upload.upload(mfile));
 
@@ -279,7 +283,8 @@ public class MemberController {
     public ResponseEntity profileDelete() throws IOException {
         Member member = memberService.getLoginMember();
         Member updatedMember = member;
-        s3Upload.removeFile(updatedMember.getProfile().replace("https://pre-project2.s3.ap-northeast-2.amazonaws.com/",""));
+        if(updatedMember.getProfile()=="https://pre-project2.s3.ap-northeast-2.amazonaws.com/userprofile.png") return new ResponseEntity<>("프로필 없음",HttpStatus.OK);
+       else s3Upload.removeFile(updatedMember.getProfile().replace("https://pre-project2.s3.ap-northeast-2.amazonaws.com/",""));
         updatedMember.setProfile("https://pre-project2.s3.ap-northeast-2.amazonaws.com/156af666-d249-456f-8866-b5274ac87acd-Userimg.jpg");
         memberService.updateMember(member,updatedMember);
         return new ResponseEntity<>("삭제 완료",HttpStatus.OK);
