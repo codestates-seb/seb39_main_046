@@ -23,10 +23,10 @@ const updateCategory = (categoryId, updateData) => {
 };
 
 export function useCategory() {
-    const { isCategoryPage } = useStore();
+    const { isCurrentPage } = useStore();
     const { status, data, error, isFetching } = useQuery(
-        [queryKeys.category, isCategoryPage],
-        () => getCategory(isCategoryPage),
+        [queryKeys.category, isCurrentPage],
+        () => getCategory(isCurrentPage),
         {
             refetchOnWindowFocus: false,
             retry: 0,
