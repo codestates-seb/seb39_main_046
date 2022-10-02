@@ -10,6 +10,8 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import javax.persistence.*;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,16 +27,21 @@ public class Product extends Auditable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long productId;
 
+    @NotNull
     @Column
     private String imageURL; // 이미지 URL
 
-    @Column(length = 50, unique = true, nullable = false)
+    @NotNull
+    @Column(length = 50, unique = true)
     private String productName;
 
-    @Column(precision = 19, scale = 0, nullable = false)
+    @NotNull
+    @DecimalMin("1")
+    @Column(precision = 19, scale = 0)
     private BigDecimal price;
 
-    @Column(length = 10, nullable = false)
+    @NotNull
+    @Column(length = 10)
     private  String company;
     @Column
     private long views = 0;
