@@ -16,16 +16,34 @@ const Header = () => {
         }
     };
 
+    const checkLogin = () => {
+        if (!logInfo) {
+            alert("로그인 먼저 하세요");
+            navigate("/login");
+        } else {
+            navigate("/productbasket");
+        }
+    };
+
+    const checkLogin2 = () => {
+        if (!logInfo) {
+            alert("로그인 먼저 하세요");
+            navigate("/login");
+        } else {
+            navigate("/mypage");
+        }
+    };
+
     return (
         <HeaderContainer>
             <HMain>
                 <HMenu>
                     {!logInfo ? <li onClick={() => navigate("/login")}>로그인</li> : <li onClick={logout}>로그아웃</li>}
-                    <li onClick={() => navigate("/mypage")}>마이페이지</li>
-                    <li onClick={() => navigate("/productbasket")}>찜꽁바구니</li>
+                    <li onClick={checkLogin2}>마이페이지</li>
+                    <li onClick={checkLogin}>찜꽁바구니</li>
                 </HMenu>
                 <HTab>
-                    <li onClick={() => navigate("/")}>서비스 소개</li>
+                    <li>서비스 소개</li>
                     <li onClick={() => navigate("/products")}>PB상품 랭킹</li>
                     <li>
                         <img onClick={() => navigate("/")} src={logo} alt="logo" />

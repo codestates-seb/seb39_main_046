@@ -3,10 +3,24 @@ import styled from "styled-components";
 import ReviewHeartButton from "../common/button/ReviewHeartButton";
 import ReviewImg from "../../assets/images/products/ReviewImg.png";
 import Usering from "../../assets/images/userinfo/Userimg.jpg";
-import { FiTrash } from "react-icons/fi";
+import { FiTrash, FiSave } from "react-icons/fi";
 import { RiEdit2Fill } from "react-icons/ri";
+import { useMypage } from "../../lib/api/useMypage";
+import { useRivesDelete } from "../../lib/api/useRivesMutation";
+
 const Comment = ({ data }) => {
-    console.log(data);
+    console.log(data.content);
+    const { member } = useMypage();
+
+    const { mutate: ReviewDelete } = useRivesDelete();
+
+    const deleteClick = () => {
+        const ID = data.reviewId;
+        if (window.confirm("정말로 삭제하시겠습니까?")) {
+            ReviewDelete(ID);
+        }
+    };
+
     return (
         <Maindiv>
             <div className="img_box">
@@ -19,21 +33,22 @@ const Comment = ({ data }) => {
                         <span>{data.member.nickName}</span>
                     </div>
                     <div className="userHeart">
-                        <ReviewHeartButton id={data.reviewId && data.reviewId} />
+                        <ReviewHeartButton
+                            id={data.reviewId && data.reviewId}
+                            heartFlag={data.reviewHeartFlag && data.reviewHeartFlag}
+                        />
                         <p>{data.hearts}</p>
                     </div>
                 </div>
                 <Commentex>
-                    <p>
-                        리뷰리뷰리뷰리뷰리뷰리뷰리뷰리뷰리뷰리뷰리뷰리뷰리뷰리리뷰리뷰리뷰리뷰리뷰리뷰리뷰리뷰리뷰리뷰리뷰리뷰리뷰리리뷰리뷰리뷰리뷰리뷰리...
-                    </p>
+                    <p>{data.content}</p>
                 </Commentex>
                 <Controlbar>
                     <span className="icon">
                         <RiEdit2Fill size={20} color="rgba(174, 174, 178, 1)" />
                     </span>
                     <span className="icon">
-                        <FiTrash size={20} color="rgba(253, 169, 79, 1)" />
+                        <FiTrash onClick={deleteClick} size={20} color="rgba(253, 169, 79, 1)" />
                     </span>
                     <span className="date">{data.createdAt.substr(0, 10)}</span>
                 </Controlbar>
@@ -46,7 +61,7 @@ export default Comment;
 
 const Maindiv = styled.div`
     display: flex;
-    justify-content: space-between;
+    /* justify-content: space-between; */
     border-radius: ${({ theme }) => theme.radius.small};
     background-color: #fff;
     margin: 0 15px 15px 0;
@@ -67,7 +82,7 @@ const Maindiv = styled.div`
     }
 `;
 const ReviewDetail = styled.section`
-    max-width: 75%;
+    max-width: 100%;
     .userInfo {
         width: 100%;
         display: flex;

@@ -7,7 +7,6 @@ import link from "../../assets/icons/SharelinkBtn.png";
 const ProductDetail = (data) => {
     const detialData = data.data;
 
-    console.log(detialData.heartFlag);
     return (
         <MainContent>
             <p className="heartbtn">

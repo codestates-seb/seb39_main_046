@@ -10,11 +10,15 @@ const useStore = create((set) => ({
     setStoreTab(index) {
         set((state) => ({ isStoreTab: index }));
     },
-    isCategoryTab: 0,
+    isCategoryTab: 13,
     setCategoryTab(index) {
         set((state) => ({ isCategoryTab: index }));
     },
     isCurrentPage: 1,
+    isJJimProductsCurrentPage: 1,
+    ismyReviewsCurrentPage: 1,
+    ismyLikeReives: 1,
+    isProductDetail: 1,
     isSortNum: 1,
     isTestNum: 0,
     isKeyword: "",
@@ -23,6 +27,7 @@ const useStore = create((set) => ({
     },
     isSerchItem: {},
     isCategoryPage: 1,
+    isCategoryTab: 13,
 }));
 
 export default useStore;

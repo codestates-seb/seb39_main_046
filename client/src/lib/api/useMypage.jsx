@@ -13,7 +13,7 @@ export function useMypage() {
     // const queryClient = useQueryClient();
 
     const { logInfo } = useStore();
-    const { status, data, error, isFetching } = useQuery(["infos", logInfo], () => getInfomation(logInfo), {
+    const { status, data, error, isFetching } = useQuery(["infos"], () => getInfomation(logInfo), {
         keepPreviousData: true,
         staleTime: 2000,
         onSuccess: (data) => {

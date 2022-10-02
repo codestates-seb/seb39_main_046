@@ -1,11 +1,58 @@
 import React from "react";
 import styled from "styled-components";
 import titleimg from "../../assets/images/userinfo/title.png";
+import PersonalProducts from "./PersonalProducts";
+import MyPagePaging2 from "../common/pagination/myPage/MyPagePaging2";
+import { useNavigate } from "react-router-dom";
+import useStore from "../../lib/store";
+import axios from "axios";
+import { useQuery, useQueryClient } from "react-query";
+import { useEffect } from "react";
+import Loading from "../common/loading/Loading";
 
-const ProductBasket = () => {
-    const userName = "리코";
+const GetBasket = async (log, company, logInfo) => {
+    const { data } = await axios.get(`member/myPage/simplifiedProducts?page=${log}&company=${company}`, {
+        headers: {
+            Authorization: logInfo,
+        },
+    });
+    return data;
+};
+
+const ProductBasket = ({ Persondata, PersonMyJJimProduct }) => {
+    const queryClient = useQueryClient();
+    const userName = Persondata.member.nickName;
     const more = "더보기 >";
+    const navigate = useNavigate();
+    const { logInfo, isJJimProductsCurrentPage } = useStore();
+    const company = " ";
 
+    useEffect(() => {
+        queryClient.prefetchQuery(["JJimBascket", isJJimProductsCurrentPage], () =>
+            GetBasket(isJJimProductsCurrentPage, company, logInfo),
+        );
+    }, [isJJimProductsCurrentPage, logInfo, company, queryClient]);
+
+    const { data, isError, error, isLoading, isFetching } = useQuery(
+        ["JJimBascket", isJJimProductsCurrentPage],
+        () => GetBasket(isJJimProductsCurrentPage, company, logInfo),
+        {
+            staleTime: 2000,
+            keepPreviousData: true,
+            refetchOnWindowFocus: false,
+            retry: 0,
+        },
+    );
+
+    if (isLoading) return <Loading />;
+    if (isFetching) return <Loading />;
+    if (isError)
+        return (
+            <>
+                <h3>오류발생</h3>
+                <p>{error.toString()}</p>
+            </>
+        );
     return (
         <Topdiv>
             <BasketTitle>
@@ -15,13 +62,29 @@ const ProductBasket = () => {
                         {userName}
                         <span>님의 찜꽁바구니</span>
                     </Username>
-                    <p>{more}</p>
+                    <p
+                        onClick={() => {
+                            navigate("/productbasket");
+                        }}
+                    >
+                        {more}
+                    </p>
                 </section>
             </BasketTitle>
-            <CarashelContent></CarashelContent>
+            <CarashelContent>
+                {data.data &&
+                    data.data.map((data, idx) => {
+                        return <PersonalProducts key={idx} data={data} />;
+                    })}
+            </CarashelContent>
+            <Pagibox>
+                <MyPagePaging2 PageInfo={Persondata.jjimProducts} isCurrentPage={isJJimProductsCurrentPage} />
+            </Pagibox>
         </Topdiv>
     );
 };
+
+export default ProductBasket;
 
 const Topdiv = styled.div`
     margin-left: 300px;
@@ -60,54 +123,16 @@ const Username = styled.span`
 `;
 const CarashelContent = styled.section`
     margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: 1280px;
     margin-bottom: 100px;
     margin-right: 250px;
 `;
 
-const ProductSection = styled.section`
-    width: 240px;
-    height: 355px;
-    border-radius: 20px;
-    margin-right: 14px;
+const Pagibox = styled.div`
+    margin-top: 50px;
+    margin-bottom: 50px;
+    text-align: center;
 `;
-
-const ProductsEx = styled.div`
-    padding: 10px 15px;
-    border-radius: 0 0 20px 20px;
-    div {
-        width: 100%;
-        height: 1px;
-        background-color: ${({ theme }) => theme.colors.Gray_010};
-        margin: 5px 0;
-    }
-`;
-
-const RecoProducts = styled.div`
-    width: 100%;
-    height: 240px;
-    background: url("/character/상품준비 안됫음 .png");
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: 70%;
-    border-radius: 20px 20px 0 0;
-    background-color: #fff9f3;
-`;
-
-const ProductCategory = styled.p`
-    font-size: ${({ theme }) => theme.fontSizes.xs};
-    font-weight: 500;
-    color: ${({ theme }) => theme.colors.Orange_040};
-`;
-const ProductName = styled.p`
-    font-size: ${({ theme }) => theme.fontSizes.base};
-    font-weight: 700;
-    color: ${({ theme }) => theme.colors.Gray_090};
-`;
-const ProductPrice = styled.p`
-    font-size: ${({ theme }) => theme.fontSizes.base};
-    font-weight: 700;
-    color: ${({ theme }) => theme.colors.Gray_030};
-`;
-
-export default ProductBasket;

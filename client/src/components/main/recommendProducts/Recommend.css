@@ -32,11 +32,7 @@
     top: 200px;
     right: 13px;
     color: #fff;
-    width: 36px;
-    height: 36px;
-    border-radius: 36px;
-    background-color: rgb(253, 169, 79, 0.7);
-    font-size: 20px;
+    color: #1c1c1e;
 }
 
 .swiper-button-prev {
@@ -47,8 +43,10 @@
 }
 
 .swiper-button-next::after {
-    font-size: 20px;
+    font-size: 30px;
     font-weight: bold;
 }
 .swiper-button-prev::after {
+    font-size: 30px;
+    font-weight: bold;
 }

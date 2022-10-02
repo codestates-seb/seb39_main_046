@@ -1,12 +1,49 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
+import axios from "axios";
+import useStore from "../../lib/store";
 
 import MyLikeReviewContain from "./MyLikeReviewContain";
-import Paging from "../common/pagination/Paging";
+import MyLikeReviesPage from "../common/pagination/myPage/MyLikeReviesPage";
+import { useQuery, useQueryClient } from "react-query";
+import Loading from "../common/loading/Loading";
 
-const MyLikeReview = (Infodata, InfolikeRives) => {
-    const userName = Infodata.nickName;
-    console.log(InfolikeRives);
+const GetmyLikeReviews = async (page, methodId, logInfo) => {
+    const { data } = await axios.get(`member/myPage/simplifiedHeartReviews?page=${page}&methodId=${methodId}`, {
+        headers: {
+            Authorization: logInfo,
+        },
+    });
+    return data;
+};
+
+const MyLikeReview = ({ Persondata }) => {
+    const queryClient = useQueryClient();
+    const userName = Persondata.member.nickName;
+    const { logInfo, ismyLikeReives } = useStore();
+    const page = 1;
+    const methodId = 3;
+    // console.log(PersonlikeReview);
+
+    useEffect(() => {
+        queryClient.prefetchQuery(["LikeReviews", ismyLikeReives], () =>
+            GetmyLikeReviews(ismyLikeReives, methodId, logInfo),
+        );
+    }, [ismyLikeReives, methodId, queryClient, logInfo]);
+
+    const { data, isError, error, isLoading, isFetching } = useQuery(
+        ["LikeReviews", ismyLikeReives],
+        () => GetmyLikeReviews(ismyLikeReives, methodId, logInfo),
+        {
+            staleTime: 2000,
+            keepPreviousData: true,
+            refetchOnWindowFocus: false,
+            retry: 0,
+        },
+    );
+
+    if (isLoading) return <h2>로딩중이에요</h2>;
+    if (isFetching) return <Loading />;
 
     return (
         <Maindiv>
@@ -16,13 +53,13 @@ const MyLikeReview = (Infodata, InfolikeRives) => {
                     <span>님이 찜꽁한 리뷰</span>
                 </PageTtitle>
                 <RivewSection>
-                    {InfolikeRives.data &&
-                        InfolikeRives.data.map((data, idx) => {
+                    {data.data &&
+                        data.data.map((data, idx) => {
                             return <MyLikeReviewContain key={idx} data={data} />;
                         })}
                 </RivewSection>
                 <Pagibox>
-                    <Paging />
+                    <MyLikeReviesPage PageInfo = {Persondata.jjimReviews} />
                 </Pagibox>
             </PageSection>
         </Maindiv>
