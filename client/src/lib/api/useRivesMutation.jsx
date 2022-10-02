@@ -42,7 +42,7 @@ export const useReviewAdd = () => {
 }
 
 const ReviewPatch = ({id, fd,content}) => {
-  return axios.patch(`/review/${id}`,fd,content,{
+  return axios.patch(`/review/${id}`,{
     headers:{
       Authorization: sessionStorage.getItem("token"),
       "Content-Type": `multipart/form-data`,

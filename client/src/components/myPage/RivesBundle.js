@@ -11,23 +11,45 @@ import { useRivesDelete } from "../../lib/api/useRivesMutation";
 import { usePatchRevies } from "../../lib/api/useRivesMutation";
 
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const RivesBundle = ({ data }) => {
     const { mutate: ReviewDelete } = useRivesDelete();
-    const {mutate: ReviewPatch} = usePatchRevies();
+    const { mutate: ReviewPatch } = usePatchRevies();
 
-    const [baseImg, setBaseImg] = useState(Noimg);
+    const [baseImg, setBaseImg] = useState(data.imageURL);
     const navigate = useNavigate();
     const [editOn, seteditOn] = useState(false);
     const [content, setContent] = useState("");
-    console.log(content);
+    const [uploading, setUploading] = useState(null);
+    const [imgBase641, setImgBase641] = useState([]);
+    const [comment, setComment] = useState("아 제발 좀되라");
+    // console.log(content);
     // const goDetail = () => {
     //     navigate(`/product/${data}`);
     // };
 
-    const editClick = () => {
-        seteditOn(!editOn);
-
+    const editClick = async() => {
+        console.log("이거맞지?");
+        const fd1 = new FormData();
+        const key = data.reviewId;
+        console.log(key);
+        Object.values(uploading).forEach((file) => fd1.append("file", file));
+        fd1.append("content", content);
+        await axios.post(`/review/5`, fd1, {
+            headers:{
+                Authorization: sessionStorage.getItem("token"),
+                "Content-Type": `multipart/form-data`,
+            }
+        }).then((res) => {
+            if(res.data){
+                console.log(res.data);
+            }
+        }).catch((error) => {
+            console.log(error);
+        })
+        // ReviewPatch(key, fd1, content)
+        // seteditOn(!editOn);
     };
 
     const deleteClick = () => {
@@ -37,18 +59,37 @@ const RivesBundle = ({ data }) => {
         }
     };
 
-    const saveImg = (e) => {
-        setBaseImg(URL.createObjectURL(e.target.files[0]));
+    const saveImg = (event) => {
+        setBaseImg(URL.createObjectURL(event.target.files[0]));
+        setUploading(event.target.files);
+        setImgBase641([]);
+        for (var i = 0; i < event.target.files.length; i++) {
+            if (event.target.files[i]) {
+                let reader = new FileReader();
+                reader.readAsDataURL(event.target.files[i]);
+                reader.onloadend = () => {
+                    const base641 = reader.result;
+                    if (base641) {
+                        var base641Sub = base641.toString();
+                        setImgBase641((imgBase641) => [...imgBase641, base641Sub]);
+                    }
+                };
+            }
+        }
     };
-    
+
     const Backhandle = (e) => {
         seteditOn(false);
         setBaseImg(Noimg);
-    }
+    };
     const editContent = (e) => {
         setContent(e.target.value);
-    }
+        console.log(content);
+    };
 
+    const editSubmit = () => {
+        seteditOn(!editOn);
+    }
 
     return (
         <ProductsRivewdiv>
@@ -60,22 +101,26 @@ const RivesBundle = ({ data }) => {
                     <img src={baseImg} alt="업로드용 이미지" />
                 </label>
             ) : (
-                <img src={Reivew1} alt="리뷰 1"></img>
+                <img src={data.imageURL} alt="리뷰 1"></img>
             )}
             <input type="file" accept="image/*" id="Edit-file" onChange={saveImg} />
             <div className="Productex">
                 <h4>{data.product.productName}</h4>
-                {editOn ? <input onChange={editContent} type="text" className="contetntSection" /> : <p>{data.content}</p>}
+                {editOn ? (
+                    <input onChange={editContent} type="text" className="contetntSection" />
+                ) : (
+                    <p>{data.content}</p>
+                )}
             </div>
             <Productex2>
                 {editOn ? (
                     <img onClick={editClick} src={Edit} alt="수정버튼"></img>
                 ) : (
-                    <img onClick={() => seteditOn(!editOn)} src={Pencil} alt="수정버튼"></img>
+                    <img onClick={editSubmit} src={Pencil} alt="수정버튼"></img>
                 )}
                 {/* <img onClick={() => seteditOn(!editOn)} src={Pencil}  alt="수정버튼"></img> */}
                 <img onClick={deleteClick} src={TrashBox} alt="삭제버튼"></img>
-                {editOn ? (<img onClick={Backhandle} src={Back} alt="수정버튼"/>):("")}
+                {editOn ? <img onClick={Backhandle} src={Back} alt="뒤로버튼" /> : ""}
                 <div className="creatt_at">{data.createdAt}</div>
             </Productex2>
         </ProductsRivewdiv>
@@ -96,6 +141,7 @@ const ProductsRivewdiv = styled.div`
     img {
         border-radius: 20px;
         width: 235px;
+        height: 235px;
     }
     span {
         position: absolute;

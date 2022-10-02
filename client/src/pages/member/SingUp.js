@@ -42,7 +42,7 @@ const SingUp = () => {
                     <div className="InputData">
                         <label>아이디</label>
                         {/* <TextInput /> */}
-                        <Thisinpu
+                        <Thisinpu                        
                             type="text"
                             {...register("username",{required: "필수입력 사항입니다.",
                             minLength:{
