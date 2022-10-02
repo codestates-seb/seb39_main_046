@@ -56,10 +56,7 @@ public class ReviewService {
     }
 
     public boolean checkAuth(Review review, long memberId){
-        boolean result = false;
-        if(memberId == review.getMember().getMemberId()){
-            result = true;
-        }
+        boolean result = memberId == review.getMember().getMemberId();
         return result;
     }
 
