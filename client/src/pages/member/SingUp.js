@@ -87,8 +87,8 @@ const SingUp = () => {
             </TopBtnBox>
             <MiddleBox>
                 <InputBox>
-                    <div>
-                        <p>아이디</p>
+                    <div className="InputData">
+                        <label>아이디</label>
                         {/* <TextInput /> */}
                         <Thisinpu
                             type="text"
@@ -96,9 +96,10 @@ const SingUp = () => {
                                 setUserName(e.target.value);
                             }}
                         ></Thisinpu>
+                        <p>오류 테스트</p>
                     </div>
-                    <div>
-                        <p>닉네임</p>
+                    <div className="InputData">
+                        <label>닉네임</label>
                         {/* <TextInput /> */}
                         <Thisinpu
                             type="text"
@@ -107,8 +108,8 @@ const SingUp = () => {
                             }}
                         ></Thisinpu>
                     </div>
-                    <div>
-                        <p>패스워드</p>
+                    <div className="InputData">
+                        <label>패스워드</label>
                         {/* <TextInput /> */}
                         <Thisinpu
                             type="password"
@@ -117,8 +118,8 @@ const SingUp = () => {
                             }}
                         ></Thisinpu>
                     </div>
-                    <div>
-                        <p>패스워드확인</p>
+                    <div className="InputData">
+                        <label>패스워드확인</label>
                         {/* <TextInput /> */}
                         <Thisinpu
                             type="password"
@@ -205,7 +206,7 @@ const MiddleBox = styled.div`
     flex-direction: column;
     div {
         margin-bottom: 35px;
-        p {
+        label {
             color: ${({ theme }) => theme.colors.Gray_090};
             font-weight: bold;
             margin-bottom: 5px;
@@ -213,7 +214,16 @@ const MiddleBox = styled.div`
     }
 `;
 
-const InputBox = styled.div``;
+const InputBox = styled.div`
+    .InputData{
+        display: flex;
+        flex-direction:column;
+    }
+    p{
+        color:red;
+        font-size:12px;
+    }
+`;
 
 const LoginConfirmBtn = styled.button`
     width: 320px;
