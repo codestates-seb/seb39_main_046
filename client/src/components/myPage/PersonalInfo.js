@@ -7,7 +7,6 @@ import TextInput from "../common/input/TextInput";
 import useStore from "../../lib/store";
 import { useChange } from "../../lib/api/useChange";
 import { useAddProfile, useDelteProfile } from "../../lib/api/useMyprofileMutate";
-import { RiWindowLine } from "react-icons/ri";
 import { useForm } from "react-hook-form";
 
 const PersonalInfo = ({ Persondata }) => {

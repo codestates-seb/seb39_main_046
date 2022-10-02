@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import axiosInstance from "../../utils/axiosInastance";
 import { useCategory, useCategoryMutation } from "../../lib/api/useCategory";
 import { useProducts, useSerchProduct } from "../../lib/api/useGetProducts";
 import LineInput from "../../components/common/input/LineInput";
@@ -32,23 +31,6 @@ const ManagerPage = () => {
     const postRegisterHandler = (e) => {
         e.preventDefault();
         postRegister.mutate();
-    };
-
-    const postHandler = async () => {
-        const enteredData = [
-            {
-                categoryName: newCategory,
-            },
-        ];
-
-        try {
-            console.log(enteredData);
-            await axiosInstance.post(`/category`, enteredData);
-            console.log("updated successfully!");
-            window.location.reload();
-        } catch (error) {
-            console.log("Something went wrong", error);
-        }
     };
 
     return (
@@ -185,27 +167,6 @@ const CategoryBox = styled.div`
         padding: 20px;
         border-radius: 10px;
         background-color: ${({ theme }) => theme.colors.Gray_010};
-    }
-`;
-
-const Categoryli = styled.li`
-    width: 100%;
-    height: 40px;
-    background-color: #fff;
-    border-radius: 30px;
-    margin-bottom: 10px;
-    padding: 0 20px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    span {
-        padding-top: 7px;
-        .icon {
-            cursor: pointer;
-        }
-        .first_icon {
-            margin-right: 10px;
-        }
     }
 `;
 

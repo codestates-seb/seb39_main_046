@@ -30,7 +30,7 @@ const Mypage = () => {
     });
 
     if (isLoading) return <h3> 로딩중 </h3>;
-
+    console.log(data);
     return (
         <>
             <PersonalInfo Persondata={data.data} />

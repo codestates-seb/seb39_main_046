@@ -3,7 +3,7 @@ import styled from "styled-components";
 import axios from "axios";
 import useStore from "../../lib/store";
 import ProductDetail from "../../components/myPage/ProductDetail";
-import { useQuery, useQueryClient } from "react-query";
+import { useQuery } from "react-query";
 import PersonalInfo from "../../components/myPage/PersonalInfo";
 import Loading from "../../components/common/loading/Loading";
 
