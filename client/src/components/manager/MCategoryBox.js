@@ -4,6 +4,7 @@ import axiosInstance from "../../utils/axiosInastance";
 import { useDeleteCategory, useUpdateCategory } from "../../lib/api/useCategory";
 import { FiTrash2, FiSave } from "react-icons/fi";
 import { RiEdit2Fill } from "react-icons/ri";
+
 const MCategoryBox = ({ data }) => {
     const [editOn, seteditOn] = useState(true);
     const editClick = () => {
@@ -23,6 +24,7 @@ const MCategoryBox = ({ data }) => {
             categoryName: editInput,
         };
         updateCategory(id, enteredData);
+        console.log(id);
     };
     const updateHandler = async (categoryNum) => {
         const enteredData = {
@@ -81,7 +83,7 @@ const MCategoryBox = ({ data }) => {
                         onClick={() => updateHandler(data.categoryId)}
                         className="icon first_icon"
                         size={20}
-                        color="rgba(174, 174, 178, 1)"
+                        color="rgba(253, 169, 79, 1)"
                     />
                 )}
 
@@ -89,7 +91,7 @@ const MCategoryBox = ({ data }) => {
                     onClick={() => deleteClick(data.categoryId)}
                     className="icon"
                     size={20}
-                    color="rgba(253, 169, 79, 1)"
+                    color="rgba(174, 174, 178, 1)"
                 />
             </span>
         </InputBox>

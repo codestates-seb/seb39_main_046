@@ -23,19 +23,26 @@ const ManagerPage = () => {
     const inputChangeHandler = (e) => {
         setNewCategory(e.target.value);
     };
-    // const postRegister = useCategoryMutation({
-    //     categoryName: newCategory,
-    // });
-
-    // const postRegisterHandler = (e) => {
-    //     e.preventDefault();
-    //     postRegister.mutate();
-    // };
-    const postHandler = async () => {
-        const enteredData = {
+    const postRegister = useCategoryMutation([
+        {
             categoryName: newCategory,
-        };
+        },
+    ]);
+
+    const postRegisterHandler = (e) => {
+        e.preventDefault();
+        postRegister.mutate();
+    };
+    console.log(newCategory);
+    const postHandler = async () => {
+        const enteredData = [
+            {
+                categoryName: newCategory,
+            },
+        ];
+
         try {
+            console.log(enteredData);
             await axiosInstance.post(`/category`, enteredData);
             console.log("updated successfully!");
             window.location.reload();
@@ -68,11 +75,8 @@ const ManagerPage = () => {
                         <div className="header">
                             <h2>카테고리 관리</h2>
                             <div className="header_right">
-                                <input
-                                    placeholder="추가할 카테고리를 입력해주세요"
-                                    changeHandler={inputChangeHandler}
-                                />
-                                <Button onClick={postHandler}>추가</Button>
+                                <input placeholder="추가할 카테고리를 입력해주세요" onChange={inputChangeHandler} />
+                                <Button onClick={postRegisterHandler}>추가</Button>
                             </div>
                         </div>
                         <div className="contents">
