@@ -33,7 +33,7 @@ const ManagerPage = () => {
         e.preventDefault();
         postRegister.mutate();
     };
-    console.log(newCategory);
+
     const postHandler = async () => {
         const enteredData = [
             {

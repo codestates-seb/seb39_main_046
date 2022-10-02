@@ -7,7 +7,7 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/autoplay";
 import "./Recommend.css";
-import ProductBox from "../../common/product/ProductBox";
+import MProductBox from "./MProductBox";
 import RecommendCharcter from "../../../assets/images/main/RecommendCharcter.png";
 import { useMainProducts } from "../../../lib/api/useGetMainProducts";
 
@@ -49,7 +49,7 @@ const Recommend = () => {
                     recommendProducts.map((data, idx) => {
                         return (
                             <StyleSwipper>
-                                <ProductBox className="item" key={idx} data={data}></ProductBox>
+                                <MProductBox className="item" key={idx} data={data}></MProductBox>
                             </StyleSwipper>
                         );
                     })}
