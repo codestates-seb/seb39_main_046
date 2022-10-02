@@ -42,7 +42,8 @@ const SingUp = () => {
     const [password, setPassword] = useState("");
     const [username, setUserName] = useState("");
     const [confirm, setConfrim] = useState("");
-    const {register, handleSubmit, formState: {errors}} = useForm();
+    const {register, handleSubmit,getValues, formState: {errors}}  = useForm();
+    console.log(errors);
 
     // const {mutate, isLoading} = useMutation(addPerson,{
     //   onSuccess: () => {
@@ -90,7 +91,8 @@ const SingUp = () => {
             </TopBtnBox>
             <MiddleBox>
                 <InputBox onSubmit = {handleSubmit((data) => {
-                    addPerson(data);
+                    const person = {"nickName": data.nickName, "password": data.password, "username": data.username};
+                    addPerson(person);
                 })}>
                     <div className="InputData">
                         <label>아이디</label>
@@ -163,10 +165,20 @@ const SingUp = () => {
                         {/* <TextInput /> */}
                         <Thisinpu
                             type="password"
-                            // onChange={(e) => {
-                            //     setConfrim(e.target.value);
-                            // }}
+                            {...register("passwordCheck",{
+                                required:{
+                                    value: true,
+                                    message: "비밀번호를 확인 해주세요.",
+                                },
+                                validate:{
+                                    matchesPreviousPassword: (value) =>{
+                                        const{password} = getValues();
+                                        return password === value || "비밀번호가 일치하지 않습니다.";
+                                    },
+                                },
+                            })}
                         ></Thisinpu>
+                        {errors.passwordCheck && <p>{errors.passwordCheck.message}</p>}
                     </div>
                 <LoginConfirmBtn onClick={onsubmit}>회원가입</LoginConfirmBtn>
                 </InputBox>
