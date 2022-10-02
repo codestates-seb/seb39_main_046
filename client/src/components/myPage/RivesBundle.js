@@ -6,6 +6,8 @@ import Pencil from "../../assets/images/controlimag/Pencil.png";
 import TrashBox from "../../assets/images/controlimag/trashbox.png";
 import Edit from "../../assets/images/controlimag/edit.png";
 import Back from "../../assets/images/controlimag/back.png";
+import { FiTrash2, FiSave } from "react-icons/fi";
+import { RiEdit2Fill, RiArrowGoBackLine } from "react-icons/ri";
 import Noimg from "../../assets/images/userinfo/Noimg.png";
 import { useRivesDelete } from "../../lib/api/useRivesMutation";
 import { usePatchRevies } from "../../lib/api/useRivesMutation";
@@ -29,25 +31,28 @@ const RivesBundle = ({ data }) => {
     //     navigate(`/product/${data}`);
     // };
 
-    const editClick = async() => {
+    const editClick = async () => {
         console.log("이거맞지?");
         const fd1 = new FormData();
         const key = data.reviewId;
         console.log(key);
         Object.values(uploading).forEach((file) => fd1.append("file", file));
         fd1.append("content", content);
-        await axios.post(`/review/5`, fd1, {
-            headers:{
-                Authorization: sessionStorage.getItem("token"),
-                "Content-Type": `multipart/form-data`,
-            }
-        }).then((res) => {
-            if(res.data){
-                console.log(res.data);
-            }
-        }).catch((error) => {
-            console.log(error);
-        })
+        await axios
+            .post(`/review/5`, fd1, {
+                headers: {
+                    Authorization: sessionStorage.getItem("token"),
+                    "Content-Type": `multipart/form-data`,
+                },
+            })
+            .then((res) => {
+                if (res.data) {
+                    console.log(res.data);
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            });
         // ReviewPatch(key, fd1, content)
         // seteditOn(!editOn);
     };
@@ -89,19 +94,16 @@ const RivesBundle = ({ data }) => {
 
     const editSubmit = () => {
         seteditOn(!editOn);
-    }
+    };
 
     return (
         <ProductsRivewdiv>
-            <span>
-                <HeartButton />
-            </span>
             {editOn ? (
                 <label className="Edit-button" for="Edit-file">
-                    <img src={baseImg} alt="업로드용 이미지" />
+                    <img src={baseImg} alt="업로드용 이미지" className="review_img" />
                 </label>
             ) : (
-                <img src={data.imageURL} alt="리뷰 1"></img>
+                <img src={data.imageURL} alt="리뷰 1" className="review_img"></img>
             )}
             <input type="file" accept="image/*" id="Edit-file" onChange={saveImg} />
             <div className="Productex">
@@ -113,15 +115,28 @@ const RivesBundle = ({ data }) => {
                 )}
             </div>
             <Productex2>
-                {editOn ? (
-                    <img onClick={editClick} src={Edit} alt="수정버튼"></img>
-                ) : (
-                    <img onClick={editSubmit} src={Pencil} alt="수정버튼"></img>
-                )}
-                {/* <img onClick={() => seteditOn(!editOn)} src={Pencil}  alt="수정버튼"></img> */}
-                <img onClick={deleteClick} src={TrashBox} alt="삭제버튼"></img>
-                {editOn ? <img onClick={Backhandle} src={Back} alt="뒤로버튼" /> : ""}
-                <div className="creatt_at">{data.createdAt}</div>
+                <div className="icon_box">
+                    {editOn ? (
+                        <FiSave
+                            onClick={editClick}
+                            className="icon first_icon"
+                            size={20}
+                            color="rgba(174, 174, 178, 1)"
+                        />
+                    ) : (
+                        <RiEdit2Fill
+                            onClick={editSubmit}
+                            className="icon first_icon"
+                            size={20}
+                            color="rgba(174, 174, 178, 1)"
+                        />
+                    )}
+                    {/* <img onClick={() => seteditOn(!editOn)} src={Pencil}  alt="수정버튼"></img> */}
+                    <FiTrash2 onClick={deleteClick} className="icon" size={20} color="rgba(253, 169, 79, 1)" />
+                    {editOn ? <RiArrowGoBackLine onClick={Backhandle} size={20} color="rgba(174, 174, 178, 1)" /> : ""}
+                </div>
+
+                <div className="creatt_at">{data.createdAt.substr(0, 10)}</div>
             </Productex2>
         </ProductsRivewdiv>
     );
@@ -130,37 +145,36 @@ const RivesBundle = ({ data }) => {
 export default RivesBundle;
 
 const ProductsRivewdiv = styled.div`
-    position: relative;
+    width: 100%;
+    border-radius: 20px;
+    padding: 20px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    width: 220px;
-    margin-right: 25px;
-    cursor: pointer;
-    img {
+    background-color: #fff;
+    box-shadow: 0px 4px 10px rgba(204, 204, 204, 0.5);
+    .review_img {
         border-radius: 20px;
-        width: 235px;
-        height: 235px;
-    }
-    span {
-        position: absolute;
-        right: 2px;
-        top: 5px;
-        z-index: 2;
+        max-width: 240px;
+        min-height: 240px;
+        border: 1px solid rgba(204, 204, 204, 0.2);
+        /* box-shadow: 0px 0px 5px rgba(204, 204, 204, 0.2); */
     }
     h4 {
-        padding-top: 10px;
-        padding-bottom: 10px;
+        margin: 10px 0;
+
         font-size: ${({ theme }) => theme.fontSizes.base};
         color: ${({ theme }) => theme.colors.Gray_090};
         font-weight: 700;
     }
     p {
+        height: 60px;
         padding-bottom: ${({ theme }) => theme.paddings.base};
         font-size: ${({ theme }) => theme.fontSizes.small};
         color: ${({ theme }) => theme.colors.Gray_060};
-        height: 80px;
+        background-color: ${({ theme }) => theme.colors.Gray_010};
+        border-radius: 15px;
         font-weight: 400;
         white-space: normal;
         display: -webkit-box;
@@ -169,17 +183,13 @@ const ProductsRivewdiv = styled.div`
         overflow: hidden;
     }
     .contetntSection {
-        padding-bottom: ${({ theme }) => theme.paddings.base};
+        width: 100%;
+        height: 60px;
         font-size: ${({ theme }) => theme.fontSizes.small};
         color: ${({ theme }) => theme.colors.Gray_060};
-        height: 80px;
-        font-weight: 400;
-        white-space: normal;
-        display: -webkit-box;
-        -webkit-line-clamp: 4;
-        -webkit-box-orient: vertical;
-        overflow: hidden;
+        background-color: ${({ theme }) => theme.colors.Gray_010};
         border: none;
+        border-radius: 15px;
     }
     #Edit-file {
         display: none;
@@ -205,25 +215,19 @@ const ProductsRivewdiv = styled.div`
 const Productex2 = styled.div`
     width: 100%;
     display: flex;
-    img {
-        width: 17px;
-        height: 17px;
-        margin-top: ${({ theme }) => theme.margins.base};
-        margin-right: ${({ theme }) => theme.margins.base};
-
-        cursor: pointer;
-    }
+    justify-content: space-between;
+    margin-top: 10px;
     .creatt_at {
-        padding-top: 9px;
         font-weight: 400;
         color: ${({ theme }) => theme.colors.Gray_030};
-        float: left;
-        text-align: right;
     }
     button {
         width: 17px;
         height: 17px;
         margin-top: ${({ theme }) => theme.margins.base};
         margin-right: ${({ theme }) => theme.margins.base};
+    }
+    .icon {
+        margin-right: 5px;
     }
 `;

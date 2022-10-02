@@ -77,6 +77,9 @@ export default PersonalRivew;
 
 const Maindive = styled.div`
     padding-bottom: 100px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
 `;
 
 const TitleDiv = styled.div`
@@ -84,10 +87,15 @@ const TitleDiv = styled.div`
     margin-bottom: 70px;
 `;
 const Productbox = styled.section`
-    height: 440px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    max-width: 1180px;
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 20px;
+    .itemgrid {
+        box-shadow: 0px 4px 10px rgba(204, 204, 204, 0.5);
+        background-color: blue;
+    }
 `;
 
 const UserName = styled.span`

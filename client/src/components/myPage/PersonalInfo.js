@@ -16,7 +16,12 @@ const PersonalInfo = ({ Persondata }) => {
     const welcommsg = " 님, 안녕하세요 :)";
     const email = Persondata.member.username;
     const userImg = Userimg;
-    const {register, handleSubmit,getValues, formState: {errors}}  = useForm();
+    const {
+        register,
+        handleSubmit,
+        getValues,
+        formState: { errors },
+    } = useForm();
 
     const [changeName, setchangeName] = useState("");
     const [changePw, setChangePw] = useState("");
@@ -118,8 +123,7 @@ const PersonalInfo = ({ Persondata }) => {
                 </Titlediv>
                 <UserPassing>
                     <UserExer>
-                        {/* <img src={userImg} alt="프로필 사진" /> */}
-                        <br />
+                        <img className="user_profile" src={userImg} alt="프로필 사진" />
                         <label className="input-file-button" for="input-file">
                             {Prw && <img src={Prw} alt="프로필 사진" />}
                         </label>
@@ -130,43 +134,48 @@ const PersonalInfo = ({ Persondata }) => {
                             onChange={handleChangeFile}
                             multiple="multiple"
                         />
-                        <Button onClick={WriteBoard}>수정</Button>
-                        <Button onClick={DeleteProfile}>삭제</Button>
-                        <br />
-                        <span>ID:{email}</span>
+                        <div className="user_btn">
+                            <Button onClick={WriteBoard}>수정</Button>
+                            <Button onClick={DeleteProfile}>삭제</Button>
+                            <p className="user_id">ID:{email}</p>
+                        </div>
                     </UserExer>
-                    <div className="InfoPerson"> 
-                    <UserForm onSumbit ={handleSubmit((data) => {
-                        console.log(data);
-                    })}>
-                        <p>닉네임</p>
-                        {/* <TextInput /> */}
-                        <Thisinpu 
-                            type="text"
-                            placeholder="입력해주세요."
-                            {...register("nickName", {required: "필수 입력 사항입니다.", minLength:{
-                                value:2,
-                                message: "2자 이상이어야 합니다."
-                            },
-                            maxLength:{
-                                value:10,
-                                message: "10자 이하이어야합니다."
-                            }                            
-                        })}                                                    
-                        ></Thisinpu>
-                        {errors.nickName && <p className="errorCode">{errors.nickName.message}</p>}                        
-                        <SubmitButton>완료</SubmitButton>
-                    </UserForm>
-                    
-                    <UserForm1>
-                        <p>패스워드</p>
-                        {/* <TextInput /> */}
-                        <Thisinpu placeholder="입력해주세요." onChange={InputPw}></Thisinpu>
-                        <Button onClick={pwSubmit}>수정</Button>
-                        <p>패스워드 확인</p>
-                        <Thisinpu placeholder="입력해주세요." onChange={InputConfrim}></Thisinpu>
-                    </UserForm1>
-                    {/* </UserForm> */}
+                    <div className="InfoPerson">
+                        <UserForm
+                            onSumbit={handleSubmit((data) => {
+                                console.log(data);
+                            })}
+                        >
+                            <p>닉네임</p>
+                            {/* <TextInput /> */}
+                            <Thisinpu
+                                type="text"
+                                placeholder="입력해주세요."
+                                {...register("nickName", {
+                                    required: "필수 입력 사항입니다.",
+                                    minLength: {
+                                        value: 2,
+                                        message: "2자 이상이어야 합니다.",
+                                    },
+                                    maxLength: {
+                                        value: 10,
+                                        message: "10자 이하이어야합니다.",
+                                    },
+                                })}
+                            ></Thisinpu>
+                            {errors.nickName && <p className="errorCode">{errors.nickName.message}</p>}
+                            <SubmitButton>완료</SubmitButton>
+                        </UserForm>
+
+                        <UserForm1>
+                            <p>패스워드</p>
+                            {/* <TextInput /> */}
+                            <Thisinpu placeholder="입력해주세요." onChange={InputPw}></Thisinpu>
+                            <Button onClick={pwSubmit}>수정</Button>
+                            <p>패스워드 확인</p>
+                            <Thisinpu placeholder="입력해주세요." onChange={InputConfrim}></Thisinpu>
+                        </UserForm1>
+                        {/* </UserForm> */}
                     </div>
                 </UserPassing>
             </UserInfo>
@@ -178,7 +187,6 @@ export default PersonalInfo;
 
 const UserForm1 = styled.form`
     text-align: left;
-    height: 264px;
     p {
         padding-left: ${({ theme }) => theme.paddings.xl};
         position: relative;
@@ -189,10 +197,10 @@ const UserForm1 = styled.form`
         margin-bottom: ${({ theme }) => theme.paddings.xxxl};
         margin-right: 15px;
     }
-    .Input_data{
-        display:flex;
+    .Input_data {
+        display: flex;
     }
-`
+`;
 
 const Thisinpu = styled.input`
     width: 320px;
@@ -211,7 +219,7 @@ const Thisinpu = styled.input`
 
 const TopDiv = styled.div`
     background-color: ${({ theme }) => theme.colors.Blue_010};
-    padding: 30px 0;
+    padding: 60px 0;
     margin-bottom: 50px;
 `;
 const UserInfo = styled.div`
@@ -231,18 +239,22 @@ const UserPassing = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    .InfoPerson{
+    .InfoPerson {
         margin-top: 30px;
     }
 `;
 
 const UserExer = styled.div`
-    width: 193px;
-    height: 193px;
+    margin-top: 30px;
     input {
         display: none;
     }
-
+    .user_profile {
+        background-color: #fff;
+        width: 200px;
+        height: 200px;
+        border-radius: 200px;
+    }
     /* .input-file-button{
     cursor: pointer;
     display: inline-flex;
@@ -260,9 +272,9 @@ const UserExer = styled.div`
         height: 150px;
     }
     Button {
-        margin-top: -10px;
+        margin-right: 5px;
     }
-    span {
+    .user_id {
         padding-top: ${({ theme }) => theme.paddings.base};
         font-size: ${({ theme }) => theme.fontSizes.base};
         color: ${({ theme }) => theme.colors.Blue_040};
@@ -280,7 +292,7 @@ const Welcome = styled.span`
 const UserForm = styled.div`
     text-align: left;
     /* height: 264px; */
-    margin-top: ${({ theme }) => theme.paddings.xxxl};
+    /* margin-top: ${({ theme }) => theme.paddings.xxxl}; */
     p {
         padding-left: ${({ theme }) => theme.paddings.xl};
         position: relative;
@@ -291,26 +303,31 @@ const UserForm = styled.div`
         margin-bottom: ${({ theme }) => theme.paddings.xxxl};
         margin-right: 15px;
     }
-    .Input_data{
-        display:flex;
+    .Input_data {
+        display: flex;
     }
-    .errorCode{
-        color:red;
-        font-size:12px;
+    .errorCode {
+        color: red;
+        font-size: 12px;
     }
 `;
 
 const SubmitButton = styled.button`
-    width: 65px;
-    height: 36px;
-    border-radius: 20px;
-    border: none;
+    display: inline-flex;
+    outline: none;
+    padding: 7px 1rem;
+    border: 3px solid transparent;
+    border-radius: 50px;
+    color: white;
     background-color: ${({ theme }) => theme.colors.Blue_030};
-    color: #fff;
+    cursor: pointer;
+    /* 크기 */
+    font-size: ${({ theme }) => theme.fontSizes.small};
+    line-height: 1rem;
     &:hover {
         background: ${({ theme }) => theme.colors.Blue_040};
     }
     &:active {
         background: ${({ theme }) => theme.colors.Blue_050};
     }
-`
+`;

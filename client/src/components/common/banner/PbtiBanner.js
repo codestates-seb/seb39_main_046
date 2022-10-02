@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import PBannerImg from "../../../assets/images/banner/PbtiBanner.png";
+import PBannerImg from "../../../assets/images/banner/PbtiBanner.svg";
 
 const PbtiBanner = () => {
     let more = "편BTI 하러가기 >";

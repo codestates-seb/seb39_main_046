@@ -42,7 +42,5 @@ const Rcontainer = styled.section`
 `;
 const RHearderBox = styled.header`
     width: 100%;
-    height: 600px;
     background-color: ${({ theme }) => theme.colors.Blue_010};
-    padding: 65px;
 `;

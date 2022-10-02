@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import FindStoreFunc from "../../components/findStore/FindStoreFunc";
 import Banner from "../../components/common/banner/Banner";
-import BChracter from "../../assets/images/banner/FindStoreBanner.png";
+import BChracter from "../../assets/images/banner/FindStoreBanner.svg";
 
 const FindStore = () => {
     return (

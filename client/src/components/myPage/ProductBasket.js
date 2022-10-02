@@ -22,7 +22,7 @@ const GetBasket = async (log, company, logInfo) => {
 const ProductBasket = ({ Persondata, PersonMyJJimProduct }) => {
     const queryClient = useQueryClient();
     const userName = Persondata.member.nickName;
-    const more = "더보기 >";
+    const more = "찜꽁바구니 더보기 >";
     const navigate = useNavigate();
     const { logInfo, isJJimProductsCurrentPage } = useStore();
     const company = " ";
@@ -56,30 +56,28 @@ const ProductBasket = ({ Persondata, PersonMyJJimProduct }) => {
     return (
         <Topdiv>
             <BasketTitle>
-                <section>
-                    <img src={titleimg} alt="이틀 이미지" />
-                    <Username>
-                        {userName}
-                        <span>님의 찜꽁바구니</span>
-                    </Username>
-                    <p
-                        onClick={() => {
-                            navigate("/productbasket");
-                        }}
-                    >
-                        {more}
-                    </p>
-                </section>
+                <img src={titleimg} alt="이틀 이미지" />
+                <h2>
+                    {userName}
+                    <span>님의 최근 찜꽁바구니</span>
+                </h2>
+                <p
+                    onClick={() => {
+                        navigate("/productbasket");
+                    }}
+                >
+                    {more}
+                </p>
             </BasketTitle>
             <CarashelContent>
                 {data.data &&
-                    data.data.map((data, idx) => {
+                    data.data.slice(0, 4).map((data, idx) => {
                         return <PersonalProducts key={idx} data={data} />;
                     })}
             </CarashelContent>
-            <Pagibox>
+            {/* <Pagibox>
                 <MyPagePaging2 PageInfo={Persondata.jjimProducts} isCurrentPage={isJJimProductsCurrentPage} />
-            </Pagibox>
+            </Pagibox> */}
         </Topdiv>
     );
 };
@@ -87,20 +85,33 @@ const ProductBasket = ({ Persondata, PersonMyJJimProduct }) => {
 export default ProductBasket;
 
 const Topdiv = styled.div`
-    margin-left: 300px;
-    margin-right: 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin-bottom: 110px;
 `;
 const BasketTitle = styled.section`
+    max-width: 1180px;
     width: 100%;
-    section {
-        display: flex;
-        margin: 0 auto;
-        justify-content: space-between;
-    }
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     img {
-        /* margin-top:${({ theme }) => theme.margins.xl}; */
         width: 119px;
         height: 140px;
+    }
+    h2 {
+        font-size: ${({ theme }) => theme.fontSizes.titleSize};
+        font-weight: 700;
+        text-align: center;
+        color: ${({ theme }) => theme.colors.Blue_040};
+        margin-right: 42px;
+        span {
+            font-size: ${({ theme }) => theme.fontSizes.titleSize};
+            font-weight: 700;
+            color: ${({ theme }) => theme.colors.Gray_090};
+        }
     }
     p {
         font-size: ${({ theme }) => theme.fontSizes.small};
@@ -109,26 +120,15 @@ const BasketTitle = styled.section`
         cursor: pointer;
     }
 `;
-const Username = styled.span`
-    font-size: ${({ theme }) => theme.fontSizes.titleSize};
-    font-weight: 700;
-    text-align: center;
-    color: ${({ theme }) => theme.colors.Blue_040};
-    margin-right: 42px;
-    span {
-        font-size: ${({ theme }) => theme.fontSizes.titleSize};
-        font-weight: 700;
-        color: ${({ theme }) => theme.colors.Gray_090};
-    }
-`;
 const CarashelContent = styled.section`
-    margin: 0 auto;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 1280px;
-    margin-bottom: 100px;
-    margin-right: 250px;
+    max-width: 1180px;
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 20px;
+    .itemgrid {
+        box-shadow: 0px 4px 10px rgba(204, 204, 204, 0.5);
+    }
 `;
 
 const Pagibox = styled.div`
