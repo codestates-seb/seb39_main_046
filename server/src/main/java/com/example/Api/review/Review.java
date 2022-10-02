@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,10 +26,11 @@ public class Review extends Auditable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long reviewId;
 
-    @Column
+    @NotNull
+    @Column(length = 50)
     private String content;
 
-    @Column
+    @Column(nullable = true)
     private String imageURL;
 
     @Column

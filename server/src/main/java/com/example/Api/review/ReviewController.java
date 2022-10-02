@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import javax.validation.constraints.Positive;
 import java.io.IOException;
 import java.util.List;
@@ -56,8 +57,8 @@ public class ReviewController {
             notes = "✅ 상품에 대한 리뷰를 등록합니다.\n - \n " )
     @PostMapping(value = "/review/{product-id}", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE,MediaType.APPLICATION_JSON_VALUE})
     // @RequestPart(value="file",required = false)
-    public ResponseEntity postReview(@PathVariable("product-id") @Positive long productId,
-                                     @RequestPart(value = "content",required = false) ReviewPostDto reviewPostDto,@RequestPart(value = "file",required = false) MultipartFile rfile,
+    public ResponseEntity postReview(@Positive @PathVariable("product-id") long productId,
+                                     @Valid @RequestPart(value = "content",required = false) ReviewPostDto reviewPostDto, @RequestPart(value = "file",required = false) MultipartFile rfile,
                                      HttpServletRequest request) throws IOException {
 
         boolean loginStatus = memberService.memberCheck(request);
@@ -79,7 +80,7 @@ public class ReviewController {
             review.setMember(writter);
             review.setProduct(product);
            
-reviewService.createReview(review);
+            reviewService.createReview(review);
             // 상품 리뷰 수 증가
             Product updatedProduct = product;
             updatedProduct.addReviews();
@@ -93,8 +94,8 @@ reviewService.createReview(review);
     @ApiOperation(value = "리뷰 수정",
             notes = "✅ 리뷰를 수정합니다.\n - \n " )
     @PatchMapping("/review/{review-id}")
-    public ResponseEntity patchReview(@PathVariable("review-id") @Positive long reviewId,
-                                      @RequestPart(value = "content",required = false) ReviewPatchDto reviewPatchDto,@RequestPart(value = "file",required = false) MultipartFile rfile,
+    public ResponseEntity patchReview(@Positive @PathVariable("review-id") long reviewId,
+                                      @Valid @RequestPart(value = "content",required = false) ReviewPatchDto reviewPatchDto,@RequestPart(value = "file",required = false) MultipartFile rfile,
                                       HttpServletRequest request) throws IOException{
 
         boolean loginStatus = memberService.memberCheck(request);
@@ -136,7 +137,7 @@ reviewService.createReview(review);
     @ApiOperation(value = "리뷰 삭제",
             notes = "✅ 리뷰를 삭제합니다.\n - \n " )
     @DeleteMapping("/review/{review-id}")
-    public ResponseEntity deleteReview(@PathVariable("review-id") @Positive long reviewId,
+    public ResponseEntity deleteReview(@Positive @PathVariable("review-id") long reviewId,
                                        HttpServletRequest request){
         boolean loginStatus = memberService.memberCheck(request);
         if(loginStatus){
