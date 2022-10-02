@@ -10,8 +10,7 @@ import axiosInstance from "../../utils/axiosInastance";
 import { queryKeys } from "../../lib/react-query/constant";
 
 
-
-const getDeatilProduct = async (productNum) => {    
+const getDeatilProduct = async (productNum) => {
     const { data } = await axiosInstance.get(`/product/${productNum}`);
     return data;
 };
