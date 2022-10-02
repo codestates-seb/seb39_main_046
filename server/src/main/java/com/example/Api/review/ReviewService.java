@@ -1,5 +1,6 @@
 package com.example.Api.review;
 
+import com.example.Api.S3Upload;
 import com.example.Api.member.Member;
 import com.example.Api.product.Product;
 import com.example.Api.specification.ReviewSpecification;
@@ -10,6 +11,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -19,14 +21,17 @@ import java.util.Optional;
 public class ReviewService {
 
     private final ReviewRepository reviewRepository;
+    private final S3Upload s3Upload;
 
-    public ReviewService(ReviewRepository reviewRepository) {
+    public ReviewService(ReviewRepository reviewRepository, S3Upload s3Upload) {
         this.reviewRepository = reviewRepository;
+        this.s3Upload = s3Upload;
     }
 
     public Review createReview(Review review){
         return  reviewRepository.save(review);
     }
+
 
 
     public Review updateReview(Review review, Review patchReview){
@@ -145,6 +150,23 @@ public class ReviewService {
         reviewRepository.save(findReview);
 
     }
+    public Review postReview(ReviewPostDto reviewPostDto) throws IOException {
+        Review review = new Review();
+        if (reviewPostDto.getMultipartFile() == null)
+        {review.setContent(reviewPostDto.getContent());
+            review.setImageURL(null);
+        }
+        if (reviewPostDto.getContent()==null)
+        { review.setContent(null);
+            review.setImageURL(s3Upload.upload(reviewPostDto.getMultipartFile()));}
+        if(reviewPostDto.getContent() != null && reviewPostDto.getMultipartFile() !=null) {
+            review.setContent(reviewPostDto.getContent());
+            review.setImageURL(s3Upload.upload(reviewPostDto.getMultipartFile()));
+        }
+
+        reviewRepository.save(review);
+        return review;
+    }
 
     public void imgUpdate(Review review,String photo){
         review.setImageURL(photo);
@@ -155,3 +177,5 @@ public class ReviewService {
         return reviewRepository.findAllByMember(member);
     }
 }
+
+

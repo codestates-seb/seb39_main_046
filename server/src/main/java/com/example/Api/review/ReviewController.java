@@ -57,8 +57,8 @@ public class ReviewController {
             notes = "✅ 상품에 대한 리뷰를 등록합니다.\n - \n " )
     @PostMapping(value = "/review/{product-id}", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE,MediaType.APPLICATION_JSON_VALUE})
     // @RequestPart(value="file",required = false)
-    public ResponseEntity postReview(@Positive @PathVariable("product-id") long productId,
-                                     @Valid @RequestPart(value = "content",required = false) ReviewPostDto reviewPostDto, @RequestPart(value = "file",required = false) MultipartFile rfile,
+    public ResponseEntity postReview(@PathVariable("product-id") @Positive long productId,
+                                     @ModelAttribute ReviewPostDto reviewPostDto,
                                      HttpServletRequest request) throws IOException {
 
         boolean loginStatus = memberService.memberCheck(request);
@@ -71,16 +71,17 @@ public class ReviewController {
             Product product = productService.findVerifiedProductId(productId);
 
 
-            Review review = new Review();
-            if (reviewPostDto == null) review.setContent(null);
-            else review.setContent(reviewPostDto.getContent());
-            if(rfile == null) review.setImageURL(null);
-            else reviewService.imgUpdate(review, s3Upload.upload(rfile));
-
-            review.setMember(writter);
-            review.setProduct(product);
-
-            reviewService.createReview(review);
+//            Review review = new Review();
+//            if (reviewPostDto == null) review.setContent(null);
+//            else review.setContent(reviewPostDto.getContent());
+//            if(rfile == null) review.setImageURL(null);
+//            else reviewService.imgUpdate(review, s3Upload.upload(rfile));
+//
+//            review.setMember(writter);
+//            review.setProduct(product);
+//
+//            reviewService.createReview(review);
+          Review review =  reviewService.postReview(reviewPostDto);
             // 상품 리뷰 수 증가
             Product updatedProduct = product;
             updatedProduct.addReviews();
