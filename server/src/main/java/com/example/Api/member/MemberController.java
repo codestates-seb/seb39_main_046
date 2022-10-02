@@ -119,14 +119,16 @@ public class MemberController {
         if(loginStatus){
             return new ResponseEntity<>("로그인이 필요한 서비스입니다.", HttpStatus.BAD_REQUEST);
         }
+        else {
+            Member member = memberService.getLoginMember();
+            Member updatedMember = member;
+            memberService.verifyExistInfo("",memberPatchDtoN.getNickName(),"nickName");
+            updatedMember.setNickName(memberPatchDtoN.getNickName());
+            memberService.updateMember(member, updatedMember);
 
-        Member member = memberService.getLoginMember();
-        Member updatedMember = member;
-        updatedMember.setNickName(memberPatchDtoN.getNickName());
-        memberService.verifyExistInfo(null,updatedMember.getNickName());
-        memberService.updateMember(member, updatedMember);
+            return new ResponseEntity<>("변경 완료", HttpStatus.OK);
+        }
 
-        return new ResponseEntity<>("변경 완료", HttpStatus.OK);
     }
 
     @PatchMapping("/password")
@@ -138,7 +140,7 @@ public class MemberController {
         }
         Member member = memberService.getLoginMember();
         Member updatedMember = member;
-        updatedMember.setPassword(memberPatchDtoP.getPassword());
+        updatedMember.setPassword(bCryptPasswordEncoder.encode(memberPatchDtoP.getPassword()));
         memberService.updateMember(member,updatedMember);
 
         return new ResponseEntity<>("변경 완료", HttpStatus.OK);

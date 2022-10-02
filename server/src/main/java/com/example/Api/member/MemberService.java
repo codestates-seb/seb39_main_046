@@ -31,28 +31,24 @@ public class MemberService {
     }
 
     public Member createMember(Member member){
-        verifyExistInfo(member.getUsername(), member.getNickName());
+        verifyExistInfo(member.getUsername(),member.getNickName(),"all");
         return memberRepository.save(member);
     }
 
-    public void verifyExistInfo(String userName, String nickName){
+    public void verifyExistInfo(String userName, String nickName, String checkValue) {
 
-        boolean checkUserName = userName.isEmpty();
-        boolean checkNickName = nickName.isEmpty();
-
-
-        if((checkUserName)&&(!checkNickName)){
+        if (checkValue.equals("nickName")) {
             Optional<Member> optionalMember = memberRepository.findByNickName(nickName);
-            if(optionalMember.isPresent()){
+            if (optionalMember.isPresent()) {
                 throw new BusinessLogicException(ExceptionCode.MEMBER_INFORMATION_EXISTS);
             }
-        }
-        else if((!checkUserName)&&(!checkNickName)){
+        } else if (checkValue.equals("all")) {
             Optional<Member> optionalMember = memberRepository.findByUsername(userName);
             Optional<Member> optionalMember2 = memberRepository.findByNickName(nickName);
-            if((optionalMember.isPresent()) || (optionalMember2.isPresent()) ){
+            if ((optionalMember.isPresent()) || (optionalMember2.isPresent())) {
                 throw new BusinessLogicException(ExceptionCode.MEMBER_INFORMATION_EXISTS);
             }
+
         }
     }
 
