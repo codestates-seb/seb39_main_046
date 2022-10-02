@@ -12,7 +12,6 @@ public interface ReviewMapper {
     default Review reviewPatchDtoToReview(Review review, ReviewPatchDto reviewPatchDto){
         Review patchReview = review;
         patchReview.setContent(reviewPatchDto.getContent());
-        patchReview.setImageURL(reviewPatchDto.getImageURL());
 
         return patchReview;
     }
