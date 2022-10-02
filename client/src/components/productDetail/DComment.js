@@ -3,7 +3,7 @@ import styled from "styled-components";
 import ReviewHeartButton from "../common/button/ReviewHeartButton";
 import ReviewImg from "../../assets/images/products/ReviewImg.png";
 import Usering from "../../assets/images/userinfo/Userimg.jpg";
-import { FiTrash } from "react-icons/fi";
+import { FiTrash2, FiSave } from "react-icons/fi";
 import { RiEdit2Fill } from "react-icons/ri";
 const Comment = ({ data }) => {
     console.log(data);
@@ -19,7 +19,10 @@ const Comment = ({ data }) => {
                         <span>{data.member.nickName}</span>
                     </div>
                     <div className="userHeart">
-                        <ReviewHeartButton id={data.reviewId && data.reviewId} />
+                        <ReviewHeartButton
+                            id={data.reviewId && data.reviewId}
+                            heartFlag={data.reviewHeartFlag && data.reviewHeartFlag}
+                        />
                         <p>{data.hearts}</p>
                     </div>
                 </div>
@@ -33,7 +36,7 @@ const Comment = ({ data }) => {
                         <RiEdit2Fill size={20} color="rgba(174, 174, 178, 1)" />
                     </span>
                     <span className="icon">
-                        <FiTrash size={20} color="rgba(253, 169, 79, 1)" />
+                        <FiTrash2 size={20} color="rgba(253, 169, 79, 1)" />
                     </span>
                     <span className="date">{data.createdAt.substr(0, 10)}</span>
                 </Controlbar>

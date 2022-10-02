@@ -1,70 +1,47 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import axiosInstance from "../../utils/axiosInastance";
-import { useCategory } from "../../lib/api/useCategory";
-import { useDeleteCategory } from "../../lib/api/useCategory";
-import { useCategoryMutation } from "../../lib/api/useCategory";
+import { useCategory, useCategoryMutation } from "../../lib/api/useCategory";
 import { useProducts, useSerchProduct } from "../../lib/api/useGetProducts";
-import { FiTrash } from "react-icons/fi";
-import { RiEdit2Fill } from "react-icons/ri";
 import LineInput from "../../components/common/input/LineInput";
 import Banner from "../../components/common/banner/Banner";
 import Button from "../../components/common/button/Button";
 import Paging from "../../components/common/pagination/Paging";
 import MProductBox from "../../components/manager/MProductBox";
 import MProductModal from "../../components/manager/MProductModal";
+import MCategoryBox from "../../components/manager/MCategoryBox";
 
 const ManagerPage = () => {
-    const { data, pageInfo } = useProducts();
-    const serchData = useSerchProduct();
-    const [newCategory, setNewCategory] = useState("");
-    const [updateContent, setUpdateContent] = useState({
-        categoryName: "이거 수정 테스팅 중",
-    });
-
-    const Cdata = useCategory();
-    const categories = Cdata["등록된 전체 카테고리"];
-
     const [isOpen, setIsOpen] = useState(false);
 
-    const { mutate: deleteCategory, isError } = useDeleteCategory();
-    if (isError) {
-        <p>("삭제가 안되는 중..")</p>;
-    }
-    const onsubmit = () => {
-        deleteCategory(42);
-    };
+    const { data, pageInfo } = useProducts(); //상품 데이터 get
+    const serchData = useSerchProduct(); //검색 데이터 get
+    const Cdata = useCategory(); //카테고리 get
+    const categories = Cdata["등록된 전체 카테고리"];
 
-    // const deleteHandler = async (categoryNum) => {
-    //     try {
-    //         await axiosInstance.delete(`/category/${categoryNum}`);
-    //         console.log("deleted successfully!");
-    //     } catch (error) {
-    //         console.log("Something went wrong", error);
-    //     }
-    // };
-    const updateHandler = async (categoryNum) => {
-        const enteredData = {
-            categoryName: "ㄴㅇㄴㅁㅇㅁㅇㅁㄴ이거 수정 테스팅 중",
-        };
-        try {
-            await axiosInstance.patch(`/category/${categoryNum}`, enteredData);
-            console.log("updated successfully!");
-        } catch (error) {
-            console.log("Something went wrong", error);
-        }
-    };
-
-    const postRegister = useCategoryMutation({
-        ...newCategory,
-    });
-
+    const [newCategory, setNewCategory] = useState();
     const inputChangeHandler = (e) => {
         setNewCategory(e.target.value);
     };
-    const postRegisterHandler = (e) => {
-        e.preventDefault();
-        postRegister.mutate();
+    // const postRegister = useCategoryMutation({
+    //     categoryName: newCategory,
+    // });
+
+    // const postRegisterHandler = (e) => {
+    //     e.preventDefault();
+    //     postRegister.mutate();
+    // };
+    const postHandler = async () => {
+        const enteredData = {
+            categoryName: newCategory,
+        };
+        try {
+            await axiosInstance.post(`/category`, enteredData);
+            console.log("updated successfully!");
+            window.location.reload();
+        } catch (error) {
+            console.log("Something went wrong", error);
+        }
     };
 
     return (
@@ -91,27 +68,18 @@ const ManagerPage = () => {
                         <div className="header">
                             <h2>카테고리 관리</h2>
                             <div className="header_right">
-                                <input placeholder="추가할 카테고리를 입력해주세요" />
-                                <Button>추가</Button>
+                                <input
+                                    placeholder="추가할 카테고리를 입력해주세요"
+                                    changeHandler={inputChangeHandler}
+                                />
+                                <Button onClick={postHandler}>추가</Button>
                             </div>
                         </div>
                         <div className="contents">
                             <ul>
                                 {categories &&
                                     categories.data.map((el) => {
-                                        return (
-                                            <Categoryli key={el.categoryId}>
-                                                {el.categoryName}
-                                                <span>
-                                                    <RiEdit2Fill
-                                                        className="icon first_icon"
-                                                        size={20}
-                                                        color="rgba(174, 174, 178, 1)"
-                                                    />
-                                                    <FiTrash className="icon" size={20} color="rgba(253, 169, 79, 1)" />
-                                                </span>
-                                            </Categoryli>
-                                        );
+                                        return <MCategoryBox data={el} key={el.categoryId} />;
                                     })}
                             </ul>
                             <Paging pageInfo={categories && categories.pageInfo} />
@@ -144,12 +112,6 @@ const ManagerPage = () => {
                     </section>
                     <PaginationBox>{serchData.data ? null : <Paging pageInfo={pageInfo} />}</PaginationBox>
                 </BottomContainer>
-
-                {/* <button onClick={() => deleteHandler(42)}>삭제</button> */}
-                <button onClick={onsubmit}>삭제222</button>
-                <button onClick={() => updateHandler(41)}>수정</button>
-                <input placeholder="카테고리 입력해라" changeHandler={inputChangeHandler} />
-                <button onClick={postRegisterHandler}>Register</button>
             </MContainer>
         </>
     );
@@ -190,10 +152,10 @@ const TopContainer = styled.div`
 `;
 
 const RegisterBox = styled.div`
-    width: 38%;
+    width: 39%;
     padding: 20px;
     .contents {
-        height: 350px;
+        height: 365px;
         padding: 20px;
         border-radius: 10px;
         background-color: ${({ theme }) => theme.colors.Gray_010};
@@ -201,7 +163,7 @@ const RegisterBox = styled.div`
 `;
 
 const CategoryBox = styled.div`
-    width: 60%;
+    width: 58%;
     padding: 20px;
     .header_right {
         input {
@@ -215,7 +177,7 @@ const CategoryBox = styled.div`
         }
     }
     .contents {
-        height: 350px;
+        height: 361px;
         padding: 20px;
         border-radius: 10px;
         background-color: ${({ theme }) => theme.colors.Gray_010};
@@ -224,7 +186,7 @@ const CategoryBox = styled.div`
 
 const Categoryli = styled.li`
     width: 100%;
-    height: 30px;
+    height: 40px;
     background-color: #fff;
     border-radius: 30px;
     margin-bottom: 10px;
@@ -273,7 +235,5 @@ const BottomContainer = styled.div`
     }
 `;
 const PaginationBox = styled.div`
-    margin-top: 50px;
-    margin-bottom: 50px;
     text-align: center;
 `;

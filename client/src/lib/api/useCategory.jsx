@@ -5,7 +5,7 @@ import Loading from "../../components/common/loading/Loading";
 import useStore from "../store";
 
 const getCategory = async (pageNum) => {
-    const { data } = await axiosInstance.get(`/category?page=${pageNum}&size=7`);
+    const { data } = await axiosInstance.get(`/category?page=${pageNum}&size=6`);
     return data;
 };
 
@@ -15,11 +15,11 @@ const postCategory = async (newCategory) => {
 };
 
 const deleteCategory = (categoryId) => {
-    return axiosInstance.delete(`/category/40`);
+    return axiosInstance.delete(`/category/${categoryId}`);
 };
 
-const updateCategory = (categoryId, updateData) => {
-    return axiosInstance.patch(`/category/${categoryId}`, updateData);
+const updateCategory = (categoryId, updateCategory) => {
+    return axiosInstance.patch(`/category/${categoryId}`, updateCategory);
 };
 
 export function useCategory() {
@@ -51,36 +51,50 @@ export function useCategory() {
     return data;
 }
 
+// export const useCategoryMutation = () => {
+//     const queryClient = useQueryClient();
+//     return useMutation(postCategory, {
+//         onSuccess: () => {
+//             queryClient.invalidateQueries([queryKeys.category]);
+//             console.log("등록 완료");
+//         },
+//         onError: (e) => {
+//             alert("등록 실패 ");
+//         },
+//     });
+// };
 export const useCategoryMutation = (newinfo) => {
     const { mutate, isSuccess } = useMutation(() => postCategory(newinfo));
     return { mutate, isSuccess };
 };
-
 export const useDeleteCategory = () => {
     const queryClient = useQueryClient();
     return useMutation(deleteCategory, {
         onMutate: (variables) => {
             console.log("onMutate", variables);
         },
-        onSuccess: (data, variables, context) => {
+        onSuccess: () => {
             queryClient.invalidateQueries([queryKeys.category]);
-            // queryClient.setQueryData([queryKeys.category, { id: 5 }], data);
-            console.log("success", data, variables, context);
+            console.log("삭제 완료");
         },
-        onError: (e) => {},
+        onError: (e) => {
+            alert("카테고리삭제는 관리자만 할 수 있습니다.");
+        },
     });
 };
 
 export const useUpdateCategory = () => {
     const queryClient = useQueryClient();
-    return useMutation((categoryId) => updateCategory(categoryId), {
+    return useMutation(updateCategory, {
         onMutate: (variables) => {
             console.log("onMutate", variables);
         },
-        onSuccess: (data, variables, context) => {
-            queryClient.setQueryData([queryKeys.category, { id: 5 }], data);
-            console.log("success", data, variables, context);
+        onSuccess: () => {
+            queryClient.invalidateQueries([queryKeys.category]);
+            console.log("수정 완료");
         },
-        onError: (e) => {},
+        onError: (e) => {
+            alert("수정 실패 ");
+        },
     });
 };

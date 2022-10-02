@@ -18,9 +18,9 @@ const MProductBox = ({ data, setIsOpen }) => {
 
     return (
         <ProductSection>
-            <span className="heart-box">
+            {/* <span className="heart-box">
                 <HeartButton id={data.productId && data.productId} />
-            </span>
+            </span> */}
             <PImage>
                 <img src={data.imageURL} alt={data.productName} />
             </PImage>
