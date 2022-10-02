@@ -5,6 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface ReviewHeartRepository extends JpaRepository<ReviewHeart, Long> {
@@ -12,4 +13,5 @@ public interface ReviewHeartRepository extends JpaRepository<ReviewHeart, Long> 
     Optional<ReviewHeart> findByMemberAndAndReview(Member member, Review review);
 
     Page<ReviewHeart> findAllByMember(Member member, Pageable pageable);
+    List<ReviewHeart> findAllByMember(Member member);
 }

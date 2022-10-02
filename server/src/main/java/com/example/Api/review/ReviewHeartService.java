@@ -2,12 +2,14 @@ package com.example.Api.review;
 
 import com.example.Api.member.Member;
 import com.example.Api.member.MemberRepository;
+import com.example.Api.product.ProductHeart;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.List;
 import java.util.Optional;
 
 @Transactional
@@ -78,5 +80,9 @@ public class ReviewHeartService {
             reviewHeartsPage = reviewHeartRepository.findAllByMember(member, PageRequest.of(page,size, sort));
         }
         return reviewHeartsPage;
+    }
+
+    public List<ReviewHeart>  findReviewHeartsByMember(Member member){
+        return reviewHeartRepository.findAllByMember(member);
     }
 }
