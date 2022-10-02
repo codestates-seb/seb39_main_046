@@ -3,9 +3,12 @@ import styled from "styled-components";
 import Noimg from "../../assets/images/userinfo/Noimg.png";
 import Button from "../common/button/Button";
 import { BiCamera } from "react-icons/bi";
+import { useReviewAdd } from "../../lib/api/useRivesMutation";
 
 const WirteComment = () => {
     const [regiImg, setregiImg] = useState(Noimg);
+    const [content, setContent] = useState("");
+    // const [mutate: ReviewAdd] = useReviewAdd();
 
     const saveFileImage = (e) => {
         setregiImg(URL.createObjectURL(e.target.files[0]));
@@ -17,13 +20,18 @@ const WirteComment = () => {
             <label className="input-file-button" for="input-file">
                 {regiImg && (
                     <div className="image_box">
+                        <img src={regiImg} className="image_box" />
                         <BiCamera size={35} color="#fff" />
                     </div>
                 )}
             </label>
             <input type="file" accept="image/*" id="input-file" onChange={saveFileImage} />
             <WriteArea>
-                <input type="text" placeholder="최대 50자 입력가능"></input>
+                <input
+                    type="text"
+                    placeholder="최대 50자 입력가능"
+                    onChange={(e) => setContent(e.target.value)}
+                ></input>
                 <Button>후기작성</Button>
             </WriteArea>
         </Maindiv>

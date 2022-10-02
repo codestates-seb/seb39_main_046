@@ -7,8 +7,7 @@ import ProductBasket from "../../components/myPage/ProductBasket";
 import PbtiBanner2 from "../../components/myPage/PbtiBanner2";
 import PersonalRivew from "../../components/myPage/PersonalRivew";
 import MyLikeReview from "../../components/myPage/MyLikeReview";
-import { useQuery, useQueryClient } from "react-query";
-import { useMypage } from "../../lib/api/useMypage";
+import { useQuery } from "react-query";
 
 const Getinfo = (logInfo) => {
     return axios.get("member/myPage", {
