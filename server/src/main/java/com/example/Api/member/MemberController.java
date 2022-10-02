@@ -125,7 +125,6 @@ public class MemberController {
         updatedMember.setNickName(memberPatchDtoN.getNickName());
         memberService.verifyExistInfo(null,updatedMember.getNickName());
         memberService.updateMember(member, updatedMember);
-        member.setNickName(memberPatchDtoN.getNickName());
 
         return new ResponseEntity<>("변경 완료", HttpStatus.OK);
     }
@@ -141,7 +140,6 @@ public class MemberController {
         Member updatedMember = member;
         updatedMember.setPassword(memberPatchDtoP.getPassword());
         memberService.updateMember(member,updatedMember);
-        member.setPassword(memberPatchDtoP.getPassword());
 
         return new ResponseEntity<>("변경 완료", HttpStatus.OK);
     }
@@ -220,9 +218,19 @@ public class MemberController {
     @ApiOperation(value = "회원 탈퇴",
             notes = "✅ 로그인 상태 -> 회원 탈퇴  \n  \n")
     public ResponseEntity deleteMember(){
+        //회원이 남긴 리뷰, 찜꽁 상품도 동시에 삭제되지만 상품에 정보 반영이 안 되는 문제 발생 ( Product : reviews, hearts / Review : hearts )
         Member member = memberService.getLoginMember();
+
+        // 찜꽁 상품 목록 가져와서 hearts 하나씩 뺀 값으로 업데이트
+        List<ProductHeart> productHearts = productHeartService.findProductHeartsByMember(member);
+        // 내가 리뷰를 남긴 상품 목록을 가져와서 reviews를 하나씩 뺀 값으로 업데이트
+
+        // 찜꽁 리뷰 목록 가져와서 hearts 하나씩 뺀 값으로 업데이트
+
+
         memberService.deleteMember(member.getMemberId());
         return new ResponseEntity<>("삭제 완료",HttpStatus.OK);
+
     }
 
     @Tag(name = "PBTI Page", description = "PBTI Page API")

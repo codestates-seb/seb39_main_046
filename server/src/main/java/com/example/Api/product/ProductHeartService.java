@@ -9,6 +9,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Transactional
@@ -59,6 +60,9 @@ public class ProductHeartService {
         return productHeartRepository.findByMemberAndProduct(member,product).isEmpty();
     }
 
+    public List<ProductHeart> findProductHeartsByMember(Member member){
+        return productHeartRepository.findAllByMember(member);
+    }
 
     public Page<ProductHeart> SortHeartProducts(int page, int size, int methodId, String company, Member member, Category category){
 
