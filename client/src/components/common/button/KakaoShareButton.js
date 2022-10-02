@@ -6,7 +6,7 @@ const { Kakao } = window;
 const KakaoShareButton = ({ data }) => {
     const url = "https://localhost:3000";
     const resultUrl = window.location.href;
-    const API_KEY = process.env.REACT_APP_KAKAOSHARE_API_KEY;
+    const API_KEY = process.env.REACT_APP_KAKAO_SHARE_API_KEY;
 
     useEffect(() => {
         Kakao.cleanup();
