@@ -81,7 +81,11 @@ public class ReviewController {
 //            review.setProduct(product);
 //
 //            reviewService.createReview(review);
-          Review review =  reviewService.postReview(reviewPostDto);
+            Review review = new Review();
+            review =  reviewService.postReview(reviewPostDto);
+            review.setMember(writter);
+            review.setProduct(product);
+            reviewService.createReview(review);
             // 상품 리뷰 수 증가
             Product updatedProduct = product;
             updatedProduct.addReviews();

@@ -164,7 +164,6 @@ public class ReviewService {
             review.setImageURL(s3Upload.upload(reviewPostDto.getMultipartFile()));
         }
 
-        reviewRepository.save(review);
         return review;
     }
 
