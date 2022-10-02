@@ -311,7 +311,7 @@ public class MemberController {
     public ResponseEntity profileDelete() throws IOException {
         Member member = memberService.getLoginMember();
         Member updatedMember = member;
-        if(updatedMember.getProfile()=="https://pre-project2.s3.ap-northeast-2.amazonaws.com/userprofile.png") return new ResponseEntity<>("프로필 없음",HttpStatus.OK);
+        if(updatedMember.getProfile().equals("https://pre-project2.s3.ap-northeast-2.amazonaws.com/userprofile.png")) return new ResponseEntity<>("프로필 없음",HttpStatus.OK);
        else s3Upload.removeFile(updatedMember.getProfile().replace("https://pre-project2.s3.ap-northeast-2.amazonaws.com/",""));
         updatedMember.setProfile("https://pre-project2.s3.ap-northeast-2.amazonaws.com/userprofile.png");
         memberService.updateMember(member,updatedMember);

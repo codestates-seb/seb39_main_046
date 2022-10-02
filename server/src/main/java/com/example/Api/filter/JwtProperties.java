@@ -7,4 +7,5 @@ public interface JwtProperties {
 
     long EXPIRATION_TIME = (60 * 1000 * 60)*24; // 30min
     String HEADER_PREFIX = "Authorization";
+
 }
