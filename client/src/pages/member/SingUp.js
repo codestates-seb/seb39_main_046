@@ -4,56 +4,12 @@ import { useSignup } from "../../lib/api/useSignup";
 import { useNavigate } from "react-router-dom";
 import {useForm} from 'react-hook-form'
 
-// import TextInput from "../../components/common/input/TextInput";
-// import { useState } from "react";
-
-// async function PostSign(){
-//   const response = await fetch(
-//     '/member/signup',{method:"POST", data: {nickName: "lastcarol", password:"qwe123123123", username:"lastcarol@gmail.com"}}
-//   );
-//   return response.json();
-// }
-
-// const addSingUp = (nickName, password, userNmae) => {
-//   return axios.post('/member/signup', {
-//     nickNmae: nickName,
-//     password: password,
-//     userNmae: userNmae
-//   })
-// }
-
-// const PostSign = async user => {
-//   const response = await axios.post('/member/signup',{
-//     headers:{
-//       "Content-Type" : "application/json",
-//     },
-//     data: {
-//       nickName: user.Nick_Name,
-//       password: "user.passWord",
-//       username: user.userName,
-//     }
-//   })
-//   return response.json()
-// }
 
 const SingUp = () => {
     const navigate = useNavigate();
-    const [nickName, setNickName] = useState("");
-    const [password, setPassword] = useState("");
-    const [username, setUserName] = useState("");
-    const [confirm, setConfrim] = useState("");
     const {register, handleSubmit,getValues, formState: {errors}}  = useForm();
-    console.log(errors);
 
-    // const {mutate, isLoading} = useMutation(addPerson,{
-    //   onSuccess: () => {
-    //     alert("회원가입 성공");
-    //   }
-    // })
 
-    // if(isLoading) {
-    //   return <p>로딩중..</p>
-    // }
 
     const onSuccess = (data) => {
         alert("회원가입 성공");
@@ -70,17 +26,6 @@ const SingUp = () => {
         <p>("뭔가 잘못됨..")</p>;
     }
 
-    // const onsubmit = () => {
-    //     if (password === confirm) {
-    //         console.log({ nickName, password, username });
-    //         const person = { nickName, password, username };
-    //         addPerson(person);
-    //     } else {
-    //         alert("비밀번호가 맞지 않아요");
-    //     }
-    // };
-
-    // const PostMutation = useMutation(() => PostSign())
 
 
     return (
