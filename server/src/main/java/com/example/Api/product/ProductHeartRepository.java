@@ -14,7 +14,7 @@ public interface ProductHeartRepository extends JpaRepository<ProductHeart, Long
     //member와 product를 인자로 받아서 해당 상품에 해당 회원이 좋아요를 등록한 적이 있는지 체크하는 용도
     //findBy -> existsBy 로 변경하면 boolean 리턴 가능
 
-   /* List<ProductHeart> findAllByMember(Member member);*/
+    List<ProductHeart> findAllByMember(Member member);
 
     Page<ProductHeart> findAllByMember(Member member, Pageable pageable);
     Page<ProductHeart> findAllByMemberAndProduct_Company(Member member,String company, Pageable pageable);
