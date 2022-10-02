@@ -4,6 +4,7 @@ import com.example.Api.category.Category;
 import com.example.Api.exception.BusinessLogicException;
 import com.example.Api.exception.ExceptionCode;
 import com.example.Api.specification.ProductSpecification;
+import org.aspectj.weaver.ast.Not;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -16,6 +17,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
+import java.util.regex.Pattern;
 
 @Transactional
 @Service
@@ -31,25 +33,37 @@ public class ProductService {
     }
 
     public void validateExcelData(ExcelData excelData){
-        //공백 체크
+        boolean NotValid = false;
+
+        // 이미지 URL 공백 체크
         if(excelData.getImageURL().isEmpty()){
-            throw new BusinessLogicException(ExceptionCode.EXCELDATA_NOT_VALID);
+            NotValid = true;
         }
-        // 공백 체크, 1~50-자
+        // 상품명 공백 체크, 1~50-자
         String productName = excelData.getProductName();
         if((productName.isEmpty()) || (productName.length()>50)){
-            throw new BusinessLogicException(ExceptionCode.EXCELDATA_NOT_VALID);
+            NotValid = true;
         }
+
+        // 가격 체크, 0보다 커야한다.
         BigDecimal min = BigDecimal.valueOf(1);
         int compareResult = excelData.getPrice().compareTo(min);
         if (compareResult < 0) { // price가 1보다 작은 경우
-            throw new BusinessLogicException(ExceptionCode.EXCELDATA_NOT_VALID);
+            NotValid = true;
         }
+
         // 카테고리 검증은 ExcelData에 Category를 넣을 때 이미 수행된다.
 
-        // 10자 이하, 공백 불가
+        // 회사명 체크, 10자 이하, 공백 불가, CU, GS25, 7-ELEVEN만 입력 가능
+        String regExp = "(CU|GS25|7-ELVEN)";
         String company = excelData.getCompany();
-        if((company.isEmpty()) || (company.length()>10)){
+        boolean ExistCompany = Pattern.matches(regExp,company);
+        // 유효한 회사명이면 true, 유효하지 않은 회사명이면 false
+        if((company.isEmpty()) || (company.length()>10 || !ExistCompany)){
+            NotValid = true;
+        }
+
+        if(NotValid){
             throw new BusinessLogicException(ExceptionCode.EXCELDATA_NOT_VALID);
         }
 
@@ -82,6 +96,7 @@ public class ProductService {
         }
         return result;
     }
+
 
     // 상품 정보 업데이트
     public Product updateProduct(Product product, Product patchProduct){
