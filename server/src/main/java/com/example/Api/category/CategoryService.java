@@ -22,7 +22,6 @@ public class CategoryService {
         this.categoryRepository = categoryRepository;
     }
 
-
     public Category createCategory(Category category){
         String categoryName = category.getCategoryName();
 

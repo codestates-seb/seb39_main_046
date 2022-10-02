@@ -31,8 +31,31 @@ public class MemberService {
     }
 
     public Member createMember(Member member){
+        verifyExistInfo(member.getUsername(), member.getNickName());
         return memberRepository.save(member);
     }
+
+    public void verifyExistInfo(String userName, String nickName){
+
+        boolean checkUserName = userName.isEmpty();
+        boolean checkNickName = nickName.isEmpty();
+
+
+        if((checkUserName)&&(!checkNickName)){
+            Optional<Member> optionalMember = memberRepository.findByNickName(nickName);
+            if(optionalMember.isPresent()){
+                throw new BusinessLogicException(ExceptionCode.MEMBER_INFORMATION_EXISTS);
+            }
+        }
+        else if((!checkUserName)&&(!checkNickName)){
+            Optional<Member> optionalMember = memberRepository.findByUsername(userName);
+            Optional<Member> optionalMember2 = memberRepository.findByNickName(nickName);
+            if((optionalMember.isPresent()) || (optionalMember2.isPresent()) ){
+                throw new BusinessLogicException(ExceptionCode.MEMBER_INFORMATION_EXISTS);
+            }
+        }
+    }
+
     /*public Member findMember(long id) {
 
         Member member = new Member(id,"kcd@gmail.com","김코딩","asd");
@@ -86,8 +109,6 @@ public class MemberService {
                         new RuntimeException("등록되지 않은 회원 "));
         return findMember;
     }*/
-
-
 
 
 

@@ -12,6 +12,7 @@ import javax.persistence.Column;
 @Setter
 @AllArgsConstructor
 public class MemberResponseDto {
+
     private long id;
     private String username;
     @JsonIgnore
