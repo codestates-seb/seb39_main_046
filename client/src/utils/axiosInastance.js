@@ -5,6 +5,8 @@ const axiosInstance = Axios.create({
     headers: {
         "Content-Type": "application/json",
         Authorization: sessionStorage.getItem("token"),
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
     },
 });
 
