@@ -56,12 +56,13 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                 .withClaim(JwtProperties.ID, principalDetails.getMember().getMemberId())
                 .withClaim(JwtProperties.USERNAME, principalDetails.getMember().getUsername())
                 .sign(Algorithm.HMAC512("cos_jwt_token"));
-        response.addHeader(JwtProperties.HEADER_PREFIX, JwtProperties.TOKEN_PREFIX + jwtToken);
+     //   response.addHeader(JwtProperties.HEADER_PREFIX, JwtProperties.TOKEN_PREFIX + jwtToken);
 
 
         Map<String,Object> map = new HashMap<>();
         long a = principalDetails.getMember().getMemberId();
         String userRole = principalDetails.getMember().getRoles();
+        map.put(JwtProperties.HEADER_PREFIX,jwtToken);
         map.put("role",userRole);
         map.put("msg" , "success");
         Gson gson = new Gson();
