@@ -8,6 +8,7 @@ import useStore from "../../lib/store";
 import { useChange } from "../../lib/api/useChange";
 import { useAddProfile, useDelteProfile } from "../../lib/api/useMyprofileMutate";
 import { RiWindowLine } from "react-icons/ri";
+import { useForm } from "react-hook-form";
 
 const PersonalInfo = ({ Persondata }) => {
     const { logInfo } = useStore();
@@ -15,6 +16,7 @@ const PersonalInfo = ({ Persondata }) => {
     const welcommsg = " 님, 안녕하세요 :)";
     const email = Persondata.member.username;
     const userImg = Userimg;
+    const {register, handleSubmit,getValues, formState: {errors}}  = useForm();
 
     const [changeName, setchangeName] = useState("");
     const [changePw, setChangePw] = useState("");
@@ -43,13 +45,13 @@ const PersonalInfo = ({ Persondata }) => {
 
     const { mutate: changeInfo } = useChange(onSuccess, onError);
 
-    const onSubmit = () => {
-        const id = "nickname";
-        const token = logInfo;
-        const log = { nickName: changeName };
-        console.log(log);
-        changeInfo({ id, token, log });
-    };
+    // const onSubmit = () => {
+    //     const id = "nickname";
+    //     const token = logInfo;
+    //     const log = { nickName: changeName };
+    //     console.log(log);
+    //     changeInfo({ id, token, log });
+    // };
 
     const pwSubmit = () => {
         if (changePw === confrim) {
@@ -93,11 +95,10 @@ const PersonalInfo = ({ Persondata }) => {
         const fd = new FormData();
         Object.values(imgFile).forEach((file) => fd.append("file", file));
 
-        fd.append("comment", comment);        
-        ProfileAdd(fd);         
+        fd.append("comment", comment);
+        ProfileAdd(fd);
         setPrw(Persondata.member.profile);
         window.location.reload();
-        
     };
 
     //이미지 전처리 알고리즘
@@ -120,7 +121,7 @@ const PersonalInfo = ({ Persondata }) => {
                         {/* <img src={userImg} alt="프로필 사진" /> */}
                         <br />
                         <label className="input-file-button" for="input-file">
-                            {Prw&&(<img src={Prw} alt="프로필 사진" />)}
+                            {Prw && <img src={Prw} alt="프로필 사진" />}
                         </label>
                         <input
                             type="file"
@@ -134,18 +135,39 @@ const PersonalInfo = ({ Persondata }) => {
                         <br />
                         <span>ID:{email}</span>
                     </UserExer>
-                    <UserForm>
+                    <div className="InfoPerson"> 
+                    <UserForm onSumbit ={handleSubmit((data) => {
+                        console.log(data);
+                    })}>
                         <p>닉네임</p>
                         {/* <TextInput /> */}
-                        <Thisinpu placeholder="입력해주세요." onChange={InputNickName}></Thisinpu>
-                        <Button onClick={onSubmit}>완료</Button>
+                        <Thisinpu 
+                            type="text"
+                            placeholder="입력해주세요."
+                            {...register("nickName", {required: "필수 입력 사항입니다.", minLength:{
+                                value:2,
+                                message: "2자 이상이어야 합니다."
+                            },
+                            maxLength:{
+                                value:10,
+                                message: "10자 이하이어야합니다."
+                            }                            
+                        })}                                                    
+                        ></Thisinpu>
+                        {errors.nickName && <p className="errorCode">{errors.nickName.message}</p>}                        
+                        <SubmitButton>완료</SubmitButton>
+                    </UserForm>
+                    
+                    <UserForm1>
                         <p>패스워드</p>
                         {/* <TextInput /> */}
                         <Thisinpu placeholder="입력해주세요." onChange={InputPw}></Thisinpu>
                         <Button onClick={pwSubmit}>수정</Button>
                         <p>패스워드 확인</p>
                         <Thisinpu placeholder="입력해주세요." onChange={InputConfrim}></Thisinpu>
-                    </UserForm>
+                    </UserForm1>
+                    {/* </UserForm> */}
+                    </div>
                 </UserPassing>
             </UserInfo>
         </TopDiv>
@@ -153,6 +175,24 @@ const PersonalInfo = ({ Persondata }) => {
 };
 
 export default PersonalInfo;
+
+const UserForm1 = styled.form`
+    text-align: left;
+    height: 264px;
+    p {
+        padding-left: ${({ theme }) => theme.paddings.xl};
+        position: relative;
+        font-size: ${({ theme }) => theme.fontSizes.xs};
+        font-weight: 500;
+    }
+    input {
+        margin-bottom: ${({ theme }) => theme.paddings.xxxl};
+        margin-right: 15px;
+    }
+    .Input_data{
+        display:flex;
+    }
+`
 
 const Thisinpu = styled.input`
     width: 320px;
@@ -191,6 +231,9 @@ const UserPassing = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
+    .InfoPerson{
+        margin-top: 30px;
+    }
 `;
 
 const UserExer = styled.div`
@@ -236,7 +279,7 @@ const Welcome = styled.span`
 
 const UserForm = styled.div`
     text-align: left;
-    height: 264px;
+    /* height: 264px; */
     margin-top: ${({ theme }) => theme.paddings.xxxl};
     p {
         padding-left: ${({ theme }) => theme.paddings.xl};
@@ -248,4 +291,26 @@ const UserForm = styled.div`
         margin-bottom: ${({ theme }) => theme.paddings.xxxl};
         margin-right: 15px;
     }
+    .Input_data{
+        display:flex;
+    }
+    .errorCode{
+        color:red;
+        font-size:12px;
+    }
 `;
+
+const SubmitButton = styled.button`
+    width: 65px;
+    height: 36px;
+    border-radius: 20px;
+    border: none;
+    background-color: ${({ theme }) => theme.colors.Blue_030};
+    color: #fff;
+    &:hover {
+        background: ${({ theme }) => theme.colors.Blue_040};
+    }
+    &:active {
+        background: ${({ theme }) => theme.colors.Blue_050};
+    }
+`
