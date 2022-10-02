@@ -95,8 +95,35 @@ public class ReviewController {
             return new ResponseEntity<>(review, HttpStatus.CREATED);
         }
     }
-
-
+//    @PatchMapping("/review/{review-id}")
+//    public ResponseEntity patchReview(@Positive @PathVariable("review-id") long reviewId,
+//                                      @ModelAttribute ReviewPatchDto reviewPatchDto,
+//                                      HttpServletRequest request) throws IOException {
+//        boolean loginStatus = memberService.memberCheck(request);
+//        if(loginStatus){
+//            return new ResponseEntity<>("로그인이 필요한 서비스입니다.", HttpStatus.BAD_REQUEST);
+//        }
+//        else {
+//            Member editor = memberService.getLoginMember();
+//            memberService.findVerifiedMemberId(editor.getMemberId());
+//            Review selectedReview = reviewService.findVerifiedReviewId(reviewId);
+//            boolean auth = reviewService.checkAuth(selectedReview, editor.getMemberId());
+//            if(auth){
+//                 if(reviewPatchDto.getContent() == null){selectedReview.setImageURL(s3Upload.upload(reviewPatchDto.getMultipartFile()));}
+//                 if (reviewPatchDto.getMultipartFile()==null){selectedReview.setContent(reviewPatchDto.getContent());}
+//                 if(reviewPatchDto.getMultipartFile() != null && reviewPatchDto.getContent() !=null){
+//                     selectedReview.setContent(reviewPatchDto.getContent());
+//                     selectedReview.setImageURL(s3Upload.upload(reviewPatchDto.getMultipartFile()));
+//                 }
+//                reviewService.createReview(selectedReview);
+//
+//            }
+//            else {
+//                return new ResponseEntity<>("리뷰 수정 권한이 없습니다", HttpStatus.BAD_REQUEST);
+//            }
+//            return new ResponseEntity<>(selectedReview, HttpStatus.OK);
+//        }
+//    }
     @ApiOperation(value = "리뷰 수정",
             notes = "✅ 리뷰를 수정합니다.\n - \n " )
     @PatchMapping("/review/{review-id}")

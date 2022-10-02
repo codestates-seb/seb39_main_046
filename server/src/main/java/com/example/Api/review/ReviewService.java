@@ -152,16 +152,16 @@ public class ReviewService {
     }
     public Review postReview(ReviewPostDto reviewPostDto) throws IOException {
         Review review = new Review();
-        if (reviewPostDto.getMultipartFile() == null)
+        if (reviewPostDto.getFile() == null)
         {review.setContent(reviewPostDto.getContent());
             review.setImageURL(null);
         }
         if (reviewPostDto.getContent()==null)
         { review.setContent(null);
-            review.setImageURL(s3Upload.upload(reviewPostDto.getMultipartFile()));}
-        if(reviewPostDto.getContent() != null && reviewPostDto.getMultipartFile() !=null) {
+            review.setImageURL(s3Upload.upload(reviewPostDto.getFile()));}
+        if(reviewPostDto.getContent() != null && reviewPostDto.getFile() !=null) {
             review.setContent(reviewPostDto.getContent());
-            review.setImageURL(s3Upload.upload(reviewPostDto.getMultipartFile()));
+            review.setImageURL(s3Upload.upload(reviewPostDto.getFile()));
         }
 
         return review;
