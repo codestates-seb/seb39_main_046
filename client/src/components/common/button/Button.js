@@ -17,8 +17,10 @@ const StyledButton = styled.button`
     /* 색상 */
     ${(props) => {
         const selected = props.theme.colors[props.color];
+        const fontColor = props.theme.colors[props.fontColor];
         return css`
             background: ${selected};
+            color: ${fontColor};
             &:hover {
                 background: ${darken(0.1, selected)};
             }

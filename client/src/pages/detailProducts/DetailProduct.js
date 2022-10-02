@@ -8,6 +8,7 @@ import { useQuery } from "react-query";
 import Loading from "../../components/common/loading/Loading";
 import axiosInstance from "../../utils/axiosInastance";
 import { queryKeys } from "../../lib/react-query/constant";
+
 const getDeatilProduct = async (productNum) => {
     const { data } = await axiosInstance.get(`/product/${productNum}`);
     return data;
@@ -38,8 +39,6 @@ const DetailProduct = () => {
     if (isFetching) {
         return <Loading />;
     }
-
-    console.log(data.reviews);
 
     const ReturnMsg = "< 리스트 돌아가기";
     return (
