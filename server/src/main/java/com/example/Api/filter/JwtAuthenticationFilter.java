@@ -62,7 +62,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         Map<String,Object> map = new HashMap<>();
         long a = principalDetails.getMember().getMemberId();
         String userRole = principalDetails.getMember().getRoles();
-        map.put(JwtProperties.HEADER_PREFIX,jwtToken);
+        map.put(JwtProperties.HEADER_PREFIX,JwtProperties.TOKEN_PREFIX + jwtToken);
         map.put("role",userRole);
         map.put("msg" , "success");
         Gson gson = new Gson();
