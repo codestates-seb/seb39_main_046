@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { useSignup } from "../../lib/api/useSignup";
 import { useNavigate } from "react-router-dom";
+import {useForm} from 'react-hook-form'
 
 // import TextInput from "../../components/common/input/TextInput";
 // import { useState } from "react";
@@ -41,6 +42,7 @@ const SingUp = () => {
     const [password, setPassword] = useState("");
     const [username, setUserName] = useState("");
     const [confirm, setConfrim] = useState("");
+    const {register, handleSubmit, formState: {errors}} = useForm();
 
     // const {mutate, isLoading} = useMutation(addPerson,{
     //   onSuccess: () => {
@@ -67,17 +69,18 @@ const SingUp = () => {
         <p>("뭔가 잘못됨..")</p>;
     }
 
-    const onsubmit = () => {
-        if (password === confirm) {
-            console.log({ nickName, password, username });
-            const person = { nickName, password, username };
-            addPerson(person);
-        } else {
-            alert("비밀번호가 맞지 않아요");
-        }
-    };
+    // const onsubmit = () => {
+    //     if (password === confirm) {
+    //         console.log({ nickName, password, username });
+    //         const person = { nickName, password, username };
+    //         addPerson(person);
+    //     } else {
+    //         alert("비밀번호가 맞지 않아요");
+    //     }
+    // };
 
     // const PostMutation = useMutation(() => PostSign())
+
 
     return (
         <MemberContainer>
@@ -86,50 +89,87 @@ const SingUp = () => {
                 <SingUpBtn>회원가입</SingUpBtn>
             </TopBtnBox>
             <MiddleBox>
-                <InputBox>
+                <InputBox onSubmit = {handleSubmit((data) => {
+                    addPerson(data);
+                })}>
                     <div className="InputData">
                         <label>아이디</label>
                         {/* <TextInput /> */}
                         <Thisinpu
                             type="text"
-                            onChange={(e) => {
-                                setUserName(e.target.value);
-                            }}
+                            {...register("username",{required: "필수입력 사항입니다.",
+                            minLength:{
+                                value: 10,
+                                message: '이메일 형식에 맞게 입력해주세요.'
+                            },
+                            pattern:{
+                                value: /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i,
+                                message: '이메일 형식에 맞게 입력해주세요'
+                            }
+                        })}
+                            // onChange={(e) => {
+                            //     setUserName(e.target.value);
+                            // }}
                         ></Thisinpu>
-                        <p>오류 테스트</p>
+                        {errors.username &&<p>{errors.username.message}</p>}
                     </div>
                     <div className="InputData">
                         <label>닉네임</label>
                         {/* <TextInput /> */}
                         <Thisinpu
                             type="text"
-                            onChange={(e) => {
-                                setNickName(e.target.value);
-                            }}
+                            {...register("nickName",{required: '필수입력 사항입니다.', minLength: {
+                                value: 2,
+                                message: "2자 이상이어야합니다."
+                            },
+                            maxLength: {
+                                value: 10,
+                                message: "10자 이하이어야합니다."
+                            }
+                        })}
+                            // onChange={(e) => {
+                            //     setNickName(e.target.value);
+                            // }}
                         ></Thisinpu>
+                        {errors.nickName && <p>{errors.nickName.message}</p>}
                     </div>
                     <div className="InputData">
                         <label>패스워드</label>
                         {/* <TextInput /> */}
                         <Thisinpu
                             type="password"
-                            onChange={(e) => {
-                                setPassword(e.target.value);
-                            }}
+                            {...register("password", {required: "비밀번호를 입력해주세요",minLength:{
+                                vlaue: 8,
+                                message: "최소 8자 이상의 비밀번호를 입력해주세요",
+                            },
+                            maxLength: {
+                                value: 16,
+                                message: "16자 이하의 비밀번호만 사용가능합니다.",
+                            },
+                            pattern: {
+                                value: /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,}$/,
+                                message: "특수문자, 영문, 숫자를 혼용해서 입력해주세요",
+                            }
+                        })}
+                            // onChange={(e) => {
+                            //     setPassword(e.target.value);
+                            // }}
+                            
                         ></Thisinpu>
+                        {errors.password && <p>{errors.password.message}</p>}
                     </div>
                     <div className="InputData">
                         <label>패스워드확인</label>
                         {/* <TextInput /> */}
                         <Thisinpu
                             type="password"
-                            onChange={(e) => {
-                                setConfrim(e.target.value);
-                            }}
+                            // onChange={(e) => {
+                            //     setConfrim(e.target.value);
+                            // }}
                         ></Thisinpu>
                     </div>
-                </InputBox>
                 <LoginConfirmBtn onClick={onsubmit}>회원가입</LoginConfirmBtn>
+                </InputBox>
             </MiddleBox>
         </MemberContainer>
     );
@@ -214,7 +254,7 @@ const MiddleBox = styled.div`
     }
 `;
 
-const InputBox = styled.div`
+const InputBox = styled.form`
     .InputData{
         display: flex;
         flex-direction:column;
