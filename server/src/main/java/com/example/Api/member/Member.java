@@ -25,25 +25,29 @@ import java.util.List;
 @NoArgsConstructor
 @ToString(exclude = {"reviewList","productHearts","reviewHearts"})
 public class Member extends Auditable {
-//1
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long memberId;
-    @Column(unique = true,nullable = false)
+
     @NotBlank
-    //@Email
+    @Email
+    @Column(unique = true, length = 20)
     private String username;
-    @Column(length = 100,nullable = false)
+
     @NotBlank
+    @Column(length = 100)
     private String password;
-    @Column(unique = true,nullable = false)
+
     @NotBlank
+    @Column(unique = true, length = 10)
     private String nickName;
 
     @ManyToOne
-    @JoinColumn(name = "category_id",nullable = true)
     @JsonIgnore
+    @JoinColumn(name = "category_id",nullable = true)
     private Category category;
+
     @Column(nullable = true)
     private String profile;
 
@@ -63,19 +67,12 @@ public class Member extends Auditable {
     @JsonIgnore
     private List<ReviewHeart> reviewHearts = new ArrayList<>();
 
+
     public List<String> getRoleList() {
         if(this.roles.length() > 0) {
             return Arrays.asList(this.roles.split(","));
         }
         return new ArrayList<>();
-    }
-
-    public Member(long id,String username,String nickName,String password){
-
-        this.memberId = id;
-        this.username = username;
-        this.nickName = nickName;
-        this.password = password;
     }
 
 }

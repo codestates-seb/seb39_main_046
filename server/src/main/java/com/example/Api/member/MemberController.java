@@ -6,6 +6,8 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.example.Api.S3Upload;
 import com.example.Api.category.Category;
 import com.example.Api.category.CategoryService;
+import com.example.Api.exception.BusinessLogicException;
+import com.example.Api.exception.ExceptionCode;
 import com.example.Api.product.*;
 import com.example.Api.response.MultiResponseDto;
 import com.example.Api.review.*;
@@ -25,6 +27,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Positive;
 import java.io.File;
@@ -58,10 +61,16 @@ public class MemberController {
 
 
     @PostMapping
-    @ApiOperation(value = "관리자 계정 등록!")
-    public ResponseEntity registerAdmin(){
-        memberService.registerAdmin();
-        return new ResponseEntity<>(HttpStatus.CREATED);
+    @ApiOperation(value = "관리자 계정 생성")
+    public ResponseEntity registerAdmin(@NotNull @RequestParam String inputPassword){
+        String adminRegisterPassword = "main_046";
+        Member newAdmin = new Member();
+        if(memberService.checkAdminPassword(inputPassword, adminRegisterPassword)){
+            List<Member> adminList = memberService.findAdmins("ROLE_ADMIN");
+            newAdmin = memberService.registerAdmin(adminList);
+        }
+        return new ResponseEntity<>(newAdmin,HttpStatus.CREATED);
+
     }
 
     @PostMapping("/signup")

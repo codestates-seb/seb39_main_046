@@ -1,9 +1,12 @@
 package com.example.Api.member;
 
+import com.example.Api.exception.BusinessLogicException;
+import com.example.Api.exception.ExceptionCode;
 import com.example.Api.oauth.PrincipalDetails;
 import com.example.Api.product.Product;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -12,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import java.net.http.HttpRequest;
+import java.util.List;
 import java.util.Optional;
 
 @Transactional
@@ -29,11 +33,11 @@ public class MemberService {
     public Member createMember(Member member){
         return memberRepository.save(member);
     }
-    public Member findMember(long id) {
+    /*public Member findMember(long id) {
 
         Member member = new Member(id,"kcd@gmail.com","김코딩","asd");
         return member;
-    }
+    }*/
     /*public void imgUpdate(Member member,String photo){
         member.setProfile(photo);
         memberRepository.save(member);
@@ -144,19 +148,43 @@ public class MemberService {
         memberRepository.save(member);
     }
 
-    public void registerAdmin(){
-        String password = bCryptPasswordEncoder.encode("1234");
-        Member member1 = new Member(1L,"a@gmail.com","관리자1",password);
-        member1.setRoles("ROLE_ADMIN");
-        memberRepository.save(member1);
-        Member member2 = new Member(2L,"b@gmail.com","관리자2",password);
-        member2.setRoles("ROLE_ADMIN");
-        memberRepository.save(member2);
-        Member member3 = new Member(3L,"d@gmail.com","관리자3",password);
-        member3.setRoles("ROLE_ADMIN");
-        memberRepository.save(member3);
-        Member member4 = new Member(4L,"c@gmail.com","관리자4",password);
-        member4.setRoles("ROLE_ADMIN");
-        memberRepository.save(member4);
+
+    public boolean checkAdminPassword(String inputPassword, String adminRegisterPassword){
+        if(!inputPassword.equals(adminRegisterPassword)){
+            throw new BusinessLogicException(ExceptionCode.PASSWORD_NOT_MATCH);
+        }
+        return true;
+    }
+    public Member registerAdmin(List<Member> adminList){
+
+        String adminPassword = bCryptPasswordEncoder.encode("ab12#$%^");
+        Member newAdmin = new Member();
+
+        if(adminList.isEmpty()){
+            newAdmin.setProfile("https://pre-project2.s3.ap-northeast-2.amazonaws.com/userprofile.png");
+            newAdmin.setUsername("a@gmail.com");
+            newAdmin.setNickName("관리자1");
+            newAdmin.setPassword(adminPassword);
+        }
+        else {
+            Member lastAdmin = adminList.get(adminList.size()-1);
+            String lastUsername = lastAdmin.getUsername();
+            String lastNickName = lastAdmin.getNickName();
+            int a = lastUsername.charAt(0)+1;
+            String nextUsername = (char)a + "@gmail.com";  // 영문자 -> 다음 영문자
+            int b = Character.getNumericValue(lastNickName.charAt(lastNickName.length()-1))+1;
+            String nextNickName = "관리자" + b;  // 숫자로 변환된 문자 -> 다음 숫자 문자
+            newAdmin.setProfile("https://pre-project2.s3.ap-northeast-2.amazonaws.com/userprofile.png");
+            newAdmin.setUsername(nextUsername);
+            newAdmin.setNickName(nextNickName);
+            newAdmin.setPassword(adminPassword);
+        }
+
+        newAdmin.setRoles("ROLE_ADMIN");
+        return memberRepository.save(newAdmin);
+    }
+
+    public List<Member> findAdmins(String roles){
+        return  memberRepository.findAllByRoles(roles);
     }
 }
