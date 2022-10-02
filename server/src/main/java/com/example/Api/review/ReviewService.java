@@ -153,4 +153,8 @@ public class ReviewService {
         review.setImageURL(photo);
         reviewRepository.save(review);
     }
+
+    public List<Review> findMyReviewList(Member member){
+        return reviewRepository.findAllByMember(member);
+    }
 }

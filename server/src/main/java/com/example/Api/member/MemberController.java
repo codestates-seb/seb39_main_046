@@ -225,9 +225,30 @@ public class MemberController {
 
         // 찜꽁 상품 목록 가져와서 hearts 하나씩 뺀 값으로 업데이트
         List<ProductHeart> productHearts = productHeartService.findProductHeartsByMember(member);
+        for(ProductHeart productHeart : productHearts){
+            Product product = productService.findVerifiedProductId(productHeart.getProduct().getProductId());
+            Product updatedProduct = product;
+            updatedProduct.withdrawHearts();
+            productService.updateProduct(product,updatedProduct);
+        }
         // 내가 리뷰를 남긴 상품 목록을 가져와서 reviews를 하나씩 뺀 값으로 업데이트
-
+        //내가 남긴 리뷰
+        List<Review> myReviews = reviewService.findMyReviewList(member);
+        // 리뷰에 해당하는 상품 목록
+        for(Review review : myReviews){
+            Product product = productService.findVerifiedProductId(review.getProduct().getProductId());
+            Product updatedProduct = product;
+            updatedProduct.withdrawReviews();
+            productService.updateProduct(product,updatedProduct);
+        }
         // 찜꽁 리뷰 목록 가져와서 hearts 하나씩 뺀 값으로 업데이트
+        List<ReviewHeart> reviewHearts = reviewHeartService.findReviewHeartsByMember(member);
+        for(ReviewHeart reviewHeart : reviewHearts){
+            Review review = reviewService.findVerifiedReviewId(reviewHeart.getReview().getReviewId());
+            Review updatedReview = review;
+            updatedReview.withdrawHearts();
+            reviewService.updateReview(review,updatedReview);
+        }
 
 
         memberService.deleteMember(member.getMemberId());

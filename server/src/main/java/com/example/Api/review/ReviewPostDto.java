@@ -8,7 +8,5 @@ import javax.validation.constraints.Size;
 @Data
 public class ReviewPostDto {
 
-
-
     private String content;
 }
