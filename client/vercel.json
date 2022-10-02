@@ -1,0 +1,12 @@
+{
+  "rewrites": [
+    {
+      "source": "/api/:path*",
+      "destination": "https://recostore24.com/:path*"
+    },
+    {
+      "source": "/api/:path*/",
+      "destination": "https://recostore24.com/:path*/"
+    }
+  ]
+}
