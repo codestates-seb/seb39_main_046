@@ -53,74 +53,18 @@ public class ReviewController {
     }
 
 
-//    @ApiOperation(value = "리뷰 등록",
-//            notes = "✅ 상품에 대한 리뷰를 등록합니다.\n - \n " )
-//    @PostMapping(value = "/review/{product-id}", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE,MediaType.APPLICATION_JSON_VALUE})
-//    // @RequestPart(value="file",required = false)
-//    public ResponseEntity postReview(@Positive @PathVariable("product-id") long productId,
-//                                     @Valid @RequestPart(value = "content",required = false) ReviewPostDto reviewPostDto, @RequestPart(value = "file",required = false) MultipartFile rfile,
-//                                     HttpServletRequest request) throws IOException {
-//
-//        boolean loginStatus = memberService.memberCheck(request);
-//        if(loginStatus)
-//            return new ResponseEntity<>("로그인이 필요한 서비스입니다.", HttpStatus.BAD_REQUEST);
-//
-//        else {
-//            Member writter = memberService.getLoginMember();
-//            memberService.findVerifiedMemberId(writter.getMemberId());
-//            Product product = productService.findVerifiedProductId(productId);
-//
-//
-//            Review review = new Review();
-//            if (reviewPostDto == null) review.setContent(null);
-//            else review.setContent(reviewPostDto.getContent());
-//            if(rfile == null) review.setImageURL(null);
-//            else reviewService.imgUpdate(review, s3Upload.upload(rfile));
-//
-//            review.setMember(writter);
-//            review.setProduct(product);
-//
-//            reviewService.createReview(review);
-//            // 상품 리뷰 수 증가
-//            Product updatedProduct = product;
-//            updatedProduct.addReviews();
-//            productService.updateProduct(product,updatedProduct);
-//
-//
-//            return new ResponseEntity<>(review, HttpStatus.CREATED);
-//        }
-//    }
-@PostMapping(value = "/review/{product-id}", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
-public ResponseEntity postReviewF(@PathVariable("product-id") @Positive long productId,@RequestPart(value = "file" ,required = false) MultipartFile rfile,HttpServletRequest request) throws IOException{
-    boolean loginStatus = memberService.memberCheck(request);
-    if(loginStatus) return new ResponseEntity<>("로그인이 필요한 서비스입니다.", HttpStatus.BAD_REQUEST);
-    else {
-        Member writter = memberService.getLoginMember();
-        memberService.findVerifiedMemberId(writter.getMemberId());
-        Product product = productService.findVerifiedProductId(productId);
+    @ApiOperation(value = "리뷰 등록",
+            notes = "✅ 상품에 대한 리뷰를 등록합니다.\n - \n " )
+    @PostMapping(value = "/review/{product-id}", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE,MediaType.APPLICATION_JSON_VALUE})
+    // @RequestPart(value="file",required = false)
+    public ResponseEntity postReview(@Positive @PathVariable("product-id") long productId,
+                                     @Valid @RequestPart(value = "content",required = false) ReviewPostDto reviewPostDto, @RequestPart(value = "file",required = false) MultipartFile rfile,
+                                     HttpServletRequest request) throws IOException {
 
-
-        Review review = new Review();
-        if (rfile==null) review.setImageURL(null);
-        else reviewService.imgUpdate(review, s3Upload.upload(rfile));
-
-        review.setMember(writter);
-        review.setProduct(product);
-
-
-        // 상품 리뷰 수 증가
-        Product updatedProduct = product;
-        updatedProduct.addReviews();
-        productService.updateProduct(product,updatedProduct);
-
-
-        return new ResponseEntity<>(review, HttpStatus.CREATED);
-    }
-}
-    @PostMapping(value = "/review/{product-id}", consumes = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity postReviewW(@PathVariable("product-id") @Positive long productId,@RequestPart(value = "content",required = false) ReviewPostDto reviewPostDto,HttpServletRequest request) throws IOException{
         boolean loginStatus = memberService.memberCheck(request);
-        if(loginStatus) return new ResponseEntity<>("로그인이 필요한 서비스입니다.", HttpStatus.BAD_REQUEST);
+        if(loginStatus)
+            return new ResponseEntity<>("로그인이 필요한 서비스입니다.", HttpStatus.BAD_REQUEST);
+
         else {
             Member writter = memberService.getLoginMember();
             memberService.findVerifiedMemberId(writter.getMemberId());
@@ -128,13 +72,15 @@ public ResponseEntity postReviewF(@PathVariable("product-id") @Positive long pro
 
 
             Review review = new Review();
-            review.setContent(reviewPostDto.getContent());
-            reviewService.createReview(review);
+            if (reviewPostDto == null) review.setContent(null);
+            else review.setContent(reviewPostDto.getContent());
+            if(rfile == null) review.setImageURL(null);
+            else reviewService.imgUpdate(review, s3Upload.upload(rfile));
 
             review.setMember(writter);
             review.setProduct(product);
 
-
+            reviewService.createReview(review);
             // 상품 리뷰 수 증가
             Product updatedProduct = product;
             updatedProduct.addReviews();
@@ -144,6 +90,7 @@ public ResponseEntity postReviewF(@PathVariable("product-id") @Positive long pro
             return new ResponseEntity<>(review, HttpStatus.CREATED);
         }
     }
+
 
     @ApiOperation(value = "리뷰 수정",
             notes = "✅ 리뷰를 수정합니다.\n - \n " )
