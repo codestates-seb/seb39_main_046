@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useRef } from "react";
 import styled from "styled-components";
 import axiosInstance from "../../utils/axiosInastance";
 import { useCategory, useCategoryMutation } from "../../lib/api/useCategory";
@@ -10,14 +10,19 @@ import Paging from "../../components/common/pagination/Paging";
 import MProductBox from "../../components/manager/MProductBox";
 import MProductModal from "../../components/manager/MProductModal";
 import MCategoryBox from "../../components/manager/MCategoryBox";
+import { useAddProduct, DeleteProduct } from "../../lib/api/useProductMutate";
 
 const ManagerPage = () => {
     const [isOpen, setIsOpen] = useState(false);
-
+    const excelInput = useRef();
     const { data, pageInfo } = useProducts(); //상품 데이터 get
     const serchData = useSerchProduct(); //검색 데이터 get
     const Cdata = useCategory(); //카테고리 get
     const categories = Cdata["등록된 전체 카테고리"];
+    const [excel, setExcel] = useState("");
+
+    const {mutate: ProductAdd} = useAddProduct();
+    const {mutate: DeleteProduct} = useAddProduct();
 
     const [newCategory, setNewCategory] = useState();
     const inputChangeHandler = (e) => {
@@ -51,6 +56,14 @@ const ManagerPage = () => {
         }
     };
 
+    const onExelChange = async(e) => {
+        const files = e.target.files
+        const data = new FormData()
+        data.append('file', files[0])
+        ProductAdd(data)
+        excelInput.current.value = "";
+    }
+
     return (
         <>
             <Banner>
@@ -68,7 +81,7 @@ const ManagerPage = () => {
                             <p>상품이 모아진 파일을 올려주세요</p>
                         </div>
                         <div className="contents">
-                            <input type="file" />
+                            <input type="file" accept=".xls.xlsx" ref={excelInput} onChange={onExelChange}/>
                         </div>
                     </RegisterBox>
                     <CategoryBox>
@@ -241,3 +254,4 @@ const BottomContainer = styled.div`
 const PaginationBox = styled.div`
     text-align: center;
 `;
+
