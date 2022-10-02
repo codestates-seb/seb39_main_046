@@ -6,6 +6,8 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.example.Api.S3Upload;
 import com.example.Api.category.Category;
 import com.example.Api.category.CategoryService;
+import com.example.Api.exception.BusinessLogicException;
+import com.example.Api.exception.ExceptionCode;
 import com.example.Api.product.*;
 import com.example.Api.response.MultiResponseDto;
 import com.example.Api.review.*;
@@ -25,6 +27,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Positive;
 import java.io.File;
@@ -57,23 +61,35 @@ public class MemberController {
     private final S3Upload s3Upload;
 
 
-    @PostMapping
-    @ApiOperation(value = "관리자 계정 등록!")
-    public ResponseEntity registerAdmin(){
-        memberService.registerAdmin();
-        return new ResponseEntity<>(HttpStatus.CREATED);
+    @PostMapping("/signup/admin")
+    @ApiOperation(value = "관리자 계정 가입")
+    public ResponseEntity registerAdmin(@NotNull @RequestParam String inputPassword,
+                                        @Valid @RequestBody MemberPostDto memberPostDto){
+        String adminRegisterPassword = "main_046";
+        Member newAdmin = new Member();
+        if(memberService.checkAdminPassword(inputPassword, adminRegisterPassword)){
+            Member member = mapper.memberPostDtoToMember(memberPostDto);
+            member.setPassword(bCryptPasswordEncoder.encode(member.getPassword()));
+            member.setProfile("https://pre-project2.s3.ap-northeast-2.amazonaws.com/userprofile.png");
+            member.setRoles("ROLE_ADMIN");
+            newAdmin = memberService.createMember(member);
+            /*List<Member> adminList = memberService.findAdmins("ROLE_ADMIN");
+            newAdmin = memberService.registerAdmin(adminList);*/
+        }
+        return new ResponseEntity<>(newAdmin,HttpStatus.CREATED);
+
     }
 
     @PostMapping("/signup")
     @ApiOperation(value = "회원 가입")
-    public ResponseEntity signUp(@Validated @RequestBody MemberPostDto memberPostDto) {
+    public ResponseEntity signUp(@Valid @RequestBody MemberPostDto memberPostDto) {
         Member member = mapper.memberPostDtoToMember(memberPostDto);
         member.setPassword(bCryptPasswordEncoder.encode(member.getPassword()));
         member.setRoles("ROLE_USER");
         member.setProfile("https://pre-project2.s3.ap-northeast-2.amazonaws.com/userprofile.png");
-        Member response = memberService.createMember(member);
+        Member newMember = memberService.createMember(member);
 
-        return new ResponseEntity<>(mapper.memberToMemberResponseDto(response) , HttpStatus.OK);
+        return new ResponseEntity<>(newMember , HttpStatus.CREATED);
     }
 
     //     @PatchMapping("/{patch-id}")
@@ -97,10 +113,17 @@ public class MemberController {
 //
 //    }
     @PatchMapping("/nickname")
-    public ResponseEntity patchName(@Validated @RequestBody MemberPatchDtoN memberPatchDtoN){
+    public ResponseEntity patchName(@Valid @RequestBody MemberPatchDtoN memberPatchDtoN,
+                                    HttpServletRequest request){
+        boolean loginStatus = memberService.memberCheck(request);
+        if(loginStatus){
+            return new ResponseEntity<>("로그인이 필요한 서비스입니다.", HttpStatus.BAD_REQUEST);
+        }
+
         Member member = memberService.getLoginMember();
         Member updatedMember = member;
         updatedMember.setNickName(memberPatchDtoN.getNickName());
+        memberService.verifyExistInfo(null,updatedMember.getNickName());
         memberService.updateMember(member, updatedMember);
         member.setNickName(memberPatchDtoN.getNickName());
 
@@ -108,7 +131,12 @@ public class MemberController {
     }
 
     @PatchMapping("/password")
-    public ResponseEntity patchPassword(@Validated @RequestBody MemberPatchDtoP memberPatchDtoP){
+    public ResponseEntity patchPassword(@Valid @RequestBody MemberPatchDtoP memberPatchDtoP,
+                                        HttpServletRequest request){
+        boolean loginStatus = memberService.memberCheck(request);
+        if(loginStatus){
+            return new ResponseEntity<>("로그인이 필요한 서비스입니다.", HttpStatus.BAD_REQUEST);
+        }
         Member member = memberService.getLoginMember();
         Member updatedMember = member;
         updatedMember.setPassword(memberPatchDtoP.getPassword());

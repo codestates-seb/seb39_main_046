@@ -8,7 +8,8 @@ public enum ExceptionCode {
     CANNOT_DELETE_CATEGORY(403,"Category can not delete"),
     CATEGORY_NAME_EXISTS(409, "Category Name exists"),
     MEMBER_NOT_FOUND(404, "Member Not Found"),
-    MEMBER_EXISTS(409, "Member exists"),
+    MEMBER_INFORMATION_EXISTS(409, "Member Information already exists"),
+    PASSWORD_NOT_MATCH(400,"Password Not Match"),
     PRODUCT_NOT_FOUND(404,"Product not found"),
     PRODUCT_EXISTS(409, "Product exists"),
 
