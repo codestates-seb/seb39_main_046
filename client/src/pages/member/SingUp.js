@@ -140,21 +140,6 @@ const SingUp = () => {
 
 export default SingUp;
 
-const Thisinpu = styled.input`
-    width: 320px;
-    height: 40px;
-    border: 0px;
-    font-size: ${({ theme }) => theme.fontSizes.small};
-    line-height: 1rem;
-    border: none;
-    background-color: ${({ theme }) => theme.colors.White};
-    border-radius: 20px;
-    padding-left: 15px;
-    &:focus {
-        outline: 1px solid ${({ theme }) => theme.colors.Blue_040};
-    }
-`;
-
 const MemberContainer = styled.section`
     margin: 0 auto;
     width: 900px;
@@ -225,6 +210,22 @@ const InputBox = styled.form`
     p {
         color: red;
         font-size: 12px;
+    }
+`;
+
+const Thisinpu = styled.input`
+    width: 320px;
+    height: 40px;
+    border: 0px;
+    font-size: ${({ theme }) => theme.fontSizes.small};
+    line-height: 1rem;
+    border: none;
+    background-color: ${({ theme }) => theme.colors.White};
+    border-radius: 20px;
+    margin-bottom: 5px;
+    padding-left: 15px;
+    &:focus {
+        outline: 1px solid ${({ theme }) => theme.colors.Blue_040};
     }
 `;
 
