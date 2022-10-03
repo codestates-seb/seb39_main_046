@@ -7,15 +7,11 @@ import { useReviewAdd } from "../../lib/api/useRivesMutation";
 import axios from "axios";
 
 const WirteComment = ({ data }) => {
+    const image = data.imageURL;
+    console.log(image);
     const [regiImg, setregiImg] = useState(Noimg);
     const [content, setContent] = useState("");
     const [uploading2, setUploading2] = useState(null);
-    const [ImgBase642, setImgBase642] = useState([]);
-    const [image, setImage] = useState({
-        image_file: "",
-        preview_URL: Noimg,
-    });
-
     const { mutate: ReviewAdd } = useReviewAdd();
 
     // const [mutate: ReviewAdd] = useReviewAdd();
@@ -23,26 +19,16 @@ const WirteComment = ({ data }) => {
     const saveFileImage = (e) => {
         setregiImg(URL.createObjectURL(e.target.files[0]));
         setUploading2(e.target.files);
-        for (let i = 0; i < e.target.files.length; i++) {
-            if (e.target.files[i]) {
-                let reader = new FileReader();
-                reader.readAsDataURL(e.target.files[i]);
-                reader.onloadend = () => {
-                    const base642 = reader.result;
-                    if (base642) {
-                        let base642Sub = base642.toString();
-                        setImgBase642((imgBase642) => [...imgBase642, base642Sub]);
-                    }
-                };
-            }
-        }
     };
 
     const sendImageToServer = async () => {
         const fd2 = new FormData();
         const key = data.productId;
         const setData = { fd2, key };
-        Object.values(uploading2).forEach((file) => fd2.append("file", file));
+        console.log(typeof uploading2 === "object")
+        if(uploading2 === 'object'){
+            Object.values(uploading2).forEach((file) => fd2.append("file", file));
+        }
         fd2.append("content", content);
         ReviewAdd(setData);
     };
