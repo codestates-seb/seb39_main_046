@@ -29,25 +29,33 @@ const RivesBundle = ({ data }) => {
     //     navigate(`/product/${data}`);
     // };
 
-    const editClick = async() => {
+    const editClick = async () => {
         console.log("이거맞지?");
         const fd1 = new FormData();
         const key = data.reviewId;
-        console.log(key);
+        const json = JSON.stringify(content);
+        // const blob = new Blob([json], {type:"application/json"});
+        // console.log(key);
         Object.values(uploading).forEach((file) => fd1.append("file", file));
+        // fd1.append("content", new Blob([JSON.stringify(comment)],{
+        //     type:"application/json"
+        // }));
         fd1.append("content", content);
-        await axios.post(`/review/5`, fd1, {
-            headers:{
-                Authorization: sessionStorage.getItem("token"),
-                "Content-Type": `multipart/form-data`,
-            }
-        }).then((res) => {
-            if(res.data){
-                console.log(res.data);
-            }
-        }).catch((error) => {
-            console.log(error);
-        })
+        await axios
+            .post(`/review/5`, fd1, {
+                headers: {
+                    Authorization: sessionStorage.getItem("token"),
+                    "Content-Type": `multipart/form-data`,
+                },
+            })
+            .then((res) => {
+                if (res.data) {
+                    console.log(res.data);
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            });
         // ReviewPatch(key, fd1, content)
         // seteditOn(!editOn);
     };
@@ -89,7 +97,7 @@ const RivesBundle = ({ data }) => {
 
     const editSubmit = () => {
         seteditOn(!editOn);
-    }
+    };
 
     return (
         <ProductsRivewdiv>

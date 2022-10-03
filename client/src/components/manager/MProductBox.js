@@ -4,16 +4,23 @@ import { useNavigate } from "react-router-dom";
 import HeartButton from "../common/button/HeartButton";
 import Tag from "../common/product/Tag";
 import Button from "../common/button/Button";
+import { DeleteProduct } from "../../lib/api/useProductMutate";
 
 const MProductBox = ({ data, setIsOpen }) => {
+    const {mutate: ProductDelete} = DeleteProduct();
     const navigate = useNavigate();
     const goEdit = () => {
         data && navigate(`/manager/${data.productId}`);
         setIsOpen(true);
     };
     const deleteFunc = () => {
-        alert("정말 삭제하시겠습니까?");
-        navigate(`/manager`);
+        if(window.confirm("정말 삭제하시겠습니까?")){
+            console.log(data.productId);
+            ProductDelete(data.productId);
+            navigate(`/manager`);
+        }else{
+            navigate(`/manager`);
+        }        
     };
 
     return (
