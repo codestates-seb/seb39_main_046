@@ -11,8 +11,8 @@ export const useRivesDelete = () => {
   return useMutation(ReviewDelete, {
     onSuccess: () => {
       queryClient.invalidateQueries(["MyReivew"]);
+      queryClient.invalidateQueries(["productReview"]);
       alert("삭제 완료");
-      window.location.reload();
     },
     onError: (e) => {
       alert("리뷰삭제는 자신것만 할 수 있습니다.");
@@ -60,20 +60,20 @@ export const usePatchRevies = () => {
       console.log("수정 완료");
     },
     onError: (e) => {
-      alert("수정 실패 ");
+      alert("자신의 댓글만 수정이 가능합니다. ");
     }
   })
 }
 
-export const usePatchProductsReviwes = (id,page) => {
+export const usePatchProductsReviwes = () => {
   const queryClient = useQueryClient();
   return useMutation(ReviewPatch, {
     onSuccess:() => {
-      queryClient.invalidateQueries(["productReview",id,page]);
+      queryClient.invalidateQueries(["productReview"]);
       alert("수정 완료");
     },
     onError:(e) => {
-      alert("수정 실패");
+      alert("자신의 댓글만 수정이 가능합니다.");
     }
   })
 }

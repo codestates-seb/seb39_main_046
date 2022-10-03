@@ -1,24 +1,20 @@
 import React from "react";
 import styled from "styled-components";
 import ReviewHeartButton from "../common/button/ReviewHeartButton";
-import ReviewImg from "../../assets/images/products/ReviewImg.png";
 import Usering from "../../assets/images/userinfo/Userimg.jpg";
 import { FiTrash, FiSave } from "react-icons/fi";
 import { RiEdit2Fill, RiArrowGoBackLine } from "react-icons/ri";
 import { useRivesDelete,usePatchProductsReviwes } from "../../lib/api/useRivesMutation";
 import { useState } from "react";
-import axios from "axios";
 
 const Comment = ({ data }) => {
-    // console.log(data.content);
-    // const { member } = useMypage();
     const image = data.imageURL;
     const profile = data.member.profile;
     const [editOn, setEditOn] = useState(false);
     const [content, setContent] = useState("");
     const [NomalImg, setNomalImg] = useState(image);
     const [UploadImg, setUploadImg] = useState(image);
-    const [changeImg, setChangeImg] = useState(false);
+
     const { mutate: ReviewDelete } = useRivesDelete();
     const { mutate: ReviewPatch} = usePatchProductsReviwes();
 
@@ -38,17 +34,13 @@ const Comment = ({ data }) => {
     const SubmitHnadle = async() => {
         const fd4 = new FormData();
         const key = data.reviewId;
-        // if(typeof UploadImg !== "string"){
-        //     alert("이미지 올렷어요");
-        // }else{
-        //     alert("이미지 안올렷어요")
-        // }
         if(typeof UploadImg !== 'string'){
             Object.values(UploadImg).forEach((file) => fd4.append("file", file));
         }        
         fd4.append("content", content);
         const PatchData = {key,fd4};
         ReviewPatch(PatchData);
+        setEditOn(false);
     }
 
     const storeImg = (event) => {
