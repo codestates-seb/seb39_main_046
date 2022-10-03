@@ -166,7 +166,7 @@ public class ReviewService {
 
         return review;
     }
-
+//1
     public void imgUpdate(Review review,String photo){
         review.setImageURL(photo);
         reviewRepository.save(review);
