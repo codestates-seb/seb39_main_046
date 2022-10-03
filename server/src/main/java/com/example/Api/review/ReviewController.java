@@ -57,8 +57,8 @@ public class ReviewController {
             notes = "✅ 상품에 대한 리뷰를 등록합니다.\n - \n " )
     @PostMapping(value = "/review/{product-id}", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE,MediaType.APPLICATION_JSON_VALUE})
     // @RequestPart(value="file",required = false)
-    public ResponseEntity postReview(@Positive @PathVariable("product-id") long productId,
-                                     @Valid @RequestPart(value = "content",required = false) ReviewPostDto reviewPostDto, @RequestPart(value = "file",required = false) MultipartFile rfile,
+    public ResponseEntity postReview(@PathVariable("product-id") @Positive long productId,
+                                     @ModelAttribute ReviewPostDto reviewPostDto,
                                      HttpServletRequest request) throws IOException {
 
         boolean loginStatus = memberService.memberCheck(request);
@@ -71,15 +71,20 @@ public class ReviewController {
             Product product = productService.findVerifiedProductId(productId);
 
 
+//            Review review = new Review();
+//            if (reviewPostDto == null) review.setContent(null);
+//            else review.setContent(reviewPostDto.getContent());
+//            if(rfile == null) review.setImageURL(null);
+//            else reviewService.imgUpdate(review, s3Upload.upload(rfile));
+//
+//            review.setMember(writter);
+//            review.setProduct(product);
+//
+//            reviewService.createReview(review);
             Review review = new Review();
-            if (reviewPostDto == null) review.setContent(null);
-            else review.setContent(reviewPostDto.getContent());
-            if(rfile == null) review.setImageURL(null);
-            else reviewService.imgUpdate(review, s3Upload.upload(rfile));
-            
+            review =  reviewService.postReview(reviewPostDto);
             review.setMember(writter);
             review.setProduct(product);
-           
             reviewService.createReview(review);
             // 상품 리뷰 수 증가
             Product updatedProduct = product;
@@ -89,7 +94,35 @@ public class ReviewController {
             return new ResponseEntity<>(review, HttpStatus.CREATED);
         }
     }
-
+//    @PatchMapping("/review/{review-id}")
+//    public ResponseEntity patchReview(@Positive @PathVariable("review-id") long reviewId,
+//                                      @ModelAttribute ReviewPatchDto reviewPatchDto,
+//                                      HttpServletRequest request) throws IOException {
+//        boolean loginStatus = memberService.memberCheck(request);
+//        if(loginStatus){
+//            return new ResponseEntity<>("로그인이 필요한 서비스입니다.", HttpStatus.BAD_REQUEST);
+//        }
+//        else {
+//            Member editor = memberService.getLoginMember();
+//            memberService.findVerifiedMemberId(editor.getMemberId());
+//            Review selectedReview = reviewService.findVerifiedReviewId(reviewId);
+//            boolean auth = reviewService.checkAuth(selectedReview, editor.getMemberId());
+//            if(auth){
+//                 if(reviewPatchDto.getContent() == null){selectedReview.setImageURL(s3Upload.upload(reviewPatchDto.getMultipartFile()));}
+//                 if (reviewPatchDto.getMultipartFile()==null){selectedReview.setContent(reviewPatchDto.getContent());}
+//                 if(reviewPatchDto.getMultipartFile() != null && reviewPatchDto.getContent() !=null){
+//                     selectedReview.setContent(reviewPatchDto.getContent());
+//                     selectedReview.setImageURL(s3Upload.upload(reviewPatchDto.getMultipartFile()));
+//                 }
+//                reviewService.createReview(selectedReview);
+//
+//            }
+//            else {
+//                return new ResponseEntity<>("리뷰 수정 권한이 없습니다", HttpStatus.BAD_REQUEST);
+//            }
+//            return new ResponseEntity<>(selectedReview, HttpStatus.OK);
+//        }
+//    }
     @ApiOperation(value = "리뷰 수정",
             notes = "✅ 리뷰를 수정합니다.\n - \n " )
     @PatchMapping("/review/{review-id}")
