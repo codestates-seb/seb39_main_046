@@ -6,7 +6,7 @@ import { BiCamera } from "react-icons/bi";
 import { useReviewAdd } from "../../lib/api/useRivesMutation";
 import axios from "axios";
 
-const WirteComment = ({data}) => {
+const WirteComment = ({ data }) => {
     const [regiImg, setregiImg] = useState(Noimg);
     const [content, setContent] = useState("");
     const [uploading2, setUploading2] = useState(null);
@@ -15,6 +15,8 @@ const WirteComment = ({data}) => {
         image_file: "",
         preview_URL: Noimg,
     });
+
+    const { mutate: ReviewAdd } = useReviewAdd();
     console.log(data.productId);
 
     // const [mutate: ReviewAdd] = useReviewAdd();
@@ -39,24 +41,11 @@ const WirteComment = ({data}) => {
 
     const sendImageToServer = async () => {
         const fd2 = new FormData();
+        const key = data.productId;
+        const setData = {fd2, key}; 
         Object.values(uploading2).forEach((file) => fd2.append("file", file));
         fd2.append("content", content);
-        await axios
-            .post(`/review/${data.productId}`, fd2, {
-                headers: {
-                    Authorization: sessionStorage.getItem("token"),
-                    "Content-Type": `multipart/form-data`,
-                },
-            })
-            .then((res) => {
-                if (res.data) {
-                    alert("등록완료");
-                    window.location.reload();
-                }
-            })
-            .catch((error) => {
-                alert("사진과 컨텐트 둘다 기입해주세요");
-            });
+        ReviewAdd(setData);
     };
 
     return (

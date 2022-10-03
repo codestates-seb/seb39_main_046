@@ -19,8 +19,8 @@ export const useRivesDelete = () => {
 });
 }
 
-const ReviewAdd = ({id,fd,content}) => {
-  return axios.post(`/review/${id}`, fd, content,{
+const ReviewAdd = (setData) => {
+  return axios.post(`/review/${setData.key}`, setData.fd2,{
     headers:{
       Authorization: sessionStorage.getItem("token"),
       "Content-Type": `multipart/form-data`,
@@ -32,8 +32,9 @@ export const useReviewAdd = () => {
   const queryClient = useQueryClient();
   return useMutation(ReviewAdd, {
     onSuccess:() => {
-      queryClient.invalidateQueries(["MyReivew"]);
-      console.log("등록 완료");
+      queryClient.invalidateQueries(["MyReivew","productReview"]);
+      alert("등록 완료");
+      window.location.reload();
     },
     onError: (e) => {
       alert("등록 실패 ");
