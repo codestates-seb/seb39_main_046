@@ -8,7 +8,7 @@ import useStore from "../../lib/store";
 import { useChange } from "../../lib/api/useChange";
 import { useAddProfile, useDelteProfile } from "../../lib/api/useMyprofileMutate";
 import { useForm } from "react-hook-form";
-
+import { FiUpload } from "react-icons/fi";
 const PersonalInfo = ({ Persondata }) => {
     const { logInfo } = useStore();
     const userName = Persondata.member.nickName;
@@ -29,6 +29,7 @@ const PersonalInfo = ({ Persondata }) => {
     const [imgBase64, setImgBase64] = useState([]);
     const [comment, setComment] = useState();
     const [Prw, setPrw] = useState(Persondata.member.profile);
+    const [isEditOpen, setIseEditOpen] = useState(true);
 
     const InputNickName = (e) => {
         setchangeName(e.target.value);
@@ -96,6 +97,7 @@ const PersonalInfo = ({ Persondata }) => {
     };
 
     const WriteBoard = async () => {
+        setIseEditOpen(!isEditOpen);
         const fd = new FormData();
         Object.values(imgFile).forEach((file) => fd.append("file", file));
 
@@ -122,22 +124,32 @@ const PersonalInfo = ({ Persondata }) => {
                 </Titlediv>
                 <UserPassing>
                     <UserExer>
-                        <img className="user_profile" src={userImg} alt="프로필 사진" />
-                        <label className="input-file-button" for="input-file">
-                            {Prw && <img src={Prw} alt="프로필 사진" />}
-                        </label>
-                        <input
-                            type="file"
-                            accept="image/*"
-                            id="input-file"
-                            onChange={handleChangeFile}
-                            multiple="multiple"
-                        />
-                        <div className="user_btn">
-                            <Button onClick={WriteBoard}>수정</Button>
-                            <Button onClick={DeleteProfile}>삭제</Button>
-                            <p className="user_id">ID:{email}</p>
+                        {Prw && <img src={Prw} className="user_profile" alt={userName} />}
+                        {isEditOpen ? (
+                            ""
+                        ) : (
+                            <div className="filebox">
+                                <label for="input-file">
+                                    <FiUpload size={20} />
+                                </label>
+                                <input
+                                    type="file"
+                                    accept="image/*"
+                                    id="input-file"
+                                    onChange={handleChangeFile}
+                                    multiple="multiple"
+                                />
+                            </div>
+                        )}
+                        <div className="bottom_btn">
+                            <div className="user_btn">
+                                <Button onClick={WriteBoard}>수정</Button>
+                                <Button onClick={DeleteProfile} color="Gray_040">
+                                    삭제
+                                </Button>
+                            </div>
                         </div>
+                        <p className="user_id">ID:{email}</p>
                     </UserExer>
                     <div className="InfoPerson">
                         <UserForm
@@ -146,7 +158,6 @@ const PersonalInfo = ({ Persondata }) => {
                             })}
                         >
                             <p>닉네임</p>
-                            {/* <TextInput /> */}
                             <Thisinpu
                                 type="text"
                                 placeholder="입력해주세요."
@@ -168,7 +179,6 @@ const PersonalInfo = ({ Persondata }) => {
 
                         <UserForm1>
                             <p>패스워드</p>
-                            {/* <TextInput /> */}
                             <Thisinpu placeholder="입력해주세요." onChange={InputPw}></Thisinpu>
                             <Button onClick={pwSubmit}>수정</Button>
                             <p>패스워드 확인</p>
@@ -245,33 +255,49 @@ const UserPassing = styled.div`
 
 const UserExer = styled.div`
     margin-top: 30px;
-    input {
-        display: none;
-    }
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
     .user_profile {
         background-color: #fff;
         width: 200px;
         height: 200px;
         border-radius: 200px;
     }
-    /* .input-file-button{
-    cursor: pointer;
-    display: inline-flex;
-    outline: none;
-    border: 3px solid transparent;
-    border-radius: 50px;
-    cursor: pointer;
-    padding: 7px 1rem;
-    font-size: ${({ theme }) => theme.fontSizes.small};
-    background-color: ${({ theme }) => theme.colors.Blue_030};
-    color:white;
-  } */
-    img {
-        width: 150px;
-        height: 150px;
+    .filebox {
+        display: flex;
+        /* width: 60px; */
+        text-align: center;
+        margin-top: -25px;
+        label {
+            display: inline-block;
+            padding: 10px 28px;
+            color: #fff;
+            vertical-align: middle;
+            background-color: ${({ theme }) => theme.colors.Blue_030};
+            border-radius: 20px;
+            cursor: pointer;
+            height: 40px;
+        }
+        input[type="file"] {
+            position: absolute;
+            width: 0;
+            height: 0;
+            padding: 0;
+            overflow: hidden;
+            border: 0;
+        }
     }
-    Button {
-        margin-right: 5px;
+
+    .bottom_btn {
+        display: flex;
+        margin-top: 15px;
+        .user_btn {
+            Button {
+                margin-right: 5px;
+            }
+        }
     }
     .user_id {
         padding-top: ${({ theme }) => theme.paddings.base};
@@ -279,6 +305,12 @@ const UserExer = styled.div`
         color: ${({ theme }) => theme.colors.Blue_040};
         font-weight: 700;
     }
+    /* .input-file-button {
+        cursor: pointer;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    } */
 `;
 
 const Welcome = styled.span`
