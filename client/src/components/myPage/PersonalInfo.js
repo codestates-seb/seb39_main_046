@@ -3,7 +3,6 @@ import { useState } from "react";
 import styled from "styled-components";
 import Userimg from "../../assets/images/userinfo/Userimg.jpg";
 import Button from "../common/button/Button";
-import TextInput from "../common/input/TextInput";
 import useStore from "../../lib/store";
 import { useChange } from "../../lib/api/useChange";
 import { useAddProfile, useDelteProfile } from "../../lib/api/useMyprofileMutate";
@@ -11,6 +10,7 @@ import { useForm } from "react-hook-form";
 
 const PersonalInfo = ({ Persondata }) => {
     const { logInfo } = useStore();
+    const MyImg = Persondata.member.profile;
     const userName = Persondata.member.nickName;
     const welcommsg = " 님, 안녕하세요 :)";
     const email = Persondata.member.username;
@@ -25,10 +25,9 @@ const PersonalInfo = ({ Persondata }) => {
     const [changeName, setchangeName] = useState("");
     const [changePw, setChangePw] = useState("");
     const [confrim, setconfrim] = useState("");
-    const [imgFile, setImgFile] = useState(null);
-    const [imgBase64, setImgBase64] = useState([]);
-    const [comment, setComment] = useState();
+    const [imgFile, setImgFile] = useState(MyImg);
     const [Prw, setPrw] = useState(Persondata.member.profile);
+    const [PrwOn, setPrwOn] = useState(false);
 
     const InputNickName = (e) => {
         setchangeName(e.target.value);
@@ -49,13 +48,6 @@ const PersonalInfo = ({ Persondata }) => {
 
     const { mutate: changeInfo } = useChange(onSuccess, onError);
 
-    // const onSubmit = () => {
-    //     const id = "nickname";
-    //     const token = logInfo;
-    //     const log = { nickName: changeName };
-    //     console.log(log);
-    //     changeInfo({ id, token, log });
-    // };
 
     const pwSubmit = () => {
         if (changePw === confrim) {
@@ -71,38 +63,20 @@ const PersonalInfo = ({ Persondata }) => {
 
     // 회원처리 알고리즘
 
-    const { mutate: ProfileAdd } = useAddProfile(setPrw);
+    const { mutate: ProfileAdd } = useAddProfile();
     const { mutate: ProfileDelete } = useDelteProfile();
 
     const handleChangeFile = (event) => {
-        console.log(event.target.files);
         setPrw(URL.createObjectURL(event.target.files[0]));
         setImgFile(event.target.files);
-        setImgBase64([]);
-        for (var i = 0; i < event.target.files.length; i++) {
-            if (event.target.files[i]) {
-                let reader = new FileReader();
-                reader.readAsDataURL(event.target.files[i]);
-                reader.onloadend = () => {
-                    const base64 = reader.result;
-                    console.log(base64);
-                    if (base64) {
-                        var base64Sub = base64.toString();
-                        setImgBase64((imgBase64) => [...imgBase64, base64Sub]);
-                    }
-                };
-            }
-        }
+        const reader = new FileReader();
+        reader.readAsDataURL(event.target.files[0]);
     };
 
     const WriteBoard = async () => {
         const fd = new FormData();
         Object.values(imgFile).forEach((file) => fd.append("file", file));
-
-        fd.append("comment", comment);
         ProfileAdd(fd);
-        setPrw(Persondata.member.profile);
-        window.location.reload();
     };
 
     //이미지 전처리 알고리즘
@@ -122,9 +96,8 @@ const PersonalInfo = ({ Persondata }) => {
                 </Titlediv>
                 <UserPassing>
                     <UserExer>
-                        {/* <img className="user_profile" src={userImg} alt="프로필 사진" /> */}
                         <label className="input-file-button" for="input-file">
-                            {Prw && <img src={Prw} alt="프로필 사진" />}
+                            {MyImg && <img src={Prw} alt="프로필 사진" />}
                         </label>
                         <input
                             type="file"
