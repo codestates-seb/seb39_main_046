@@ -29,14 +29,15 @@ const Comment = ({ data }) => {
 
     const editClick = () => {
         setEditOn(true);
-        console.log(content);
     }
     const SubmitHnadle = async() => {
         const fd4 = new FormData();
         const key = data.reviewId;
+        console.log(key);
         if(typeof UploadImg !== 'string'){
             Object.values(UploadImg).forEach((file) => fd4.append("file", file));
-        }        
+        }
+
         fd4.append("content", content);
         const PatchData = {key,fd4};
         ReviewPatch(PatchData);
@@ -48,7 +49,6 @@ const Comment = ({ data }) => {
         setUploadImg(event.target.files);
         const reader = new FileReader();
         reader.readAsDataURL(event.target.files[0]);
-
     }
 
 

@@ -14,40 +14,19 @@ const RivesBundle = ({ data, index }) => {
     const [baseImg, setBaseImg] = useState(image);
     const [editOn, seteditOn] = useState(false);
     const [content, setContent] = useState("");
-    const [uploading, setUploading] = useState(null);
-    // console.log(content);
-    // const goDetail = () => {
-    //     navigate(`/product/${data}`);
-    // };
+    const [uploading, setUploading] = useState(image);
 
-    const editClick = async () => {
+    const editClick = () => {
         const fd4 = new FormData();
         const key = data.reviewId;
         const EditData = {fd4,key};
-        if(typeof uploading !== "string"){
+        console.log(uploading);
+        if(typeof uploading === 'object'){
             Object.values(uploading).forEach((file) => fd4.append("file", file));
         }
         fd4.append("content", content);
         ReviewPatch(EditData);
-
-
-
-        // await axios
-        //     .patch(`/review/${key}`, fd4, {
-        //         headers: {
-        //             Authorization: sessionStorage.getItem("token"),
-        //             "Content-Type": `multipart/form-data`,
-        //         },
-        //     })
-        //     .then((res) => {
-        //         if (res.data) {
-        //             console.log(res.data);
-        //             alert("수정완료");
-        //         }
-        //     })
-        //     .catch((error) => {
-        //         console.log(error);
-        //     });
+        seteditOn(false);
     };
 
     const deleteClick = () => {
@@ -85,7 +64,7 @@ const RivesBundle = ({ data, index }) => {
             {editOn ? (
                 <label className="Edit-button" for={`Edit-file${index}`}>
                     <img src={baseImg} alt="업로드용 이미지" className="review_img" />
-                    <input type="file" accept="image/*" id={`Edit-file${index}`} onChange={saveImg} className = "typeFile2"/>
+                    <input type="file" accept="image/*" id={`Edit-file${index}`} onChange={saveImg} className="typeFile2"/>
                 </label>
             ) : (
                 <img src={data.imageURL} alt="리뷰 1" className="review_img"></img>

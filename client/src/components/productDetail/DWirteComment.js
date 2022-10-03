@@ -17,7 +17,6 @@ const WirteComment = ({ data }) => {
     });
 
     const { mutate: ReviewAdd } = useReviewAdd();
-    console.log(data.productId);
 
     // const [mutate: ReviewAdd] = useReviewAdd();
 
@@ -42,7 +41,7 @@ const WirteComment = ({ data }) => {
     const sendImageToServer = async () => {
         const fd2 = new FormData();
         const key = data.productId;
-        const setData = {fd2, key}; 
+        const setData = { fd2, key };
         Object.values(uploading2).forEach((file) => fd2.append("file", file));
         fd2.append("content", content);
         ReviewAdd(setData);
