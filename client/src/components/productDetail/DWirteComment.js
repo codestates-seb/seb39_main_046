@@ -4,15 +4,59 @@ import Noimg from "../../assets/images/userinfo/Noimg.png";
 import Button from "../common/button/Button";
 import { BiCamera } from "react-icons/bi";
 import { useReviewAdd } from "../../lib/api/useRivesMutation";
+import axios from "axios";
 
-const WirteComment = () => {
+const WirteComment = ({data}) => {
     const [regiImg, setregiImg] = useState(Noimg);
     const [content, setContent] = useState("");
+    const [uploading2, setUploading2] = useState(null);
+    const [ImgBase642, setImgBase642] = useState([]);
+    const [image, setImage] = useState({
+        image_file: "",
+        preview_URL: Noimg,
+    });
+    console.log(data.productId);
+
     // const [mutate: ReviewAdd] = useReviewAdd();
 
     const saveFileImage = (e) => {
         setregiImg(URL.createObjectURL(e.target.files[0]));
-        console.log(regiImg);
+        setUploading2(e.target.files);
+        for (let i = 0; i < e.target.files.length; i++) {
+            if (e.target.files[i]) {
+                let reader = new FileReader();
+                reader.readAsDataURL(e.target.files[i]);
+                reader.onloadend = () => {
+                    const base642 = reader.result;
+                    if (base642) {
+                        let base642Sub = base642.toString();
+                        setImgBase642((imgBase642) => [...imgBase642, base642Sub]);
+                    }
+                };
+            }
+        }
+    };
+
+    const sendImageToServer = async () => {
+        const fd2 = new FormData();
+        Object.values(uploading2).forEach((file) => fd2.append("file", file));
+        fd2.append("content", content);
+        await axios
+            .post(`/review/${data.productId}`, fd2, {
+                headers: {
+                    Authorization: sessionStorage.getItem("token"),
+                    "Content-Type": `multipart/form-data`,
+                },
+            })
+            .then((res) => {
+                if (res.data) {
+                    alert("등록완료");
+                    window.location.reload();
+                }
+            })
+            .catch((error) => {
+                alert("사진과 컨텐트 둘다 기입해주세요");
+            });
     };
 
     return (
@@ -32,7 +76,7 @@ const WirteComment = () => {
                     placeholder="최대 50자 입력가능"
                     onChange={(e) => setContent(e.target.value)}
                 ></input>
-                <Button>후기작성</Button>
+                <Button onClick={sendImageToServer}>후기작성</Button>
             </WriteArea>
         </Maindiv>
     );

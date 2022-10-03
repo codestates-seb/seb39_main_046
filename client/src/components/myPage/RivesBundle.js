@@ -21,7 +21,6 @@ const RivesBundle = ({ data }) => {
     const [content, setContent] = useState("");
     const [uploading, setUploading] = useState(null);
     const [imgBase641, setImgBase641] = useState([]);
-    const [comment, setComment] = useState("아 제발 좀되라");
     // console.log(content);
     // const goDetail = () => {
     //     navigate(`/product/${data}`);
@@ -29,18 +28,23 @@ const RivesBundle = ({ data }) => {
 
     const editClick = async () => {
         console.log("이거맞지?");
+        console.log(data.reviewId);
         const fd1 = new FormData();
         const key = data.reviewId;
         const json = JSON.stringify(content);
+        console.log(uploading);
         // const blob = new Blob([json], {type:"application/json"});
         // console.log(key);
+        // if(uploading === null ){
+        //     setUploading(data.imageURL)
+        // }
         Object.values(uploading).forEach((file) => fd1.append("file", file));
         // fd1.append("content", new Blob([JSON.stringify(comment)],{
         //     type:"application/json"
         // }));
         fd1.append("content", content);
         await axios
-            .post(`/review/5`, fd1, {
+            .patch(`/review/${key}`, fd1, {
                 headers: {
                     Authorization: sessionStorage.getItem("token"),
                     "Content-Type": `multipart/form-data`,
@@ -49,6 +53,7 @@ const RivesBundle = ({ data }) => {
             .then((res) => {
                 if (res.data) {
                     console.log(res.data);
+                    alert("수정완료");
                 }
             })
             .catch((error) => {
@@ -90,7 +95,6 @@ const RivesBundle = ({ data }) => {
     };
     const editContent = (e) => {
         setContent(e.target.value);
-        console.log(content);
     };
 
     const editSubmit = () => {
@@ -100,7 +104,7 @@ const RivesBundle = ({ data }) => {
     return (
         <ProductsRivewdiv>
             {editOn ? (
-                <label className="Edit-button" for="Edit-file">
+                <label className="Edit-button" for='Edit-file'>
                     <img src={baseImg} alt="업로드용 이미지" className="review_img" />
                 </label>
             ) : (

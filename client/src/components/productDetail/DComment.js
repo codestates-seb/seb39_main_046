@@ -9,7 +9,7 @@ import { useMypage } from "../../lib/api/useMypage";
 import { useRivesDelete } from "../../lib/api/useRivesMutation";
 
 const Comment = ({ data }) => {
-    console.log(data.content);
+    // console.log(data.content);
     const { member } = useMypage();
 
     const { mutate: ReviewDelete } = useRivesDelete();
@@ -20,11 +20,14 @@ const Comment = ({ data }) => {
             ReviewDelete(ID);
         }
     };
+    const image = data.imageURL;
+
+    console.log(data.imageURL);
 
     return (
         <Maindiv>
             <div className="img_box">
-                <img src={ReviewImg} alt="리뷰 이미지" className="review_img" />
+                <img src={image === null ? (Usering): (image)} alt="리뷰 이미지" className="review_img" />
             </div>
             <ReviewDetail>
                 <div className="userInfo">

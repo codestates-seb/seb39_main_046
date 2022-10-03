@@ -122,7 +122,7 @@ const PersonalInfo = ({ Persondata }) => {
                 </Titlediv>
                 <UserPassing>
                     <UserExer>
-                        <img className="user_profile" src={userImg} alt="프로필 사진" />
+                        {/* <img className="user_profile" src={userImg} alt="프로필 사진" /> */}
                         <label className="input-file-button" for="input-file">
                             {Prw && <img src={Prw} alt="프로필 사진" />}
                         </label>
