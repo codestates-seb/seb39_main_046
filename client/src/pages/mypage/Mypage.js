@@ -22,10 +22,6 @@ const Getinfo = (logInfo) => {
 
 const Mypage = () => {
     const { logInfo } = store();
-    // const { member } = useMypage();
-    // console.log(member);
-
-    // const queryClient = useQueryClient();
 
     const { data, isLoading } = useQuery("infos", () => Getinfo(logInfo), {
         keepPreviousData: true,
@@ -33,7 +29,6 @@ const Mypage = () => {
     });
 
     if (isLoading) return <h3> 로딩중 </h3>;
-    // console.log(data.data.member.roles);
     return (
         <>
             <PersonalInfo Persondata={data.data} />

@@ -42,9 +42,10 @@ const verticalInterval = {
 };
 
 const deviceSizes = {
-    mobile: "375px",
+    mobile: "450px",
     tablet: "768px",
     laptop: "1024px",
+    laptopL: "1280px",
 };
 
 const colors = {
@@ -76,6 +77,7 @@ const device = {
     mobile: `only screen and (max-width: ${deviceSizes.mobile})`,
     tablet: `only screen and (max-width: ${deviceSizes.tablet})`,
     laptop: `only screen and (max-width: ${deviceSizes.laptop})`,
+    laptopL: `only screen and (max-width: ${deviceSizes.laptopL})`,
 };
 const radius = {
     small: calcRem(10),

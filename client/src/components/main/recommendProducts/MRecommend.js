@@ -31,13 +31,13 @@ const Recommend = () => {
                 autoplay={true}
                 speed={1500}
                 breakpoints={{
-                    740: {
+                    768: {
                         slidesPerView: 3,
-                        spaceBetween: 40,
+                        spaceBetween: 17,
                     },
-                    1000: {
+                    1080: {
                         slidesPerView: 4,
-                        spaceBetween: 20,
+                        spaceBetween: 17,
                     },
                     1280: {
                         slidesPerView: 5,
@@ -91,8 +91,16 @@ const SwiperBox = styled(Swiper)`
     padding-top: 30px;
     width: 100%;
     height: 450px;
-    padding-left: 8px;
-    padding-right: 12px;
+    padding: 0 12px 0 8px;
+    @media ${({ theme }) => theme.device.laptopL} {
+        padding: 0 22px 0 20px;
+    }
+    @media ${({ theme }) => theme.device.laptop} {
+        padding: 0 22px 0 20px;
+    }
+    @media ${({ theme }) => theme.device.tablet} {
+        padding: 0 18px 0 14px;
+    }
 `;
 const StyleSwipper = styled(SwiperSlide)`
     cursor: pointer;

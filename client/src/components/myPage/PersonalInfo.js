@@ -128,7 +128,7 @@ const PersonalInfo = ({ Persondata }) => {
             <UserInfo>
                 {isAdmin === "ROLE_ADMIN" ? (
                     <p className="manager_btn" onClick={goManagerPage}>
-                        <strong>관리자 페이지</strong>로 이동하기 〉
+                        <strong>관리자 페이지</strong>로 이동하기 ›
                     </p>
                 ) : (
                     ""
