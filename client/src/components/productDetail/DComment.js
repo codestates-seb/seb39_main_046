@@ -35,42 +35,35 @@ const Comment = ({ data }) => {
     const SubmitHnadle = async() => {
         const fd4 = new FormData();
         const key = data.reviewId;
+        console.log(UploadImg);
         Object.values(UploadImg).forEach((file) => fd4.append("file", file));
         fd4.append("content", content);
-        await axios.patch(`/review/${key}`, fd4, {
-            headers: {
-                Authorization: sessionStorage.getItem("token"),
-                "Content-Type": `multipart/form-data`,
-            },
-        }).then(((res) => {
-            console.log(res.data);
-            alert("수정완료");            
-        }).catch ((error) => {
-            console.log(error);
-        }));        
+        console.log(UploadImg);
+        // await axios.patch(`/review/${key}`, fd4, {
+        //     headers: {
+        //         Authorization: sessionStorage.getItem("token"),
+        //         "Content-Type": `multipart/form-data`,
+        //     },
+        // }).then((res) => {
+        //     console.log(res.data);
+        //     alert("수정완료");            
+        // }).catch ((error) => {
+        //     console.log(error);
+        // });        
     }
 
     const storeImg = (event) => {
         setNomalImg(URL.createObjectURL(event.target.files[0]));
-        setUploadImg(event.target.files);
+        setUploadImg(event.target.files[0]);
         const reader = new FileReader();
-        reader.readAsDataURL(event.target.files[0]);
     }
 
-    
 
     const CancelHandler = () => {
         setUploadImg(image);
         setNomalImg(image);
         setEditOn(false);
     }
-
-    
-
-
-
-
-    console.log(data.member.profile);
 
     return (
         <Maindiv>
