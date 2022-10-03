@@ -232,4 +232,5 @@ const BottomContainer = styled.div`
 `;
 const PaginationBox = styled.div`
     text-align: center;
+    margin: 30px 0;
 `;

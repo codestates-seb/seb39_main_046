@@ -33,7 +33,7 @@ const Mypage = () => {
     });
 
     if (isLoading) return <h3> 로딩중 </h3>;
-    console.log(data);
+    // console.log(data.data.member.roles);
     return (
         <>
             <PersonalInfo Persondata={data.data} />

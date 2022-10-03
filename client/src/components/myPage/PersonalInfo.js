@@ -1,20 +1,22 @@
 import React from "react";
 import { useState } from "react";
 import styled from "styled-components";
-import Userimg from "../../assets/images/userinfo/Userimg.jpg";
+import { useNavigate } from "react-router-dom";
 import Button from "../common/button/Button";
-import TextInput from "../common/input/TextInput";
 import useStore from "../../lib/store";
 import { useChange } from "../../lib/api/useChange";
 import { useAddProfile, useDelteProfile } from "../../lib/api/useMyprofileMutate";
 import { useForm } from "react-hook-form";
 import { FiUpload } from "react-icons/fi";
+
 const PersonalInfo = ({ Persondata }) => {
+    const navigate = useNavigate();
+
+    console.log(Persondata.member.roles);
     const { logInfo } = useStore();
     const userName = Persondata.member.nickName;
     const welcommsg = " 님, 안녕하세요 :)";
     const email = Persondata.member.username;
-    const userImg = Userimg;
     const {
         register,
         handleSubmit,
@@ -115,9 +117,22 @@ const PersonalInfo = ({ Persondata }) => {
 
     // 이미지 삭제 알고리즘
 
+    // 관리자 확인 후 관리자 페이지 이동
+    const [isAdmin, setIsAdmin] = useState(Persondata.member.roles);
+
+    const goManagerPage = () => {
+        navigate(`/manager`);
+    };
     return (
         <TopDiv>
             <UserInfo>
+                {isAdmin === "ROLE_ADMIN" ? (
+                    <p className="manager_btn" onClick={goManagerPage}>
+                        <strong>관리자 페이지</strong>로 이동하기 〉
+                    </p>
+                ) : (
+                    ""
+                )}
                 <Titlediv>
                     <UserName>{userName}</UserName>
                     <Welcome>{welcommsg}</Welcome>
@@ -176,7 +191,6 @@ const PersonalInfo = ({ Persondata }) => {
                             {errors.nickName && <p className="errorCode">{errors.nickName.message}</p>}
                             <SubmitButton>완료</SubmitButton>
                         </UserForm>
-
                         <UserForm1>
                             <p>패스워드</p>
                             <Thisinpu placeholder="입력해주세요." onChange={InputPw}></Thisinpu>
@@ -184,7 +198,6 @@ const PersonalInfo = ({ Persondata }) => {
                             <p>패스워드 확인</p>
                             <Thisinpu placeholder="입력해주세요." onChange={InputConfrim}></Thisinpu>
                         </UserForm1>
-                        {/* </UserForm> */}
                     </div>
                 </UserPassing>
             </UserInfo>
@@ -234,6 +247,15 @@ const TopDiv = styled.div`
 const UserInfo = styled.div`
     text-align: center;
     width: 100%;
+    .manager_btn {
+        color: ${({ theme }) => theme.colors.Orange_030};
+        font-size: ${({ theme }) => theme.fontSizes.lg};
+        margin-bottom: 10px;
+        cursor: pointer;
+        strong {
+            font-weight: 700;
+        }
+    }
 `;
 const Titlediv = styled.div`
     text-align: center;
