@@ -21,18 +21,19 @@ const Comment = ({ data }) => {
         }
     };
     const image = data.imageURL;
+    const profile = data.member.profile;
 
-    console.log(data.imageURL);
+    console.log(data.member.profile);
 
     return (
         <Maindiv>
             <div className="img_box">
-                <img src={image === null ? (Usering): (image)} alt="리뷰 이미지" className="review_img" />
+                <img src={image === null ? Usering : image} alt="리뷰 이미지" className="review_img" />
             </div>
             <ReviewDetail>
                 <div className="userInfo">
                     <div className="uesrNick">
-                        <img src={Usering} alt="유저 프로필" width="25px" height="25px" />
+                        <img src={profile === null ? Usering: profile} alt="유저 프로필" width="25px" height="25px" />
                         <span>{data.member.nickName}</span>
                     </div>
                     <div className="userHeart">

@@ -104,13 +104,13 @@ const RivesBundle = ({ data }) => {
     return (
         <ProductsRivewdiv>
             {editOn ? (
-                <label className="Edit-button" for='Edit-file'>
+                <label className="Edit-button" for="Edit-file">
                     <img src={baseImg} alt="업로드용 이미지" className="review_img" />
+                    <input type="file" accept="image/*" id="Edit-file" onChange={saveImg} />
                 </label>
             ) : (
                 <img src={data.imageURL} alt="리뷰 1" className="review_img"></img>
             )}
-            <input type="file" accept="image/*" id="Edit-file" onChange={saveImg} />
             <div className="Productex">
                 <h4>{data.product.productName}</h4>
                 {editOn ? (

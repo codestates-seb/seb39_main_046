@@ -5,13 +5,12 @@ import styled from "styled-components";
 import Noimg from "../../assets/images/userinfo/Noimg.png";
 import HeartButton from "../common/button/HeartButton";
 
-const MyLikeReviewContain = ({ data }) => {
-
-    const image = data.imageURL;
+const MyLikeReviewContain = ( {data} ) => {
+    const image = data.review.imageURL;
 
     return (
         <Productinformation>
-            <img src={image ===null ? (Noimg) : (image) } alt="이미지 없음" />
+            <img src={image === null ? Noimg : image} alt="이미지 없음" />
             <section className="contents-box">
                 <div className="title">
                     <div className="productName">{data.review.product.productName}</div>
