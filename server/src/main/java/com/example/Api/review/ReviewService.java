@@ -65,10 +65,11 @@ public class ReviewService {
         return result;
     }
 
-    public void deleteReview(Review review, Member member){
+    public void deleteReview(Review review, Member member ) throws IOException{
 
         long memberId = member.getMemberId();
         if(checkAuth(review,memberId)){
+            s3Upload.removeFile(review.getImageURL().replace("https://pre-project2.s3.ap-northeast-2.amazonaws.com/",""));
             reviewRepository.delete(review);
         }
         else{
@@ -167,12 +168,14 @@ public class ReviewService {
         return review;
     }
 //1
-public String imgUpdate (ReviewPostDto reviewPostDto,ReviewPatchDto reviewPatchDto) throws IOException{
+public String imgUpdate (ReviewPostDto reviewPostDto,ReviewPatchDto reviewPatchDto,Review review) throws IOException{
     if (reviewPatchDto == null)
     { if (reviewPostDto.getFile() == null) return null;
         return s3Upload.upload(reviewPostDto.getFile());}
+
     else
-    { if (reviewPatchDto.getFile() == null) return null;
+    { if (reviewPatchDto.getFile() == null) {return null;}
+        s3Upload.removeFile(review.getImageURL().replace("https://pre-project2.s3.ap-northeast-2.amazonaws.com/",""));
         return s3Upload.upload(reviewPatchDto.getFile());}
 }
 

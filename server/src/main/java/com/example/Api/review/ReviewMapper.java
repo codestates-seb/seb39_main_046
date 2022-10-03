@@ -32,7 +32,7 @@ public interface ReviewMapper {
             patchReview.setContent(reviewPatchDto.getContent());
         }
         if (reviewPatchDto.getContent()==null)
-        {
+        { 
             patchReview.setImageURL(file);}
         if(reviewPatchDto.getContent() != null && file !=null) {
             patchReview.setContent(reviewPatchDto.getContent());

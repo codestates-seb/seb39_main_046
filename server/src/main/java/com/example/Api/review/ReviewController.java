@@ -71,7 +71,7 @@ public class ReviewController {
             Product product = productService.findVerifiedProductId(productId);
 
 
-            String file = reviewService.imgUpdate(reviewPostDto,null);
+            String file = reviewService.imgUpdate(reviewPostDto,null,null);
             Review review = reviewMapper.reviewPostDtoToReview(reviewPostDto,file);
             review.setMember(writter);
             review.setProduct(product);
@@ -100,7 +100,7 @@ public class ReviewController {
             Review selectedReview = reviewService.findVerifiedReviewId(reviewId);
             boolean auth = reviewService.checkAuth(selectedReview, editor.getMemberId());
             if(auth){
-                String file = reviewService.imgUpdate(null,reviewPatchDto);
+                String file = reviewService.imgUpdate(null,reviewPatchDto,selectedReview);
                 Review updateReview = reviewMapper.reviewPatchDtoToReview(selectedReview,reviewPatchDto,file);
                 reviewService.updateReview(selectedReview,updateReview);
                 return new ResponseEntity<>(selectedReview, HttpStatus.OK);
@@ -116,7 +116,7 @@ public class ReviewController {
             notes = "✅ 리뷰를 삭제합니다.\n - \n " )
     @DeleteMapping("/review/{review-id}")
     public ResponseEntity deleteReview(@Positive @PathVariable("review-id") long reviewId,
-                                       HttpServletRequest request){
+                                       HttpServletRequest request) throws IOException{
         boolean loginStatus = memberService.memberCheck(request);
         if(loginStatus){
             return new ResponseEntity<>("로그인이 필요한 서비스입니다.", HttpStatus.BAD_REQUEST);
