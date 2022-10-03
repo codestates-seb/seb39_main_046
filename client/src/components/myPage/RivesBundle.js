@@ -31,8 +31,13 @@ const RivesBundle = ({ data }) => {
         console.log("이거맞지?");
         const fd1 = new FormData();
         const key = data.reviewId;
-        console.log(key);
+        const json = JSON.stringify(content);
+        // const blob = new Blob([json], {type:"application/json"});
+        // console.log(key);
         Object.values(uploading).forEach((file) => fd1.append("file", file));
+        // fd1.append("content", new Blob([JSON.stringify(comment)],{
+        //     type:"application/json"
+        // }));
         fd1.append("content", content);
         await axios
             .post(`/review/5`, fd1, {

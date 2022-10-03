@@ -5,10 +5,10 @@ import axiosInstance from "../../utils/axiosInastance";
 import { useQuery } from "react-query";
 import Loading from "../common/loading/Loading";
 import { queryKeys } from "../../lib/react-query/constant";
-import TextInput from "../common/input/TextInput";
 import { useCategory } from "../../lib/api/useCategory";
 import Paging from "../common/pagination/Paging";
 import { useNavigate } from "react-router-dom";
+import { PatchProduct } from "../../lib/api/useProductMutate";
 
 const getDeatilProduct = async (productNum) => {
     const { data } = await axiosInstance.get(`/product/${productNum}`);
@@ -16,6 +16,9 @@ const getDeatilProduct = async (productNum) => {
 };
 
 const MProductModal = ({ setIsOpen }) => {
+    const [price, setPrcie] = useState("");
+    const [name, setName] = useState("");
+    const {mutate: ProductPatch} = PatchProduct();
     const { id } = useParams();
     const navigate = useNavigate();
 
@@ -60,8 +63,23 @@ const MProductModal = ({ setIsOpen }) => {
         return <Loading />;
     }
 
-    console.log(data.product.imageURL);
+
+
+
+    const EditSubmit = () => {
+        console.log(data.product.productId)
+        const PrId = data.product.productId
+        const EditData = {"categoryName" : isStore.categoryName, "company" : isCategory, "price": price, "productName": name}
+        const setData = {PrId, EditData};
+        ProductPatch(setData);
+        navigate("/manager");
+
+
+    } 
+
     return (
+
+
         data && (
             <OutContainer>
                 <EditContainer>
@@ -72,11 +90,11 @@ const MProductModal = ({ setIsOpen }) => {
                         <div className="inner_box">
                             <div>
                                 <h3>상품명</h3>
-                                <TextInput></TextInput>
+                                <TextInput2 onChange={(e) => setName(e.target.value)} placeholder="입력해주세요" ></TextInput2>
                             </div>
                             <div>
                                 <h3>가격</h3>
-                                <TextInput></TextInput>
+                                <TextInput2 onChange={(e) => setPrcie(e.target.value)} placeholder="입력해주세요"></TextInput2>
                             </div>
                             <div>
                                 <h3>상품 카테고리</h3>
@@ -112,7 +130,7 @@ const MProductModal = ({ setIsOpen }) => {
                                     })}
                                 </TabMenu>
                             </div>
-                            <Button2>반영하기</Button2>
+                            <Button2 onClick={EditSubmit}>반영하기</Button2>
                         </div>
                     </RightBox>
 
@@ -237,3 +255,18 @@ const Button2 = styled.button`
     background-color: ${({ theme }) => theme.colors.Blue_030};
     border: none;
 `;
+
+const TextInput2 = styled.input`
+    width: 320px;
+    height: 40px;
+    border: 0px;
+    font-size: ${({ theme }) => theme.fontSizes.small};
+    line-height: 1rem;
+    border: none;
+    background-color: ${({ theme }) => theme.colors.White};
+    border-radius: 20px;
+    padding-left: 15px;
+    &:focus {
+        outline: 1px solid ${({ theme }) => theme.colors.Blue_040};
+    }
+`
