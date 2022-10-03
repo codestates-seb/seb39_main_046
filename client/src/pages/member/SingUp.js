@@ -1,15 +1,17 @@
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components";
 import { useSignup } from "../../lib/api/useSignup";
 import { useNavigate } from "react-router-dom";
-import {useForm} from 'react-hook-form'
-
+import { useForm } from "react-hook-form";
 
 const SingUp = () => {
     const navigate = useNavigate();
-    const {register, handleSubmit,getValues, formState: {errors}}  = useForm();
-
-
+    const {
+        register,
+        handleSubmit,
+        getValues,
+        formState: { errors },
+    } = useForm();
 
     const onSuccess = (data) => {
         alert("회원가입 성공");
@@ -26,8 +28,6 @@ const SingUp = () => {
         <p>("뭔가 잘못됨..")</p>;
     }
 
-
-
     return (
         <MemberContainer>
             <TopBtnBox>
@@ -35,45 +35,50 @@ const SingUp = () => {
                 <SingUpBtn>회원가입</SingUpBtn>
             </TopBtnBox>
             <MiddleBox>
-                <InputBox onSubmit = {handleSubmit((data) => {
-                    const person = {"nickName": data.nickName, "password": data.password, "username": data.username};
-                    addPerson(person);
-                })}>
+                <InputBox
+                    onSubmit={handleSubmit((data) => {
+                        const person = { nickName: data.nickName, password: data.password, username: data.username };
+                        addPerson(person);
+                    })}
+                >
                     <div className="InputData">
                         <label>아이디</label>
                         {/* <TextInput /> */}
-                        <Thisinpu                        
+                        <Thisinpu
                             type="text"
-                            {...register("username",{required: "필수입력 사항입니다.",
-                            minLength:{
-                                value: 10,
-                                message: '이메일 형식에 맞게 입력해주세요.'
-                            },
-                            pattern:{
-                                value: /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i,
-                                message: '이메일 형식에 맞게 입력해주세요'
-                            }
-                        })}
+                            {...register("username", {
+                                required: "필수입력 사항입니다.",
+                                minLength: {
+                                    value: 10,
+                                    message: "이메일 형식에 맞게 입력해주세요.",
+                                },
+                                pattern: {
+                                    value: /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i,
+                                    message: "이메일 형식에 맞게 입력해주세요",
+                                },
+                            })}
                             // onChange={(e) => {
                             //     setUserName(e.target.value);
                             // }}
                         ></Thisinpu>
-                        {errors.username &&<p>{errors.username.message}</p>}
+                        {errors.username && <p>{errors.username.message}</p>}
                     </div>
                     <div className="InputData">
                         <label>닉네임</label>
                         {/* <TextInput /> */}
                         <Thisinpu
                             type="text"
-                            {...register("nickName",{required: '필수입력 사항입니다.', minLength: {
-                                value: 2,
-                                message: "2자 이상이어야합니다."
-                            },
-                            maxLength: {
-                                value: 10,
-                                message: "10자 이하이어야합니다."
-                            }
-                        })}
+                            {...register("nickName", {
+                                required: "필수입력 사항입니다.",
+                                minLength: {
+                                    value: 2,
+                                    message: "2자 이상이어야합니다.",
+                                },
+                                maxLength: {
+                                    value: 10,
+                                    message: "10자 이하이어야합니다.",
+                                },
+                            })}
                             // onChange={(e) => {
                             //     setNickName(e.target.value);
                             // }}
@@ -85,23 +90,24 @@ const SingUp = () => {
                         {/* <TextInput /> */}
                         <Thisinpu
                             type="password"
-                            {...register("password", {required: "비밀번호를 입력해주세요",minLength:{
-                                vlaue: 8,
-                                message: "최소 8자 이상의 비밀번호를 입력해주세요",
-                            },
-                            maxLength: {
-                                value: 16,
-                                message: "16자 이하의 비밀번호만 사용가능합니다.",
-                            },
-                            pattern: {
-                                value: /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,}$/,
-                                message: "특수문자, 영문, 숫자를 혼용해서 입력해주세요",
-                            }
-                        })}
+                            {...register("password", {
+                                required: "비밀번호를 입력해주세요",
+                                minLength: {
+                                    vlaue: 8,
+                                    message: "최소 8자 이상의 비밀번호를 입력해주세요",
+                                },
+                                maxLength: {
+                                    value: 16,
+                                    message: "16자 이하의 비밀번호만 사용가능합니다.",
+                                },
+                                pattern: {
+                                    value: /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,}$/,
+                                    message: "특수문자, 영문, 숫자를 혼용해서 입력해주세요",
+                                },
+                            })}
                             // onChange={(e) => {
                             //     setPassword(e.target.value);
                             // }}
-                            
                         ></Thisinpu>
                         {errors.password && <p>{errors.password.message}</p>}
                     </div>
@@ -110,14 +116,14 @@ const SingUp = () => {
                         {/* <TextInput /> */}
                         <Thisinpu
                             type="password"
-                            {...register("passwordCheck",{
-                                required:{
+                            {...register("passwordCheck", {
+                                required: {
                                     value: true,
                                     message: "비밀번호를 확인 해주세요.",
                                 },
-                                validate:{
-                                    matchesPreviousPassword: (value) =>{
-                                        const{password} = getValues();
+                                validate: {
+                                    matchesPreviousPassword: (value) => {
+                                        const { password } = getValues();
                                         return password === value || "비밀번호가 일치하지 않습니다.";
                                     },
                                 },
@@ -125,7 +131,7 @@ const SingUp = () => {
                         ></Thisinpu>
                         {errors.passwordCheck && <p>{errors.passwordCheck.message}</p>}
                     </div>
-                <LoginConfirmBtn onClick={onsubmit}>회원가입</LoginConfirmBtn>
+                    <LoginConfirmBtn onClick={onsubmit}>회원가입</LoginConfirmBtn>
                 </InputBox>
             </MiddleBox>
         </MemberContainer>
@@ -133,21 +139,6 @@ const SingUp = () => {
 };
 
 export default SingUp;
-
-const Thisinpu = styled.input`
-    width: 320px;
-    height: 40px;
-    border: 0px;
-    font-size: ${({ theme }) => theme.fontSizes.small};
-    line-height: 1rem;
-    border: none;
-    background-color: ${({ theme }) => theme.colors.White};
-    border-radius: 20px;
-    padding-left: 15px;
-    &:focus {
-        outline: 1px solid ${({ theme }) => theme.colors.Blue_040};
-    }
-`;
 
 const MemberContainer = styled.section`
     margin: 0 auto;
@@ -212,13 +203,29 @@ const MiddleBox = styled.div`
 `;
 
 const InputBox = styled.form`
-    .InputData{
+    .InputData {
         display: flex;
-        flex-direction:column;
+        flex-direction: column;
     }
-    p{
-        color:red;
-        font-size:12px;
+    p {
+        color: red;
+        font-size: 12px;
+    }
+`;
+
+const Thisinpu = styled.input`
+    width: 320px;
+    height: 40px;
+    border: 0px;
+    font-size: ${({ theme }) => theme.fontSizes.small};
+    line-height: 1rem;
+    border: none;
+    background-color: ${({ theme }) => theme.colors.White};
+    border-radius: 20px;
+    margin-bottom: 5px;
+    padding-left: 15px;
+    &:focus {
+        outline: 1px solid ${({ theme }) => theme.colors.Blue_040};
     }
 `;
 

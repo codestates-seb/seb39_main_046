@@ -61,7 +61,7 @@ export default Comment;
 
 const Maindiv = styled.div`
     display: flex;
-    /* justify-content: space-between; */
+    justify-content: space-between;
     border-radius: ${({ theme }) => theme.radius.small};
     background-color: #fff;
     margin: 0 15px 15px 0;
@@ -82,7 +82,7 @@ const Maindiv = styled.div`
     }
 `;
 const ReviewDetail = styled.section`
-    max-width: 100%;
+    width: 74%;
     .userInfo {
         width: 100%;
         display: flex;

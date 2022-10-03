@@ -1,4 +1,4 @@
-import React, { useState,useRef } from "react";
+import React, { useState, useRef } from "react";
 import styled from "styled-components";
 import axiosInstance from "../../utils/axiosInastance";
 import { useCategory, useCategoryMutation } from "../../lib/api/useCategory";
@@ -21,8 +21,8 @@ const ManagerPage = () => {
     const categories = Cdata["등록된 전체 카테고리"];
     const [excel, setExcel] = useState("");
 
-    const {mutate: ProductAdd} = useAddProduct();
-    const {mutate: DeleteProduct} = useAddProduct();
+    const { mutate: ProductAdd } = useAddProduct();
+    const { mutate: DeleteProduct } = useAddProduct();
 
     const [newCategory, setNewCategory] = useState();
     const inputChangeHandler = (e) => {
@@ -56,13 +56,13 @@ const ManagerPage = () => {
         }
     };
 
-    const onExelChange = async(e) => {
-        const files = e.target.files
-        const data = new FormData()
-        data.append('file', files[0])
-        ProductAdd(data)
+    const onExelChange = async (e) => {
+        const files = e.target.files;
+        const data = new FormData();
+        data.append("file", files[0]);
+        ProductAdd(data);
         excelInput.current.value = "";
-    }
+    };
 
     return (
         <>
@@ -81,7 +81,7 @@ const ManagerPage = () => {
                             <p>상품이 모아진 파일을 올려주세요</p>
                         </div>
                         <div className="contents">
-                            <input type="file" accept=".xls.xlsx" ref={excelInput} onChange={onExelChange}/>
+                            <input type="file" accept=".xls.xlsx" ref={excelInput} onChange={onExelChange} />
                         </div>
                     </RegisterBox>
                     <CategoryBox>
@@ -201,27 +201,6 @@ const CategoryBox = styled.div`
     }
 `;
 
-const Categoryli = styled.li`
-    width: 100%;
-    height: 40px;
-    background-color: #fff;
-    border-radius: 30px;
-    margin-bottom: 10px;
-    padding: 0 20px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    span {
-        padding-top: 7px;
-        .icon {
-            cursor: pointer;
-        }
-        .first_icon {
-            margin-right: 10px;
-        }
-    }
-`;
-
 const BottomContainer = styled.div`
     width: 100%;
     padding: 22px;
@@ -254,4 +233,3 @@ const BottomContainer = styled.div`
 const PaginationBox = styled.div`
     text-align: center;
 `;
-

@@ -15,7 +15,7 @@ import Mypage from "./pages/mypage/Mypage";
 import DetailProduct from "./pages/detailProducts/DetailProduct";
 import Products from "./pages/product/Products";
 import ProductBasket from "./pages/mypage/ProductBasket";
-import ManagerPage from "./pages/member/ManagerPage";
+import ManagerPage from "./pages/mypage/ManagerPage";
 import MProductModal from "./components/manager/MProductModal";
 
 const queryClient = new QueryClient();

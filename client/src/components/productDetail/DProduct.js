@@ -2,7 +2,6 @@ import React from "react";
 import styled from "styled-components";
 import HeartButton from "../common/button/HeartButton";
 import Tag from "../common/product/Tag";
-import link from "../../assets/icons/SharelinkBtn.png";
 
 const ProductDetail = (data) => {
     const detialData = data.data;
@@ -16,9 +15,7 @@ const ProductDetail = (data) => {
                 />
                 <p>{detialData.hearts}</p>
             </p>
-            <p className="sharebtn">
-                <img src={link} width="30px" height="30px" alt="링크이미지" />
-            </p>
+            <p className="sharebtn">{/* <img src={link} width="30px" height="30px" alt="링크이미지" /> */}</p>
             <ProductImage>
                 <div className="img_box">
                     <img src={detialData.imageURL} alt={detialData.productName} />

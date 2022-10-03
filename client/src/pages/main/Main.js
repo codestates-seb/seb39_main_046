@@ -2,13 +2,13 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Banner from "../../components/common/banner/Banner";
-import BChracter from "../../assets/images/banner/BannerCharater.png";
+import BChracter from "../../assets/images/banner/BannerCharater.svg";
 import MBestProdcts from "../../components/main/bestProducts/MBestProdcts";
 import MBestReview from "../../components/main/bestReviews/MBestReview";
 import PbtiBanner from "../../components/common/banner/PbtiBanner";
 import MRecommend from "../../components/main/recommendProducts/MRecommend";
 import { FiSearch } from "react-icons/fi";
-import FindStoreBanner from "../../assets/images/banner/FindStoreBanner.png";
+import FindStoreBanner from "../../assets/images/banner/FindStoreBanner.svg";
 
 const Main = () => {
     const navigate = useNavigate();

@@ -27,7 +27,6 @@ const useStore = create((set) => ({
     },
     isSerchItem: {},
     isCategoryPage: 1,
-    isCategoryTab: 13,
 }));
 
 export default useStore;
