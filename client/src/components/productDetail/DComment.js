@@ -18,6 +18,7 @@ const Comment = ({ data }) => {
     const [content, setContent] = useState("");
     const [NomalImg, setNomalImg] = useState(image);
     const [UploadImg, setUploadImg] = useState(image);
+    const [changeImg, setChangeImg] = useState(false);
     const { mutate: ReviewDelete } = useRivesDelete();
     const { mutate: ReviewPatch} = usePatchRevies();
 
@@ -35,27 +36,32 @@ const Comment = ({ data }) => {
     const SubmitHnadle = async() => {
         const fd4 = new FormData();
         const key = data.reviewId;
-        console.log(UploadImg);
+        // if(typeof UploadImg !== "string"){
+        //     alert("이미지 올렷어요");
+        // }else{
+        //     alert("이미지 안올렷어요")
+        // }
         Object.values(UploadImg).forEach((file) => fd4.append("file", file));
         fd4.append("content", content);
-        console.log(UploadImg);
-        // await axios.patch(`/review/${key}`, fd4, {
-        //     headers: {
-        //         Authorization: sessionStorage.getItem("token"),
-        //         "Content-Type": `multipart/form-data`,
-        //     },
-        // }).then((res) => {
-        //     console.log(res.data);
-        //     alert("수정완료");            
-        // }).catch ((error) => {
-        //     console.log(error);
-        // });        
+        await axios.patch(`/review/${key}`, fd4, {
+            headers: {
+                Authorization: sessionStorage.getItem("token"),
+                "Content-Type": `multipart/form-data`,
+            },
+        }).then((res) => {
+            console.log(res.data);
+            alert("수정완료");            
+        }).catch ((error) => {
+            console.log(error);
+        });        
     }
 
     const storeImg = (event) => {
         setNomalImg(URL.createObjectURL(event.target.files[0]));
-        setUploadImg(event.target.files[0]);
+        setUploadImg(event.target.files);
         const reader = new FileReader();
+        reader.readAsDataURL(event.target.files[0]);
+
     }
 
 

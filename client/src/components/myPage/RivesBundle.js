@@ -11,7 +11,7 @@ import { usePatchRevies } from "../../lib/api/useRivesMutation";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-const RivesBundle = ({ data }) => {
+const RivesBundle = ({ data, index }) => {
     const { mutate: ReviewDelete } = useRivesDelete();
     const { mutate: ReviewPatch } = usePatchRevies();
 
@@ -104,9 +104,9 @@ const RivesBundle = ({ data }) => {
     return (
         <ProductsRivewdiv>
             {editOn ? (
-                <label className="Edit-button" for="Edit-file">
+                <label className="Edit-button" for={`Edit-file${index}`}>
                     <img src={baseImg} alt="업로드용 이미지" className="review_img" />
-                    <input type="file" accept="image/*" id="Edit-file" onChange={saveImg} />
+                    <input type="file" accept="image/*" id={`Edit-file${index}`} onChange={saveImg} className = "typeFile2"/>
                 </label>
             ) : (
                 <img src={data.imageURL} alt="리뷰 1" className="review_img"></img>
@@ -196,8 +196,8 @@ const ProductsRivewdiv = styled.div`
         border: none;
         border-radius: 15px;
     }
-    #Edit-file {
-        display: none;
+    .typeFile2{
+        display:none;
     }
     .Productex {
         width: 100%;
