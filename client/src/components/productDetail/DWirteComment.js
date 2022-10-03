@@ -11,7 +11,7 @@ const WirteComment = ({ data }) => {
     console.log(image);
     const [regiImg, setregiImg] = useState(Noimg);
     const [content, setContent] = useState("");
-    const [uploading2, setUploading2] = useState(null);
+    const [uploading2, setUploading2] = useState(Noimg);
     const { mutate: ReviewAdd } = useReviewAdd();
 
     // const [mutate: ReviewAdd] = useReviewAdd();
@@ -26,11 +26,11 @@ const WirteComment = ({ data }) => {
         const key = data.productId;
         const setData = { fd2, key };
         console.log(typeof uploading2 === "object")
-        if(uploading2 === 'object'){
-            Object.values(uploading2).forEach((file) => fd2.append("file", file));
-        }
+        Object.values(uploading2).forEach((file) => fd2.append("file", file));
         fd2.append("content", content);
         ReviewAdd(setData);
+        setregiImg(Noimg);
+        setUploading2(Noimg);
     };
 
     return (

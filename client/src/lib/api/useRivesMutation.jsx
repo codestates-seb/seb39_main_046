@@ -33,12 +33,12 @@ export const useReviewAdd = () => {
   const queryClient = useQueryClient();
   return useMutation(ReviewAdd, {
     onSuccess:() => {
-      queryClient.invalidateQueries(["MyReivew","productReview"]);
+      queryClient.invalidateQueries(["MyReivew"]);
+      queryClient.invalidateQueries(["productReview"]);
       alert("등록 완료");
-      window.location.reload();
     },
     onError: (e) => {
-      alert("등록 실패 ");
+      alert("사진을 넣어주세요! ");
     }
   });
 }
