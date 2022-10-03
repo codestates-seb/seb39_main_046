@@ -5,7 +5,7 @@ import ReviewImg from "../../assets/images/products/ReviewImg.png";
 import Usering from "../../assets/images/userinfo/Userimg.jpg";
 import { FiTrash, FiSave } from "react-icons/fi";
 import { RiEdit2Fill, RiArrowGoBackLine } from "react-icons/ri";
-import { useRivesDelete,usePatchRevies } from "../../lib/api/useRivesMutation";
+import { useRivesDelete,usePatchProductsReviwes } from "../../lib/api/useRivesMutation";
 import { useState } from "react";
 import axios from "axios";
 
@@ -20,7 +20,9 @@ const Comment = ({ data }) => {
     const [UploadImg, setUploadImg] = useState(image);
     const [changeImg, setChangeImg] = useState(false);
     const { mutate: ReviewDelete } = useRivesDelete();
-    const { mutate: ReviewPatch} = usePatchRevies();
+    const { mutate: ReviewPatch} = usePatchProductsReviwes();
+
+
 
     const deleteClick = () => {
         const ID = data.reviewId;
@@ -41,19 +43,12 @@ const Comment = ({ data }) => {
         // }else{
         //     alert("이미지 안올렷어요")
         // }
-        Object.values(UploadImg).forEach((file) => fd4.append("file", file));
+        if(typeof UploadImg !== 'string'){
+            Object.values(UploadImg).forEach((file) => fd4.append("file", file));
+        }        
         fd4.append("content", content);
-        await axios.patch(`/review/${key}`, fd4, {
-            headers: {
-                Authorization: sessionStorage.getItem("token"),
-                "Content-Type": `multipart/form-data`,
-            },
-        }).then((res) => {
-            console.log(res.data);
-            alert("수정완료");            
-        }).catch ((error) => {
-            console.log(error);
-        });        
+        const PatchData = {key,fd4};
+        ReviewPatch(PatchData);
     }
 
     const storeImg = (event) => {

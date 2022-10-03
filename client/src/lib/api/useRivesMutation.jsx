@@ -43,8 +43,8 @@ export const useReviewAdd = () => {
   });
 }
 
-const ReviewPatch = ({id, fd}) => {
-  return axios.patch(`/review/${id}`,{
+const ReviewPatch = (PatchData) => {
+  return axios.patch(`/review/${PatchData.key}`,PatchData.fd4,{
     headers:{
       Authorization: sessionStorage.getItem("token"),
       "Content-Type": `multipart/form-data`,
@@ -61,6 +61,19 @@ export const usePatchRevies = () => {
     },
     onError: (e) => {
       alert("수정 실패 ");
+    }
+  })
+}
+
+export const usePatchProductsReviwes = (id,page) => {
+  const queryClient = useQueryClient();
+  return useMutation(ReviewPatch, {
+    onSuccess:() => {
+      queryClient.invalidateQueries(["productReview",id,page]);
+      alert("수정 완료");
+    },
+    onError:(e) => {
+      alert("수정 실패");
     }
   })
 }
