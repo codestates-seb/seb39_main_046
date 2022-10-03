@@ -289,7 +289,6 @@ const UserExer = styled.div`
     }
     .filebox {
         display: flex;
-        /* width: 60px; */
         text-align: center;
         margin-top: -25px;
         label {
