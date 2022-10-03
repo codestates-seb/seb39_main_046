@@ -167,10 +167,14 @@ public class ReviewService {
         return review;
     }
 //1
-    public void imgUpdate(Review review,String photo){
-        review.setImageURL(photo);
-        reviewRepository.save(review);
-    }
+public String imgUpdate (ReviewPostDto reviewPostDto,ReviewPatchDto reviewPatchDto) throws IOException{
+    if (reviewPatchDto == null)
+    { if (reviewPostDto.getFile() == null) return null;
+        return s3Upload.upload(reviewPostDto.getFile());}
+    else
+    { if (reviewPatchDto.getFile() == null) return null;
+        return s3Upload.upload(reviewPatchDto.getFile());}
+}
 
     public List<Review> findMyReviewList(Member member){
         return reviewRepository.findAllByMember(member);

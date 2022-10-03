@@ -11,9 +11,7 @@ import javax.validation.constraints.Size;
 public class ReviewPostDto {
 
 
-    @Value("content")
     @Size(min = 0, max = 50, message = "리뷰 내용은 50자 이하만 가능합니다.")
     private String content;
-    @Column(nullable = true)
     private MultipartFile file;
 }

@@ -9,9 +9,35 @@ import java.util.stream.Collectors;
 public interface ReviewMapper {
 
 
-    default Review reviewPatchDtoToReview(Review review, ReviewPatchDto reviewPatchDto){
+    default Review reviewPostDtoToReview(ReviewPostDto reviewPostDto,String file){
+        Review review = new Review();
+        if (file == null)
+        {review.setContent(reviewPostDto.getContent());
+            review.setImageURL(null);
+        }
+        if (reviewPostDto.getContent()==null)
+        { review.setContent(null);
+
+            review.setImageURL(file);}
+        if(reviewPostDto.getContent() != null && file !=null) {
+            review.setContent(reviewPostDto.getContent());
+            review.setImageURL(file);
+        }
+        return review;
+    }
+    default Review reviewPatchDtoToReview(Review review, ReviewPatchDto reviewPatchDto,String file){
         Review patchReview = review;
-        patchReview.setContent(reviewPatchDto.getContent());
+        if (file == null)
+        {
+            patchReview.setContent(reviewPatchDto.getContent());
+        }
+        if (reviewPatchDto.getContent()==null)
+        {
+            patchReview.setImageURL(file);}
+        if(reviewPatchDto.getContent() != null && file !=null) {
+            patchReview.setContent(reviewPatchDto.getContent());
+            patchReview.setImageURL(file);
+        }
 
         return patchReview;
     }
