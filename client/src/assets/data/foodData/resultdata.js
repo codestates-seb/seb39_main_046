@@ -16,14 +16,14 @@ export const ResultData = [
         id: 1,
         name: "음료",
         best: "Drink",
-        desc: "음료수파",
+        desc: "달달하고 상큼한 음료수파",
         image: `${Drink}`,
     },
     {
         id: 2,
         name: "커피",
         best: "Coffee",
-        desc: "커피파",
+        desc: "차가운 도시 속 커피파",
         image: `${Coffee}`,
     },
     {
