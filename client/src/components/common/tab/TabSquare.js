@@ -42,10 +42,22 @@ const TabMenu = styled.ul`
         background-color: ${({ theme }) => theme.colors.Blue_010};
         cursor: pointer;
     }
+    li:last-child {
+        margin-right: 0px;
+    }
 
     .focused {
         color: #fff;
         background-color: ${({ theme }) => theme.colors.Blue_030};
         transition: 1s;
+    }
+    @media ${({ theme }) => theme.device.mobile} {
+        li {
+            width: 100px;
+            font-size: ${({ theme }) => theme.fontSizes.xs};
+        }
+        li:last-child {
+            margin-right: 0px;
+        }
     }
 `;

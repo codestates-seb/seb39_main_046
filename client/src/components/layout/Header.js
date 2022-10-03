@@ -65,9 +65,17 @@ const Header = () => {
                 </HTab>
             </HLaptop>
             <HTablet>
-                <p className="menu_btn" onClick={(e) => setIsMenuOpen(!isMenuOpen)}>
-                    <RiMenu2Fill size={35} color="#363639" />
-                </p>
+                <div className="tablet_box">
+                    <p className="menu_btn" onClick={(e) => setIsMenuOpen(!isMenuOpen)}>
+                        <RiMenu2Fill size={35} color="#363639" />
+                    </p>
+                    <p className="logo">
+                        <img onClick={() => navigate("/")} src={logo} alt="logo" />
+                    </p>
+                    <p className="use_btn" onClick={(e) => setIsUeserOpen(!isUeserOpen)}>
+                        <RiAccountPinBoxFill size={35} color="#363639" />
+                    </p>
+                </div>
                 {isMenuOpen ? (
                     <HTMenu>
                         <li onClick={() => navigate("/")}>리코스토어 메인</li>
@@ -76,12 +84,6 @@ const Header = () => {
                         <li onClick={() => navigate("/findstore")}>주변 편의점 찾기</li>
                     </HTMenu>
                 ) : null}
-                <p className="logo">
-                    <img onClick={() => navigate("/")} src={logo} alt="logo" />
-                </p>
-                <p className="use_btn" onClick={(e) => setIsUeserOpen(!isUeserOpen)}>
-                    <RiAccountPinBoxFill size={35} color="#363639" />
-                </p>
                 {isUeserOpen ? (
                     <HTUser>
                         {!logInfo ? (
@@ -104,13 +106,13 @@ const HeaderContainer = styled.nav`
     margin: 0 auto;
     position: fixed;
     top: 0;
-    height: 90px;
     box-shadow: 0px 4px 20px #ececec;
     background-color: #fff;
     z-index: 100;
 `;
 const HLaptop = styled.main`
     max-width: 1280px;
+    height: 90px;
     margin: 0 auto;
     @media ${({ theme }) => theme.device.laptop} {
         display: none;
@@ -146,15 +148,51 @@ const HTab = styled.ul`
 
 const HTablet = styled.main`
     display: none;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 20px;
-    p {
-        cursor: pointer;
+    .tablet_box {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 20px;
+        p {
+            cursor: pointer;
+        }
+        position: relative;
     }
-    position: relative;
     @media ${({ theme }) => theme.device.laptop} {
         display: flex;
+    }
+    @media ${({ theme }) => theme.device.tablet} {
+        width: 100%;
+        .tablet_box {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0;
+            .logo {
+                img {
+                    width: 170px;
+                }
+            }
+        }
+    }
+    @media ${({ theme }) => theme.device.mobile} {
+        width: 100%;
+        .tablet_box {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            p {
+                cursor: pointer;
+            }
+            position: relative;
+        }
+        .logo {
+            img {
+                width: 120px;
+            }
+        }
     }
 `;
 
@@ -180,6 +218,9 @@ const HTMenu = styled.ul`
             color: ${({ theme }) => theme.colors.Gray_080};
         }
     }
+    /* @media ${({ theme }) => theme.device.mobile} {
+        padding: 10px;
+    } */
 `;
 const HTUser = styled.ul`
     background-color: #fff;

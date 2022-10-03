@@ -42,7 +42,7 @@ const verticalInterval = {
 };
 
 const deviceSizes = {
-    mobile: "450px",
+    mobile: "375px",
     tablet: "768px",
     laptop: "1024px",
     laptopL: "1280px",
