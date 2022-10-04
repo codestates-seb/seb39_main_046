@@ -124,7 +124,7 @@ const HMenu = styled.ul`
     float: right;
     margin-top: 10px;
     li {
-        width: 100%;
+        padding: 0 20px;
         font-size: ${({ theme }) => theme.fontSizes.xs};
         color: ${({ theme }) => theme.colors.Gray_040};
         cursor: pointer;
