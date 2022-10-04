@@ -38,8 +38,8 @@ const PersonalRivew = ({ Persondata }) => {
         },
     );
 
-    if (isLoading) return <Loading />;
-    if (isFetching) return <Loading />;
+    if (isLoading) return <h3>로딩중</h3>;
+    if (isFetching) return <h3>로딩중</h3>;
     if (isError)
         return (
             <>
