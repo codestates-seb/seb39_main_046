@@ -17,12 +17,11 @@ public class CorsConfig {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowCredentials(true);
-        config.setAllowedOrigins(Collections.singletonList("https://www.recostore.shop"));
-        config.addAllowedOrigin("*");
+        config.setAllowedOrigins(Collections.singletonList("https://www.recostore.shop/"));
         config.addExposedHeader("Authorization");
         config.addAllowedHeader("*");
         config.addAllowedMethod("*");
-        source.registerCorsConfiguration("/api/**", config);
+        source.registerCorsConfiguration("/**", config);
 
         return new CorsFilter(source);
     }
