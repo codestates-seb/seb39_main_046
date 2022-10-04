@@ -6,12 +6,17 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.example.Api.S3Upload;
 import com.example.Api.category.Category;
 import com.example.Api.category.CategoryService;
+import com.example.Api.exception.BusinessLogicException;
+import com.example.Api.exception.ExceptionCode;
 import com.example.Api.product.*;
 import com.example.Api.response.MultiResponseDto;
 import com.example.Api.review.*;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -24,7 +29,9 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Positive;
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -33,6 +40,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/member")
 @Validated
+@RequiredArgsConstructor
 @Tag(name = "Member", description = "Member API")
 @Api(tags = "Member")
 public class MemberController {
@@ -51,20 +59,6 @@ public class MemberController {
     private final ReviewHeartService reviewHeartService;
 
     private final S3Upload s3Upload;
-
-    public MemberController(MemberService memberService, BCryptPasswordEncoder bCryptPasswordEncoder, MemberMapper mapper, ProductMapper productMapper, ReviewMapper reviewMapper, CategoryService categoryService, ReviewService reviewService, ProductService productService, ProductHeartService productHeartService, ReviewHeartService reviewHeartService, S3Upload s3Upload) {
-        this.memberService = memberService;
-        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
-        this.mapper = mapper;
-        this.productMapper = productMapper;
-        this.reviewMapper = reviewMapper;
-        this.categoryService = categoryService;
-        this.reviewService = reviewService;
-        this.productService = productService;
-        this.productHeartService = productHeartService;
-        this.reviewHeartService = reviewHeartService;
-        this.s3Upload = s3Upload;
-    }
 
 
     @PostMapping("/signup/admin")
