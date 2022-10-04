@@ -38,7 +38,7 @@ const Login = () => {
             <MemberContainer>
                 <TopBtnBox>
                     <LoginBtn>로그인</LoginBtn>
-                    <SingUpBtn onClick={() => navigate("/singup")}>회원가입</SingUpBtn>
+                    <SingUpBtn onClick={() => navigate("/signup")}>회원가입</SingUpBtn>
                 </TopBtnBox>
                 <MiddleBox
                     onSubmit={handleSubmit((data) => {
