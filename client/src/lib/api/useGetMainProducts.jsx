@@ -6,7 +6,7 @@ import Loading from "../../components/common/loading/Loading";
 import useStore from "../store";
 
 const getMainProducts = async () => {
-    const { data } = await axiosInstance.get("https://recostore24.com/main");
+    const { data } = await axiosInstance.get("/main");
     return data;
 };
 
@@ -38,7 +38,7 @@ export function useMainProducts() {
 }
 
 const getTop5Products = async (companyName) => {
-    const data = await axiosInstance.get(`https://recostore24.com/product/top5?company=${companyName}`);
+    const data = await axiosInstance.get(`/product/top5?company=${companyName}`);
     return data;
 };
 
