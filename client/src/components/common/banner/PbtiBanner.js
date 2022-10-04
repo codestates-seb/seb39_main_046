@@ -1,15 +1,21 @@
 import React from "react";
 import styled from "styled-components";
 import PBannerImg from "../../../assets/images/banner/PbtiBanner.svg";
+import { useNavigate } from "react-router-dom";
 
 const PbtiBanner = () => {
+    const navigate = useNavigate();
     return (
         <PBanner>
             <section>
                 <img src={PBannerImg} alt="편BTI 광고 배너" />
                 <p>내 편의점 취향이 궁금하다면?</p>
-                <span className="go_txt">편BTI 하러가기 ›</span>
-                <span className="mobile_txt">편의점 취향 테스트 하러가기 ›</span>
+                <span className="go_txt" onClick={() => navigate("/foodtest")}>
+                    편BTI 하러가기 ›
+                </span>
+                <span className="mobile_txt" onClick={() => navigate("/foodtest")}>
+                    편의점 취향 테스트 하러가기 ›
+                </span>
             </section>
         </PBanner>
     );
