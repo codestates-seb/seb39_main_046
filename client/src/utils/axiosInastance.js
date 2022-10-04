@@ -6,9 +6,10 @@ const axiosInstance = Axios.create({
         "Content-Type": "application/json",
         Authorization: sessionStorage.getItem("token"),
         "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Methods": "*",
+        "Access-Control-Allow-Methods": "*"
     },
 });
+
 
 axiosInstance.interceptors.request.use(
     (config) => {
