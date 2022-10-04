@@ -19,7 +19,7 @@ const useStore = create((set) => ({
     ismyReviewsCurrentPage: 1,
     ismyLikeReives: 1,
     isProductDetail: 1,
-    isSortNum: 1,
+    isSortNum: 3,
     isTestNum: 0,
     isKeyword: "",
     setKeyword(index) {
