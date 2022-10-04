@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
-import { useLogin } from "../../lib/api/useLogin";
+import { useLogin } from "../../lib/apis/useLogin";
 import { useForm } from "react-hook-form";
 
 const Login = () => {
@@ -22,7 +22,8 @@ const Login = () => {
     const onSuccess = (res) => {
         console.log(userName);
         alert(`${userName}환영합니다.`);
-        sessionStorage.setItem("token", res.data);
+        console.log(res);
+        // sessionStorage.setItem("token", res.data);
         navigate("/");
         window.location.reload();
     };

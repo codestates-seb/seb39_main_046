@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import TabRound from "../../common/tab/TabRound";
 import MBestProduct from "./MBestProduct";
-import { useTop5Products } from "../../../lib/api/useGetMainProducts";
+import { useTop5Products } from "../../../lib/apis/useGetMainProducts";
 
 const BestProdct = () => {
     const data = useTop5Products();

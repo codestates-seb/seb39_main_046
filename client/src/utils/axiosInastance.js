@@ -3,7 +3,7 @@ import Axios from "axios";
 const axiosInstance = Axios.create({
     timeout: 5000,
     headers: {
-        "Content-Type": "application/json",
+        "Content-Type": "application/x-www-form-urlencoded",
         Authorization: sessionStorage.getItem("token"),
         "Access-Control-Allow-Origin": "*",
         "Access-Control-Allow-Methods": "*"

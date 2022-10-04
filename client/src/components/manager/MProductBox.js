@@ -1,10 +1,9 @@
 import React from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
-import HeartButton from "../common/button/HeartButton";
 import Tag from "../common/product/Tag";
 import Button from "../common/button/Button";
-import { DeleteProduct } from "../../lib/api/useProductMutate";
+import { DeleteProduct } from "../../lib/apis/useProductMutate";
 
 const MProductBox = ({ data, setIsOpen }) => {
     const navigate = useNavigate();

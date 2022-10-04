@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import HeartButton from "../common/button/HeartButton";
+
 import { FiTrash2, FiSave } from "react-icons/fi";
 import { RiEdit2Fill, RiArrowGoBackLine } from "react-icons/ri";
-import { useRivesDelete } from "../../lib/api/useRivesMutation";
-import { usePatchRevies } from "../../lib/api/useRivesMutation";
+import { useRivesDelete } from "../../lib/apis/useRivesMutation";
+import { usePatchRevies } from "../../lib/apis/useRivesMutation";
 
 const RivesBundle = ({ data, index }) => {
-    const image = (data.imageURL);
+    const image = data.imageURL;
     const { mutate: ReviewDelete } = useRivesDelete();
     const { mutate: ReviewPatch } = usePatchRevies();
 
@@ -19,9 +19,9 @@ const RivesBundle = ({ data, index }) => {
     const editClick = () => {
         const fd4 = new FormData();
         const key = data.reviewId;
-        const EditData = {fd4,key};
+        const EditData = { fd4, key };
         console.log(uploading);
-        if(typeof uploading === 'object'){
+        if (typeof uploading === "object") {
             Object.values(uploading).forEach((file) => fd4.append("file", file));
         }
         fd4.append("content", content);
@@ -43,8 +43,6 @@ const RivesBundle = ({ data, index }) => {
         reader.readAsDataURL(event.target.files[0]);
     };
 
-
-
     const Backhandle = (e) => {
         setUploading(image);
         setBaseImg(image);
@@ -64,7 +62,13 @@ const RivesBundle = ({ data, index }) => {
             {editOn ? (
                 <label className="Edit-button" for={`Edit-file${index}`}>
                     <img src={baseImg} alt="업로드용 이미지" className="review_img" />
-                    <input type="file" accept="image/*" id={`Edit-file${index}`} onChange={saveImg} className="typeFile2"/>
+                    <input
+                        type="file"
+                        accept="image/*"
+                        id={`Edit-file${index}`}
+                        onChange={saveImg}
+                        className="typeFile2"
+                    />
                 </label>
             ) : (
                 <img src={data.imageURL} alt="리뷰 1" className="review_img"></img>
@@ -94,7 +98,6 @@ const RivesBundle = ({ data, index }) => {
                             color="rgba(174, 174, 178, 1)"
                         />
                     )}
-                    {/* <img onClick={() => seteditOn(!editOn)} src={Pencil}  alt="수정버튼"></img> */}
                     <FiTrash2 onClick={deleteClick} className="icon" size={20} color="rgba(253, 169, 79, 1)" />
                     {editOn ? <RiArrowGoBackLine onClick={Backhandle} size={20} color="rgba(174, 174, 178, 1)" /> : ""}
                 </div>
@@ -154,8 +157,8 @@ const ProductsRivewdiv = styled.div`
         border: none;
         border-radius: 15px;
     }
-    .typeFile2{
-        display:none;
+    .typeFile2 {
+        display: none;
     }
     .Productex {
         width: 100%;

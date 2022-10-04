@@ -1,8 +1,8 @@
 import { useMutation } from "react-query";
-import axios from "axios";
+import axiosInstance from "../../utils/axiosInastance";
 
 const addPerson = (person) => {
-    return axios.post("/member/signup", person);
+    return axiosInstance.post("/member/signup", person);
 };
 
 export const useSignup = (onSuccess, onError) => {
