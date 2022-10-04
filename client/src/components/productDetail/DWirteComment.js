@@ -2,11 +2,14 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import Noimg from "../../assets/images/userinfo/Noimg.png";
 import Button from "../common/button/Button";
-import { BiCamera } from "react-icons/bi";
 import { useReviewAdd } from "../../lib/api/useRivesMutation";
-import axios from "axios";
+import useStore from "../../lib/store";
+import { useNavigate } from "react-router-dom";
+import { BiCamera, BiPlus } from "react-icons/bi";
 
 const WirteComment = ({ data }) => {
+    const navigate = useNavigate();
+
     const image = data.imageURL;
     console.log(image);
     const [regiImg, setregiImg] = useState(Noimg);
@@ -21,16 +24,22 @@ const WirteComment = ({ data }) => {
         setUploading2(e.target.files);
     };
 
+    const { logInfo } = useStore();
     const sendImageToServer = async () => {
-        const fd2 = new FormData();
-        const key = data.productId;
-        const setData = { fd2, key };
-        console.log(typeof uploading2 === "object")
-        Object.values(uploading2).forEach((file) => fd2.append("file", file));
-        fd2.append("content", content);
-        ReviewAdd(setData);
-        setregiImg(Noimg);
-        setUploading2(Noimg);
+        if (logInfo) {
+            const fd2 = new FormData();
+            const key = data.productId;
+            const setData = { fd2, key };
+            console.log(typeof uploading2 === "object");
+            Object.values(uploading2).forEach((file) => fd2.append("file", file));
+            fd2.append("content", content);
+            ReviewAdd(setData);
+            setregiImg(Noimg);
+            setUploading2(Noimg);
+        } else {
+            alert("로그인후에 리뷰작성이 가능합니다");
+            navigate(`/login`);
+        }
     };
 
     return (
@@ -38,8 +47,8 @@ const WirteComment = ({ data }) => {
             <label className="input-file-button" for="input-file">
                 {regiImg && (
                     <div className="image_box">
-                        <img src={regiImg} className="image_box" />
                         <BiCamera size={35} color="#fff" />
+                        {/* <img src={regiImg} className="image_box" /> */}
                     </div>
                 )}
             </label>
@@ -68,14 +77,14 @@ const Maindiv = styled.div`
         cursor: pointer;
     }
     img {
-        background-color: rgba(217, 217, 217, 1);
-        border-radius: 20px;
+        background-color: ${({ theme }) => theme.colors.Gray_020};
+        border-radius: ${({ theme }) => theme.radius.small};
     }
     .image_box {
         width: 130px;
         height: 130px;
-        background-color: rgba(217, 217, 217, 1);
-        border-radius: 20px;
+        background-color: ${({ theme }) => theme.colors.Gray_020};
+        border-radius: ${({ theme }) => theme.radius.small};
         display: flex;
         justify-content: center;
         align-items: center;

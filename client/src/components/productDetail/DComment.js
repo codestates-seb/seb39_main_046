@@ -1,9 +1,9 @@
-import React,{useState} from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import ReviewHeartButton from "../common/button/ReviewHeartButton";
 import Usering from "../../assets/images/userinfo/Userimg.jpg";
 import Noimg from "../../assets/images/userinfo/Noimg.png";
-import { FiTrash, FiSave } from "react-icons/fi";
+import { FiTrash, FiSave, FiUpload } from "react-icons/fi";
 import { RiEdit2Fill, RiArrowGoBackLine } from "react-icons/ri";
 import { useRivesDelete, usePatchProductsReviwes } from "../../lib/api/useRivesMutation";
 
@@ -59,10 +59,12 @@ const Comment = ({ data }) => {
         <Maindiv>
             <div className="img_box">
                 {editOn ? (
-                    <label className="Edit-Area">
-                        <img src={NomalImg} alt="프리뷰 이미지" className="review_img" for="Edit-Review" />
-                        <input type="file" accept="image/*" id="Edit-Review" onChange={storeImg} />
-                    </label>
+                    <div className="filebox">
+                        <label className="Edit-Area">
+                            <FiUpload size={30} />
+                            <input type="file" accept="image/*" id="Edit-Review" onChange={storeImg} />
+                        </label>
+                    </div>
                 ) : (
                     <img src={image === null ? Noimg : image} alt="리뷰 이미지" className="review_img" />
                 )}
@@ -91,12 +93,7 @@ const Comment = ({ data }) => {
                 <Controlbar>
                     <span className="icon">
                         {editOn ? (
-                            <FiSave
-                                className="icon first_icon"
-                                onClick={SubmitHnadle}
-                                size={20}
-                                color="rgba(174, 174, 178, 1)"
-                            />
+                            <FiSave onClick={SubmitHnadle} size={20} color="rgba(174, 174, 178, 1)" />
                         ) : (
                             <RiEdit2Fill onClick={editClick} size={20} color="rgba(174, 174, 178, 1)" />
                         )}
@@ -106,9 +103,7 @@ const Comment = ({ data }) => {
                     </span>
                     {editOn ? (
                         <RiArrowGoBackLine onClick={CancelHandler} size={20} color="rgba(174, 174, 178, 1)" />
-                    ) : (
-                        ""
-                    )}
+                    ) : null}
                     <span className="date">{data.createdAt.substr(0, 10)}</span>
                 </Controlbar>
             </ReviewDetail>
@@ -119,8 +114,11 @@ const Comment = ({ data }) => {
 export default Comment;
 
 const InputText = styled.input`
-    width: 449px;
+    width: 100%;
     height: 70px;
+    border: 2px solid ${({ theme }) => theme.colors.Blue_030};
+    background-color: ${({ theme }) => theme.colors.Gray_010};
+    border-radius: 15px;
 `;
 
 const Maindiv = styled.div`
@@ -134,6 +132,7 @@ const Maindiv = styled.div`
     .img_box {
         width: 135px;
         height: 135px;
+        border: 1px solid #efefef;
         border-radius: ${({ theme }) => theme.radius.small};
         display: flex;
         justify-content: center;
@@ -142,6 +141,31 @@ const Maindiv = styled.div`
         .review_img {
             min-width: 140px;
             max-width: 180px;
+        }
+        .filebox {
+            display: flex;
+            text-align: center;
+            label {
+                display: inline-block;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                width: 135px;
+                height: 135px;
+                color: #fff;
+                vertical-align: middle;
+                background-color: ${({ theme }) => theme.colors.Gray_020};
+                border-radius: ${({ theme }) => theme.radius.small};
+                cursor: pointer;
+            }
+            input[type="file"] {
+                position: absolute;
+                width: 0;
+                height: 0;
+                padding: 0;
+                overflow: hidden;
+                border: 0;
+            }
         }
     }
     #Edit-Review {
@@ -193,7 +217,7 @@ const Commentex = styled.div`
 const Controlbar = styled.section`
     height: 18px;
     .icon {
-        margin-right: ${({ theme }) => theme.margins.base};
+        margin-right: 5px;
     }
     .date {
         color: ${({ theme }) => theme.colors.Gray_030};

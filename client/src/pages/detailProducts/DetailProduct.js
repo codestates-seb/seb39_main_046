@@ -9,6 +9,7 @@ import Loading from "../../components/common/loading/Loading";
 import axiosInstance from "../../utils/axiosInastance";
 import { queryKeys } from "../../lib/react-query/constant";
 import useStore from "../../lib/store";
+import { IoIosArrowBack } from "react-icons/io";
 
 const getDeatilProduct = async (productNum) => {
     const { data } = await axiosInstance.get(`/product/${productNum}`);
@@ -16,7 +17,7 @@ const getDeatilProduct = async (productNum) => {
 };
 
 const DetailProduct = () => {
-    const {logInfo} = useStore();
+    const { logInfo } = useStore();
     const navigate = useNavigate();
     const { id } = useParams();
     const { status, data, error, isFetching } = useQuery([queryKeys.product, id], () => getDeatilProduct(id), {
@@ -43,17 +44,22 @@ const DetailProduct = () => {
         return <Loading />;
     }
 
-    const ReturnMsg = "< 리스트 돌아가기";
     return (
         <Allcontent>
             <Returndiv>
                 <Titlediv>
-                    <span onClick={() => navigate("/products")}>{ReturnMsg}</span>
+                    <div onClick={() => navigate("/products")}>
+                        <p>
+                            <IoIosArrowBack size={20} />
+                        </p>
+                        리스트 돌아가기
+                    </div>
                 </Titlediv>
                 <Middlecontent>
                     <DProduct data={data.product} />
                     <CommentAreat>
-                        {logInfo ? <DWriteComment data={data.product} /> : ("")};                        
+                        <DWriteComment data={data.product} />
+                        {/* {logInfo ? <DWriteComment data={data.product} /> : ""} */}
                         <DComments />
                     </CommentAreat>
                 </Middlecontent>
@@ -86,9 +92,13 @@ const CommentAreat = styled.section`
 const Titlediv = styled.section`
     margin-top: 70px;
     margin-bottom: 50px;
-    span {
+    div {
         font-size: ${({ theme }) => theme.fontSizes.small};
         color: ${({ theme }) => theme.colors.Orange_040};
         cursor: pointer;
+        display: flex;
+        p {
+            margin-top: 2px;
+        }
     }
 `;
