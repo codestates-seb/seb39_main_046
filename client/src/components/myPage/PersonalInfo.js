@@ -166,7 +166,7 @@ const PersonalInfo = ({ Persondata }) => {
                         </UserForm>
                         <UserForm1>
                             <p>패스워드</p>
-                            <Thisinpu tpye="password" placeholder="입력해주세요." onChange={InputPw}></Thisinpu>
+                            <Thisinpu type="password" placeholder="입력해주세요." onChange={InputPw}></Thisinpu>
                             <Button onClick={pwSubmit}>수정</Button>
                             <p>패스워드 확인</p>
                             <Thisinpu type="password" placeholder="입력해주세요." onChange={InputConfrim}></Thisinpu>
