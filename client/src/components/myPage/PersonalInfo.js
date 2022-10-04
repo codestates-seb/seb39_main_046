@@ -157,7 +157,7 @@ const PersonalInfo = ({ Persondata }) => {
                             <p>닉네임</p>
                             <Thisinpu type="text" placeholder="입력해주세요." onChange={InputNickName}></Thisinpu>
                             {errors.nickName && <p className="errorCode">{errors.nickName.message}</p>}
-                            <SubmitButton onClick={nickSumbit}>완료</SubmitButton>
+                            <SubmitButton onClick={nickSumbit}>수정</SubmitButton>
                         </UserForm>
                         <UserForm1>
                             <p>패스워드</p>

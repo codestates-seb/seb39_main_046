@@ -2,7 +2,7 @@ import React from "react";
 import { useState } from "react";
 import styled from "styled-components";
 import Noimg from "../../assets/images/userinfo/Noimg.png";
-import ReviewHeartButton from "../common/button/HeartButton";
+import ReviewHeartButton from "../common/button/ReviewHeartButton";
 
 const MyLikeReviewContain = ({ data }) => {
     const image = data.review.imageURL;
