@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import DComment from "./DComment";
@@ -8,16 +8,20 @@ import { useQuery } from "react-query";
 import Loading from "../common/loading/Loading";
 import useStore from "../../lib/store";
 
-const getDeatilReview = async (productNum, pageNum) => {
-    const { data } = await axiosInstance.get(`/review/productReviews/1?productId=${productNum}&page=${pageNum}`);
+const getDeatilReview = async (sortNum, productNum, pageNum) => {
+    const { data } = await axiosInstance.get(
+        `/review/productReviews/${sortNum}?productId=${productNum}&page=${pageNum}`,
+    );
     return data;
 };
 const CommentList = () => {
     const { id } = useParams();
+    const [sortNum, setSortNum] = useState(2);
+
     const { isCurrentPage } = useStore();
     const { status, data, error, isFetching } = useQuery(
-        ["productReview", id, isCurrentPage],
-        () => getDeatilReview(id, isCurrentPage),
+        ["productReview", sortNum, id, isCurrentPage],
+        () => getDeatilReview(sortNum, id, isCurrentPage),
         {
             staleTime: 2000,
             keepPreviousData: true,
@@ -46,7 +50,17 @@ const CommentList = () => {
     return (
         <MainDiv>
             <div className="line"></div>
-            <p className="review_count">{data.pageInfo.totalElements}개의 리뷰가 있어요!</p>
+            <div className="title">
+                <p className="review_count">{data.pageInfo.totalElements}개의 리뷰가 있어요!</p>
+                <ul className="sort_box">
+                    <li className={sortNum === 2 ? "on" : ""} onClick={() => setSortNum(2)}>
+                        최신순
+                    </li>
+                    <li className={sortNum === 1 ? "on" : ""} onClick={() => setSortNum(1)}>
+                        좋아요
+                    </li>
+                </ul>
+            </div>
             <CommentArea>
                 {data.data && data.data.map((data) => <DComment data={data} />)}
                 <Paging pageInfo={data.pageInfo} />
@@ -65,12 +79,29 @@ const MainDiv = styled.div`
         background-color: #fff;
         margin-bottom: 14px;
     }
-    .review_count {
-        text-align: center;
-        font-size: ${({ theme }) => theme.fontSizes.base};
-        font-weight: 700;
-        color: ${({ theme }) => theme.colors.Blue_030};
-        margin-bottom: 14px;
+    .title {
+        position: relative;
+        .review_count {
+            text-align: center;
+            font-size: ${({ theme }) => theme.fontSizes.base};
+            font-weight: 700;
+            color: ${({ theme }) => theme.colors.Blue_030};
+            margin-bottom: 14px;
+        }
+        .sort_box {
+            position: absolute;
+            top: 0;
+            right: 0;
+            display: flex;
+            li {
+                padding: 0 5px;
+                cursor: pointer;
+                color: ${({ theme }) => theme.colors.Gray_040};
+            }
+            .on {
+                color: ${({ theme }) => theme.colors.Orange_040};
+            }
+        }
     }
 `;
 
