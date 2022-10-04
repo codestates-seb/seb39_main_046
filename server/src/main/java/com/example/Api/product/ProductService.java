@@ -352,7 +352,7 @@ public class ProductService {
         List<Product> recommends = new ArrayList<Product>(returnSize);
         for(int i = 0 ;i<returnSize;i++){
                 List<Product> products = productRepository.findAllByCategory(category);
-                System.out.println(products);
+              //  System.out.println(products);
                 int randomRange = products.size();
                 int randomIndex = (int)(Math.random()*randomRange);
                 recommends.add(products.get(randomIndex)); // !
