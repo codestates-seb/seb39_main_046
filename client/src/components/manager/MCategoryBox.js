@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import axiosInstance from "../../utils/axiosInastance";
-import { useDeleteCategory, useUpdateCategory } from "../../lib/apis/useCategory";
+import { useDeleteCategory, useUpdateCategory } from "../../lib/api/useCategory";
 import { FiTrash2, FiSave } from "react-icons/fi";
 import { RiEdit2Fill } from "react-icons/ri";
 

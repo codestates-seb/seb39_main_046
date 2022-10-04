@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
-import { useLogin } from "../../lib/apis/useLogin";
+import { useLogin } from "../../lib/api/useLogin";
 import { useForm } from "react-hook-form";
 
 const Login = () => {
@@ -35,12 +35,11 @@ const Login = () => {
     const { mutate: loginperson, isError } = useLogin(onSuccess, onError);
 
     return (
-        <MemberContainer>
-            <ContentsBox>
+        <>
+            <MemberContainer>
                 <TopBtnBox>
                     <LoginBtn>로그인</LoginBtn>
                     <SingUpBtn onClick={() => navigate("/signup")}>회원가입</SingUpBtn>
-                    <AdminBtn onClick={() => navigate("/signup/admin")}>관리자가입</AdminBtn>
                 </TopBtnBox>
                 <MiddleBox
                     onSubmit={handleSubmit((data) => {
@@ -107,39 +106,27 @@ const Login = () => {
                     </IdPwFind>
                     <LoginConfirmBtn>{label}</LoginConfirmBtn>
                 </MiddleBox>
-            </ContentsBox>
-        </MemberContainer>
+            </MemberContainer>
+        </>
     );
 };
 
 export default Login;
 
 const MemberContainer = styled.section`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-`;
-const ContentsBox = styled.div`
+    margin: 0 auto;
     width: 900px;
+    height: 600px;
     border-radius: 20px;
-    margin-top: 130px;
+    margin-top: 160px;
     margin-bottom: 120px;
     padding: 50px;
     background-color: ${({ theme }) => theme.colors.Blue_010};
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    @media ${({ theme }) => theme.device.laptop} {
-        margin-top: -5px;
-        margin-bottom: 0px;
-        width: 100%;
-        border-radius: 0;
-        padding: 70px 0 90px;
-    }
 `;
+
 const TopBtnBox = styled.div`
-    width: 310px;
+    margin: 0 auto;
+    width: 200px;
     height: 40px;
     border-radius: 20px;
     background-color: ${({ theme }) => theme.colors.Gray_020};
@@ -153,8 +140,7 @@ const LoginBtn = styled.button`
     border: none;
     background-color: ${({ theme }) => theme.colors.Blue_030};
     color: #fff;
-    transition: 3s ease-in 2.5s;
-    /* animation: slide 1s;
+    animation: slide 1s;
     @keyframes slide {
         from {
             transform: translateX(100%);
@@ -162,7 +148,7 @@ const LoginBtn = styled.button`
         to {
             transform: translateX(0%);
         }
-    } */
+    }
 `;
 
 const SingUpBtn = styled.button`
@@ -172,18 +158,8 @@ const SingUpBtn = styled.button`
     border: none;
     background-color: ${({ theme }) => theme.colors.Gray_020};
     color: #fff;
-    transition: 3s ease-in 2.5s;
 `;
 
-const AdminBtn = styled.button`
-    width: 110px;
-    height: 40px;
-    border-radius: 20px;
-    border: none;
-    background-color: ${({ theme }) => theme.colors.Gray_020};
-    color: #fff;
-    transition: 3s ease-in 2.5s;
-`;
 const MiddleBox = styled.form`
     display: flex;
     justify-content: center;

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { FiSearch, FiArrowUpLeft, FiXCircle } from "react-icons/fi";
 import useStore from "../../../lib/store";
-import { useAllProducts } from "../../../lib/apis/useGetProducts";
+import { useAllProducts } from "../../../lib/api/useGetProducts";
 
 const LineInput = () => {
     const { isKeyword, setKeyword } = useStore();

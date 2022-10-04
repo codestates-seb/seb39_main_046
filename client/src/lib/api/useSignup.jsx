@@ -11,14 +11,3 @@ export const useSignup = (onSuccess, onError) => {
         onError,
     });
 };
-
-const addAdmin = (person) => {
-    return axios.post("/member/signup/admin", person);
-};
-
-export const useSignupAdmin = (onSuccess, onError) => {
-    return useMutation(addAdmin, {
-        onSuccess,
-        onError,
-    });
-};

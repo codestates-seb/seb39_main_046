@@ -5,10 +5,10 @@ import axiosInstance from "../../utils/axiosInastance";
 import { useQuery } from "react-query";
 import Loading from "../common/loading/Loading";
 import { queryKeys } from "../../lib/react-query/constant";
-import { useCategory } from "../../lib/apis/useCategory";
+import { useCategory } from "../../lib/api/useCategory";
 import Paging from "../common/pagination/Paging";
 import { useNavigate } from "react-router-dom";
-import { PatchProduct } from "../../lib/apis/useProductMutate";
+import { PatchProduct } from "../../lib/api/useProductMutate";
 
 const getDeatilProduct = async (productNum) => {
     const { data } = await axiosInstance.get(`/product/${productNum}`);
@@ -24,7 +24,7 @@ const MProductModal = ({ setIsOpen }) => {
 
     const handleClose = () => {
         setIsOpen(false);
-        navigate(`/admin`);
+        navigate(`/manager`);
     };
     const Cdata = useCategory();
     const categories = Cdata["등록된 전체 카테고리"];
@@ -69,7 +69,7 @@ const MProductModal = ({ setIsOpen }) => {
         const EditData = { categoryName: isStore.categoryName, company: isCategory, price: price, productName: name };
         const setData = { PrId, EditData };
         ProductPatch(setData);
-        navigate("/admin");
+        navigate("/manager");
     };
 
     return (

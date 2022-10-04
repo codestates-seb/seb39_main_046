@@ -1,7 +1,7 @@
 import React, { useState, useRef } from "react";
 import styled from "styled-components";
-import { useCategory, useCategoryMutation } from "../../lib/apis/useCategory";
-import { useProducts, useSerchProduct } from "../../lib/apis/useGetProducts";
+import { useCategory, useCategoryMutation } from "../../lib/api/useCategory";
+import { useProducts, useSerchProduct } from "../../lib/api/useGetProducts";
 import LineInput from "../../components/common/input/LineInput";
 import Banner from "../../components/common/banner/Banner";
 import Button from "../../components/common/button/Button";
@@ -9,7 +9,7 @@ import Paging from "../../components/common/pagination/Paging";
 import MProductBox from "../../components/manager/MProductBox";
 import MProductModal from "../../components/manager/MProductModal";
 import MCategoryBox from "../../components/manager/MCategoryBox";
-import { useAddProduct } from "../../lib/apis/useProductMutate";
+import { useAddProduct } from "../../lib/api/useProductMutate";
 import { FiUpload } from "react-icons/fi";
 
 const ManagerPage = () => {

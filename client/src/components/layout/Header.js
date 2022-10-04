@@ -67,13 +67,13 @@ const Header = () => {
             <HTablet>
                 <div className="tablet_box">
                     <p className="menu_btn" onClick={(e) => setIsMenuOpen(!isMenuOpen)}>
-                        <RiMenu2Fill size={35} color="#636366" />
+                        <RiMenu2Fill size={35} color="#363639" />
                     </p>
                     <p className="logo">
                         <img onClick={() => navigate("/")} src={logo} alt="logo" />
                     </p>
                     <p className="use_btn" onClick={(e) => setIsUeserOpen(!isUeserOpen)}>
-                        <RiAccountPinBoxFill size={35} color="#636366" />
+                        <RiAccountPinBoxFill size={35} color="#363639" />
                     </p>
                 </div>
                 {isMenuOpen ? (
@@ -124,7 +124,7 @@ const HMenu = styled.ul`
     float: right;
     margin-top: 10px;
     li {
-        padding: 0 20px;
+        width: 100%;
         font-size: ${({ theme }) => theme.fontSizes.xs};
         color: ${({ theme }) => theme.colors.Gray_040};
         cursor: pointer;
@@ -148,7 +148,6 @@ const HTab = styled.ul`
 
 const HTablet = styled.main`
     display: none;
-    height: 70px;
     .tablet_box {
         width: 100%;
         display: flex;
@@ -199,7 +198,7 @@ const HTablet = styled.main`
 
 const HTMenu = styled.ul`
     position: absolute;
-    top: 70px;
+    top: 90px;
     left: 0;
     padding: 30px;
     border-radius: 0 0 20px 0;
@@ -209,7 +208,7 @@ const HTMenu = styled.ul`
     li {
         background-color: #fff;
         border-radius: 40px;
-        padding: 6px 50px;
+        padding: 6px 60px;
         font-weight: 500;
         margin-bottom: 20px;
         text-align: center;
@@ -226,17 +225,17 @@ const HTMenu = styled.ul`
 const HTUser = styled.ul`
     background-color: #fff;
     position: absolute;
-    top: 70px;
+    top: 90px;
     right: 0;
     padding: 30px;
-    border-radius: 0 0 0 20px;
+    border-radius: 0 0 20px 0;
     font-size: ${({ theme }) => theme.fontSizes.base};
     background-color: ${({ theme }) => theme.colors.Gray_010};
     box-shadow: 0px 5px 8px rgba(204, 204, 204, 0.2);
     li {
         background-color: #fff;
         border-radius: 40px;
-        padding: 6px 50px;
+        padding: 6px 60px;
         font-weight: 500;
         margin-bottom: 20px;
         text-align: center;
