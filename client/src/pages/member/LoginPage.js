@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
-import { useLogin } from "../../lib/api/useLogin";
+import { useLogin } from "../../lib/apis/useLogin";
 import { useForm } from "react-hook-form";
 
 const Login = () => {

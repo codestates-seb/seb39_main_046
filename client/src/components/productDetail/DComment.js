@@ -5,7 +5,7 @@ import Usering from "../../assets/images/userinfo/Userimg.jpg";
 import Noimg from "../../assets/images/userinfo/Noimg.png";
 import { FiTrash, FiSave, FiUpload } from "react-icons/fi";
 import { RiEdit2Fill, RiArrowGoBackLine } from "react-icons/ri";
-import { useRivesDelete, usePatchProductsReviwes } from "../../lib/api/useRivesMutation";
+import { useRivesDelete, usePatchProductsReviwes } from "../../lib/apis/useRivesMutation";
 
 const Comment = ({ data }) => {
     const image = data.imageURL;

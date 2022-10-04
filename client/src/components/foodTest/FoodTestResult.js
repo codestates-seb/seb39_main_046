@@ -4,7 +4,7 @@ import { useSearchParams, useNavigate } from "react-router-dom";
 import { ResultData } from "../../assets/data/foodData/resultdata";
 import Button from "../common/button/Button";
 import KakaoShareButton from "../common/button/KakaoShareButton";
-import useTest from "../../lib/api/useTestMutation";
+import useTest from "../../lib/apis/useTestMutation";
 import useStore from "../../lib/store";
 import ProductBox from "../common/product/ProductBox";
 

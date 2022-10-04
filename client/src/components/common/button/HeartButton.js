@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { RiHeartAddLine, RiHeartAddFill } from "react-icons/ri";
-import { useHeart } from "../../../lib/api/useHeartMutation";
+import { useHeart } from "../../../lib/apis/useHeartMutation";
 import useStore from "../../../lib/store";
 
 const HeartButton = ({ heartFlag, id }) => {

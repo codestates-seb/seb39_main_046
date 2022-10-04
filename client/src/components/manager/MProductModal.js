@@ -5,10 +5,10 @@ import axiosInstance from "../../utils/axiosInastance";
 import { useQuery } from "react-query";
 import Loading from "../common/loading/Loading";
 import { queryKeys } from "../../lib/react-query/constant";
-import { useCategory } from "../../lib/api/useCategory";
+import { useCategory } from "../../lib/apis/useCategory";
 import Paging from "../common/pagination/Paging";
 import { useNavigate } from "react-router-dom";
-import { PatchProduct } from "../../lib/api/useProductMutate";
+import { PatchProduct } from "../../lib/apis/useProductMutate";
 
 const getDeatilProduct = async (productNum) => {
     const { data } = await axiosInstance.get(`/product/${productNum}`);
