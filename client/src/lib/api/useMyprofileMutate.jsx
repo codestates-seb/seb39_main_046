@@ -18,12 +18,7 @@ export const useDelteProfile = () => {
 }
 
 const ProfileAdd = (fd) => {
-  return axios.post('/member/profile',fd,{
-    headers:{
-      Authorization : sessionStorage.getItem("token"),
-      "Content-Type": `multipart/form-data`,
-    }
-  });
+  return axiosInstance.post('/member/profile',fd);
 };
 
 export const useAddProfile = () => {
