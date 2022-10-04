@@ -22,8 +22,8 @@ const Login = () => {
     const onSuccess = (res) => {
         console.log(userName);
         alert(`${userName}환영합니다.`);
-        console.log(res);
-        // sessionStorage.setItem("token", res.data);
+        console.log(res.data);
+        sessionStorage.setItem("token", res.data);
         navigate("/");
         window.location.reload();
     };
@@ -43,7 +43,7 @@ const Login = () => {
                 </TopBtnBox>
                 <MiddleBox
                     onSubmit={handleSubmit((data) => {
-                        setUserName(data.userName);
+                        setUserName(data.username);
                         loginperson(data);
                     })}
                 >
@@ -60,19 +60,19 @@ const Login = () => {
                             <Thisinpu
                                 type="text"
                                 placeholder="아이디"
-                                {...register("userName", {
+                                {...register("username", {
                                     required: "필수 입력 사항입니다.",
                                     minLength: {
                                         value: 10,
                                         message: "이메일 형식의 맞게 입력해주세요.",
                                     },
-                                    pattern: {
-                                        value: /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i,
-                                        message: "이메일 형식에 맞게 입력해주세요",
-                                    },
+                                    // pattern: {
+                                    //     value: /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i,
+                                    //     message: "이메일 형식에 맞게 입력해주세요",
+                                    // },
                                 })}
                             ></Thisinpu>
-                            {errors.userName && <p>{errors.userName.message}</p>}
+                            {errors.username && <p>{errors.username.message}</p>}
                         </div>
                         <div>
                             <label className="InputPersondata">비밀번호</label>
@@ -90,10 +90,10 @@ const Login = () => {
                                         value: 16,
                                         message: "16자 이하의 비밀번호만 사용가능합니다.",
                                     },
-                                    pattern: {
-                                        value: /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,}$/,
-                                        message: "특수문자, 영문, 숫자를 혼용해서 입력해주세요",
-                                    },
+                                    // pattern: {
+                                    //     value: /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,}$/,
+                                    //     message: "특수문자, 영문, 숫자를 혼용해서 입력해주세요",
+                                    // },
                                 })}
                             ></Thisinpu>
                             {errors.password && <p>{errors.password.message}</p>}

@@ -3,13 +3,12 @@ import Axios from "axios";
 const axiosInstance = Axios.create({
     timeout: 5000,
     headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
+        "Content-Type": "application/json",
         Authorization: sessionStorage.getItem("token"),
         "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Methods": "*"
+        "Access-Control-Allow-Methods": "Get,POST,PATCH,DELETE,PUT,OPTION",
     },
 });
-
 
 axiosInstance.interceptors.request.use(
     (config) => {
@@ -19,6 +18,6 @@ axiosInstance.interceptors.request.use(
         return Promise.reject(err);
     },
 );
-axiosInstance.defaults.baseURL = process.env.NODE_ENV === "development" ? "/" : "/api";
+// axiosInstance.defaults.baseURL = process.env.NODE_ENV === "development" ? "/" : "/api";
 
 export default axiosInstance;
