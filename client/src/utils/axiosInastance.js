@@ -10,6 +10,8 @@ const axiosInstance = Axios.create({
     },
 });
 
+axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
+
 axiosInstance.interceptors.request.use(
     (config) => {
         return config;
