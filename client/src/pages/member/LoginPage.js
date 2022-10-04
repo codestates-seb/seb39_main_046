@@ -15,6 +15,8 @@ const Login = () => {
     const [disabled, setDisabled] = useState(true);
     const [userName, setUserName] = useState("");
 
+    console.log(errors);
+
     const label = disabled ? "로그인" : "로그인";
 
     const onSuccess = (res) => {
@@ -30,11 +32,6 @@ const Login = () => {
     };
 
     const { mutate: loginperson, isError } = useLogin(onSuccess, onError);
-
-    // const onsubmit = () => {
-    //     const log = { userName, password };
-    //     loginperson(log);
-    // };
 
     return (
         <>
@@ -74,7 +71,7 @@ const Login = () => {
                                     },
                                 })}
                             ></Thisinpu>
-                            {errors.username && <p>{errors.username.message}</p>}
+                            {errors.userName && <p>{errors.userName.message}</p>}
                         </div>
                         <div>
                             <label className="InputPersondata">비밀번호</label>
