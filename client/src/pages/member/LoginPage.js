@@ -34,8 +34,8 @@ const Login = () => {
     const { mutate: loginperson, isError } = useLogin(onSuccess, onError);
 
     return (
-        <>
-            <MemberContainer>
+        <MemberContainer>
+            <ContentsBox>
                 <TopBtnBox>
                     <LoginBtn>로그인</LoginBtn>
                     <SingUpBtn onClick={() => navigate("/singup")}>회원가입</SingUpBtn>
@@ -105,26 +105,38 @@ const Login = () => {
                     </IdPwFind>
                     <LoginConfirmBtn>{label}</LoginConfirmBtn>
                 </MiddleBox>
-            </MemberContainer>
-        </>
+            </ContentsBox>
+        </MemberContainer>
     );
 };
 
 export default Login;
 
 const MemberContainer = styled.section`
-    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+`;
+const ContentsBox = styled.div`
     width: 900px;
-    height: 600px;
     border-radius: 20px;
-    margin-top: 160px;
+    margin-top: 130px;
     margin-bottom: 120px;
     padding: 50px;
     background-color: ${({ theme }) => theme.colors.Blue_010};
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    @media ${({ theme }) => theme.device.laptop} {
+        margin-top: -5px;
+        margin-bottom: 0px;
+        width: 100%;
+        border-radius: 0;
+        padding: 70px 0 90px;
+    }
 `;
-
 const TopBtnBox = styled.div`
-    margin: 0 auto;
     width: 200px;
     height: 40px;
     border-radius: 20px;
