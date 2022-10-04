@@ -1,10 +1,10 @@
 import { useMutation } from "react-query";
 import axios from "axios";
 
-const changeInfo = ({id,token,log}) => {
-    return axios.patch(`/member/${id}`,log, {
+const changeInfo = (EditData) => {
+    return axios.patch(`/member/${EditData.id}`,EditData.log, {
         headers: {
-            "Authorization": token,
+            "Authorization": EditData.token,
         },
     }).then((res)=>console.log(res));
 };

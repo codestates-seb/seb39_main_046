@@ -56,12 +56,16 @@ const PersonalInfo = ({ Persondata }) => {
             const token = logInfo;
             const log = { password: changePw };
             const id = "password";
+            const EditData = {id,token,log};
             console.log(token);
-            changeInfo(id, token, log);
+            changeInfo(EditData);
         } else {
             alert("비밀번호 확인해주세요~");
         }
     };
+
+    const nickSumbit = () => {
+    }
 
     // 회원처리 알고리즘
 
@@ -149,17 +153,7 @@ const PersonalInfo = ({ Persondata }) => {
                             <Thisinpu
                                 type="text"
                                 placeholder="입력해주세요."
-                                {...register("nickName", {
-                                    required: "필수 입력 사항입니다.",
-                                    minLength: {
-                                        value: 2,
-                                        message: "2자 이상이어야 합니다.",
-                                    },
-                                    maxLength: {
-                                        value: 10,
-                                        message: "10자 이하이어야합니다.",
-                                    },
-                                })}
+                                onChange={InputNickName}
                             ></Thisinpu>
                             {errors.nickName && <p className="errorCode">{errors.nickName.message}</p>}
                             <SubmitButton>완료</SubmitButton>
