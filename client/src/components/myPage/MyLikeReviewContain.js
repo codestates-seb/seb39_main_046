@@ -1,19 +1,20 @@
 import React from "react";
 import { useState } from "react";
 import styled from "styled-components";
-
 import Noimg from "../../assets/images/userinfo/Noimg.png";
 import HeartButton from "../common/button/HeartButton";
 
-const MyLikeReviewContain = ( {data} ) => {
+const MyLikeReviewContain = ({ data }) => {
     const image = data.review.imageURL;
+
+    console.log(data.review.reviewHeartFlag);
 
     return (
         <Productinformation>
             <img src={image === null ? Noimg : image} alt="이미지 없음" />
             <section className="contents-box">
                 <div className="title">
-                    <div className="productName">{data.review.product.productName}</div>
+                    <div className="productName" id={data.reviewId && data.reviewId} heartFlag={data.review.reviewHeartFlag && data.review.reviewHeartFlag} >{data.review.product.productName} </div>
                     <span>
                         <HeartButton />
                     </span>
