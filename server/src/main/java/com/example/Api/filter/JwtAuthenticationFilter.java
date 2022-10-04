@@ -67,7 +67,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         map.put("msg" , "success");
         Gson gson = new Gson();
         String jsonString = gson.toJson(map);
-        response.getWriter().println(jsonString);
+        response.getWriter().println(JwtProperties.TOKEN_PREFIX + jwtToken);
 
 
     }

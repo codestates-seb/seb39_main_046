@@ -366,7 +366,7 @@ public class MemberController {
             notes = "✅ 로그인 후 응답으로 받은 토큰은 Authorize - Value에 대입  \n  \n")
     public ResponseEntity login (@Validated @RequestBody MemberLoginDto memberLoginDto){
 
-        Member loginMember = memberService.authenticate(memberLoginDto.getUserName(), memberLoginDto.getPassword());
+        Member loginMember = memberService.authenticate(memberLoginDto.getUsername(), memberLoginDto.getPassword());
 
         //Member member1 = memberService.findVerifiedMemberId(1L);
 
