@@ -14,9 +14,12 @@ const MyLikeReviewContain = ({ data }) => {
             <img src={image === null ? Noimg : image} alt="이미지 없음" />
             <section className="contents-box">
                 <div className="title">
-                    <div className="productName" id={data.reviewId && data.reviewId} heartFlag={data.review.reviewHeartFlag && data.review.reviewHeartFlag} >{data.review.product.productName} </div>
+                    <div className="productName">{data.review.product.productName} </div>
                     <span>
-                        <HeartButton />
+                        <HeartButton
+                            id={data.reviewId && data.reviewId}
+                            heartFlag={data.review.reviewHeartFlag && data.review.reviewHeartFlag}
+                        />
                     </span>
                 </div>
                 <Productsulmung>
