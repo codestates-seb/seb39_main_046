@@ -21,12 +21,7 @@ export const useRivesDelete = () => {
 }
 
 const ReviewAdd = (setData) => {
-  return axios.post(`/review/${setData.key}`, setData.fd2,{
-    headers:{
-      Authorization: sessionStorage.getItem("token"),
-      "Content-Type": `multipart/form-data`,
-    }
-  });
+  return axiosInstance.post(`/review/${setData.key}`, setData.fd2);
 }
 
 export const useReviewAdd = () => {
@@ -44,12 +39,7 @@ export const useReviewAdd = () => {
 }
 
 const ReviewPatch = (PatchData) => {
-  return axios.patch(`/review/${PatchData.key}`,PatchData.fd4,{
-    headers:{
-      Authorization: sessionStorage.getItem("token"),
-      "Content-Type": `multipart/form-data`,
-    }
-  });
+  return axiosInstance.patch(`/review/${PatchData.key}`,PatchData.fd4);
 }
 
 export const usePatchRevies = () => {
