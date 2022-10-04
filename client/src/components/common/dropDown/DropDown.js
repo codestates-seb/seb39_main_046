@@ -17,7 +17,7 @@ const DropDown = () => {
                     console.log(isOpen);
                 }}
             >
-                좋아요
+                조회수
                 <span>
                     <AiFillCaretDown color="rgba(248, 132, 8, 1)" size={20} />
                 </span>
@@ -25,9 +25,9 @@ const DropDown = () => {
 
             {isOpen ? (
                 <Menu>
+                    <li onClick={() => handleSortChange(3)}>조회수</li>
                     <li onClick={() => handleSortChange(1)}>좋아요</li>
                     <li onClick={() => handleSortChange(2)}>리뷰수</li>
-                    <li onClick={() => handleSortChange(3)}>조회수</li>
                 </Menu>
             ) : null}
         </DropDownContainer>
