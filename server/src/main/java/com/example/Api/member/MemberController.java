@@ -181,7 +181,7 @@ public class MemberController {
             }
             // 나의 리뷰
             MultiResponseDto myReviews;
-            int reviewSize = 5;
+            int reviewSize = 4;
             int reviewMethodId = 2;  // 최신 리뷰 순
             Page<Review> pageReviews = reviewService.SortReviews(page-1,reviewSize,reviewMethodId, member,null);
             if(pageReviews.isEmpty()){
