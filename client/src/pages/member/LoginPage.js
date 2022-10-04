@@ -74,7 +74,7 @@ const Login = () => {
                                     },
                                 })}
                             ></Thisinpu>
-                            {errors.username && <p>{errors.username.message}</p>}
+                            {errors.userName && <p>{errors.userName.message}</p>}
                         </div>
                         <div>
                             <label className="InputPersondata">비밀번호</label>
