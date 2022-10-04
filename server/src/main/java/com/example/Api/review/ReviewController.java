@@ -198,7 +198,7 @@ public class ReviewController {
     public ResponseEntity getMyReviews(@PathVariable("method-id") @Positive int methodId,
                                        @Positive @RequestParam int page,
                                        HttpServletRequest request){
-        size = 5;
+        size = 4;
         boolean loginStatus = memberService.memberCheck(request);
         if(loginStatus){
             return new ResponseEntity<>("로그인이 필요한 서비스입니다.", HttpStatus.BAD_REQUEST);
