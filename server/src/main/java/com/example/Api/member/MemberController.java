@@ -38,7 +38,7 @@ import java.util.Date;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/member")
+@RequestMapping("/member")
 @Validated
 @RequiredArgsConstructor
 @Tag(name = "Member", description = "Member API")
