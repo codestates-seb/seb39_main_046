@@ -12,6 +12,7 @@ export const useDelteProfile = () => {
     onSuccess: () => {
       queryClient.invalidateQueries(["infos"])
       alert("프로필 삭제를 완료했어요");
+      window.location.reload();
     }
   })
 }

@@ -4,15 +4,33 @@ import Noimg from "../../assets/images/userinfo/Noimg.png";
 import Button from "../common/button/Button";
 import { BiCamera } from "react-icons/bi";
 import { useReviewAdd } from "../../lib/api/useRivesMutation";
+import axios from "axios";
 
-const WirteComment = () => {
+const WirteComment = ({ data }) => {
+    const image = data.imageURL;
+    console.log(image);
     const [regiImg, setregiImg] = useState(Noimg);
     const [content, setContent] = useState("");
+    const [uploading2, setUploading2] = useState(Noimg);
+    const { mutate: ReviewAdd } = useReviewAdd();
+
     // const [mutate: ReviewAdd] = useReviewAdd();
 
     const saveFileImage = (e) => {
         setregiImg(URL.createObjectURL(e.target.files[0]));
-        console.log(regiImg);
+        setUploading2(e.target.files);
+    };
+
+    const sendImageToServer = async () => {
+        const fd2 = new FormData();
+        const key = data.productId;
+        const setData = { fd2, key };
+        console.log(typeof uploading2 === "object")
+        Object.values(uploading2).forEach((file) => fd2.append("file", file));
+        fd2.append("content", content);
+        ReviewAdd(setData);
+        setregiImg(Noimg);
+        setUploading2(Noimg);
     };
 
     return (
@@ -32,7 +50,7 @@ const WirteComment = () => {
                     placeholder="최대 50자 입력가능"
                     onChange={(e) => setContent(e.target.value)}
                 ></input>
-                <Button>후기작성</Button>
+                <Button onClick={sendImageToServer}>후기작성</Button>
             </WriteArea>
         </Maindiv>
     );

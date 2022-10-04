@@ -11,7 +11,8 @@ export const useRivesDelete = () => {
   return useMutation(ReviewDelete, {
     onSuccess: () => {
       queryClient.invalidateQueries(["MyReivew"]);
-      console.log("삭제 완료");
+      queryClient.invalidateQueries(["productReview"]);
+      alert("삭제 완료");
     },
     onError: (e) => {
       alert("리뷰삭제는 자신것만 할 수 있습니다.");
@@ -19,8 +20,8 @@ export const useRivesDelete = () => {
 });
 }
 
-const ReviewAdd = ({id,fd,content}) => {
-  return axios.post(`/review/${id}`, fd, content,{
+const ReviewAdd = (setData) => {
+  return axios.post(`/review/${setData.key}`, setData.fd2,{
     headers:{
       Authorization: sessionStorage.getItem("token"),
       "Content-Type": `multipart/form-data`,
@@ -33,16 +34,17 @@ export const useReviewAdd = () => {
   return useMutation(ReviewAdd, {
     onSuccess:() => {
       queryClient.invalidateQueries(["MyReivew"]);
-      console.log("등록 완료");
+      queryClient.invalidateQueries(["productReview"]);
+      alert("등록 완료");
     },
     onError: (e) => {
-      alert("등록 실패 ");
+      alert("사진을 넣어주세요! ");
     }
   });
 }
 
-const ReviewPatch = ({id, fd,content}) => {
-  return axios.patch(`/review/${id}`,{
+const ReviewPatch = (PatchData) => {
+  return axios.patch(`/review/${PatchData.key}`,PatchData.fd4,{
     headers:{
       Authorization: sessionStorage.getItem("token"),
       "Content-Type": `multipart/form-data`,
@@ -58,7 +60,20 @@ export const usePatchRevies = () => {
       console.log("수정 완료");
     },
     onError: (e) => {
-      alert("수정 실패 ");
+      alert("자신의 댓글만 수정이 가능합니다. ");
+    }
+  })
+}
+
+export const usePatchProductsReviwes = () => {
+  const queryClient = useQueryClient();
+  return useMutation(ReviewPatch, {
+    onSuccess:() => {
+      queryClient.invalidateQueries(["productReview"]);
+      alert("수정 완료");
+    },
+    onError:(e) => {
+      alert("자신의 댓글만 수정이 가능합니다.");
     }
   })
 }

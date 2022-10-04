@@ -1,18 +1,22 @@
-import React from "react";
+import React,{useState} from "react";
 import styled from "styled-components";
 import ReviewHeartButton from "../common/button/ReviewHeartButton";
-import ReviewImg from "../../assets/images/products/ReviewImg.png";
 import Usering from "../../assets/images/userinfo/Userimg.jpg";
+import Noimg from "../../assets/images/userinfo/Noimg.png";
 import { FiTrash, FiSave } from "react-icons/fi";
-import { RiEdit2Fill } from "react-icons/ri";
-import { useMypage } from "../../lib/api/useMypage";
-import { useRivesDelete } from "../../lib/api/useRivesMutation";
+import { RiEdit2Fill, RiArrowGoBackLine } from "react-icons/ri";
+import { useRivesDelete, usePatchProductsReviwes } from "../../lib/api/useRivesMutation";
 
 const Comment = ({ data }) => {
-    console.log(data.content);
-    const { member } = useMypage();
+    const image = data.imageURL;
+    const profile = data.member.profile;
+    const [editOn, setEditOn] = useState(false);
+    const [content, setContent] = useState("");
+    const [NomalImg, setNomalImg] = useState(image);
+    const [UploadImg, setUploadImg] = useState(image);
 
     const { mutate: ReviewDelete } = useRivesDelete();
+    const { mutate: ReviewPatch } = usePatchProductsReviwes();
 
     const deleteClick = () => {
         const ID = data.reviewId;
@@ -21,15 +25,52 @@ const Comment = ({ data }) => {
         }
     };
 
+    const editClick = () => {
+        setEditOn(true);
+    };
+    const SubmitHnadle = async () => {
+        const fd4 = new FormData();
+        const key = data.reviewId;
+        console.log(key);
+        if (typeof UploadImg !== "string") {
+            Object.values(UploadImg).forEach((file) => fd4.append("file", file));
+        }
+
+        fd4.append("content", content);
+        const PatchData = { key, fd4 };
+        ReviewPatch(PatchData);
+        setEditOn(false);
+    };
+
+    const storeImg = (event) => {
+        setNomalImg(URL.createObjectURL(event.target.files[0]));
+        setUploadImg(event.target.files);
+        const reader = new FileReader();
+        reader.readAsDataURL(event.target.files[0]);
+    };
+
+    const CancelHandler = () => {
+        setUploadImg(image);
+        setNomalImg(image);
+        setEditOn(false);
+    };
+
     return (
         <Maindiv>
             <div className="img_box">
-                <img src={ReviewImg} alt="리뷰 이미지" className="review_img" />
+                {editOn ? (
+                    <label className="Edit-Area">
+                        <img src={NomalImg} alt="프리뷰 이미지" className="review_img" for="Edit-Review" />
+                        <input type="file" accept="image/*" id="Edit-Review" onChange={storeImg} />
+                    </label>
+                ) : (
+                    <img src={image === null ? Noimg : image} alt="리뷰 이미지" className="review_img" />
+                )}
             </div>
             <ReviewDetail>
                 <div className="userInfo">
                     <div className="uesrNick">
-                        <img src={Usering} alt="유저 프로필" width="25px" height="25px" />
+                        <img src={profile === null ? Usering : profile} alt="유저 프로필" width="25px" height="25px" />
                         <span>{data.member.nickName}</span>
                     </div>
                     <div className="userHeart">
@@ -41,15 +82,33 @@ const Comment = ({ data }) => {
                     </div>
                 </div>
                 <Commentex>
-                    <p>{data.content}</p>
+                    {editOn ? (
+                        <InputText onChange={(e) => setContent(e.target.value)} type="text" />
+                    ) : (
+                        <p>{data.content}</p>
+                    )}
                 </Commentex>
                 <Controlbar>
                     <span className="icon">
-                        <RiEdit2Fill size={20} color="rgba(174, 174, 178, 1)" />
+                        {editOn ? (
+                            <FiSave
+                                className="icon first_icon"
+                                onClick={SubmitHnadle}
+                                size={20}
+                                color="rgba(174, 174, 178, 1)"
+                            />
+                        ) : (
+                            <RiEdit2Fill onClick={editClick} size={20} color="rgba(174, 174, 178, 1)" />
+                        )}
                     </span>
                     <span className="icon">
                         <FiTrash onClick={deleteClick} size={20} color="rgba(253, 169, 79, 1)" />
                     </span>
+                    {editOn ? (
+                        <RiArrowGoBackLine onClick={CancelHandler} size={20} color="rgba(174, 174, 178, 1)" />
+                    ) : (
+                        ""
+                    )}
                     <span className="date">{data.createdAt.substr(0, 10)}</span>
                 </Controlbar>
             </ReviewDetail>
@@ -58,6 +117,11 @@ const Comment = ({ data }) => {
 };
 
 export default Comment;
+
+const InputText = styled.input`
+    width: 449px;
+    height: 70px;
+`;
 
 const Maindiv = styled.div`
     display: flex;
@@ -79,6 +143,9 @@ const Maindiv = styled.div`
             min-width: 140px;
             max-width: 180px;
         }
+    }
+    #Edit-Review {
+        display: none;
     }
 `;
 const ReviewDetail = styled.section`

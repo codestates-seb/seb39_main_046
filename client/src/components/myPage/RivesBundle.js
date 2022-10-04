@@ -1,61 +1,32 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import HeartButton from "../common/button/HeartButton";
-import Reivew1 from "../../assets/images/main/Review-1.png";
 import { FiTrash2, FiSave } from "react-icons/fi";
 import { RiEdit2Fill, RiArrowGoBackLine } from "react-icons/ri";
-import Noimg from "../../assets/images/userinfo/Noimg.png";
 import { useRivesDelete } from "../../lib/api/useRivesMutation";
 import { usePatchRevies } from "../../lib/api/useRivesMutation";
 
-import { useNavigate } from "react-router-dom";
-import axios from "axios";
-
-const RivesBundle = ({ data }) => {
+const RivesBundle = ({ data, index }) => {
+    const image = (data.imageURL);
     const { mutate: ReviewDelete } = useRivesDelete();
     const { mutate: ReviewPatch } = usePatchRevies();
 
-    const [baseImg, setBaseImg] = useState(data.imageURL);
-    const navigate = useNavigate();
+    const [baseImg, setBaseImg] = useState(image);
     const [editOn, seteditOn] = useState(false);
     const [content, setContent] = useState("");
-    const [uploading, setUploading] = useState(null);
-    const [imgBase641, setImgBase641] = useState([]);
-    const [comment, setComment] = useState("아 제발 좀되라");
-    // console.log(content);
-    // const goDetail = () => {
-    //     navigate(`/product/${data}`);
-    // };
+    const [uploading, setUploading] = useState(image);
 
-    const editClick = async () => {
-        console.log("이거맞지?");
-        const fd1 = new FormData();
+    const editClick = () => {
+        const fd4 = new FormData();
         const key = data.reviewId;
-        const json = JSON.stringify(content);
-        // const blob = new Blob([json], {type:"application/json"});
-        // console.log(key);
-        Object.values(uploading).forEach((file) => fd1.append("file", file));
-        // fd1.append("content", new Blob([JSON.stringify(comment)],{
-        //     type:"application/json"
-        // }));
-        fd1.append("content", content);
-        await axios
-            .post(`/review/5`, fd1, {
-                headers: {
-                    Authorization: sessionStorage.getItem("token"),
-                    "Content-Type": `multipart/form-data`,
-                },
-            })
-            .then((res) => {
-                if (res.data) {
-                    console.log(res.data);
-                }
-            })
-            .catch((error) => {
-                console.log(error);
-            });
-        // ReviewPatch(key, fd1, content)
-        // seteditOn(!editOn);
+        const EditData = {fd4,key};
+        console.log(uploading);
+        if(typeof uploading === 'object'){
+            Object.values(uploading).forEach((file) => fd4.append("file", file));
+        }
+        fd4.append("content", content);
+        ReviewPatch(EditData);
+        seteditOn(false);
     };
 
     const deleteClick = () => {
@@ -68,29 +39,20 @@ const RivesBundle = ({ data }) => {
     const saveImg = (event) => {
         setBaseImg(URL.createObjectURL(event.target.files[0]));
         setUploading(event.target.files);
-        setImgBase641([]);
-        for (var i = 0; i < event.target.files.length; i++) {
-            if (event.target.files[i]) {
-                let reader = new FileReader();
-                reader.readAsDataURL(event.target.files[i]);
-                reader.onloadend = () => {
-                    const base641 = reader.result;
-                    if (base641) {
-                        var base641Sub = base641.toString();
-                        setImgBase641((imgBase641) => [...imgBase641, base641Sub]);
-                    }
-                };
-            }
-        }
+        const reader = new FileReader();
+        reader.readAsDataURL(event.target.files[0]);
     };
 
+
+
     const Backhandle = (e) => {
+        setUploading(image);
+        setBaseImg(image);
         seteditOn(false);
-        setBaseImg(Noimg);
     };
+
     const editContent = (e) => {
         setContent(e.target.value);
-        console.log(content);
     };
 
     const editSubmit = () => {
@@ -100,13 +62,13 @@ const RivesBundle = ({ data }) => {
     return (
         <ProductsRivewdiv>
             {editOn ? (
-                <label className="Edit-button" for="Edit-file">
+                <label className="Edit-button" for={`Edit-file${index}`}>
                     <img src={baseImg} alt="업로드용 이미지" className="review_img" />
+                    <input type="file" accept="image/*" id={`Edit-file${index}`} onChange={saveImg} className="typeFile2"/>
                 </label>
             ) : (
                 <img src={data.imageURL} alt="리뷰 1" className="review_img"></img>
             )}
-            <input type="file" accept="image/*" id="Edit-file" onChange={saveImg} />
             <div className="Productex">
                 <h4>{data.product.productName}</h4>
                 {editOn ? (
@@ -192,8 +154,8 @@ const ProductsRivewdiv = styled.div`
         border: none;
         border-radius: 15px;
     }
-    #Edit-file {
-        display: none;
+    .typeFile2{
+        display:none;
     }
     .Productex {
         width: 100%;

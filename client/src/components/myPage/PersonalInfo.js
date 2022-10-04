@@ -12,8 +12,8 @@ import { FiUpload } from "react-icons/fi";
 const PersonalInfo = ({ Persondata }) => {
     const navigate = useNavigate();
 
-    console.log(Persondata.member.roles);
     const { logInfo } = useStore();
+    const MyImg = Persondata.member.profile;
     const userName = Persondata.member.nickName;
     const welcommsg = " 님, 안녕하세요 :)";
     const email = Persondata.member.username;
@@ -27,11 +27,11 @@ const PersonalInfo = ({ Persondata }) => {
     const [changeName, setchangeName] = useState("");
     const [changePw, setChangePw] = useState("");
     const [confrim, setconfrim] = useState("");
-    const [imgFile, setImgFile] = useState(null);
-    const [imgBase64, setImgBase64] = useState([]);
-    const [comment, setComment] = useState();
+    const [imgFile, setImgFile] = useState(MyImg);
     const [Prw, setPrw] = useState(Persondata.member.profile);
+    const [PrwOn, setPrwOn] = useState(false);
     const [isEditOpen, setIseEditOpen] = useState(true);
+
 
     const InputNickName = (e) => {
         setchangeName(e.target.value);
@@ -52,13 +52,6 @@ const PersonalInfo = ({ Persondata }) => {
 
     const { mutate: changeInfo } = useChange(onSuccess, onError);
 
-    // const onSubmit = () => {
-    //     const id = "nickname";
-    //     const token = logInfo;
-    //     const log = { nickName: changeName };
-    //     console.log(log);
-    //     changeInfo({ id, token, log });
-    // };
 
     const pwSubmit = () => {
         if (changePw === confrim) {
@@ -74,39 +67,21 @@ const PersonalInfo = ({ Persondata }) => {
 
     // 회원처리 알고리즘
 
-    const { mutate: ProfileAdd } = useAddProfile(setPrw);
+    const { mutate: ProfileAdd } = useAddProfile();
     const { mutate: ProfileDelete } = useDelteProfile();
 
     const handleChangeFile = (event) => {
-        console.log(event.target.files);
         setPrw(URL.createObjectURL(event.target.files[0]));
         setImgFile(event.target.files);
-        setImgBase64([]);
-        for (var i = 0; i < event.target.files.length; i++) {
-            if (event.target.files[i]) {
-                let reader = new FileReader();
-                reader.readAsDataURL(event.target.files[i]);
-                reader.onloadend = () => {
-                    const base64 = reader.result;
-                    console.log(base64);
-                    if (base64) {
-                        var base64Sub = base64.toString();
-                        setImgBase64((imgBase64) => [...imgBase64, base64Sub]);
-                    }
-                };
-            }
-        }
+        const reader = new FileReader();
+        reader.readAsDataURL(event.target.files[0]);
     };
 
     const WriteBoard = async () => {
         setIseEditOpen(!isEditOpen);
         const fd = new FormData();
         Object.values(imgFile).forEach((file) => fd.append("file", file));
-
-        fd.append("comment", comment);
         ProfileAdd(fd);
-        setPrw(Persondata.member.profile);
-        window.location.reload();
     };
 
     //이미지 전처리 알고리즘
@@ -139,7 +114,7 @@ const PersonalInfo = ({ Persondata }) => {
                 </Titlediv>
                 <UserPassing>
                     <UserExer>
-                        {Prw && <img src={Prw} className="user_profile" alt={userName} />}
+                        {MyImg && <img src={Prw} className="user_profile" alt={userName} />}
                         {isEditOpen ? (
                             ""
                         ) : (
@@ -163,6 +138,7 @@ const PersonalInfo = ({ Persondata }) => {
                                     삭제
                                 </Button>
                             </div>
+
                         </div>
                         <p className="user_id">ID:{email}</p>
                     </UserExer>
