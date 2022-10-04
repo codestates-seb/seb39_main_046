@@ -56,7 +56,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                 .withClaim(JwtProperties.ID, principalDetails.getMember().getMemberId())
                 .withClaim(JwtProperties.USERNAME, principalDetails.getMember().getUsername())
                 .sign(Algorithm.HMAC512("cos_jwt_token"));
-     //   response.addHeader(JwtProperties.HEADER_PREFIX, JwtProperties.TOKEN_PREFIX + jwtToken);
+      response.addHeader(JwtProperties.HEADER_PREFIX, JwtProperties.TOKEN_PREFIX + jwtToken);
 
 
         Map<String,Object> map = new HashMap<>();
@@ -68,6 +68,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         Gson gson = new Gson();
         String jsonString = gson.toJson(map);
         response.getWriter().println(jsonString);
+
 
     }
 }
