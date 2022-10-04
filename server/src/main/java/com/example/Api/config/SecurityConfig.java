@@ -36,6 +36,7 @@ public class SecurityConfig {
                 .apply(new CustomDsl())
                 .and()
                 .authorizeRequests()
+                .antMatchers("/login").permitAll()
                 .antMatchers("/product/admin/**")
                 .access("hasRole('ROLE_ADMIN')")
                 .antMatchers("/category")
