@@ -7,7 +7,7 @@ import { useRivesDelete } from "../../lib/api/useRivesMutation";
 import { usePatchRevies } from "../../lib/api/useRivesMutation";
 
 const RivesBundle = ({ data, index }) => {
-    const image = (data.imageURL);
+    const image = data.imageURL;
     const { mutate: ReviewDelete } = useRivesDelete();
     const { mutate: ReviewPatch } = usePatchRevies();
 
@@ -19,9 +19,9 @@ const RivesBundle = ({ data, index }) => {
     const editClick = () => {
         const fd4 = new FormData();
         const key = data.reviewId;
-        const EditData = {fd4,key};
+        const EditData = { fd4, key };
         console.log(uploading);
-        if(typeof uploading === 'object'){
+        if (typeof uploading === "object") {
             Object.values(uploading).forEach((file) => fd4.append("file", file));
         }
         fd4.append("content", content);
@@ -43,8 +43,6 @@ const RivesBundle = ({ data, index }) => {
         reader.readAsDataURL(event.target.files[0]);
     };
 
-
-
     const Backhandle = (e) => {
         setUploading(image);
         setBaseImg(image);
@@ -64,7 +62,13 @@ const RivesBundle = ({ data, index }) => {
             {editOn ? (
                 <label className="Edit-button" for={`Edit-file${index}`}>
                     <img src={baseImg} alt="업로드용 이미지" className="review_img" />
-                    <input type="file" accept="image/*" id={`Edit-file${index}`} onChange={saveImg} className="typeFile2"/>
+                    <input
+                        type="file"
+                        accept="image/*"
+                        id={`Edit-file${index}`}
+                        onChange={saveImg}
+                        className="typeFile2"
+                    />
                 </label>
             ) : (
                 <img src={data.imageURL} alt="리뷰 1" className="review_img"></img>
@@ -72,7 +76,7 @@ const RivesBundle = ({ data, index }) => {
             <div className="Productex">
                 <h4>{data.product.productName}</h4>
                 {editOn ? (
-                    <input onChange={editContent} type="text" className="contetntSection" />
+                    <input onChange={editContent} type="text" className="contetntSection" rows={5} />
                 ) : (
                     <p>{data.content}</p>
                 )}
@@ -144,6 +148,7 @@ const ProductsRivewdiv = styled.div`
         -webkit-line-clamp: 4;
         -webkit-box-orient: vertical;
         overflow: hidden;
+        padding: 10px;
     }
     .contetntSection {
         width: 100%;
@@ -154,8 +159,8 @@ const ProductsRivewdiv = styled.div`
         border: none;
         border-radius: 15px;
     }
-    .typeFile2{
-        display:none;
+    .typeFile2 {
+        display: none;
     }
     .Productex {
         width: 100%;
