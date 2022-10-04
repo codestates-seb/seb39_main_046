@@ -12,6 +12,7 @@ import NoReviewTitle from "../../assets/images/userinfo/NoReviewTitle.svg";
 import NoLikeTitle from "../../assets/images/userinfo/NoLikeTitle.svg";
 import NoBasketTitle from "../../assets/images/userinfo/NoBasketTitle.svg";
 import Loading from "../../components/common/loading/Loading";
+import { useUserDelete } from "../../lib/api/useLogin";
 
 const Getinfo = (logInfo) => {
     return axiosInstance.get("member/myPage");
@@ -19,6 +20,7 @@ const Getinfo = (logInfo) => {
 
 const Mypage = () => {
     const { logInfo } = store();
+    const {mutate: DeleteUser} = useUserDelete();
 
     const { data, isLoading } = useQuery("infos", () => Getinfo(logInfo), {
         keepPreviousData: true,
@@ -26,6 +28,13 @@ const Mypage = () => {
     });
 
     if (isLoading) return <Loading />;
+
+    const PersonDelete = () => {
+        if(window.confirm("진짜 회원을 탈퇴할거야?")){
+            DeleteUser();
+        }
+    };
+
     return (
         <>
             <PersonalInfo Persondata={data.data && data.data} />
@@ -69,6 +78,7 @@ const Mypage = () => {
                     PersonlikeReview={data.data.jjimReviews && data.data.jjimReviews}
                 />
             )}
+            <p onClick={PersonDelete}>회원을 탈퇴할래요?</p>
         </>
     );
 };
