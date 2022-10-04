@@ -65,6 +65,11 @@ const PersonalInfo = ({ Persondata }) => {
     };
 
     const nickSumbit = () => {
+        const token = logInfo;
+        const log = {"nickName": changeName };
+        const id = "nickName";
+        const EditData = {id,token,log};
+        changeInfo(EditData);
     }
 
     // 회원처리 알고리즘
