@@ -159,7 +159,7 @@ const StoreLocation = () => {
                         <ul className="searchbar2">
                             <li id="searchStore">매장명 검색</li>
                             <li className="searchunit">
-                                <input id="searchInput" onChange={onChange} type="text" value="편의점" />
+                                <input id="searchInput" onChange={onChange} type="text" defaultValue="편의점" />
                             </li>
                             <li>
                                 <button type="submit" className="serchBtn">
