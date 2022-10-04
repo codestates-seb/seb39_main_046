@@ -80,7 +80,7 @@ public class MemberController {
 
     }
 
-    @PostMapping("/api/signup")
+    @PostMapping("/signup")
     @ApiOperation(value = "회원 가입")
     public ResponseEntity signUp(@Valid @RequestBody MemberPostDto memberPostDto) {
         Member member = mapper.memberPostDtoToMember(memberPostDto);
