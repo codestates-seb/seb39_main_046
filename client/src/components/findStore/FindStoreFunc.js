@@ -98,17 +98,19 @@ const StoreLocation = () => {
                     paginationEl.appendChild(fragment);
                 }
 
-                // let imageSrc =
-                //   "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_red.png";
-
-                // let markerImage = new kakao.maps.MarkerImage(imageSrc);
-
                 function displayMarker(place) {
+                    var imageSrc = "https://ifh.cc/g/Cwsb6y.png", // 마커이미지의 주소입니다
+                        imageSize = new kakao.maps.Size(64, 69), // 마커이미지의 크기입니다
+                        imageOption = { offset: new kakao.maps.Point(27, 69) };
+
+                    var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption),
+                        markerPosition = position;
+
                     let marker = new kakao.maps.Marker({
                         map: map,
                         position: new kakao.maps.LatLng(place.y, place.x),
+                        image: markerImage,
                     });
-
                     kakao.maps.event.addListener(marker, "click", function () {
                         infowindow.setContent(
                             '<div style="padding:5px;font-size:12px;">' + place.place_name + "</div>",
@@ -229,8 +231,10 @@ const MapContainer = styled.section`
     }
 
     #pagination a.on {
-        color: lightblue;
-        font-weight: bold;
+        padding: 0 5px;
+        background-color: #437bec;
+        color: #fff;
+        border-radius: 20px;
     }
 
     #searchwrite {
