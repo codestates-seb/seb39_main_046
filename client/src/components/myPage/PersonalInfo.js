@@ -56,7 +56,7 @@ const PersonalInfo = ({ Persondata }) => {
             const token = logInfo;
             const log = { password: changePw };
             const id = "password";
-            const EditData = {id,token,log};
+            const EditData = { id, token, log };
             console.log(token);
             changeInfo(EditData);
         } else {
@@ -66,11 +66,11 @@ const PersonalInfo = ({ Persondata }) => {
 
     const nickSumbit = () => {
         const token = logInfo;
-        const log = {"nickName": changeName };
-        const id = "nickName";
-        const EditData = {id,token,log};
+        const log = { nickName: changeName };
+        const id = "nickname";
+        const EditData = { id, token, log };
         changeInfo(EditData);
-    }
+    };
 
     // 회원처리 알고리즘
 
@@ -155,11 +155,7 @@ const PersonalInfo = ({ Persondata }) => {
                             })}
                         >
                             <p>닉네임</p>
-                            <Thisinpu
-                                type="text"
-                                placeholder="입력해주세요."
-                                onChange={InputNickName}
-                            ></Thisinpu>
+                            <Thisinpu type="text" placeholder="입력해주세요." onChange={InputNickName}></Thisinpu>
                             {errors.nickName && <p className="errorCode">{errors.nickName.message}</p>}
                             <SubmitButton onClick={nickSumbit}>완료</SubmitButton>
                         </UserForm>
