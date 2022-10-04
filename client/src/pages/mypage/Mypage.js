@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import axios from "axios";
+import axiosInstance from "../../utils/axiosInastance";
 import store from "../../lib/store";
 import PersonalInfo from "../../components/myPage/PersonalInfo";
 import ProductBasket from "../../components/myPage/ProductBasket";
@@ -13,11 +13,7 @@ import NoLikeTitle from "../../assets/images/userinfo/NoLikeTitle.svg";
 import NoBasketTitle from "../../assets/images/userinfo/NoBasketTitle.svg";
 
 const Getinfo = (logInfo) => {
-    return axios.get("member/myPage", {
-        headers: {
-            Authorization: logInfo,
-        },
-    });
+    return axiosInstance.get("member/myPage");
 };
 
 const Mypage = () => {
@@ -40,7 +36,10 @@ const Mypage = () => {
                     찜상품이 없어요!
                 </Nodata>
             ) : (
-                <ProductBasket Persondata={data.data && data.data} PersonMyJJimProduct={data.data.jjimProducts&&data.data.jjimProducts} />
+                <ProductBasket
+                    Persondata={data.data && data.data}
+                    PersonMyJJimProduct={data.data.jjimProducts && data.data.jjimProducts}
+                />
             )}
             <PbtiBanner />
             {data.data.myReviews === null ? (
@@ -51,7 +50,10 @@ const Mypage = () => {
                     </p>
                 </Nodata>
             ) : (
-                <PersonalRivew Persondata={data.data&& data.data} PersonRivew={data.data.myReviews&& data.data.myReviews} />
+                <PersonalRivew
+                    Persondata={data.data && data.data}
+                    PersonRivew={data.data.myReviews && data.data.myReviews}
+                />
             )}
             {data.data.jjimReviews === null ? (
                 <Nodata>
@@ -61,7 +63,10 @@ const Mypage = () => {
                     찜 리뷰가 없어요!
                 </Nodata>
             ) : (
-                <MyLikeReview Persondata={data.data&&data.data} PersonlikeReview={data.data.jjimReviews&&data.data.jjimReviews} />
+                <MyLikeReview
+                    Persondata={data.data && data.data}
+                    PersonlikeReview={data.data.jjimReviews && data.data.jjimReviews}
+                />
             )}
         </>
     );

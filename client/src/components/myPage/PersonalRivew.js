@@ -3,18 +3,14 @@ import styled from "styled-components";
 import RivesBundle from "./RivesBundle";
 import MypageRivew from "../common/pagination/myPage/MypageRivew";
 import useStore from "../../lib/store";
-import axios from "axios";
+import axiosInstance from "../../utils/axiosInastance";
 import { useQuery, useQueryClient } from "react-query";
 import Loading from "../common/loading/Loading";
 import { useEffect } from "react";
 // import { useMypage } from "../../lib/api/useMypage";
 
 const GetmyRivew = async (method, page, logInfo) => {
-    const { data } = await axios.get(`/member/myPage/myReviews/${method}?page=${page}`, {
-        headers: {
-            Authorization: logInfo,
-        },
-    });
+    const { data } = await axiosInstance.get(`/member/myPage/myReviews/${method}?page=${page}`);
     return data;
 };
 
@@ -47,8 +43,7 @@ const PersonalRivew = ({ Persondata }) => {
     if (isError)
         return (
             <>
-                <h3>오류발생</h3>
-                <p>{error.toString()}</p>
+                <h3> 오류발생 </h3> <p> {error.toString()} </p>{" "}
             </>
         );
 
@@ -56,19 +51,20 @@ const PersonalRivew = ({ Persondata }) => {
         <Maindive>
             <TitleDiv>
                 <UserName>
-                    {userName}
-                    <Welcome>님이 남긴 리뷰</Welcome>
-                </UserName>
-            </TitleDiv>
+                    {" "}
+                    {userName} <Welcome> 님이 남긴 리뷰 </Welcome>{" "}
+                </UserName>{" "}
+            </TitleDiv>{" "}
             <Productbox>
+                {" "}
                 {data.data &&
                     data.data.map((data, idx) => {
                         return <RivesBundle key={idx} data={data} />;
-                    })}
-            </Productbox>
+                    })}{" "}
+            </Productbox>{" "}
             <Pagibox>
-                <MypageRivew PageInfo={Persondata.myReviews} />
-            </Pagibox>
+                <MypageRivew PageInfo={Persondata.myReviews} />{" "}
+            </Pagibox>{" "}
         </Maindive>
     );
 };

@@ -5,17 +5,13 @@ import PersonalProducts from "./PersonalProducts";
 import MyPagePaging2 from "../common/pagination/myPage/MyPagePaging2";
 import { useNavigate } from "react-router-dom";
 import useStore from "../../lib/store";
-import axios from "axios";
+import axiosInstance from "../../utils/axiosInastance";
 import { useQuery, useQueryClient } from "react-query";
 import { useEffect } from "react";
 import Loading from "../common/loading/Loading";
 
 const GetBasket = async (log, company, logInfo) => {
-    const { data } = await axios.get(`member/myPage/simplifiedProducts?page=${log}&company=${company}`, {
-        headers: {
-            Authorization: logInfo,
-        },
-    });
+    const { data } = await axiosInstance.get(`member/myPage/simplifiedProducts?page=${log}&company=${company}`);
     return data;
 };
 
