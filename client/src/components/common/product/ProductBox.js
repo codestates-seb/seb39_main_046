@@ -12,7 +12,7 @@ const ProductBox = ({ data }) => {
     return (
         <ProductSection>
             <span className="heart-box">
-                <HeartButton id={data.productId && data.productId} />
+                <HeartButton id={data.productId && data.productId} heartFlag={data.heartFlag && data.heartFlag} />
             </span>
             <PImage onClick={goDetail}>
                 <img src={data.imageURL} alt={data.productName} />
