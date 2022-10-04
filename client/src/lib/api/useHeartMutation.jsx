@@ -42,6 +42,7 @@ export const useReviewHeart = () => {
             queryClient.invalidateQueries([queryKeys.productTop5]);
             queryClient.invalidateQueries([queryKeys.mainProducts]);
             queryClient.invalidateQueries([queryKeys.products]);
+            queryClient.invalidateQueries(["LikeReviews"]);
             console.log("success", data, variables, context);
         },
         onError: (e) => {},

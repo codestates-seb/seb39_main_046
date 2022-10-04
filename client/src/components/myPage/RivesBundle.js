@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import HeartButton from "../common/button/HeartButton";
 import { FiTrash2, FiSave } from "react-icons/fi";
 import { RiEdit2Fill, RiArrowGoBackLine } from "react-icons/ri";
 import { useRivesDelete } from "../../lib/api/useRivesMutation";
@@ -10,7 +9,6 @@ const RivesBundle = ({ data, index }) => {
     const image = data.imageURL;
     const { mutate: ReviewDelete } = useRivesDelete();
     const { mutate: ReviewPatch } = usePatchRevies();
-
     const [baseImg, setBaseImg] = useState(image);
     const [editOn, seteditOn] = useState(false);
     const [content, setContent] = useState("");

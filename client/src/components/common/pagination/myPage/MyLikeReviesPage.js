@@ -4,14 +4,14 @@ import Pagination from "react-js-pagination";
 import useStore from "../../../../lib/store";
 
 const MyLikeReviesPage = ({ PageInfo }) => {
-    const { isJJimProductsCurrentPage } = useStore();
+    const { ismyLikeReives } = useStore();
     const handlePageChange = (e) => {
-        useStore.setState({ isJJimProductsCurrentPage: e });
+        useStore.setState({ ismyLikeReives: e });
     };
     return (
         <PageBox>
             <Pagination
-                activePage={isJJimProductsCurrentPage}
+                activePage={ismyLikeReives}
                 itemsCountPerPage={PageInfo.pageInfo && PageInfo.pageInfo.size}
                 totalItemsCount={PageInfo.pageInfo && PageInfo.pageInfo.totalElements}
                 pageRangeDisplayed={5}

@@ -2,12 +2,12 @@ import React from "react";
 import { useState } from "react";
 import styled from "styled-components";
 import Noimg from "../../assets/images/userinfo/Noimg.png";
-import HeartButton from "../common/button/HeartButton";
+import ReviewHeartButton from "../common/button/HeartButton";
 
 const MyLikeReviewContain = ({ data }) => {
     const image = data.review.imageURL;
 
-    console.log(data.review.reviewHeartFlag);
+    console.log(data.review.reviewId);
 
     return (
         <Productinformation>
@@ -16,8 +16,8 @@ const MyLikeReviewContain = ({ data }) => {
                 <div className="title">
                     <div className="productName">{data.review.product.productName} </div>
                     <span>
-                        <HeartButton
-                            id={data.reviewId && data.reviewId}
+                        <ReviewHeartButton
+                            id={data.review.reviewId && data.review.reviewId}
                             heartFlag={data.review.reviewHeartFlag && data.review.reviewHeartFlag}
                         />
                     </span>
