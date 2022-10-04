@@ -43,7 +43,7 @@ const PersonalRivew = ({ Persondata }) => {
     if (isError)
         return (
             <>
-                <h3> 오류발생 </h3> <p> {error.toString()} </p>{" "}
+                <h3> 오류발생 </h3> <p> {error.toString()} </p>
             </>
         );
 
@@ -51,20 +51,18 @@ const PersonalRivew = ({ Persondata }) => {
         <Maindive>
             <TitleDiv>
                 <UserName>
-                    {" "}
-                    {userName} <Welcome> 님이 남긴 리뷰 </Welcome>{" "}
-                </UserName>{" "}
-            </TitleDiv>{" "}
+                    {userName} <Welcome> 님이 남긴 리뷰 </Welcome>
+                </UserName>
+            </TitleDiv>
             <Productbox>
-                {" "}
                 {data.data &&
                     data.data.map((data, idx) => {
                         return <RivesBundle key={idx} data={data} />;
-                    })}{" "}
-            </Productbox>{" "}
+                    })}
+            </Productbox>
             <Pagibox>
-                <MypageRivew PageInfo={Persondata.myReviews} />{" "}
-            </Pagibox>{" "}
+                <MypageRivew PageInfo={Persondata.myReviews} />
+            </Pagibox>
         </Maindive>
     );
 };

@@ -11,6 +11,7 @@ import { useQuery } from "react-query";
 import NoReviewTitle from "../../assets/images/userinfo/NoReviewTitle.svg";
 import NoLikeTitle from "../../assets/images/userinfo/NoLikeTitle.svg";
 import NoBasketTitle from "../../assets/images/userinfo/NoBasketTitle.svg";
+import Loading from "../../components/common/loading/Loading";
 
 const Getinfo = (logInfo) => {
     return axiosInstance.get("member/myPage");
@@ -24,7 +25,7 @@ const Mypage = () => {
         staleTime: 2000,
     });
 
-    if (isLoading) return <h3> 로딩중 </h3>;
+    if (isLoading) return <Loading />;
     return (
         <>
             <PersonalInfo Persondata={data.data && data.data} />

@@ -38,7 +38,7 @@ const MyLikeReview = ({ Persondata }) => {
         },
     );
 
-    if (isLoading) return <h2>로딩중이에요</h2>;
+    if (isLoading) return <Loading />;
     if (isFetching) return <Loading />;
 
     return (
