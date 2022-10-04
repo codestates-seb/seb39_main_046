@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import styled from "styled-components";
-import axios from "axios";
+import axiosInstances from "../../utils/axiosInastance";
 import useStore from "../../lib/store";
 
 import MyLikeReviewContain from "./MyLikeReviewContain";
@@ -9,11 +9,7 @@ import { useQuery, useQueryClient } from "react-query";
 import Loading from "../common/loading/Loading";
 
 const GetmyLikeReviews = async (page, methodId, logInfo) => {
-    const { data } = await axios.get(`member/myPage/simplifiedHeartReviews?page=${page}&methodId=${methodId}`, {
-        headers: {
-            Authorization: logInfo,
-        },
-    });
+    const { data } = await axiosInstances.get(`member/myPage/simplifiedHeartReviews?page=${page}&methodId=${methodId}`);
     return data;
 };
 
@@ -59,7 +55,7 @@ const MyLikeReview = ({ Persondata }) => {
                         })}
                 </RivewSection>
                 <Pagibox>
-                    <MyLikeReviesPage PageInfo = {Persondata.jjimReviews} />
+                    <MyLikeReviesPage PageInfo={Persondata.jjimReviews} />
                 </Pagibox>
             </PageSection>
         </Maindiv>
