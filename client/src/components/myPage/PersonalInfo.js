@@ -161,7 +161,7 @@ const PersonalInfo = ({ Persondata }) => {
                                 onChange={InputNickName}
                             ></Thisinpu>
                             {errors.nickName && <p className="errorCode">{errors.nickName.message}</p>}
-                            <SubmitButton>완료</SubmitButton>
+                            <SubmitButton onClick={nickSumbit}>완료</SubmitButton>
                         </UserForm>
                         <UserForm1>
                             <p>패스워드</p>
