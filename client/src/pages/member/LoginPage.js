@@ -22,7 +22,8 @@ const Login = () => {
     const onSuccess = (res) => {
         console.log(userName);
         alert(`${userName}환영합니다.`);
-        sessionStorage.setItem("token", res.Authorization);
+        console.log(res.Authorization);
+        // sessionStorage.setItem("token", res.Authorization);
         navigate("/");
         window.location.reload();
     };
