@@ -17,7 +17,7 @@ public class CorsConfig {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowCredentials(true);
-        config.setAllowedOrigins(Collections.singletonList("https://www.recostore.shop/"));
+        config.setAllowedOrigins(Collections.singletonList("*"));
         config.addAllowedOrigin("*");
     //    config.addExposedHeader("Authorization");
         config.addAllowedHeader("*");
