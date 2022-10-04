@@ -31,7 +31,7 @@ const Mypage = () => {
     if (isLoading) return <h3> 로딩중 </h3>;
     return (
         <>
-            <PersonalInfo Persondata={data.data} />
+            <PersonalInfo Persondata={data.data && data.data} />
             {data.data.jjimProducts === null ? (
                 <Nodata>
                     <p>
@@ -40,7 +40,7 @@ const Mypage = () => {
                     찜상품이 없어요!
                 </Nodata>
             ) : (
-                <ProductBasket Persondata={data.data} PersonMyJJimProduct={data.data.jjimProducts} />
+                <ProductBasket Persondata={data.data && data.data} PersonMyJJimProduct={data.data.jjimProducts&&data.data.jjimProducts} />
             )}
             <PbtiBanner />
             {data.data.myReviews === null ? (
@@ -51,7 +51,7 @@ const Mypage = () => {
                     </p>
                 </Nodata>
             ) : (
-                <PersonalRivew Persondata={data.data} PersonRivew={data.data.myReviews} />
+                <PersonalRivew Persondata={data.data&& data.data} PersonRivew={data.data.myReviews&& data.data.myReviews} />
             )}
             {data.data.jjimReviews === null ? (
                 <Nodata>
@@ -61,7 +61,7 @@ const Mypage = () => {
                     찜 리뷰가 없어요!
                 </Nodata>
             ) : (
-                <MyLikeReview Persondata={data.data} PersonlikeReview={data.data.jjimReviews} />
+                <MyLikeReview Persondata={data.data&&data.data} PersonlikeReview={data.data.jjimReviews&&data.data.jjimReviews} />
             )}
         </>
     );
