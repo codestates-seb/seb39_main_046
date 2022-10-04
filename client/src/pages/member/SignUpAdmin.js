@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { useSignupAdmin } from "../../lib/api/useSignup";
+import { useSignupAdmin } from "../../lib/apis/useSignup";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 
