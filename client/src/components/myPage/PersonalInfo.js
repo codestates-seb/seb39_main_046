@@ -32,7 +32,6 @@ const PersonalInfo = ({ Persondata }) => {
     const [PrwOn, setPrwOn] = useState(false);
     const [isEditOpen, setIseEditOpen] = useState(true);
 
-
     const InputNickName = (e) => {
         setchangeName(e.target.value);
     };
@@ -51,7 +50,6 @@ const PersonalInfo = ({ Persondata }) => {
     };
 
     const { mutate: changeInfo } = useChange(onSuccess, onError);
-
 
     const pwSubmit = () => {
         if (changePw === confrim) {
@@ -138,7 +136,6 @@ const PersonalInfo = ({ Persondata }) => {
                                     삭제
                                 </Button>
                             </div>
-
                         </div>
                         <p className="user_id">ID:{email}</p>
                     </UserExer>
@@ -169,10 +166,10 @@ const PersonalInfo = ({ Persondata }) => {
                         </UserForm>
                         <UserForm1>
                             <p>패스워드</p>
-                            <Thisinpu placeholder="입력해주세요." onChange={InputPw}></Thisinpu>
+                            <Thisinpu tpye="password" placeholder="입력해주세요." onChange={InputPw}></Thisinpu>
                             <Button onClick={pwSubmit}>수정</Button>
                             <p>패스워드 확인</p>
-                            <Thisinpu placeholder="입력해주세요." onChange={InputConfrim}></Thisinpu>
+                            <Thisinpu type="password" placeholder="입력해주세요." onChange={InputConfrim}></Thisinpu>
                         </UserForm1>
                     </div>
                 </UserPassing>
@@ -183,7 +180,7 @@ const PersonalInfo = ({ Persondata }) => {
 
 export default PersonalInfo;
 
-const UserForm1 = styled.form`
+const UserForm1 = styled.div`
     text-align: left;
     p {
         padding-left: ${({ theme }) => theme.paddings.xl};
