@@ -43,6 +43,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @Tag(name = "Member", description = "Member API")
 @Api(tags = "Member")
+@CrossOrigin(origins = "*",allowedHeaders = "*")
 public class MemberController {
 
     private final MemberService memberService;
