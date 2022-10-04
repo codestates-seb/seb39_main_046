@@ -103,7 +103,7 @@ const PersonalInfo = ({ Persondata }) => {
     const [isAdmin, setIsAdmin] = useState(Persondata.member.roles);
 
     const goManagerPage = () => {
-        navigate(`/manager`);
+        navigate(`/admin`);
     };
     return (
         <TopDiv>

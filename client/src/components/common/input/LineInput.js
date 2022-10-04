@@ -65,11 +65,11 @@ const LineInput = () => {
 export default LineInput;
 
 const LineInputBox = styled.div`
-    width: 600px;
+    width: 570px;
     position: relative;
     margin: 40px 0;
     input {
-        width: 600px;
+        width: 570px;
         height: 56px;
         padding-left: 10px;
         background-color: transparent;

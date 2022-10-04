@@ -37,76 +37,79 @@ const Login = () => {
     return (
         <>
             <MemberContainer>
-                <TopBtnBox>
-                    <LoginBtn>로그인</LoginBtn>
-                    <SingUpBtn onClick={() => navigate("/signup")}>회원가입</SingUpBtn>
-                </TopBtnBox>
-                <MiddleBox
-                    onSubmit={handleSubmit((data) => {
-                        setUserName(data.userName);
-                        console.log(data);
-                        loginperson(data);
-                    })}
-                >
-                    <MemberRemember>
-                        <div>
-                            <input type="checkbox" />
-                            <span>로그인 정보 기억</span>
-                        </div>
-                    </MemberRemember>
-                    <InputBox>
-                        <div className="InputPersondata">
-                            <label>아이디</label>
-                            {/* <TextInput /> */}
-                            <Thisinpu
-                                type="text"
-                                placeholder="아이디"
-                                {...register("username", {
-                                    required: "필수 입력 사항입니다.",
-                                    minLength: {
-                                        value: 10,
-                                        message: "이메일 형식의 맞게 입력해주세요.",
-                                    },
-                                    pattern: {
-                                        value: /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i,
-                                        message: "이메일 형식에 맞게 입력해주세요",
-                                    },
-                                })}
-                            ></Thisinpu>
-                            {errors.username && <p>{errors.username.message}</p>}
-                        </div>
-                        <div>
-                            <label className="InputPersondata">비밀번호</label>
-                            {/* <input onChange={inputChange} /> */}
-                            <Thisinpu
-                                type="password"
-                                placeholder="비밀번호"
-                                {...register("password", {
-                                    required: "비밀번호를 입력해주세요",
-                                    minLength: {
-                                        vlaue: 8,
-                                        message: "최소 8자 이상의 비밀번호를 입력해주세요",
-                                    },
-                                    maxLength: {
-                                        value: 16,
-                                        message: "16자 이하의 비밀번호만 사용가능합니다.",
-                                    },
-                                    pattern: {
-                                        value: /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,}$/,
-                                        message: "특수문자, 영문, 숫자를 혼용해서 입력해주세요",
-                                    },
-                                })}
-                            ></Thisinpu>
-                            {errors.password && <p>{errors.password.message}</p>}
-                        </div>
-                    </InputBox>
-                    <IdPwFind>
-                        <span>아이디찾기</span>
-                        <span>|</span>
-                        <span>패스워드찾기</span>
-                    </IdPwFind>
-                    <LoginConfirmBtn>{label}</LoginConfirmBtn>
-                </MiddleBox>
+                <ContentsBox>
+                    <TopBtnBox>
+                        <LoginBtn>로그인</LoginBtn>
+                        <SingUpBtn onClick={() => navigate("/signup")}>회원가입</SingUpBtn>
+                        <AdminBtn onClick={() => navigate("/signup/admin")}>관리자가입</AdminBtn>
+                    </TopBtnBox>
+                    <MiddleBox
+                        onSubmit={handleSubmit((data) => {
+                            setUserName(data.userName);
+                            console.log(data);
+                            loginperson(data);
+                        })}
+                    >
+                        <MemberRemember>
+                            <div>
+                                <input type="checkbox" />
+                                <span>로그인 정보 기억</span>
+                            </div>
+                        </MemberRemember>
+                        <InputBox>
+                            <div className="InputPersondata">
+                                <label>아이디</label>
+                                {/* <TextInput /> */}
+                                <Thisinpu
+                                    type="text"
+                                    placeholder="아이디"
+                                    {...register("username", {
+                                        required: "필수 입력 사항입니다.",
+                                        minLength: {
+                                            value: 10,
+                                            message: "이메일 형식의 맞게 입력해주세요.",
+                                        },
+                                        pattern: {
+                                            value: /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i,
+                                            message: "이메일 형식에 맞게 입력해주세요",
+                                        },
+                                    })}
+                                ></Thisinpu>
+                                {errors.username && <p>{errors.username.message}</p>}
+                            </div>
+                            <div>
+                                <label className="InputPersondata">비밀번호</label>
+                                {/* <input onChange={inputChange} /> */}
+                                <Thisinpu
+                                    type="password"
+                                    placeholder="비밀번호"
+                                    {...register("password", {
+                                        required: "비밀번호를 입력해주세요",
+                                        minLength: {
+                                            vlaue: 8,
+                                            message: "최소 8자 이상의 비밀번호를 입력해주세요",
+                                        },
+                                        maxLength: {
+                                            value: 16,
+                                            message: "16자 이하의 비밀번호만 사용가능합니다.",
+                                        },
+                                        pattern: {
+                                            value: /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,}$/,
+                                            message: "특수문자, 영문, 숫자를 혼용해서 입력해주세요",
+                                        },
+                                    })}
+                                ></Thisinpu>
+                                {errors.password && <p>{errors.password.message}</p>}
+                            </div>
+                        </InputBox>
+                        <IdPwFind>
+                            <span>아이디찾기</span>
+                            <span>|</span>
+                            <span>패스워드찾기</span>
+                        </IdPwFind>
+                        <LoginConfirmBtn>{label}</LoginConfirmBtn>
+                    </MiddleBox>
+                </ContentsBox>
             </MemberContainer>
         </>
     );
@@ -115,19 +118,32 @@ const Login = () => {
 export default Login;
 
 const MemberContainer = styled.section`
-    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+`;
+const ContentsBox = styled.div`
     width: 900px;
-    height: 600px;
     border-radius: 20px;
-    margin-top: 160px;
-    margin-bottom: 120px;
+    margin-top: 130px;
+    margin-bottom: 130px;
     padding: 50px;
     background-color: ${({ theme }) => theme.colors.Blue_010};
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    @media ${({ theme }) => theme.device.laptop} {
+        margin-top: -5px;
+        margin-bottom: 0px;
+        width: 100%;
+        border-radius: 0;
+        padding: 70px 0 90px;
+    }
 `;
-
 const TopBtnBox = styled.div`
     margin: 0 auto;
-    width: 200px;
+    width: 310px;
     height: 40px;
     border-radius: 20px;
     background-color: ${({ theme }) => theme.colors.Gray_020};
@@ -141,7 +157,8 @@ const LoginBtn = styled.button`
     border: none;
     background-color: ${({ theme }) => theme.colors.Blue_030};
     color: #fff;
-    animation: slide 1s;
+    transition: 3s ease-in 2.5s;
+    /* animation: slide 1s;
     @keyframes slide {
         from {
             transform: translateX(100%);
@@ -149,7 +166,7 @@ const LoginBtn = styled.button`
         to {
             transform: translateX(0%);
         }
-    }
+    } */
 `;
 
 const SingUpBtn = styled.button`
@@ -159,6 +176,17 @@ const SingUpBtn = styled.button`
     border: none;
     background-color: ${({ theme }) => theme.colors.Gray_020};
     color: #fff;
+    transition: 3s ease-in 2.5s;
+`;
+
+const AdminBtn = styled.button`
+    width: 110px;
+    height: 40px;
+    border-radius: 20px;
+    border: none;
+    background-color: ${({ theme }) => theme.colors.Gray_020};
+    color: #fff;
+    transition: 3s ease-in 2.5s;
 `;
 
 const MiddleBox = styled.form`

@@ -24,7 +24,7 @@ const MProductModal = ({ setIsOpen }) => {
 
     const handleClose = () => {
         setIsOpen(false);
-        navigate(`/manager`);
+        navigate(`/admin`);
     };
     const Cdata = useCategory();
     const categories = Cdata["등록된 전체 카테고리"];
@@ -69,7 +69,7 @@ const MProductModal = ({ setIsOpen }) => {
         const EditData = { categoryName: isStore.categoryName, company: isCategory, price: price, productName: name };
         const setData = { PrId, EditData };
         ProductPatch(setData);
-        navigate("/manager");
+        navigate(`/admin`);
     };
 
     return (
