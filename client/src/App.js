@@ -10,7 +10,8 @@ import FoodTestHome from "./components/foodTest/FoodTestHome";
 import FoodTestQuestion from "./components/foodTest/FoodTestQuestion";
 import FoodTestResult from "./components/foodTest/FoodTestResult";
 import Login from "./pages/member/LoginPage";
-import SingUp from "./pages/member/SingUp";
+import SignUp from "./pages/member/SignUp";
+import SignUpAdmin from "./pages/member/SignUpAdmin";
 import Mypage from "./pages/mypage/Mypage";
 import DetailProduct from "./pages/detailProducts/DetailProduct";
 import Products from "./pages/product/Products";
@@ -33,12 +34,13 @@ function App() {
                         <Route path="result" element={<FoodTestResult />}></Route>
                     </Route>
                     <Route path="/login" element={<Login />}></Route>
-                    <Route path="/singup" element={<SingUp />}></Route>
+                    <Route path="/signup" element={<SignUp />}></Route>
+                    <Route path="/signup/admin" element={<SignUpAdmin />}></Route>
                     <Route path="/mypage" element={<Mypage />}></Route>
                     <Route path="/productbasket" element={<ProductBasket />}></Route>
                     <Route path="/products" element={<Products />}></Route>
                     <Route path="/product/:id" element={<DetailProduct />}></Route>
-                    <Route path="/manager" element={<ManagerPage />}>
+                    <Route path="/admin" element={<ManagerPage />}>
                         <Route path=":id" element={<MProductModal />}></Route>
                     </Route>
                     <Route path="*" element={<div>NotFound</div>} />

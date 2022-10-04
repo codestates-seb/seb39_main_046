@@ -34,6 +34,7 @@ const SingUp = () => {
                 <TopBtnBox>
                     <LoginBtn onClick={() => navigate("/login")}>로그인</LoginBtn>
                     <SingUpBtn>회원가입</SingUpBtn>
+                    <AdminBtn onClick={() => navigate("/signup/admin")}>관리자가입</AdminBtn>
                 </TopBtnBox>
                 <MiddleBox>
                     <InputBox
@@ -172,7 +173,7 @@ const ContentsBox = styled.div`
 `;
 const TopBtnBox = styled.div`
     margin: 0 auto;
-    width: 200px;
+    width: 310px;
     height: 40px;
     border-radius: 20px;
     background-color: ${({ theme }) => theme.colors.Gray_020};
@@ -186,6 +187,7 @@ const LoginBtn = styled.button`
     border: none;
     color: #fff;
     background-color: ${({ theme }) => theme.colors.Gray_020};
+    transition: all 0.3s;
 `;
 
 const SingUpBtn = styled.button`
@@ -195,17 +197,26 @@ const SingUpBtn = styled.button`
     border: none;
     color: #fff;
     background-color: ${({ theme }) => theme.colors.Blue_030};
-    animation: slide2 1s;
-    @keyframes slide2 {
+    transition: all 0.3s;
+    /* animation: slide2 1s; */
+    /* @keyframes slide2 {
         from {
-            transform: translateX(-100%);
+            transform: translateX(-50%);
         }
         to {
             transform: translateX(0%);
         }
-    }
+    } */
 `;
-
+const AdminBtn = styled.button`
+    width: 110px;
+    height: 40px;
+    border-radius: 20px;
+    border: none;
+    background-color: ${({ theme }) => theme.colors.Gray_020};
+    color: #fff;
+    transition: all 0.3s;
+`;
 const MiddleBox = styled.div`
     display: flex;
     justify-content: center;
