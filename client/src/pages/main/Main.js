@@ -59,6 +59,15 @@ const BImg = styled.span`
     position: relative;
     top: -129px;
     left: 50px;
+    transition: all 0.1s;
+    @media ${({ theme }) => theme.device.laptop} {
+        position: relative;
+        top: -129px;
+        left: -60px;
+    }
+    @media ${({ theme }) => theme.device.tablet} {
+        display: none;
+    }
 `;
 
 const FindStoreContainer = styled.section`

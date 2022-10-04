@@ -44,6 +44,11 @@ const ProductBox = styled.div`
         color: ${({ theme }) => theme.colors.Blue_050};
         font-size: ${({ theme }) => theme.fontSizes.xxl};
         font-weight: 500;
+        @media ${({ theme }) => theme.device.laptopL} {
+            top: 8px;
+            left: 15px;
+            font-size: ${({ theme }) => theme.fontSizes.lg};
+        }
     }
     .heart_area {
         position: absolute;
@@ -54,6 +59,10 @@ const ProductBox = styled.div`
         p {
             padding: 3px 0 0 3px;
             color: ${({ theme }) => theme.colors.Orange_040};
+        }
+        @media ${({ theme }) => theme.device.laptopL} {
+            top: 8px;
+            right: 10px;
         }
     }
     .product_img {
@@ -78,9 +87,21 @@ const ProductBox = styled.div`
             align-items: center;
             .product_title {
                 font-weight: bold;
+                overflow: hidden;
+                white-space: nowrap;
+                text-overflow: ellipsis;
             }
             .product_price {
                 color: ${({ theme }) => theme.colors.Gray_030};
+                overflow: hidden;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+            }
+        }
+        @media ${({ theme }) => theme.device.laptopL} {
+            padding: 10px 14px;
+            .product_price {
+                display: none;
             }
         }
     }

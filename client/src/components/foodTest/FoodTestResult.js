@@ -35,7 +35,9 @@ const FoodTestResult = () => {
                 </h3>
                 <img src={resultData.image} alt={resultData.name} />
                 <FBtn>
-                    <Button onClick={() => navigate("/foodtest")}>테스트 다시하기</Button>
+                    <Button className="goBtn" onClick={() => navigate("/foodtest")}>
+                        테스트 다시하기
+                    </Button>
                     <KakaoShareButton data={resultData}>카카오톡 공유하기</KakaoShareButton>
                 </FBtn>
             </FContens>
@@ -84,7 +86,7 @@ const FContens = styled.div`
     }
 `;
 const FBtn = styled.div`
-    Button {
+    .goBtn {
         margin-right: 30px;
     }
 `;

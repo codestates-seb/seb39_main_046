@@ -32,17 +32,17 @@ const BestReview = () => {
                 autoplay={true}
                 speed={1500}
                 breakpoints={{
-                    740: {
+                    768: {
                         slidesPerView: 3,
-                        spaceBetween: 40,
+                        spaceBetween: 17,
                     },
-                    1000: {
+                    1080: {
                         slidesPerView: 4,
-                        spaceBetween: 20,
+                        spaceBetween: 17,
                     },
                     1280: {
                         slidesPerView: 5,
-                        spaceBetween: 25,
+                        spaceBetween: 17,
                     },
                 }}
                 onSlideChange={(s) => {
@@ -119,6 +119,15 @@ const SwiperBox = styled(Swiper)`
             transition-delay: 2s;
             display: block;
         }
+    }
+    @media ${({ theme }) => theme.device.laptopL} {
+        padding: 0 10px;
+    }
+    @media ${({ theme }) => theme.device.laptop} {
+        padding: 0 10px;
+    }
+    @media ${({ theme }) => theme.device.tablet} {
+        padding: 0 10px;
     }
 `;
 const StyleSwipper = styled(SwiperSlide)`
