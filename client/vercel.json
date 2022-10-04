@@ -1,11 +1,11 @@
 {
     "rewrites": [{
             "source": "/api/:path*",
-            "destination": "http://ec2-13-124-47-93.ap-northeast-2.compute.amazonaws.com:8080/:path*"
+            "destination": "https://recostore24.com/:path*"
         },
         {
             "source": "/api/:path*/",
-            "destination": "http://ec2-13-124-47-93.ap-northeast-2.compute.amazonaws.com:8080/:path*/"
+            "destination": "https://recostore24.com/:path*/"
         }
     ]
 }
