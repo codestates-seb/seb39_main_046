@@ -20,7 +20,8 @@ export const useHeart = () => {
             queryClient.invalidateQueries(["MyReivew"]);
             queryClient.invalidateQueries(["LikeReviews"]);
             queryClient.invalidateQueries(["jjimBascket"]);
-            queryClient.invalidateQueries(["infos"]);
+            queryClient.invalidateQueries(["DetailProducts"]);
+
             console.log("success", data, variables, context);
         },
         onError: (e) => {},
