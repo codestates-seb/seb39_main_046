@@ -23,7 +23,7 @@ const Login = () => {
         console.log(userName);
         alert(`${userName}환영합니다.`);
         console.log(res);
-        // sessionStorage.setItem("token", res.data);
+        sessionStorage.setItem("token", res.data);
         navigate("/");
         window.location.reload();
     };
@@ -44,6 +44,7 @@ const Login = () => {
                 <MiddleBox
                     onSubmit={handleSubmit((data) => {
                         setUserName(data.userName);
+                        console.log(data);
                         loginperson(data);
                     })}
                 >
@@ -60,7 +61,7 @@ const Login = () => {
                             <Thisinpu
                                 type="text"
                                 placeholder="아이디"
-                                {...register("userName", {
+                                {...register("username", {
                                     required: "필수 입력 사항입니다.",
                                     minLength: {
                                         value: 10,
@@ -72,7 +73,7 @@ const Login = () => {
                                     },
                                 })}
                             ></Thisinpu>
-                            {errors.userName && <p>{errors.userName.message}</p>}
+                            {errors.username && <p>{errors.username.message}</p>}
                         </div>
                         <div>
                             <label className="InputPersondata">비밀번호</label>

@@ -3,13 +3,12 @@ import Axios from "axios";
 const axiosInstance = Axios.create({
     timeout: 5000,
     headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
+        "Content-Type": "application/json",
         Authorization: sessionStorage.getItem("token"),
         "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Methods": "*"
+        "Access-Control-Allow-Methods": "*",
     },
 });
-
 
 axiosInstance.interceptors.request.use(
     (config) => {
