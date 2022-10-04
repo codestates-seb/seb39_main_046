@@ -5,7 +5,7 @@ import axiosInstance from "../../utils/axiosInastance";
 import Loading from "../../components/common/loading/Loading";
 
 const getInfomation = async (logInfo) => {
-    const { data } = await axiosInstance.get("/member/myPage");
+    const { data } = await axiosInstance.get("https://recostore24.com/member/myPage");
     return data;
 };
 
