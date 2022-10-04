@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { useSignup } from "../../lib/api/useSignup";
+import { useSignup } from "../../lib/apis/useSignup";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 
@@ -53,19 +53,16 @@ const SingUp = () => {
                                     message: "이메일 형식에 맞게 입력해주세요.",
                                 },
                                 pattern: {
+                                    // eslint-disable-next-line
                                     value: /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i,
                                     message: "이메일 형식에 맞게 입력해주세요",
                                 },
                             })}
-                            // onChange={(e) => {
-                            //     setUserName(e.target.value);
-                            // }}
                         ></Thisinpu>
                         {errors.username && <p>{errors.username.message}</p>}
                     </div>
                     <div className="InputData">
                         <label>닉네임</label>
-                        {/* <TextInput /> */}
                         <Thisinpu
                             type="text"
                             {...register("nickName", {
@@ -79,15 +76,11 @@ const SingUp = () => {
                                     message: "10자 이하이어야합니다.",
                                 },
                             })}
-                            // onChange={(e) => {
-                            //     setNickName(e.target.value);
-                            // }}
                         ></Thisinpu>
                         {errors.nickName && <p>{errors.nickName.message}</p>}
                     </div>
                     <div className="InputData">
                         <label>패스워드</label>
-                        {/* <TextInput /> */}
                         <Thisinpu
                             type="password"
                             {...register("password", {
@@ -101,19 +94,16 @@ const SingUp = () => {
                                     message: "16자 이하의 비밀번호만 사용가능합니다.",
                                 },
                                 pattern: {
+                                    // eslint-disable-next-line
                                     value: /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%#?&]{8,}$/,
                                     message: "특수문자, 영문, 숫자를 혼용해서 입력해주세요 *은 금지입니다.",
                                 },
                             })}
-                            // onChange={(e) => {
-                            //     setPassword(e.target.value);
-                            // }}
                         ></Thisinpu>
                         {errors.password && <p>{errors.password.message}</p>}
                     </div>
                     <div className="InputData">
                         <label>패스워드확인</label>
-                        {/* <TextInput /> */}
                         <Thisinpu
                             type="password"
                             {...register("passwordCheck", {

@@ -2,10 +2,10 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import Noimg from "../../assets/images/userinfo/Noimg.png";
 import Button from "../common/button/Button";
-import { useReviewAdd } from "../../lib/api/useRivesMutation";
+import { useReviewAdd } from "../../lib/apis/useRivesMutation";
 import useStore from "../../lib/store";
 import { useNavigate } from "react-router-dom";
-import { BiCamera, BiPlus } from "react-icons/bi";
+import { BiCamera } from "react-icons/bi";
 
 const WirteComment = ({ data }) => {
     const navigate = useNavigate();

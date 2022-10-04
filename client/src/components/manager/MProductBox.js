@@ -1,15 +1,14 @@
 import React from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
-import HeartButton from "../common/button/HeartButton";
 import Tag from "../common/product/Tag";
 import Button from "../common/button/Button";
-import { DeleteProduct } from "../../lib/api/useProductMutate";
+import { DeleteProduct } from "../../lib/apis/useProductMutate";
 
 const MProductBox = ({ data, setIsOpen }) => {
     const navigate = useNavigate();
     const goEdit = () => {
-        data && navigate(`/manager/${data.productId}`);
+        data && navigate(`/admin/${data.productId}`);
         setIsOpen(true);
     };
 
@@ -18,9 +17,9 @@ const MProductBox = ({ data, setIsOpen }) => {
         if (window.confirm("정말 삭제하시겠습니까?")) {
             console.log(data.productId);
             ProductDelete(data.productId);
-            navigate(`/manager`);
+            navigate(`/admin`);
         } else {
-            navigate(`/manager`);
+            navigate(`/admin`);
         }
     };
 
