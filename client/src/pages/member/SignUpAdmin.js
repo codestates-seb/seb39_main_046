@@ -39,13 +39,15 @@ const SingUp = () => {
                 <MiddleBox>
                     <InputBox
                         onSubmit={handleSubmit((data) => {
+                            console.log(data);
                             const person = {
                                 nickName: data.nickName,
                                 password: data.password,
-                                username: data.username,
-                                adminPassword: data.adminPassword,
+                                username: data.username,                                
                             };
-                            addPerson(person);
+                            const adminpw = data.adminPassword
+                            const SendData = {person, adminpw}
+                            addPerson(SendData);
                         })}
                     >
                         <div className="InputData">

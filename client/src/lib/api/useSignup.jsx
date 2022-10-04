@@ -12,8 +12,8 @@ export const useSignup = (onSuccess, onError) => {
     });
 };
 
-const addAdmin = (person) => {
-    return axiosInstance.post("/member/signup/admin", person);
+const addAdmin = (SendData) => {
+    return axiosInstance.post(`/member/signup/admin?inputPassword=${SendData.adminpw}`, SendData.person);
 };
 
 export const useSignupAdmin = (onSuccess, onError) => {
