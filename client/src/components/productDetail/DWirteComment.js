@@ -6,6 +6,7 @@ import { useReviewAdd } from "../../lib/api/useRivesMutation";
 import useStore from "../../lib/store";
 import { useNavigate } from "react-router-dom";
 import { BiCamera, BiPlus } from "react-icons/bi";
+import { FiUpload } from "react-icons/fi";
 
 const WirteComment = ({ data }) => {
     const navigate = useNavigate();
@@ -44,22 +45,35 @@ const WirteComment = ({ data }) => {
 
     return (
         <Maindiv>
-            <label className="input-file-button" for="input-file">
-                {regiImg && (
-                    <div className="image_box">
-                        <BiCamera size={35} color="#fff" />
-                        {/* <img src={regiImg} className="image_box" /> */}
-                    </div>
-                )}
-            </label>
-            <input type="file" accept="image/*" id="input-file" onChange={saveFileImage} />
+            {regiImg && (
+                <div className="image_box">
+                    <BiCamera size={35} color="#fff" />
+                    {/* <img src={Noimg} className="image_box" /> */}
+                </div>
+            )}
+
             <WriteArea>
                 <input
+                    className="comment_text"
                     type="text"
                     placeholder="최대 50자 입력가능"
                     onChange={(e) => setContent(e.target.value)}
                 ></input>
-                <Button onClick={sendImageToServer}>후기작성</Button>
+                <div className="write_btn">
+                    <div className="filebox">
+                        <label for="input-file">
+                            <FiUpload />
+                        </label>
+                        <input
+                            type="file"
+                            accept="image/*"
+                            id="input-file"
+                            onChange={saveFileImage}
+                            multiple="multiple"
+                        />
+                    </div>
+                    <Button onClick={sendImageToServer}>후기작성</Button>
+                </div>
             </WriteArea>
         </Maindiv>
     );
@@ -70,12 +84,9 @@ export default WirteComment;
 const Maindiv = styled.div`
     display: flex;
     #input-file {
-        display: none;
+        /* display: none; */
     }
-    .input-file-button {
-        border-radius: 4px;
-        cursor: pointer;
-    }
+
     img {
         background-color: ${({ theme }) => theme.colors.Gray_020};
         border-radius: ${({ theme }) => theme.radius.small};
@@ -97,12 +108,40 @@ const WriteArea = styled.section`
     align-items: flex-end;
     flex-direction: column;
     box-sizing: border-box;
-    input {
+    .comment_text {
         width: 500px;
         min-height: 80px;
         background-color: ${({ theme }) => theme.colors.Gray_010};
         border: none;
         border-radius: 10px;
         padding: 10px;
+    }
+    .write_btn {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        .filebox {
+            display: flex;
+            text-align: center;
+            label {
+                display: inline-block;
+                padding: 7px 1rem;
+                color: #fff;
+                vertical-align: middle;
+                background-color: ${({ theme }) => theme.colors.Gray_040};
+                border-radius: 20px;
+                cursor: pointer;
+                font-size: ${({ theme }) => theme.fontSizes.small};
+            }
+            input[type="file"] {
+                position: absolute;
+                width: 0;
+                height: 0;
+                padding: 0;
+                overflow: hidden;
+                border: 0;
+            }
+        }
     }
 `;
