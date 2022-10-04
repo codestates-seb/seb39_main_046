@@ -121,13 +121,13 @@ const SwiperBox = styled(Swiper)`
         }
     }
     @media ${({ theme }) => theme.device.laptopL} {
-        padding: 0 10px;
+        padding: 50px 10px;
     }
     @media ${({ theme }) => theme.device.laptop} {
-        padding: 0 10px;
+        padding: 50px 10px;
     }
     @media ${({ theme }) => theme.device.tablet} {
-        padding: 0 10px;
+        padding: 50px 10px;
     }
 `;
 const StyleSwipper = styled(SwiperSlide)`
