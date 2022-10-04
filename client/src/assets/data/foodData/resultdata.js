@@ -1,29 +1,29 @@
-import Drink from "./images/Drink.jpg";
-import Coffee from "./images/Coffee.jpg";
-import Sandwich from "./images/Sandwich.jpg";
-import Kimbab from "./images/Kimbab.jpg";
-import LunchBox from "./images/Lunchbox.jpg";
-import Salad from "./images/Salad.jpg";
-import Dessert from "./images/Dessert.jpg";
-import Snack from "./images/Snack.jpg";
-import Icecream from "./images/Icecream.jpg";
-import Muchies from "./images/Muchies.jpg";
-import Ramen from "./images/Ramen.jpg";
-import Hamburger from "./images/Hamburger.jpg";
+import Drink from "./images/Drink.svg";
+import Coffee from "./images/Coffee.svg";
+import Sandwich from "./images/Sandwich.svg";
+import Kimbab from "./images/Kimbab.svg";
+import LunchBox from "./images/Lunchbox.svg";
+import Salad from "./images/Salad.svg";
+import Dessert from "./images/Dessert.svg";
+import Snack from "./images/Snack.svg";
+import Icecream from "./images/Icecream.svg";
+import Muchies from "./images/Muchies.svg";
+import Ramen from "./images/Ramen.svg";
+import Hamburger from "./images/Hamburger.svg";
 
 export const ResultData = [
     {
         id: 1,
         name: "음료",
         best: "Drink",
-        desc: "음료수파",
+        desc: "달달하고 상큼한 음료수파",
         image: `${Drink}`,
     },
     {
         id: 2,
         name: "커피",
         best: "Coffee",
-        desc: "커피파",
+        desc: "차가운 도시 속 커피파",
         image: `${Coffee}`,
     },
     {

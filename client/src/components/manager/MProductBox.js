@@ -7,27 +7,25 @@ import Button from "../common/button/Button";
 import { DeleteProduct } from "../../lib/api/useProductMutate";
 
 const MProductBox = ({ data, setIsOpen }) => {
-    const {mutate: ProductDelete} = DeleteProduct();
     const navigate = useNavigate();
     const goEdit = () => {
         data && navigate(`/manager/${data.productId}`);
         setIsOpen(true);
     };
+
+    const { mutate: ProductDelete } = DeleteProduct();
     const deleteFunc = () => {
-        if(window.confirm("정말 삭제하시겠습니까?")){
+        if (window.confirm("정말 삭제하시겠습니까?")) {
             console.log(data.productId);
             ProductDelete(data.productId);
             navigate(`/manager`);
-        }else{
+        } else {
             navigate(`/manager`);
-        }        
+        }
     };
 
     return (
         <ProductSection>
-            {/* <span className="heart-box">
-                <HeartButton id={data.productId && data.productId} />
-            </span> */}
             <PImage>
                 <img src={data.imageURL} alt={data.productName} />
             </PImage>

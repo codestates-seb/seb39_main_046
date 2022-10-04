@@ -6,7 +6,6 @@ import { useTop5Products } from "../../../lib/api/useGetMainProducts";
 
 const BestProdct = () => {
     const data = useTop5Products();
-    let more = "더보기 ›";
     const completionWord = "Pick your Best 5";
 
     // const [Title, setTitle] = useState("");
@@ -39,7 +38,6 @@ const BestProdct = () => {
                 <h2>
                     <strong>P</strong>ick your <strong>B</strong>est <strong>5</strong>
                 </h2>
-                {/* <p className="header_more">{more}</p> */}
                 <TabRound />
             </BHeader>
             <ProductContainer>
@@ -94,7 +92,6 @@ const ProductContainer = styled.div`
     grid-template-columns: 590px 290px 290px;
     grid-template-rows: 290px 290px;
     gap: 20px;
-
     .item {
         border-radius: 20px;
         background-color: #fff;
@@ -117,5 +114,93 @@ const ProductContainer = styled.div`
     .item:nth-child(4) {
         grid-column-start: 2;
         grid-column-end: 3;
+    }
+    @media ${({ theme }) => theme.device.laptopL} {
+        grid-template-columns: 490px 240px 240px;
+        grid-template-rows: 240px 240px;
+        gap: 20px;
+        .item {
+            border-radius: 20px;
+            background-color: #fff;
+            box-shadow: 0px 4px 30px rgba(204, 204, 204, 0.5);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-direction: column;
+            position: relative;
+            img {
+                max-width: 120px;
+            }
+        }
+        .item:nth-child(1) {
+            grid-row: 1 / 3;
+            img {
+                min-width: 300px;
+            }
+        }
+        .item:nth-child(4) {
+            grid-column-start: 2;
+            grid-column-end: 3;
+        }
+    }
+    @media ${({ theme }) => theme.device.laptop} {
+        max-width: 800px;
+        padding: 0 10px;
+        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+        grid-template-rows: 250px 250px;
+        gap: 10px;
+        .item {
+            border-radius: 20px;
+            background-color: #fff;
+            box-shadow: 0px 4px 30px rgba(204, 204, 204, 0.5);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-direction: column;
+            position: relative;
+            img {
+                max-width: 120px;
+            }
+        }
+        .item:nth-child(1) {
+            grid-row: 1;
+            img {
+                min-width: 120px;
+            }
+        }
+        .item:nth-child(4) {
+            grid-column-start: 1;
+            grid-column-end: 2;
+        }
+    }
+    @media ${({ theme }) => theme.device.tablet} {
+        max-width: 500px;
+        padding: 0 10px;
+        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+        grid-template-rows: 240px 240px 240px;
+        gap: 10px;
+        .item {
+            border-radius: 20px;
+            background-color: #fff;
+            box-shadow: 0px 4px 30px rgba(204, 204, 204, 0.5);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-direction: column;
+            position: relative;
+            img {
+                max-width: 120px;
+            }
+        }
+        .item:nth-child(1) {
+            grid-row: 1;
+            img {
+                min-width: 120px;
+            }
+        }
+        .item:nth-child(4) {
+            grid-column-start: 2;
+            grid-column-end: 3;
+        }
     }
 `;

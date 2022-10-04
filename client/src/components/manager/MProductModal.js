@@ -18,7 +18,7 @@ const getDeatilProduct = async (productNum) => {
 const MProductModal = ({ setIsOpen }) => {
     const [price, setPrcie] = useState("");
     const [name, setName] = useState("");
-    const {mutate: ProductPatch} = PatchProduct();
+    const { mutate: ProductPatch } = PatchProduct();
     const { id } = useParams();
     const navigate = useNavigate();
 
@@ -63,23 +63,16 @@ const MProductModal = ({ setIsOpen }) => {
         return <Loading />;
     }
 
-
-
-
     const EditSubmit = () => {
-        console.log(data.product.productId)
-        const PrId = data.product.productId
-        const EditData = {"categoryName" : isStore.categoryName, "company" : isCategory, "price": price, "productName": name}
-        const setData = {PrId, EditData};
+        console.log(data.product.productId);
+        const PrId = data.product.productId;
+        const EditData = { categoryName: isStore.categoryName, company: isCategory, price: price, productName: name };
+        const setData = { PrId, EditData };
         ProductPatch(setData);
         navigate("/manager");
-
-
-    } 
+    };
 
     return (
-
-
         data && (
             <OutContainer>
                 <EditContainer>
@@ -90,14 +83,22 @@ const MProductModal = ({ setIsOpen }) => {
                         <div className="inner_box">
                             <div>
                                 <h3>상품명</h3>
-                                <TextInput2 onChange={(e) => setName(e.target.value)} placeholder="입력해주세요" ></TextInput2>
+                                <TextInput2
+                                    onChange={(e) => setName(e.target.value)}
+                                    value={data.product.productName}
+                                ></TextInput2>
                             </div>
                             <div>
                                 <h3>가격</h3>
-                                <TextInput2 onChange={(e) => setPrcie(e.target.value)} placeholder="입력해주세요"></TextInput2>
+                                <TextInput2
+                                    onChange={(e) => setPrcie(e.target.value)}
+                                    value={data.product.price}
+                                ></TextInput2>
                             </div>
                             <div>
-                                <h3>상품 카테고리</h3>
+                                <h3>
+                                    상품 카테고리 : <span>{data.product.category.categoryName}</span>
+                                </h3>
                                 <CategoryTab>
                                     {categories &&
                                         categories.data.map((el) => {
@@ -115,7 +116,9 @@ const MProductModal = ({ setIsOpen }) => {
                                 <Paging pageInfo={categories && categories.pageInfo} />
                             </div>
                             <div>
-                                <h3>편의점</h3>
+                                <h3>
+                                    편의점 : <span>{data.product.company}</span>
+                                </h3>
                                 <TabMenu>
                                     {menuArr.map((el, index) => {
                                         return (
@@ -195,6 +198,11 @@ const RightBox = styled.div`
     padding: 20px 20px 20px 0;
     h3 {
         margin-bottom: 6px;
+        font-weight: bold;
+        span {
+            font-weight: 400;
+            color: ${({ theme }) => theme.colors.Blue_030};
+        }
     }
     input {
         background-color: ${({ theme }) => theme.colors.Gray_010};
@@ -269,4 +277,4 @@ const TextInput2 = styled.input`
     &:focus {
         outline: 1px solid ${({ theme }) => theme.colors.Blue_040};
     }
-`
+`;

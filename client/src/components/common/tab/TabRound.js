@@ -46,10 +46,23 @@ const TabMenu = styled.ul`
         padding: 10px 25px;
         cursor: pointer;
     }
+    li:last-child {
+        margin-right: 0px;
+    }
 
     .focused {
         color: #fff;
         background-color: ${({ theme }) => theme.colors.Blue_030};
         transition: 1s;
+    }
+    @media ${({ theme }) => theme.device.tablet} {
+        max-width: 400px;
+        li {
+            padding: 6px 20px;
+            font-size: ${({ theme }) => theme.fontSizes.xs};
+        }
+        li:last-child {
+            margin-right: 0px;
+        }
     }
 `;

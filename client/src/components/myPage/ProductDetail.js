@@ -53,27 +53,27 @@ const ProductDetail = ({ Persondata }) => {
     return (
         <>
             <RMainBox>
-                <h2>
-                    <strong> {Persondata.nickName} </strong>님의 찜꽁바구니{" "}
+                {/* <h2>
+                    <strong> {Persondata.nickName} </strong>님의 찜꽁바구니
                     <div className="basket-chracter">
                         <img src={BasketChracter} alt="찜꽁바구니 캐릭터" />
-                    </div>{" "}
-                </h2>{" "}
+                    </div>
+                </h2> */}
                 <TabSquare />
                 <div className="likebtn">
                     <DropDown />
-                </div>{" "}
+                </div>
                 <section className="productContainer">
                     {" "}
                     {data.data &&
                         data.data.map((data, idx) => {
                             return <PersonalProducts key={idx} data={data} />;
-                        })}{" "}
-                </section>{" "}
-            </RMainBox>{" "}
+                        })}
+                </section>
+            </RMainBox>
             <PaginationBox>
-                <MyproductDetail  pageInfo={data}/>
-            </PaginationBox>{" "}
+                <MyproductDetail pageInfo={data} />
+            </PaginationBox>
         </>
     );
 };

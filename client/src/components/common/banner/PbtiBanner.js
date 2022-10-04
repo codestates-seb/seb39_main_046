@@ -3,13 +3,13 @@ import styled from "styled-components";
 import PBannerImg from "../../../assets/images/banner/PbtiBanner.svg";
 
 const PbtiBanner = () => {
-    let more = "편BTI 하러가기 >";
     return (
         <PBanner>
             <section>
                 <img src={PBannerImg} alt="편BTI 광고 배너" />
                 <p>내 편의점 취향이 궁금하다면?</p>
-                <span>{more}</span>
+                <span className="go_txt">편BTI 하러가기 ›</span>
+                <span className="mobile_txt">편의점 취향 테스트 하러가기 ›</span>
             </section>
         </PBanner>
     );
@@ -34,10 +34,31 @@ const PBanner = styled.section`
         font-weight: 500;
         text-align: center;
     }
-    span {
+    .go_txt {
         font-weight: 500;
         color: ${({ theme }) => theme.colors.White};
         font-size: ${({ theme }) => theme.fontSizes.small};
         cursor: pointer;
+    }
+    .mobile_txt {
+        display: none;
+    }
+    @media ${({ theme }) => theme.device.tablet} {
+        line-height: 100px;
+        img {
+            width: 130px;
+        }
+        p {
+            display: none;
+        }
+        .go_txt {
+            display: none;
+        }
+        .mobile_txt {
+            font-weight: 500;
+            color: ${({ theme }) => theme.colors.Gray_080};
+            font-size: ${({ theme }) => theme.fontSizes.xl};
+            display: block;
+        }
     }
 `;

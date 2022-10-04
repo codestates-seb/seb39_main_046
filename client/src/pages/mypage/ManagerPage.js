@@ -1,6 +1,5 @@
 import React, { useState, useRef } from "react";
 import styled from "styled-components";
-import axiosInstance from "../../utils/axiosInastance";
 import { useCategory, useCategoryMutation } from "../../lib/api/useCategory";
 import { useProducts, useSerchProduct } from "../../lib/api/useGetProducts";
 import LineInput from "../../components/common/input/LineInput";
@@ -10,20 +9,17 @@ import Paging from "../../components/common/pagination/Paging";
 import MProductBox from "../../components/manager/MProductBox";
 import MProductModal from "../../components/manager/MProductModal";
 import MCategoryBox from "../../components/manager/MCategoryBox";
-import { useAddProduct, DeleteProduct } from "../../lib/api/useProductMutate";
+import { useAddProduct } from "../../lib/api/useProductMutate";
+import { FiUpload } from "react-icons/fi";
 
 const ManagerPage = () => {
     const [isOpen, setIsOpen] = useState(false);
-    const excelInput = useRef();
+
     const { data, pageInfo } = useProducts(); //상품 데이터 get
     const serchData = useSerchProduct(); //검색 데이터 get
+
     const Cdata = useCategory(); //카테고리 get
     const categories = Cdata["등록된 전체 카테고리"];
-    const [excel, setExcel] = useState("");
-
-    const { mutate: ProductAdd } = useAddProduct();
-    const { mutate: DeleteProduct } = useAddProduct();
-
     const [newCategory, setNewCategory] = useState();
     const inputChangeHandler = (e) => {
         setNewCategory(e.target.value);
@@ -33,29 +29,13 @@ const ManagerPage = () => {
             categoryName: newCategory,
         },
     ]);
-
     const postRegisterHandler = (e) => {
         e.preventDefault();
         postRegister.mutate();
     };
 
-    const postHandler = async () => {
-        const enteredData = [
-            {
-                categoryName: newCategory,
-            },
-        ];
-
-        try {
-            console.log(enteredData);
-            await axiosInstance.post(`/category`, enteredData);
-            console.log("updated successfully!");
-            window.location.reload();
-        } catch (error) {
-            console.log("Something went wrong", error);
-        }
-    };
-
+    const { mutate: ProductAdd } = useAddProduct();
+    const excelInput = useRef();
     const onExelChange = async (e) => {
         const files = e.target.files;
         const data = new FormData();
@@ -81,6 +61,9 @@ const ManagerPage = () => {
                             <p>상품이 모아진 파일을 올려주세요</p>
                         </div>
                         <div className="contents">
+                            <label for="input-file">
+                                <FiUpload size={40} color="#AEAEB2" />
+                            </label>
                             <input type="file" accept=".xls.xlsx" ref={excelInput} onChange={onExelChange} />
                         </div>
                     </RegisterBox>
@@ -176,6 +159,21 @@ const RegisterBox = styled.div`
         padding: 20px;
         border-radius: 10px;
         background-color: ${({ theme }) => theme.colors.Gray_010};
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        label {
+            cursor: pointer;
+        }
+        input[type="file"] {
+            position: absolute;
+            width: 0;
+            height: 0;
+            padding: 0;
+            overflow: hidden;
+            border: 0;
+        }
     }
 `;
 
@@ -232,4 +230,5 @@ const BottomContainer = styled.div`
 `;
 const PaginationBox = styled.div`
     text-align: center;
+    margin: 30px 0;
 `;
