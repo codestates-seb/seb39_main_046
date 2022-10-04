@@ -6,9 +6,10 @@ const axiosInstance = Axios.create({
         "Content-Type": "application/json",
         Authorization: sessionStorage.getItem("token"),
         "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Methods": "*",
+        "Access-Control-Allow-Methods": "*"
     },
 });
+
 
 axiosInstance.interceptors.request.use(
     (config) => {
@@ -18,6 +19,6 @@ axiosInstance.interceptors.request.use(
         return Promise.reject(err);
     },
 );
-// axiosInstance.defaults.baseURL = process.env.NODE_ENV === "development" ? "/" : "/api";
+axiosInstance.defaults.baseURL = process.env.NODE_ENV === "development" ? "/" : "/api";
 
 export default axiosInstance;
