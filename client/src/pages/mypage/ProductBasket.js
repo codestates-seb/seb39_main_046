@@ -1,18 +1,14 @@
 import React from "react";
 import styled from "styled-components";
-import axios from "axios";
 import useStore from "../../lib/store";
 import ProductDetail from "../../components/myPage/ProductDetail";
 import { useQuery } from "react-query";
+import axiosInstance from "../../utils/axiosInastance";
 import PersonalInfo from "../../components/myPage/PersonalInfo";
 import Loading from "../../components/common/loading/Loading";
 
 const Getinfo = (logInfo) => {
-    return axios.get("member/myPage", {
-        headers: {
-            Authorization: logInfo,
-        },
-    });
+    return axiosInstance.get("member/myPage");
 };
 
 const ProductBasket = () => {
