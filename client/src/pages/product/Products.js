@@ -14,7 +14,6 @@ const ProductRanking = () => {
     const { data, pageInfo } = useProducts();
     const topData = useTop5Products();
     const serchData = useSerchProduct();
-    console.log(serchData.data);
     return (
         <>
             <Rcontainer>

@@ -8,6 +8,7 @@ const Paging = (pageInfo) => {
     const handlePageChange = (e) => {
         useStore.setState({ isCurrentPage: e });
     };
+    console.log(isCurrentPage);
     return (
         <PageBox>
             <Pagination

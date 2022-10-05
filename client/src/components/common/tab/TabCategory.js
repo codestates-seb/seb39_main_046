@@ -3,7 +3,7 @@ import styled from "styled-components";
 import useStore from "../../../lib/store";
 
 const TabCategory = () => {
-    const { isCategoryTab, setCategoryTab } = useStore();
+    const { isCategoryTab, setCategoryTab, isCurrentPage } = useStore();
     const menuArr = [
         {
             categoryId: 100,
@@ -62,9 +62,10 @@ const TabCategory = () => {
 
     const selectMenuHandler = (index) => {
         setCategoryTab(index);
+        useStore.setState({ isCurrentPage: 1 });
     };
 
-    console.log(isCategoryTab);
+    console.log(isCurrentPage);
     return (
         <TabMenu>
             {menuArr.map((el) => {

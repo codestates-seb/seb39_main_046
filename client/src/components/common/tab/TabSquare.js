@@ -7,6 +7,7 @@ const TabSquare = () => {
     const menuArr = ["전체 편의점", "GS25", "CU", "7-ELEVEN"];
     const selectMenuHandler = (el) => {
         setStoreTab(el);
+        useStore.setState({ isCurrentPage: 1 });
     };
     return (
         <TabMenu>

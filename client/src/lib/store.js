@@ -14,12 +14,12 @@ const useStore = create((set) => ({
     setCategoryTab(index) {
         set((state) => ({ isCategoryTab: index }));
     },
+    isSortNum: 3,
     isCurrentPage: 1,
     isJJimProductsCurrentPage: 1,
     ismyReviewsCurrentPage: 1,
     ismyLikeReives: 1,
     isProductDetail: 1,
-    isSortNum: 3,
     isTestNum: 0,
     isKeyword: "",
     setKeyword(index) {
