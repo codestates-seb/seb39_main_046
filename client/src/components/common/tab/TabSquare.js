@@ -8,6 +8,7 @@ const TabSquare = () => {
     const selectMenuHandler = (el) => {
         setStoreTab(el);
         useStore.setState({ isCurrentPage: 1 });
+        useStore.setState({ isProductDetail: 1 });
     };
     return (
         <TabMenu>
