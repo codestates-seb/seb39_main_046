@@ -73,6 +73,7 @@ const ProductBox = styled.div`
         justify-content: center;
         align-items: center;
         cursor: pointer;
+        overflow: hidden;
     }
     .product_contents {
         width: 100%;
