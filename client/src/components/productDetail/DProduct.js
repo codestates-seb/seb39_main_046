@@ -2,13 +2,11 @@ import React from "react";
 import styled from "styled-components";
 import HeartButton from "../common/button/HeartButton";
 import Tag from "../common/product/Tag";
-import {IoEyeOutline} from "react-icons/io5"
-
+import { IoMdEye } from "react-icons/io";
 
 const ProductDetail = (data) => {
     const detialData = data.data;
     console.log(data.data.views);
-
 
     return (
         <MainContent>
@@ -18,12 +16,12 @@ const ProductDetail = (data) => {
                     heartFlag={detialData.heartFlag && detialData.heartFlag}
                 />
                 <p>{detialData.hearts}</p>
-                <p className = "viewdisplay">
-                    <IoEyeOutline size={30}/>
-                    <p>{data.data.views}</p>
-                </p>        
             </p>
-            <p className="sharebtn">{/* <img src={link} width="30px" height="30px" alt="링크이미지" /> */}</p>    
+            <p className="viewbtn">
+                <IoMdEye size={30} />
+                <p>{data.data.views}</p>
+            </p>
+            <p className="sharebtn">{/* <img src={link} width="30px" height="30px" alt="링크이미지" /> */}</p>
             <ProductImage>
                 <div className="img_box">
                     <img src={detialData.imageURL} alt={detialData.productName} />
@@ -67,16 +65,20 @@ const MainContent = styled.div`
             color: ${({ theme }) => theme.colors.Orange_040};
         }
     }
-    .viewdisplay{
-        position: absolute;
-        right: 450px;
-        top: -3px;
-        display:flex;    
-    }
     .sharebtn {
         position: absolute;
         left: 20px;
         top: 20px;
+    }
+    .viewbtn {
+        position: absolute;
+        left: 20px;
+        top: 20px;
+        color: ${({ theme }) => theme.colors.Gray_030};
+        display: flex;
+        p {
+            padding: 3px 0 0 3px;
+        }
     }
 `;
 const ProductImage = styled.section`

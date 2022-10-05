@@ -88,10 +88,9 @@ const RTitle = styled.div`
     }
 `;
 const SwiperBox = styled(Swiper)`
-    padding-top: 30px;
     width: 100%;
     height: 450px;
-    padding: 0 12px 0 8px;
+    padding: 30px 12px 0 8px;
     @media ${({ theme }) => theme.device.laptopL} {
         padding: 0 22px 0 20px;
     }
