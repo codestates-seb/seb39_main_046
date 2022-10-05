@@ -90,7 +90,7 @@ const ProductImage = styled.section`
         img {
             max-width: 380px;
             min-width: 280px;
-            background-color: red;
+            max-height: 380px;
         }
     }
 `;
