@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import TabSquare from "../common/tab/TabSquare";
 import DropDown from "../common/dropDown/DropDown";
@@ -10,7 +10,7 @@ import { useEffect } from "react";
 import Loading from "../common/loading/Loading";
 import ProductBox from "../common/product/ProductBox";
 
-const GetJJimdata = async (categoryNum, sortNum, companyName, pageNum, logInfo) => {
+const GetJJimdata = async (sortNum, companyName, pageNum, logInfo) => {
     const { data } = await axiosInstance.get(
         `/product/allHeartProducts/14/${sortNum}?company=${companyName}&page=${pageNum}`,
     );
@@ -18,20 +18,19 @@ const GetJJimdata = async (categoryNum, sortNum, companyName, pageNum, logInfo) 
 };
 
 const ProductDetail = ({ Persondata }) => {
-    const { logInfo, isStoreTab, isProductDetail, isCategoryTab, isSortNum } = useStore();
-    const method = isSortNum;
-
+    const [categoryNum, setCategoryNum] = useState(14);
+    const { logInfo, isStoreTab, isProductDetail, isSortNum } = useStore();
     const queryClient = useQueryClient();
 
     useEffect(() => {
-        queryClient.prefetchQuery(["DetailProducts", isCategoryTab, isSortNum, isStoreTab, isProductDetail], () =>
-            GetJJimdata(isCategoryTab, isSortNum, isStoreTab, isProductDetail, logInfo),
+        queryClient.prefetchQuery(["DetailProducts", isSortNum, isStoreTab, isProductDetail], () =>
+            GetJJimdata(isSortNum, isStoreTab, isProductDetail, logInfo),
         );
-    }, [isCategoryTab, isSortNum, isStoreTab, isProductDetail, queryClient, logInfo]);
+    }, [isSortNum, isStoreTab, isProductDetail, queryClient, logInfo]);
 
     const { data, isLoading, isFetching } = useQuery(
-        ["DetailProducts", isCategoryTab, isSortNum, isStoreTab, isProductDetail],
-        () => GetJJimdata(isCategoryTab, isSortNum, isStoreTab, isProductDetail, logInfo),
+        ["DetailProducts", isSortNum, isStoreTab, isProductDetail],
+        () => GetJJimdata(isSortNum, isStoreTab, isProductDetail, logInfo),
         {
             staleTime: 2000,
             keepPreviousData: true,
@@ -53,7 +52,6 @@ const ProductDetail = ({ Persondata }) => {
                     <DropDown />
                 </div>
                 <section className="productContainer">
-                    {" "}
                     {data.data &&
                         data.data.map((data, idx) => {
                             return <ProductBox key={idx} data={data && data.product} />;
