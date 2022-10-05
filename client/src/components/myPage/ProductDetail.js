@@ -5,10 +5,10 @@ import DropDown from "../common/dropDown/DropDown";
 import MyproductDetail from "../common/pagination/myPage/MyproductDetail";
 import { useQuery, useQueryClient } from "react-query";
 import useStore from "../../lib/store";
-import PersonalProducts from "./PersonalProducts";
 import axiosInstance from "../../utils/axiosInastance";
 import { useEffect } from "react";
 import Loading from "../common/loading/Loading";
+import ProductBox from "../common/product/ProductBox";
 
 const GetJJimdata = async (categoryNum, sortNum, companyName, pageNum, logInfo) => {
     const { data } = await axiosInstance.get(
@@ -48,12 +48,6 @@ const ProductDetail = ({ Persondata }) => {
     return (
         <>
             <RMainBox>
-                {/* <h2>
-                    <strong> {Persondata.nickName} </strong>님의 찜꽁바구니
-                    <div className="basket-chracter">
-                        <img src={BasketChracter} alt="찜꽁바구니 캐릭터" />
-                    </div>
-                </h2> */}
                 <TabSquare />
                 <div className="likebtn">
                     <DropDown />
@@ -62,7 +56,7 @@ const ProductDetail = ({ Persondata }) => {
                     {" "}
                     {data.data &&
                         data.data.map((data, idx) => {
-                            return <PersonalProducts key={idx} data={data} />;
+                            return <ProductBox key={idx} data={data && data.product} />;
                         })}
                 </section>
             </RMainBox>
