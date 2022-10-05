@@ -48,7 +48,7 @@ const ProductRanking = () => {
                         )}
                     </section>
                 </RMainBox>
-                <PaginationBox>{serchData.data ? null : <Paging pageInfo={pageInfo} />}</PaginationBox>
+                <PaginationBox>{serchData.data ? null : <Paging pageInfo={pageInfo && pageInfo} />}</PaginationBox>
             </Rcontainer>
         </>
     );
