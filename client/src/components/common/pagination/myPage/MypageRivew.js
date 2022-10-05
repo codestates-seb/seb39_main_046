@@ -5,7 +5,6 @@ import useStore from "../../../../lib/store";
 
 const MypageRivew = ({ PageInfo }) => {
     const { ismyReviewsCurrentPage } = useStore();
-    console.log(PageInfo);
     const handlePageChange = (e) => {
         useStore.setState({ ismyReviewsCurrentPage: e });
     };

@@ -23,7 +23,6 @@ const FoodTestResult = () => {
         const category = ResultData.findIndex((data) => data.best === mbti);
         setResultData(result);
         setCategoryNum(category + 1);
-        console.log(categoryNum);
         changeTest(categoryNum);
     }, [mbti, categoryNum, changeTest]);
 

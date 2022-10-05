@@ -7,7 +7,6 @@ const DropDown = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [likename, setLikeName] = useState("조회수");
     const handleSortChange = (e) => {
-        console.log(e.likeName);
         useStore.setState({ isSortNum: e.likeNum });
         setLikeName(e.likeName);
         setIsOpen(false);
@@ -23,7 +22,6 @@ const DropDown = () => {
             <button
                 onClick={(e) => {
                     setIsOpen(!isOpen);
-                    console.log(isOpen);
                 }}
             >
                 {likename}

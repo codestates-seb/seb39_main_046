@@ -11,7 +11,6 @@ const KakaoShareButton = ({ data }) => {
     useEffect(() => {
         Kakao.cleanup();
         Kakao.init(API_KEY);
-        console.log(Kakao.isInitialized());
     }, [API_KEY]);
 
     const shareKakao = () => {

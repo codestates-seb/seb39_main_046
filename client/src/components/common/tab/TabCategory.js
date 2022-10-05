@@ -65,7 +65,6 @@ const TabCategory = () => {
         useStore.setState({ isCurrentPage: 1 });
     };
 
-    console.log(isCurrentPage);
     return (
         <TabMenu>
             {menuArr.map((el) => {

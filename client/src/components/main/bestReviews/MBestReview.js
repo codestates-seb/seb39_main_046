@@ -18,7 +18,6 @@ import { useMainProducts } from "../../../lib/api/useGetMainProducts";
 const BestReview = () => {
     const { bestReviews } = useMainProducts();
     const [swiper, setSwiper] = useState(null);
-    console.log(bestReviews);
     return (
         <ReivewContainer>
             <BestRiveTitle>

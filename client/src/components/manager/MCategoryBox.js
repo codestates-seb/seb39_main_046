@@ -24,7 +24,6 @@ const MCategoryBox = ({ data }) => {
             categoryName: editInput,
         };
         updateCategory(id, enteredData);
-        console.log(id);
     };
     const updateHandler = async (categoryNum) => {
         const enteredData = {
@@ -32,7 +31,6 @@ const MCategoryBox = ({ data }) => {
         };
         try {
             await axiosInstance.patch(`/category/${categoryNum}`, enteredData);
-            console.log("updated successfully!");
             window.location.reload();
         } catch (error) {
             console.log("Something went wrong", error);
