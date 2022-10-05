@@ -45,7 +45,7 @@ const PersonalInfo = ({ Persondata }) => {
         alert("변경완료");
     };
     const onError = (error) => {
-        alert("형식의 맞지 않습니다!");
+        alert("10글자 이하로 작성해주세요");
         console.log(error);
     };
 
