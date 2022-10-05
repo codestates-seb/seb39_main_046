@@ -96,8 +96,7 @@ const PageTtitle = styled.div`
 const RivewSection = styled.section`
     display: grid;
     gap: 10px;
-    grid-template-columns: auto auto;
-    grid-template-rows: auto auto;
+    grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
     .Productinformation {
         display: flex;
         justify-content: space-between;

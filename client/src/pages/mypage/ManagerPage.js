@@ -10,7 +10,7 @@ import MProductBox from "../../components/manager/MProductBox";
 import MProductModal from "../../components/manager/MProductModal";
 import MCategoryBox from "../../components/manager/MCategoryBox";
 import { useAddProduct } from "../../lib/api/useProductMutate";
-import { FiUpload } from "react-icons/fi";
+import UploadImg from "../../assets/images/userinfo/uploadIcon.svg";
 
 const ManagerPage = () => {
     const [isOpen, setIsOpen] = useState(false);
