@@ -4,12 +4,7 @@ import axios from "axios";
 
 
 const ProductAdd = (fd) => {
-  return axios.post(`/product/admin`,fd,{
-    headers:{
-      Authorization : sessionStorage.getItem("token"),
-      "Content-Type": `multipart/form-data`,
-    }
-  });
+  return axiosInstance.post(`/product/admin`,fd);
 }
 
 export const useAddProduct = () => {
