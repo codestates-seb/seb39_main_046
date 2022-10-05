@@ -10,7 +10,7 @@ const useStore = create((set) => ({
     setStoreTab(index) {
         set((state) => ({ isStoreTab: index }));
     },
-    isCategoryTab: 13,
+    isCategoryTab: 100,
     setCategoryTab(index) {
         set((state) => ({ isCategoryTab: index }));
     },
