@@ -16,13 +16,14 @@ spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
 
-    url: ${aws.url}
+    url: ${aws.url2}
     username: admin
     password: ${aws.password}
     jpa:
       database: mysql
       database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
       generate-ddl: true
+      auto: update
       show-sql: true
   mvc:
     pathmatch:
