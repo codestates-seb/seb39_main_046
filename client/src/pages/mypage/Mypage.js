@@ -18,6 +18,8 @@ const Getinfo = (logInfo) => {
     return axiosInstance.get("member/myPage");
 };
 
+//12
+
 const Mypage = () => {
     const { logInfo } = store();
     const { mutate: DeleteUser } = useUserDelete();
