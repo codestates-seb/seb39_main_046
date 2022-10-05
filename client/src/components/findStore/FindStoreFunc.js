@@ -10,7 +10,7 @@ const StoreLocation = () => {
     const [add, setAdd] = useState("");
     const [gungu, setGungu] = useState([]);
     const [address, setAddress] = useState("");
-    const [inputText, setInputText] = useState("");
+    const [inputText, setInputText] = useState("편의점");
     const [place, setPlace] = useState("");
 
     const onChange = (e) => {
@@ -159,7 +159,7 @@ const StoreLocation = () => {
                         <ul className="searchbar2">
                             <li id="searchStore">매장명 검색</li>
                             <li className="searchunit">
-                                <input id="searchInput" onChange={onChange} type="text" defaultValue="편의점" />
+                                <input id="searchInput" onChange={onChange} type="text" defaultValue={inputText} />
                             </li>
                             <li>
                                 <button type="submit" className="serchBtn">
