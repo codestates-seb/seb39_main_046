@@ -17,8 +17,6 @@ const GetJJimdata = async (categoryNum, sortNum, companyName, pageNum, logInfo) 
     return data;
 };
 
-
-
 const ProductDetail = ({ Persondata }) => {
     const { logInfo, isStoreTab, isProductDetail, isCategoryTab, isSortNum } = useStore();
     const method = isSortNum;
@@ -42,7 +40,7 @@ const ProductDetail = ({ Persondata }) => {
         },
     );
 
-    if (isLoading) return <h3> 로딩중 </h3>;
+    if (isLoading) return <Loading />;
     if (isFetching) {
         return <Loading />;
     }
