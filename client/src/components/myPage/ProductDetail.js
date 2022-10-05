@@ -24,14 +24,14 @@ const ProductDetail = ({ Persondata }) => {
     const queryClient = useQueryClient();
 
     useEffect(() => {
-        queryClient.prefetchQuery(["DetailProducts", isCategoryTab, method, isStoreTab, isProductDetail], () =>
-            GetJJimdata(isCategoryTab, method, isStoreTab, isProductDetail, logInfo),
+        queryClient.prefetchQuery(["DetailProducts", isCategoryTab, isSortNum, isStoreTab, isProductDetail], () =>
+            GetJJimdata(isCategoryTab, isSortNum, isStoreTab, isProductDetail, logInfo),
         );
-    }, [isCategoryTab, method, isStoreTab, isProductDetail, queryClient, logInfo]);
+    }, [isCategoryTab, isSortNum, isStoreTab, isProductDetail, queryClient, logInfo]);
 
     const { data, isLoading, isFetching } = useQuery(
-        ["DetailProducts", isCategoryTab, method, isStoreTab, isProductDetail],
-        () => GetJJimdata(isCategoryTab, method, isStoreTab, isProductDetail, logInfo),
+        ["DetailProducts", isCategoryTab, isSortNum, isStoreTab, isProductDetail],
+        () => GetJJimdata(isCategoryTab, isSortNum, isStoreTab, isProductDetail, logInfo),
         {
             staleTime: 2000,
             keepPreviousData: true,
