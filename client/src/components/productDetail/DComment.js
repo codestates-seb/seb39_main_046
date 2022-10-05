@@ -81,7 +81,7 @@ const Comment = ({ Semidata }) => {
                     <div className="filebox">
                         <label className="Edit-Area">
                             {/* <FiUpload size={30} /> */}
-                            <img src={NomalImg} />
+                            <img src={NomalImg} className="image_box"/>
                             <input type="file" accept="image/*" id="Edit-Review" onChange={storeImg} />
                         </label>
                     </div>
@@ -191,6 +191,15 @@ const Maindiv = styled.div`
                 border: 0;
             }
         }
+        .image_box {
+        width: 130px;
+        height: 130px;
+        background-color: ${({ theme }) => theme.colors.Gray_020};
+        border-radius: ${({ theme }) => theme.radius.small};
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
     }
     #Edit-Review {
         display: none;
