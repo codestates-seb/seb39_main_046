@@ -18,6 +18,7 @@ import { useMainProducts } from "../../../lib/api/useGetMainProducts";
 const BestReview = () => {
     const { bestReviews } = useMainProducts();
     const [swiper, setSwiper] = useState(null);
+    console.log(bestReviews);
     return (
         <ReivewContainer>
             <BestRiveTitle>
@@ -67,7 +68,7 @@ const BestReview = () => {
                                         />
                                         <p>{data.hearts}</p>
                                     </div>
-                                    <img src={ReviewImg1} alt={data.content} />
+                                    <img src={data.imageURL} alt={data.content} />
                                     <div className="review_contents_box">
                                         <h4>{data.product.productName}</h4>
                                         <p className="review_contents">{data.content}</p>
@@ -159,6 +160,7 @@ const ReviewInnerBox = styled.div`
     img {
         border-radius: 20px;
         width: 100%;
+        min-height: 220px;
     }
     .review_contents_box {
         display: none;
