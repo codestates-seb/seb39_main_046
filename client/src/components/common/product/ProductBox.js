@@ -3,17 +3,23 @@ import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import HeartButton from "../button/HeartButton";
 import Tag from "./Tag";
+import { IoMdEye } from "react-icons/io";
+import { FaRegCommentDots } from "react-icons/fa";
+
 const ProductBox = ({ data }) => {
     const navigate = useNavigate();
     const goDetail = () => {
         data && navigate(`/product/${data.productId}`);
     };
-
+    console.log(data.hearts);
+    console.log(data.reviews);
+    console.log(data.views);
     return (
         <ProductSection>
-            <span className="heart-box">
+            <p className="heart-box">
                 <HeartButton id={data.productId && data.productId} heartFlag={data.heartFlag && data.heartFlag} />
-            </span>
+                <p className="heart_num">{data.hearts}</p>
+            </p>
             <PImage onClick={goDetail}>
                 <img src={data.imageURL} alt={data.productName} />
             </PImage>
@@ -24,7 +30,23 @@ const ProductBox = ({ data }) => {
                 </div>
                 <ProductName>{data.productName}</ProductName>
                 <div className="line"></div>
-                <ProductPrice>{data.price}원</ProductPrice>
+                <ProductPrice className="bottonBox">
+                    <p className="price">{data.price}원</p>
+                    <div className="icon_box">
+                        <p className="content view">
+                            <p className="icon">
+                                <IoMdEye />
+                            </p>
+                            {data.views}
+                        </p>
+                        <p className="content comment">
+                            <p className="icon">
+                                <FaRegCommentDots />
+                            </p>
+                            {data.reviews}
+                        </p>
+                    </div>
+                </ProductPrice>
             </ProductsEx>
         </ProductSection>
     );
@@ -44,6 +66,12 @@ const ProductSection = styled.section`
         right: 10px;
         top: 7px;
         z-index: 10;
+        display: flex;
+        .heart_num {
+            color: ${({ theme }) => theme.colors.Orange_040};
+            margin-top: 5px;
+            margin-left: 3px;
+        }
     }
     box-sizing: content-box;
     border: 3px solid transparent;
@@ -92,6 +120,26 @@ const ProductName = styled.p`
     white-space: nowrap;
     text-overflow: ellipsis;
 `;
-const ProductPrice = styled.p`
+const ProductPrice = styled.div`
     color: ${({ theme }) => theme.colors.Gray_030};
+    display: flex;
+    justify-content: space-between;
+    .price {
+    }
+    .icon_box {
+        color: ${({ theme }) => theme.colors.Gray_020};
+        display: flex;
+        justify-content: space-between;
+        font-size: ${({ theme }) => theme.fontSizes.small};
+        .content {
+            display: flex;
+        }
+        .icon {
+            margin-top: 5px;
+            margin-right: 3px;
+        }
+        .view {
+            margin-right: 10px;
+        }
+    }
 `;
