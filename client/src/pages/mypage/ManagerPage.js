@@ -63,7 +63,7 @@ const ManagerPage = () => {
                         {/* <FiUpload size={40} color="#AEAEB2" /> */}
                         <div className="contents">
                             <label for="input-file">
-                                <input type="file" accept=".xls.xlsx" ref={excelInput} onChange={onExelChange} />
+                                <input type="file" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" ref={excelInput} onChange={onExelChange} />
                             </label>
                         </div>
                     </RegisterBox>
