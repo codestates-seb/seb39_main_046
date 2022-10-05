@@ -19,13 +19,13 @@ const SingUp = () => {
     };
 
     const onError = (error) => {
-        alert("아이디가 중복됫어요!");
+        alert("중복된 아이디 입니다");
     };
 
     const { mutate: addPerson, isError } = useSignup(onSuccess, onError);
 
     if (isError) {
-        <p>("뭔가 잘못됨..")</p>;
+        <p>("에러입니다")</p>;
     }
 
     return (

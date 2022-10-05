@@ -21,7 +21,7 @@ const Login = () => {
 
     const onSuccess = (res) => {
         console.log(userName);
-        alert(`환영합니다.`);
+        alert(`환영합니다`);
         console.log(res);
         sessionStorage.setItem("token", res.data);
         navigate("/");
@@ -64,10 +64,10 @@ const Login = () => {
                                     type="text"
                                     placeholder="아이디"
                                     {...register("username", {
-                                        required: "필수 입력 사항입니다.",
+                                        required: "필수 입력 사항입니다",
                                         minLength: {
                                             value: 10,
-                                            message: "이메일 형식의 맞게 입력해주세요.",
+                                            message: "이메일 형식의 맞게 입력해주세요",
                                         },
                                         pattern: {
                                             value: /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i,
@@ -91,7 +91,7 @@ const Login = () => {
                                         },
                                         maxLength: {
                                             value: 16,
-                                            message: "16자 이하의 비밀번호만 사용가능합니다.",
+                                            message: "16자 이하의 비밀번호만 사용가능합니다",
                                         },
                                         pattern: {
                                             value: /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^&*+=])[a-zA-Z0-9!@#$%^&*+=]{8,16}$/,

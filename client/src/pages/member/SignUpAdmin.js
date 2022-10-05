@@ -25,7 +25,7 @@ const SingUp = () => {
     const { mutate: addPerson, isError } = useSignupAdmin(onSuccess, onError);
 
     if (isError) {
-        <p>("뭔가 잘못됨..")</p>;
+        <p>("에러입니다")</p>;
     }
 
     return (
@@ -43,10 +43,10 @@ const SingUp = () => {
                             const person = {
                                 nickName: data.nickName,
                                 password: data.password,
-                                username: data.username,                                
+                                username: data.username,
                             };
-                            const adminpw = data.adminPassword
-                            const SendData = {person, adminpw}
+                            const adminpw = data.adminPassword;
+                            const SendData = { person, adminpw };
                             addPerson(SendData);
                         })}
                     >
@@ -55,10 +55,10 @@ const SingUp = () => {
                             <Thisinpu
                                 type="text"
                                 {...register("username", {
-                                    required: "필수입력 사항입니다.",
+                                    required: "필수입력 사항입니다",
                                     minLength: {
                                         value: 10,
-                                        message: "이메일 형식에 맞게 입력해주세요.",
+                                        message: "이메일 형식에 맞게 입력해주세요",
                                     },
                                     pattern: {
                                         value: /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i,
@@ -73,14 +73,14 @@ const SingUp = () => {
                             <Thisinpu
                                 type="text"
                                 {...register("nickName", {
-                                    required: "필수입력 사항입니다.",
+                                    required: "필수입력 사항입니다",
                                     minLength: {
                                         value: 2,
-                                        message: "2자 이상이어야합니다.",
+                                        message: "2자 이상이어야합니다",
                                     },
                                     maxLength: {
                                         value: 10,
-                                        message: "10자 이하이어야합니다.",
+                                        message: "10자 이하이어야합니다",
                                     },
                                 })}
                             ></Thisinpu>
@@ -98,11 +98,11 @@ const SingUp = () => {
                                     },
                                     maxLength: {
                                         value: 16,
-                                        message: "16자 이하의 비밀번호만 사용가능합니다.",
+                                        message: "16자 이하의 비밀번호만 사용가능합니다",
                                     },
                                     pattern: {
                                         value: /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^&*+=])[a-zA-Z0-9!@#$%^&*+=]{8,16}$/,
-                                        message: "특수문자, 영문, 숫자를 혼용해서 입력해주세요.",
+                                        message: "특수문자, 영문, 숫자를 혼용해서 입력해주세요",
                                     },
                                 })}
                             ></Thisinpu>
@@ -115,12 +115,12 @@ const SingUp = () => {
                                 {...register("passwordCheck", {
                                     required: {
                                         value: true,
-                                        message: "비밀번호를 확인 해주세요.",
+                                        message: "비밀번호를 확인 해주세요",
                                     },
                                     validate: {
                                         matchesPreviousPassword: (value) => {
                                             const { password } = getValues();
-                                            return password === value || "비밀번호가 일치하지 않습니다.";
+                                            return password === value || "비밀번호가 일치하지 않습니다";
                                         },
                                     },
                                 })}
@@ -134,7 +134,7 @@ const SingUp = () => {
                                 {...register("adminPassword", {
                                     required: {
                                         value: true,
-                                        message: "비밀번호를 확인 해주세요.",
+                                        message: "비밀번호를 확인 해주세요",
                                     },
                                 })}
                             ></Thisinpu>
