@@ -165,7 +165,7 @@ public class ProductService {
 
 
         for (Iterator<Product> iterator = productList.iterator(); iterator.hasNext(); ) {
-            long minReviews = 10;
+            long minReviews = 5;
             long reviews = iterator.next().getReviews();
             if (minReviews > (reviews)) {
                 iterator.remove();
