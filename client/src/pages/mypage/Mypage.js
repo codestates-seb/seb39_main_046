@@ -32,7 +32,7 @@ const Mypage = () => {
     if (isLoading) return <Loading />;
 
     const PersonDelete = () => {
-        if (window.confirm("진짜 회원을 탈퇴할거야?")) {
+        if (window.confirm("진짜 회원을 탈퇴할거야??")) {
             DeleteUser();
         }
     };
