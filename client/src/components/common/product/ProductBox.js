@@ -11,9 +11,6 @@ const ProductBox = ({ data }) => {
     const goDetail = () => {
         data && navigate(`/product/${data.productId}`);
     };
-    console.log(data.hearts);
-    console.log(data.reviews);
-    console.log(data.views);
     return (
         <ProductSection>
             <p className="heart-box">

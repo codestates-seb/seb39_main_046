@@ -2,7 +2,6 @@ import React from "react";
 import styled from "styled-components";
 import TabSquare from "../common/tab/TabSquare";
 import DropDown from "../common/dropDown/DropDown";
-import BasketChracter from "../../assets/images/userinfo/BasketTitle.svg";
 import MyproductDetail from "../common/pagination/myPage/MyproductDetail";
 import { useQuery, useQueryClient } from "react-query";
 import useStore from "../../lib/store";
@@ -14,17 +13,15 @@ import Loading from "../common/loading/Loading";
 const GetJJimdata = async (categoryNum, sortNum, companyName, pageNum, logInfo) => {
     const { data } = await axiosInstance.get(
         `/product/allHeartProducts/14/${sortNum}?company=${companyName}&page=${pageNum}`,
-        {
-            headers: {
-                Authorization: logInfo,
-            },
-        },
     );
     return data;
 };
+
+
+
 const ProductDetail = ({ Persondata }) => {
-    const { logInfo, isStoreTab, isProductDetail, isCategoryTab } = useStore();
-    const method = 4;
+    const { logInfo, isStoreTab, isProductDetail, isCategoryTab, isSortNum } = useStore();
+    const method = isSortNum;
 
     const queryClient = useQueryClient();
 
