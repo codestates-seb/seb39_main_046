@@ -6,7 +6,7 @@ const TabCategory = () => {
     const { isCategoryTab, setCategoryTab } = useStore();
     const menuArr = [
         {
-            categoryId: 13,
+            categoryId: 100,
             categoryName: "ALL",
         },
         {
