@@ -7,7 +7,6 @@ import ReviewHeartButton from "../common/button/ReviewHeartButton";
 const MyLikeReviewContain = ({ data }) => {
     const image = data.review.imageURL;
 
-    console.log(data.review.reviewId);
 
     return (
         <Productinformation>

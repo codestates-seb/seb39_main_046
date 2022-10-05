@@ -56,7 +56,6 @@ export const useCategoryMutation = (newinfo) => {
     const { mutate, isSuccess } = useMutation(() => postCategory(newinfo), {
         onSuccess: () => {
             queryClient.invalidateQueries([queryKeys.category]);
-            console.log("등록 완료");
         },
         onError: (e) => {
             alert("등록 실패 ");
@@ -72,7 +71,6 @@ export const useDeleteCategory = () => {
         },
         onSuccess: () => {
             queryClient.invalidateQueries([queryKeys.category]);
-            console.log("삭제 완료");
         },
         onError: (e) => {
             alert("카테고리 삭제는 관리자만 할 수 있습니다.");
@@ -82,18 +80,6 @@ export const useDeleteCategory = () => {
 
 export const useUpdateCategory = (id, newinfo) => {
     const queryClient = useQueryClient();
-    // return useMutation(() => updateCategory(newinfo), {
-    //     onMutate: (variables) => {
-    //         console.log("onMutate", variables);
-    //     },
-    //     onSuccess: () => {
-    //         queryClient.invalidateQueries([queryKeys.category]);
-    //         console.log("수정 완료");
-    //     },
-    //     onError: (e) => {
-    //         alert("수정 실패 ");
-    //     },
-    // });
     const { mutate, isSuccess } = useMutation(() => updateCategory(id, newinfo), {
         onSuccess: () => {
             queryClient.invalidateQueries([queryKeys.category]);

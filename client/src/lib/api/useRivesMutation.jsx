@@ -47,7 +47,6 @@ export const usePatchRevies = () => {
   return useMutation(ReviewPatch, {
     onSuccess:() => {
       queryClient.invalidateQueries(["MyReivew"]);
-      console.log("수정 완료");
     },
     onError: (e) => {
       alert("자신의 댓글만 수정이 가능합니다. ");

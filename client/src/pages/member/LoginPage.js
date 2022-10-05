@@ -15,14 +15,11 @@ const Login = () => {
     const [disabled, setDisabled] = useState(true);
     const [userName, setUserName] = useState("");
 
-    console.log(errors);
 
     const label = disabled ? "로그인" : "로그인";
 
     const onSuccess = (res) => {
-        console.log(userName);
         alert(`환영합니다`);
-        console.log(res);
         sessionStorage.setItem("token", res.data);
         navigate("/");
         window.location.reload();
@@ -46,7 +43,6 @@ const Login = () => {
                     <MiddleBox
                         onSubmit={handleSubmit((data) => {
                             setUserName(data.userName);
-                            console.log(data);
                             loginperson(data);
                         })}
                     >

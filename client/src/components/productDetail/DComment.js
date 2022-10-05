@@ -50,7 +50,6 @@ const Comment = ({ Semidata }) => {
     const SubmitHnadle = async () => {
         const fd4 = new FormData();
         const key = Semidata.reviewId;
-        console.log(key);
         if (typeof UploadImg !== "string") {
             Object.values(UploadImg).forEach((file) => fd4.append("file", file));
         }

@@ -19,7 +19,6 @@ const MyLikeReview = ({ Persondata }) => {
     const { logInfo, ismyLikeReives } = useStore();
     const page = 1;
     const methodId = 3;
-    // console.log(PersonlikeReview);
 
     useEffect(() => {
         queryClient.prefetchQuery(["LikeReviews", ismyLikeReives], () =>

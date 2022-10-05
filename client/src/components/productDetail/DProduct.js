@@ -6,7 +6,6 @@ import { IoMdEye } from "react-icons/io";
 
 const ProductDetail = (data) => {
     const detialData = data.data;
-    console.log(data.data.views);
 
     return (
         <MainContent>

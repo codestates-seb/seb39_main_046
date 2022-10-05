@@ -16,7 +16,6 @@ const WirteComment = ({ Semidata }) => {
     const { logInfo } = useStore();
 
     const image = Semidata.imageURL;
-    console.log(image);
     const [regiImg, setregiImg] = useState(UploadImg);
     const [content, setContent] = useState("");
     const [uploading2, setUploading2] = useState(UploadImg);
@@ -35,7 +34,6 @@ const WirteComment = ({ Semidata }) => {
             const fd2 = new FormData();
             const key = Semidata.productId;
             const setData = { fd2, key };
-            console.log(typeof uploading2 === "object");
             Object.values(uploading2).forEach((file) => fd2.append("file", file));
             fd2.append("content", content);
             ReviewAdd(setData);

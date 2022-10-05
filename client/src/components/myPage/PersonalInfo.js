@@ -46,7 +46,6 @@ const PersonalInfo = ({ Persondata }) => {
     };
     const onError = (error) => {
         alert("10글자 이하로 작성해주세요");
-        console.log(error);
     };
 
     const { mutate: changeInfo } = useChange(onSuccess, onError);
@@ -57,7 +56,6 @@ const PersonalInfo = ({ Persondata }) => {
             const log = { password: changePw };
             const id = "password";
             const EditData = { id, token, log };
-            console.log(token);
             changeInfo(EditData);
         } else {
             alert("비밀번호 확인해주세요~");
@@ -151,7 +149,6 @@ const PersonalInfo = ({ Persondata }) => {
                     <div className="InfoPerson">
                         <UserForm
                             onSumbit={handleSubmit((data) => {
-                                console.log(data);
                             })}
                         >
                             <p>닉네임</p>

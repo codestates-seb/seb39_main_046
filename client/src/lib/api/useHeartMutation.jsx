@@ -3,7 +3,7 @@ import axiosInstance from "../../utils/axiosInastance";
 import { queryKeys } from "../react-query/constant";
 
 const changeHeart = (productId) => {
-    return axiosInstance.post(`/product/heart?productId=${productId}`).then((res) => console.log(res));
+    return axiosInstance.post(`/product/heart?productId=${productId}`);
 };
 
 export const useHeart = () => {
@@ -21,14 +21,13 @@ export const useHeart = () => {
             queryClient.invalidateQueries(["JJimBascket"]);
             queryClient.invalidateQueries(["DetailProducts"]);
 
-            console.log("success", data, variables, context);
         },
         onError: (e) => {},
     });
 };
 
 const changeReviewHeart = (reviewId, token) => {
-    return axiosInstance.post(`/review/heart?reviewId=${reviewId}`).then((res) => console.log(res));
+    return axiosInstance.post(`/review/heart?reviewId=${reviewId}`);
 };
 
 export const useReviewHeart = () => {

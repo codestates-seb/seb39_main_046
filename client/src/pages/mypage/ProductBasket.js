@@ -20,7 +20,6 @@ const ProductBasket = () => {
     });
 
     if (isLoading) return <Loading />;
-    console.log(data.data.member);
     return (
         <>
             <Rcontainer>

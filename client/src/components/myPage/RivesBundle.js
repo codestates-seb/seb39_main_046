@@ -18,7 +18,6 @@ const RivesBundle = ({ data, index }) => {
         const fd4 = new FormData();
         const key = data.reviewId;
         const EditData = { fd4, key };
-        console.log(uploading);
         if (typeof uploading === "object") {
             Object.values(uploading).forEach((file) => fd4.append("file", file));
         }

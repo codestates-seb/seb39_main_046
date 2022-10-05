@@ -18,7 +18,6 @@ const PersonalRivew = ({ Persondata }) => {
     // const {myReviews} = useMypage();
     const queryClient = useQueryClient();
     const userName = Persondata.member.nickName;
-    console.log(Persondata.myReviews);
     const { logInfo, ismyReviewsCurrentPage } = useStore();
     const method = 1;
 

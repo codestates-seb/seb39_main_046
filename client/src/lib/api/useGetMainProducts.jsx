@@ -14,10 +14,8 @@ export function useMainProducts() {
     const { status, data, error, isFetching } = useQuery(queryKeys.mainProducts, getMainProducts, {
         retry: 0,
         onSuccess: (data) => {
-            console.log(data);
         },
         onError: (e) => {
-            console.log(e.message);
         },
     });
     if (status === "loading") {
