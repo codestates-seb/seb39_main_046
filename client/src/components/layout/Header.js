@@ -13,6 +13,7 @@ const Header = () => {
         console.log("로그아웃 버튼 클릭");
         if (window.confirm("정말로 로그아웃 하시겠습니까?")) {
             sessionStorage.removeItem("token");
+            navigate("/");
             window.location.reload();
         }
     };
