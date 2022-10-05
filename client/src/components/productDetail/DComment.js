@@ -9,32 +9,29 @@ import { useRivesDelete, usePatchProductsReviwes } from "../../lib/api/useRivesM
 import axiosInstance from "../../utils/axiosInastance";
 import { useQuery } from "react-query";
 import Loading from "../common/loading/Loading";
-
+import UploadImg2 from "../../assets/images/userinfo/uploadIcon.svg";
 
 const GeyMyInfo = () => {
-    return axiosInstance.get('member/myPage');
-}
+    return axiosInstance.get("member/myPage");
+};
 
 const Comment = ({ Semidata }) => {
     const image = Semidata.imageURL;
     const profile = Semidata.member.profile;
     const [editOn, setEditOn] = useState(false);
     const [content, setContent] = useState("");
-    const [NomalImg, setNomalImg] = useState(image);
+    const [NomalImg, setNomalImg] = useState(UploadImg2);
     const [UploadImg, setUploadImg] = useState(image);
 
     const { mutate: ReviewDelete } = useRivesDelete();
     const { mutate: ReviewPatch } = usePatchProductsReviwes();
-    
-    const {data, isLoading} = useQuery(["infos"], () => GeyMyInfo (), {
+
+    const { data, isLoading } = useQuery(["infos"], () => GeyMyInfo(), {
         keepPreviousData: true,
         staleTime: 2000,
-    })
+    });
 
-    if(isLoading)return <Loading/>
-
-
-
+    if (isLoading) return <Loading />;
 
     const deleteClick = () => {
         const ID = Semidata.reviewId;
@@ -44,10 +41,10 @@ const Comment = ({ Semidata }) => {
     };
 
     const editClick = () => {
-        if(data.data.member.memberId === Semidata.member.memberId){
+        if (data.data.member.memberId === Semidata.member.memberId) {
             setEditOn(true);
-        }else{
-            alert("자기의 댓글만 수정 가능합니다.")
+        } else {
+            alert("자기의 댓글만 수정 가능합니다.");
         }
     };
     const SubmitHnadle = async () => {
@@ -83,7 +80,8 @@ const Comment = ({ Semidata }) => {
                 {editOn ? (
                     <div className="filebox">
                         <label className="Edit-Area">
-                            <FiUpload size={30} />
+                            {/* <FiUpload size={30} /> */}
+                            <img src={NomalImg} />
                             <input type="file" accept="image/*" id="Edit-Review" onChange={storeImg} />
                         </label>
                     </div>
