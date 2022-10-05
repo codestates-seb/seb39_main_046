@@ -55,7 +55,7 @@ public class ProductService {
         // 카테고리 검증은 ExcelData에 Category를 넣을 때 이미 수행된다.
 
         // 회사명 체크, 10자 이하, 공백 불가, CU, GS25, 7-ELEVEN만 입력 가능
-        String regExp = "(CU|GS25|7-ELVEN)";
+        String regExp = "(CU|GS25|7-ELEVEN)";
         String company = excelData.getCompany();
         boolean ExistCompany = Pattern.matches(regExp,company);
         // 유효한 회사명이면 true, 유효하지 않은 회사명이면 false

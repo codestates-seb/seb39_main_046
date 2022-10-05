@@ -33,8 +33,9 @@ public class CategoryService {
 
     public void verifyExistCategory(String categoryName){
         Optional<Category> category = categoryRepository.findByCategoryName(categoryName);
-        if(category.isPresent())
+        if(category.isPresent()){
             throw new BusinessLogicException(ExceptionCode.CATEGORY_NAME_EXISTS);
+        }
     }
     /*public boolean checkDuplicatedCategory(String categoryName){
         boolean result = false;
