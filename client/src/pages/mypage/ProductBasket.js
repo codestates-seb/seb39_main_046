@@ -12,7 +12,7 @@ const Getinfo = (logInfo) => {
 };
 
 const ProductBasket = () => {
-    const { logInfo, isSortNum } = useStore();
+    const { logInfo } = useStore();
 
     const { data, isLoading } = useQuery("infos", () => Getinfo(logInfo), {
         keepPreviousData: true,
@@ -35,7 +35,7 @@ const ProductBasket = () => {
                     {/* <PersonalInfo Persondata={data.data} /> */}{" "}
                 </RHearderBox>{" "}
             </Rcontainer>{" "}
-            <ProductDetail Persondata={data.data.member} isSortNum = {isSortNum} />{" "}
+            <ProductDetail Persondata={data.data.member} />{" "}
         </>
     );
 };

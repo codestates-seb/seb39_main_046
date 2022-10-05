@@ -17,9 +17,9 @@ const GetJJimdata = async (sortNum, companyName, pageNum, logInfo) => {
     return data;
 };
 
-const ProductDetail = ({ Persondata,isSortNum }) => {
+const ProductDetail = ({ Persondata }) => {
     const [categoryNum, setCategoryNum] = useState(14);
-    const { logInfo, isStoreTab, isProductDetail } = useStore();
+    const { logInfo, isStoreTab, isProductDetail, isSortNum } = useStore();
     const queryClient = useQueryClient();
 
     useEffect(() => {
@@ -40,9 +40,9 @@ const ProductDetail = ({ Persondata,isSortNum }) => {
     );
 
     if (isLoading) return <Loading />;
-    // if (isFetching) {
-    //     return <Loading />;
-    // }
+    if (isFetching) {
+        return <Loading />;
+    }
 
     return (
         <>
