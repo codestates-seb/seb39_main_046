@@ -90,7 +90,7 @@ const LineInputBox = styled.div`
 `;
 const AutoSearchContainer = styled.div`
     z-index: 20;
-    width: 600px;
+    width: 570px;
     background-color: #fff;
     position: absolute;
     top: 45px;
