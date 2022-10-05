@@ -1,4 +1,3 @@
-
 cloud:
   aws:
     credentials:
@@ -13,29 +12,30 @@ cloud:
       auto: false
 
 spring:
+
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-
     url: ${aws.url2}
     username: admin
     password: ${aws.password}
-    jpa:
-      database: mysql
-      database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
-      generate-ddl: true
-      auto: update
-      show-sql: true
+  jpa:
+    database: mysql
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    #generate-ddl: true
+    properties:
+      hibernate:
+        format_sql: true
+        hbm2ddl:
+          auto: update
+        show_sql: true
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher
-
   config:
     import: 'aws-parameterstore:'
 aws:
-  paramstore:
-    enabled: true
-    prefix: /spring-boot-aws
-    name: main
-    profileSeparator: _
-jwt:
-  secret:
+    paramstore:
+      enabled: true
+      prefix: /spring-boot-aws
+      name: main
+      profileSeparator: _
