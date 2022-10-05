@@ -85,6 +85,7 @@ const PersonalInfo = ({ Persondata }) => {
     const WriteBoard = async () => {
         setIseEditOpen(!isEditOpen);
         const fd = new FormData();
+        //주석작성
         Object.values(imgFile).forEach((file) => fd.append("file", file));
         ProfileAdd(fd);
     };
