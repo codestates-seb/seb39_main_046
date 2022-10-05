@@ -85,7 +85,6 @@ const PersonalInfo = ({ Persondata }) => {
     const WriteBoard = async () => {
         setIseEditOpen(!isEditOpen);
         const fd = new FormData();
-        //주석작성
         Object.values(imgFile).forEach((file) => fd.append("file", file));
         ProfileAdd(fd);
     };
@@ -148,10 +147,7 @@ const PersonalInfo = ({ Persondata }) => {
                         <p className="user_id">ID:{email}</p>
                     </UserExer>
                     <div className="InfoPerson">
-                        <UserForm
-                            onSumbit={handleSubmit((data) => {
-                            })}
-                        >
+                        <UserForm onSumbit={handleSubmit((data) => {})}>
                             <p>닉네임</p>
                             <Thisinpu
                                 type="text"
