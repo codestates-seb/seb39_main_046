@@ -5,16 +5,16 @@ import Button from "../common/button/Button";
 import { useReviewAdd } from "../../lib/api/useRivesMutation";
 import useStore from "../../lib/store";
 import { useNavigate } from "react-router-dom";
-import { BiCamera, BiPlus } from "react-icons/bi";
+import UploadImg from "../../assets/images/userinfo/uploadIcon.svg";
 
 const WirteComment = ({ data }) => {
     const navigate = useNavigate();
 
     const image = data.imageURL;
     console.log(image);
-    const [regiImg, setregiImg] = useState(Noimg);
+    const [regiImg, setregiImg] = useState(UploadImg);
     const [content, setContent] = useState("");
-    const [uploading2, setUploading2] = useState(Noimg);
+    const [uploading2, setUploading2] = useState(UploadImg);
     const { mutate: ReviewAdd } = useReviewAdd();
 
     // const [mutate: ReviewAdd] = useReviewAdd();
@@ -34,8 +34,8 @@ const WirteComment = ({ data }) => {
             Object.values(uploading2).forEach((file) => fd2.append("file", file));
             fd2.append("content", content);
             ReviewAdd(setData);
-            setregiImg(Noimg);
-            setUploading2(Noimg);
+            setregiImg(UploadImg);
+            setUploading2(UploadImg);
         } else {
             alert("로그인후에 리뷰작성이 가능합니다");
             navigate(`/login`);
@@ -47,8 +47,7 @@ const WirteComment = ({ data }) => {
             <label className="input-file-button" for="input-file">
                 {regiImg && (
                     <div className="image_box">
-                        <BiCamera size={35} color="#fff" />
-                        {/* <img src={regiImg} className="image_box" /> */}
+                        <img src={regiImg} className="image_box" />
                     </div>
                 )}
             </label>

@@ -69,7 +69,11 @@ const MCategoryBox = ({ data }) => {
         </Categoryli>
     ) : (
         <InputBox>
-            <CategoryInput placeholder={data.categoryName} onChange={(e) => setEditInput(e.target.value)} />
+            <CategoryInput
+                placeholder={data.categoryName}
+                onChange={(e) => setEditInput(e.target.value)}
+                defaultValue={data.categoryName}
+            />
             <span>
                 {editOn ? (
                     <RiEdit2Fill

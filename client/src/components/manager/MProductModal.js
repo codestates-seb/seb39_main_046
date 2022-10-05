@@ -85,14 +85,14 @@ const MProductModal = ({ setIsOpen }) => {
                                 <h3>상품명</h3>
                                 <TextInput2
                                     onChange={(e) => setName(e.target.value)}
-                                    value={data.product.productName}
+                                    defaultValue={data.product.productName}
                                 ></TextInput2>
                             </div>
                             <div>
                                 <h3>가격</h3>
                                 <TextInput2
                                     onChange={(e) => setPrcie(e.target.value)}
-                                    value={data.product.price}
+                                    defaultValue={data.product.price}
                                 ></TextInput2>
                             </div>
                             <div>

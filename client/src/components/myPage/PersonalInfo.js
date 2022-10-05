@@ -155,13 +155,23 @@ const PersonalInfo = ({ Persondata }) => {
                             })}
                         >
                             <p>닉네임</p>
-                            <Thisinpu type="text" placeholder="입력해주세요." onChange={InputNickName}></Thisinpu>
+                            <Thisinpu
+                                type="text"
+                                placeholder={Persondata.member.nickName}
+                                onChange={InputNickName}
+                                defaultValue={Persondata.member.nickName}
+                            ></Thisinpu>
                             {errors.nickName && <p className="errorCode">{errors.nickName.message}</p>}
                             <SubmitButton onClick={nickSumbit}>수정</SubmitButton>
                         </UserForm>
                         <UserForm1>
                             <p>패스워드</p>
-                            <Thisinpu type="password" placeholder="입력해주세요." onChange={InputPw}></Thisinpu>
+                            <Thisinpu
+                                type="password"
+                                placeholder="입력해주세요."
+                                onChange={InputPw}
+                                defaultValue=""
+                            ></Thisinpu>
                             <Button onClick={pwSubmit}>수정</Button>
                             <p>패스워드 확인</p>
                             <Thisinpu type="password" placeholder="입력해주세요." onChange={InputConfrim}></Thisinpu>

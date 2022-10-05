@@ -74,7 +74,13 @@ const RivesBundle = ({ data, index }) => {
             <div className="Productex">
                 <h4>{data.product.productName}</h4>
                 {editOn ? (
-                    <input onChange={editContent} type="text" className="contetntSection" rows={5} />
+                    <input
+                        onChange={editContent}
+                        defaultValue={data.content}
+                        type="text"
+                        className="contetntSection"
+                        rows={5}
+                    />
                 ) : (
                     <p>{data.content}</p>
                 )}

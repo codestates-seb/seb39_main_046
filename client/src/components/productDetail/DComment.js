@@ -85,7 +85,11 @@ const Comment = ({ data }) => {
                 </div>
                 <Commentex>
                     {editOn ? (
-                        <InputText onChange={(e) => setContent(e.target.value)} type="text" />
+                        <InputText
+                            onChange={(e) => setContent(e.target.value)}
+                            type="text"
+                            defaultValue={data.content}
+                        />
                     ) : (
                         <p>{data.content}</p>
                     )}

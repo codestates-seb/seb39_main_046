@@ -60,11 +60,11 @@ const ManagerPage = () => {
                             <h2>전체 상품 등록</h2>
                             <p>상품이 모아진 파일을 올려주세요</p>
                         </div>
+                        {/* <FiUpload size={40} color="#AEAEB2" /> */}
                         <div className="contents">
                             <label for="input-file">
-                                <FiUpload size={40} color="#AEAEB2" />
+                                <input type="file" accept=".xls.xlsx" ref={excelInput} onChange={onExelChange} />
                             </label>
-                            <input type="file" accept=".xls.xlsx" ref={excelInput} onChange={onExelChange} />
                         </div>
                     </RegisterBox>
                     <CategoryBox>
@@ -167,12 +167,12 @@ const RegisterBox = styled.div`
             cursor: pointer;
         }
         input[type="file"] {
-            position: absolute;
+            /* position: absolute;
             width: 0;
             height: 0;
             padding: 0;
             overflow: hidden;
-            border: 0;
+            border: 0; */
         }
     }
 `;
