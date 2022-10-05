@@ -18,7 +18,7 @@ const GetBasket = async (log, company, logInfo) => {
 const ProductBasket = ({ Persondata, PersonMyJJimProduct }) => {
     const queryClient = useQueryClient();
     const userName = Persondata.member.nickName;
-    const more = "찜꽁바구니 더보기 >";
+    const more = "찜꽁바구니 더보기 ›";
     const navigate = useNavigate();
     const { logInfo, isJJimProductsCurrentPage } = useStore();
     const company = " ";

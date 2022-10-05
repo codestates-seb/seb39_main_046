@@ -97,7 +97,6 @@ const RivewSection = styled.section`
     display: grid;
     gap: 10px;
     grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
-    grid-template-rows: auto auto;
     .Productinformation {
         display: flex;
         justify-content: space-between;
