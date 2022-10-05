@@ -165,6 +165,7 @@ const Maindiv = styled.div`
         .review_img {
             min-width: 140px;
             max-width: 180px;
+            min-height: 140px;
         }
         .filebox {
             display: flex;
