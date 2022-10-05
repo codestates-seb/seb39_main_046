@@ -6,10 +6,18 @@ import Noimg from "../../assets/images/userinfo/Noimg.png";
 import { FiTrash, FiSave, FiUpload } from "react-icons/fi";
 import { RiEdit2Fill, RiArrowGoBackLine } from "react-icons/ri";
 import { useRivesDelete, usePatchProductsReviwes } from "../../lib/api/useRivesMutation";
+import axiosInstance from "../../utils/axiosInastance";
+import { useQuery } from "react-query";
+import Loading from "../common/loading/Loading";
 
-const Comment = ({ data }) => {
-    const image = data.imageURL;
-    const profile = data.member.profile;
+
+const GeyMyInfo = () => {
+    return axiosInstance.get('member/myPage');
+}
+
+const Comment = ({ Semidata }) => {
+    const image = Semidata.imageURL;
+    const profile = Semidata.member.profile;
     const [editOn, setEditOn] = useState(false);
     const [content, setContent] = useState("");
     const [NomalImg, setNomalImg] = useState(image);
@@ -17,20 +25,34 @@ const Comment = ({ data }) => {
 
     const { mutate: ReviewDelete } = useRivesDelete();
     const { mutate: ReviewPatch } = usePatchProductsReviwes();
+    
+    const {data, isLoading} = useQuery(["infos"], () => GeyMyInfo (), {
+        keepPreviousData: true,
+        staleTime: 2000,
+    })
+
+    if(isLoading)return <Loading/>
+
+
+
 
     const deleteClick = () => {
-        const ID = data.reviewId;
+        const ID = Semidata.reviewId;
         if (window.confirm("정말로 삭제하시겠습니까?")) {
             ReviewDelete(ID);
         }
     };
 
     const editClick = () => {
-        setEditOn(true);
+        if(data.data.member.memberId === Semidata.member.memberId){
+            setEditOn(true);
+        }else{
+            alert("자기의 댓글만 수정 가능합니다.")
+        }
     };
     const SubmitHnadle = async () => {
         const fd4 = new FormData();
-        const key = data.reviewId;
+        const key = Semidata.reviewId;
         console.log(key);
         if (typeof UploadImg !== "string") {
             Object.values(UploadImg).forEach((file) => fd4.append("file", file));
@@ -73,14 +95,14 @@ const Comment = ({ data }) => {
                 <div className="userInfo">
                     <div className="uesrNick">
                         <img src={profile === null ? Usering : profile} alt="유저 프로필" width="25px" height="25px" />
-                        <span>{data.member.nickName}</span>
+                        <span>{Semidata.member.nickName}</span>
                     </div>
                     <div className="userHeart">
                         <ReviewHeartButton
-                            id={data.reviewId && data.reviewId}
-                            heartFlag={data.reviewHeartFlag && data.reviewHeartFlag}
+                            id={Semidata.reviewId && Semidata.reviewId}
+                            heartFlag={Semidata.reviewHeartFlag && Semidata.reviewHeartFlag}
                         />
-                        <p>{data.hearts}</p>
+                        <p>{Semidata.hearts}</p>
                     </div>
                 </div>
                 <Commentex>
@@ -88,10 +110,10 @@ const Comment = ({ data }) => {
                         <InputText
                             onChange={(e) => setContent(e.target.value)}
                             type="text"
-                            defaultValue={data.content}
+                            defaultValue={Semidata.content}
                         />
                     ) : (
-                        <p>{data.content}</p>
+                        <p>{Semidata.content}</p>
                     )}
                 </Commentex>
                 <Controlbar>
@@ -108,7 +130,7 @@ const Comment = ({ data }) => {
                     {editOn ? (
                         <RiArrowGoBackLine onClick={CancelHandler} size={20} color="rgba(174, 174, 178, 1)" />
                     ) : null}
-                    <span className="date">{data.createdAt.substr(0, 10)}</span>
+                    <span className="date">{Semidata.createdAt.substr(0, 10)}</span>
                 </Controlbar>
             </ReviewDetail>
         </Maindiv>

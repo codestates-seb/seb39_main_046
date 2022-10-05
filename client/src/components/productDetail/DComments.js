@@ -62,7 +62,7 @@ const CommentList = () => {
                 </ul>
             </div>
             <CommentArea>
-                {data.data && data.data.map((data) => <DComment data={data} />)}
+                {data.data && data.data.map((data) => <DComment Semidata={data} />)}
                 <Paging pageInfo={data.pageInfo} />
             </CommentArea>
         </MainDiv>

@@ -6,11 +6,16 @@ import { useReviewAdd } from "../../lib/api/useRivesMutation";
 import useStore from "../../lib/store";
 import { useNavigate } from "react-router-dom";
 import UploadImg from "../../assets/images/userinfo/uploadIcon.svg";
+import axiosInstance from "../../utils/axiosInastance";
+import { useQuery } from "react-query";
+import Loading from "../common/loading/Loading";
 
-const WirteComment = ({ data }) => {
+
+const WirteComment = ({ Semidata }) => {
     const navigate = useNavigate();
+    const { logInfo } = useStore();
 
-    const image = data.imageURL;
+    const image = Semidata.imageURL;
     console.log(image);
     const [regiImg, setregiImg] = useState(UploadImg);
     const [content, setContent] = useState("");
@@ -19,16 +24,16 @@ const WirteComment = ({ data }) => {
 
     // const [mutate: ReviewAdd] = useReviewAdd();
 
+
     const saveFileImage = (e) => {
         setregiImg(URL.createObjectURL(e.target.files[0]));
         setUploading2(e.target.files);
     };
 
-    const { logInfo } = useStore();
     const sendImageToServer = async () => {
         if (logInfo) {
             const fd2 = new FormData();
-            const key = data.productId;
+            const key = Semidata.productId;
             const setData = { fd2, key };
             console.log(typeof uploading2 === "object");
             Object.values(uploading2).forEach((file) => fd2.append("file", file));

@@ -58,7 +58,7 @@ const DetailProduct = () => {
                 <Middlecontent>
                     <DProduct data={data.product} />
                     <CommentAreat>
-                        <DWriteComment data={data.product} />
+                        <DWriteComment Semidata={data.product} />
                         {/* {logInfo ? <DWriteComment data={data.product} /> : ""} */}
                         <DComments />
                     </CommentAreat>
