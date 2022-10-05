@@ -16,6 +16,7 @@ const DropDown = () => {
         { likeName: "조회수", likeNum: 3 },
         { likeName: "좋아요", likeNum: 1 },
         { likeName: "리뷰수", likeNum: 2 },
+        { likeName: "최신순", likeNum: 4 },
     ];
     return (
         <DropDownContainer>
