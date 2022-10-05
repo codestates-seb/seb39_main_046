@@ -5,10 +5,18 @@ import useStore from "../../../lib/store";
 
 const DropDown = () => {
     const [isOpen, setIsOpen] = useState(false);
+    const [likename, setLikeName] = useState("조회수");
     const handleSortChange = (e) => {
-        useStore.setState({ isSortNum: e });
+        console.log(e.likeName);
+        useStore.setState({ isSortNum: e.likeNum });
+        setLikeName(e.likeName);
         setIsOpen(false);
     };
+    const LikeList = [
+        { likeName: "조회수", likeNum: 3 },
+        { likeName: "좋아요", likeNum: 1 },
+        { likeName: "리뷰수", likeNum: 2 },
+    ];
     return (
         <DropDownContainer>
             <button
@@ -17,7 +25,7 @@ const DropDown = () => {
                     console.log(isOpen);
                 }}
             >
-                조회수
+                {likename}
                 <span>
                     <AiFillCaretDown color="rgba(248, 132, 8, 1)" size={20} />
                 </span>
@@ -25,9 +33,10 @@ const DropDown = () => {
 
             {isOpen ? (
                 <Menu>
-                    <li onClick={() => handleSortChange(3)}>조회수</li>
+                    {LikeList && LikeList.map((el) => <li onClick={() => handleSortChange(el)}>{el.likeName}</li>)}
+                    {/* <li onClick={() => handleSortChange(3)}>조회수</li>
                     <li onClick={() => handleSortChange(1)}>좋아요</li>
-                    <li onClick={() => handleSortChange(2)}>리뷰수</li>
+                    <li onClick={() => handleSortChange(2)}>리뷰수</li> */}
                 </Menu>
             ) : null}
         </DropDownContainer>
