@@ -8,7 +8,6 @@ import { useQuery } from "react-query";
 import Loading from "../../components/common/loading/Loading";
 import axiosInstance from "../../utils/axiosInastance";
 import { queryKeys } from "../../lib/react-query/constant";
-import useStore from "../../lib/store";
 import { IoIosArrowBack } from "react-icons/io";
 
 const getDeatilProduct = async (productNum) => {
@@ -17,7 +16,6 @@ const getDeatilProduct = async (productNum) => {
 };
 
 const DetailProduct = () => {
-    const { logInfo } = useStore();
     const navigate = useNavigate();
     const { id } = useParams();
     const { status, data, error, isFetching } = useQuery([queryKeys.product, id], () => getDeatilProduct(id), {
@@ -59,7 +57,6 @@ const DetailProduct = () => {
                     <DProduct data={data.product} />
                     <CommentAreat>
                         <DWriteComment Semidata={data.product} />
-                        {/* {logInfo ? <DWriteComment data={data.product} /> : ""} */}
                         <DComments />
                     </CommentAreat>
                 </Middlecontent>
