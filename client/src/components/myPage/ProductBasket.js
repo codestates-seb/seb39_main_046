@@ -52,7 +52,7 @@ const ProductBasket = ({ Persondata, PersonMyJJimProduct }) => {
     return (
         <Topdiv>
             <BasketTitle>
-                <img src={titleimg} alt="하루 이미지" />
+                <img src={titleimg} alt="세번 이미지!" />
                 <h2>
                     {userName}
                     <span>님의 최근 찜꽁바구니</span>
