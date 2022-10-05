@@ -64,6 +64,7 @@ const TabCategory = () => {
         setCategoryTab(index);
     };
 
+    console.log(isCategoryTab);
     return (
         <TabMenu>
             {menuArr.map((el) => {
