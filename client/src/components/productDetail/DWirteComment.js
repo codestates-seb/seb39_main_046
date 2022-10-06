@@ -40,7 +40,7 @@ const WirteComment = ({ Semidata }) => {
             setregiImg(UploadImg);
             setUploading2(UploadImg);
         } else {
-            alert("로그인후에 리뷰작성이 가능합니다");
+            alert("로그인후에 리뷰작성이 가능합니다!!");
             navigate(`/login`);
         }
     };
