@@ -64,7 +64,6 @@ const MProductModal = ({ setIsOpen }) => {
     }
 
     const EditSubmit = () => {
-        console.log(data.product.productId);
         const PrId = data.product.productId;
         const EditData = { categoryName: isStore.categoryName, company: isCategory, price: price, productName: name };
         const setData = { PrId, EditData };
