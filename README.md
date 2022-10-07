@@ -28,6 +28,3 @@
 ### Back-end 
 SPRING BOOT// MYSQL//AWS // SPRING SECURITY // JWT
 
-## 서비스 시연
-### Main page
-![메인페이지.gif](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/71a0ef59-2f47-4c5a-b0cd-fff6b0ad2a9f/%EB%A9%94%EC%9D%B8%ED%8E%98%EC%9D%B4%EC%A7%80.gif)
