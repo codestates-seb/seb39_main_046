@@ -30,4 +30,4 @@ SPRING BOOT// MYSQL//AWS // SPRING SECURITY // JWT
 
 ## 서비스 시연
 ### Main page
-<img src="https://s3.us-west-2.amazonaws.com/secure.notion-static.com/71a0ef59-2f47-4c5a-b0cd-fff6b0ad2a9f/%EB%A9%94%EC%9D%B8%ED%8E%98%EC%9D%B4%EC%A7%80.gif?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAT73L2G45EIPT3X45%2F20221007%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20221007T063412Z&X-Amz-Expires=86400&X-Amz-Signature=4be78c009dfd7e30598e12ac62a2337c8e2dfa943e9dee8026869a3a13e157fb&X-Amz-SignedHeaders=host&response-content-disposition=filename%20%3D%22%25EB%25A9%2594%25EC%259D%25B8%25ED%258E%2598%25EC%259D%25B4%25EC%25A7%2580.gif%22&x-id=GetObject"/>
+![메인페이지.gif](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/71a0ef59-2f47-4c5a-b0cd-fff6b0ad2a9f/%EB%A9%94%EC%9D%B8%ED%8E%98%EC%9D%B4%EC%A7%80.gif)
