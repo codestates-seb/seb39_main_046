@@ -27,3 +27,7 @@
 
 ### Back-end 
 SPRING BOOT// MYSQL//AWS // SPRING SECURITY // JWT
+
+## 서비스 시연
+### Main page
+<img src="https://img.shields.io/badge/React-61DAFB?style=flat&logo=React&logoColor=white" />
