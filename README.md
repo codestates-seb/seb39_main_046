@@ -22,6 +22,12 @@
 
 <a target='_blank' href='https://codestates.notion.site/Team046-Recostore-b7b8638659e248d5bec0659e1225869f'>리코스토어 Notion</a>
 
+## 📋 문서
+- <a target='_blank' href='https://docs.google.com/spreadsheets/d/1DNkBl1FpC-7bWpQYkAhEMMCc0PLyYzWvLn6tX4E-hgE/edit?usp=sharing'>사용자 요구사항 정의서 보러가기</a>
+- <a target='_blank' href='http://recostore24.com/swagger-ui/index.html#/'>API 명세서 보러가기</a>
+- <a target='_blank' href='https://www.figma.com/file/ahCtlmC8P28jbD0ZRE1rr9/%5BUX%2FUI%5D-hola%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8---%ED%8E%B8%EC%9D%98%EC%A0%90-PB-%EC%83%81%ED%92%88-%EB%9E%AD%ED%82%B9-%EC%82%AC%EC%9D%B4%ED%8A%B8?node-id=465%3A834'>피그마 보러가기</a>
+
+
 ## 🙋🏻‍♂️ Team
 
 |최서은(팀장,FE)|이도현(FE)|장종인(BE)|구건회(BE)|
@@ -38,3 +44,6 @@
 ### Back-end
 
 <img src="https://img.shields.io/badge/Spring Boot-6DB33F?style=flat&logo=Spring Boot&logoColor=white" /> <img src="https://img.shields.io/badge/Spring Security-6DB33F?style=flat&logo=Spring Security&logoColor=white" /> <img src="https://img.shields.io/badge/MYSQL-4479A1?style=flat&logo=MYSQL&logoColor=white" /> <img src="https://img.shields.io/badge/Amazon AWS-232F3E?style=flat&logo=Amazon AWS&logoColor=white" /> <img src="https://img.shields.io/badge/Amazon S3-569A31?style=flat&logo=Amazon S3&logoColor=white" />
+
+### 프로젝트 아키텍쳐
+<img src="https://s3.us-west-2.amazonaws.com/secure.notion-static.com/f5a379a0-3152-4b55-9763-96a3a09c7cf8/Untitled.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAT73L2G45EIPT3X45%2F20221009%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20221009T063004Z&X-Amz-Expires=86400&X-Amz-Signature=9d9cb02718a56e5df48b37ee320f4ca3d4e24669a44baa234094553c6b9ab066&X-Amz-SignedHeaders=host&response-content-disposition=filename%20%3D%22Untitled.png%22&x-id=GetObject" />
