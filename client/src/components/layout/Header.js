@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import logo from "../../assets/images/logo/HeaderLogo.svg";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, NavLink } from "react-router-dom";
 import store from "../../lib/store";
-import { RiMenu2Fill, RiAccountPinBoxFill } from "react-icons/ri";
+import { RiMenuFill } from "react-icons/ri";
 
 const Header = () => {
     const navigate = useNavigate();
@@ -41,59 +41,86 @@ const Header = () => {
         setIsMenuOpen(false);
     };
 
-    const [isUeserOpen, setIsUeserOpen] = useState(false);
-    const handleUeserChange = (e) => {
-        setIsUeserOpen(false);
-    };
-
     return (
         <HeaderContainer>
             <HLaptop>
                 <HMenu>
-                    {!logInfo ? <li onClick={() => navigate("/login")}>로그인</li> : <li onClick={logout}>로그아웃</li>}
-                    <li onClick={checkLogin2}>마이페이지</li>
-                    <li onClick={checkLogin}>찜꽁바구니</li>
+                    {!logInfo ? (
+                        <li>
+                            <NavLink to="/login" className={({ isActive }) => (isActive ? "selected" : "not")}>
+                                로그인
+                            </NavLink>
+                        </li>
+                    ) : (
+                        <li onClick={logout}>로그아웃</li>
+                    )}
+                    <li onClick={checkLogin2}>
+                        <NavLink to="/mypage" className={({ isActive }) => (isActive ? "selected" : "not")}>
+                            마이페이지
+                        </NavLink>
+                    </li>
+                    <li onClick={checkLogin}>
+                        <NavLink to="/productbasket" className={({ isActive }) => (isActive ? "selected" : "not")}>
+                            찜꽁바구니
+                        </NavLink>
+                    </li>
                 </HMenu>
                 <HTab>
-                    <li onClick={() => navigate("/")}>리코스토어 메인</li>
-                    <li onClick={() => navigate("/products")}>PB상품 랭킹</li>
+                    <li>
+                        <NavLink to="/" className="not">
+                            리코스토어 메인
+                        </NavLink>
+                    </li>
+                    <li>
+                        <NavLink to="/products" className={({ isActive }) => (isActive ? "selected" : "not")}>
+                            PB상품 랭킹
+                        </NavLink>
+                    </li>
                     <li>
                         <img onClick={() => navigate("/")} src={logo} alt="logo" />
                     </li>
-                    <li onClick={() => navigate("/foodtest")}>편의점 취향 찾기</li>
-                    <li onClick={() => navigate("/findstore")}>주변 편의점 찾기</li>
+                    <li>
+                        <NavLink to="/foodtest" className={({ isActive }) => (isActive ? "selected" : "not")}>
+                            편의점 취향 찾기
+                        </NavLink>
+                    </li>
+                    <li>
+                        <NavLink to="/findstore" className={({ isActive }) => (isActive ? "selected" : "not")}>
+                            주변 편의점 찾기
+                        </NavLink>
+                    </li>
                 </HTab>
             </HLaptop>
             <HTablet>
                 <div className="tablet_box">
-                    <p className="menu_btn" onClick={(e) => setIsMenuOpen(!isMenuOpen)}>
-                        <RiMenu2Fill size={35} color="#363639" />
-                    </p>
                     <p className="logo">
                         <img onClick={() => navigate("/")} src={logo} alt="logo" />
                     </p>
-                    <p className="use_btn" onClick={(e) => setIsUeserOpen(!isUeserOpen)}>
-                        <RiAccountPinBoxFill size={35} color="#363639" />
+                    <p className="menu_btn" onClick={(e) => setIsMenuOpen(!isMenuOpen)}>
+                        <RiMenuFill size={35} color="#437BEC" />
                     </p>
                 </div>
                 {isMenuOpen ? (
                     <HTMenu>
-                        <li onClick={() => navigate("/")}>리코스토어 메인</li>
-                        <li onClick={() => navigate("/products")}>PB상품 랭킹</li>
-                        <li onClick={() => navigate("/foodtest")}>편의점 취향 찾기</li>
-                        <li onClick={() => navigate("/findstore")}>주변 편의점 찾기</li>
+                        <div className="close_btn" onClick={(e) => setIsMenuOpen(!isMenuOpen)}>
+                            x
+                        </div>
+                        <ul className="mene_box">
+                            <li onClick={() => navigate("/")}>리코스토어 메인</li>
+                            <li onClick={() => navigate("/products")}>PB상품 랭킹</li>
+                            <li onClick={() => navigate("/foodtest")}>편의점 취향 찾기</li>
+                            <li onClick={() => navigate("/findstore")}>주변 편의점 찾기</li>
+                        </ul>
+                        <ul className="login_box">
+                            {!logInfo ? (
+                                <li onClick={() => navigate("/login")}>로그인</li>
+                            ) : (
+                                <li onClick={logout}>로그아웃</li>
+                            )}
+                            <li onClick={checkLogin2}>마이페이지</li>
+                            <li onClick={checkLogin}>찜꽁바구니</li>
+                        </ul>
                     </HTMenu>
-                ) : null}
-                {isUeserOpen ? (
-                    <HTUser>
-                        {!logInfo ? (
-                            <li onClick={() => navigate("/login")}>로그인</li>
-                        ) : (
-                            <li onClick={logout}>로그아웃</li>
-                        )}
-                        <li onClick={checkLogin2}>마이페이지</li>
-                        <li onClick={checkLogin}>찜꽁바구니</li>
-                    </HTUser>
                 ) : null}
             </HTablet>
         </HeaderContainer>
@@ -126,8 +153,14 @@ const HMenu = styled.ul`
     li {
         width: 100%;
         font-size: ${({ theme }) => theme.fontSizes.xs};
-        color: ${({ theme }) => theme.colors.Gray_040};
         cursor: pointer;
+    }
+    .not {
+        color: ${({ theme }) => theme.colors.Gray_090};
+    }
+    .selected {
+        color: ${({ theme }) => theme.colors.Blue_030};
+        font-weight: 700;
     }
 `;
 
@@ -140,6 +173,13 @@ const HTab = styled.ul`
         width: 20%;
         cursor: pointer;
         font-size: ${({ theme }) => theme.fontSizes.small};
+    }
+    .not {
+        color: ${({ theme }) => theme.colors.Gray_090};
+    }
+    .selected {
+        color: ${({ theme }) => theme.colors.Blue_030};
+        font-weight: 700;
     }
     img {
         margin-top: -25px;
@@ -154,7 +194,7 @@ const HTablet = styled.main`
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: 0 20px;
+        padding: 0 15px;
         p {
             cursor: pointer;
         }
@@ -169,7 +209,6 @@ const HTablet = styled.main`
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 0;
             .logo {
                 img {
                     width: 170px;
@@ -183,7 +222,6 @@ const HTablet = styled.main`
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 0 20px;
             p {
                 cursor: pointer;
             }
@@ -197,53 +235,42 @@ const HTablet = styled.main`
     }
 `;
 
-const HTMenu = styled.ul`
-    position: absolute;
-    top: 75px;
-    left: 0;
-    padding: 30px;
-    border-radius: 0 0 20px 0;
-    font-size: ${({ theme }) => theme.fontSizes.base};
-    background-color: ${({ theme }) => theme.colors.Gray_010};
-    box-shadow: 0px 5px 8px rgba(204, 204, 204, 0.2);
-    li {
-        background-color: #fff;
-        border-radius: 40px;
-        padding: 6px 60px;
-        font-weight: 500;
-        margin-bottom: 20px;
-        text-align: center;
-        color: ${({ theme }) => theme.colors.Gray_050};
+const HTMenu = styled.div`
+    width: 60%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    right: 0;
+    font-size: ${({ theme }) => theme.fontSizes.lg};
+    background-color: ${({ theme }) => theme.colors.Blue_030};
+    color: #fff;
+    .close_btn {
+        height: 75px;
+        line-height: 75px;
+        border-bottom: 1px solid #fff;
+        text-align: right;
+        padding-right: 20px;
         cursor: pointer;
-        &:hover {
-            color: ${({ theme }) => theme.colors.Gray_080};
+        font-size: ${({ theme }) => theme.fontSizes.xxl};
+    }
+    ul {
+        padding: 30px;
+        li {
+            cursor: pointer;
+            &:hover {
+                text-decoration: underline;
+            }
         }
     }
-    /* @media ${({ theme }) => theme.device.mobile} {
-        padding: 10px;
-    } */
-`;
-const HTUser = styled.ul`
-    background-color: #fff;
-    position: absolute;
-    top: 75px;
-    right: 0;
-    padding: 30px;
-    border-radius: 0 0 0 20px;
-    font-size: ${({ theme }) => theme.fontSizes.base};
-    background-color: ${({ theme }) => theme.colors.Gray_010};
-    box-shadow: 0px 5px 8px rgba(204, 204, 204, 0.2);
-    li {
-        background-color: #fff;
-        border-radius: 40px;
-        padding: 6px 60px;
-        font-weight: 500;
-        margin-bottom: 20px;
-        text-align: center;
-        color: ${({ theme }) => theme.colors.Gray_050};
-        cursor: pointer;
-        &:hover {
-            color: ${({ theme }) => theme.colors.Gray_080};
+    .mene_box {
+        li {
+            font-size: ${({ theme }) => theme.fontSizes.xxl};
+            line-height: 80px;
+        }
+    }
+    .login_box {
+        li {
+            line-height: 50px;
         }
     }
 `;

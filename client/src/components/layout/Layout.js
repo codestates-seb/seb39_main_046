@@ -30,10 +30,12 @@ export default Layout;
 const Container = styled.div`
     width: 100%;
     height: 100%;
+    position: relative;
 `;
 const MainSection = styled.section`
     margin: 0 auto;
     max-width: 100%;
-    min-height: 500px;
+    min-height: 100%;
     margin-top: 75px;
+    padding-bottom: 350px;
 `;

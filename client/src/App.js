@@ -1,7 +1,6 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "react-query";
-// import { ReactQueryDevtools } from "react-query/devtools";
 import Layout from "./components/layout/Layout";
 import Main from "./pages/main/Main";
 import FindStore from "./pages/findStore/FindStore";
@@ -46,7 +45,6 @@ function App() {
                     <Route path="*" element={<div>NotFound</div>} />
                 </Route>
             </Routes>
-            {/* <ReactQueryDevtools initialIsOpen={true} /> */}
         </QueryClientProvider>
     );
 }
