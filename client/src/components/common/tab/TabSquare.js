@@ -53,6 +53,15 @@ const TabMenu = styled.ul`
         background-color: ${({ theme }) => theme.colors.Blue_030};
         transition: 1s;
     }
+    @media ${({ theme }) => theme.device.tablet} {
+        li {
+            width: 120px;
+            font-size: ${({ theme }) => theme.fontSizes.xs};
+        }
+        li:last-child {
+            margin-right: 0px;
+        }
+    }
     @media ${({ theme }) => theme.device.mobile} {
         li {
             width: 100px;

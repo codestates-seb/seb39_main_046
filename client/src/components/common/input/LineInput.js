@@ -87,6 +87,18 @@ const LineInputBox = styled.div`
         border: none;
         cursor: pointer;
     }
+    @media ${({ theme }) => theme.device.tablet} {
+        max-width: 450px;
+        input {
+            width: 450px;
+        }
+    }
+    @media ${({ theme }) => theme.device.mobile} {
+        max-width: 360px;
+        input {
+            width: 360px;
+        }
+    }
 `;
 const AutoSearchContainer = styled.div`
     z-index: 20;

@@ -75,6 +75,25 @@ const RTitleContainer = styled.div`
         top: 20px;
         left: -10px;
     }
+    @media ${({ theme }) => theme.device.laptopL} {
+        img {
+            position: relative;
+            top: 0px;
+            left: -10px;
+        }
+    }
+    @media ${({ theme }) => theme.device.laptop} {
+        img {
+            position: relative;
+            top: 0px;
+            left: -10px;
+        }
+    }
+    @media ${({ theme }) => theme.device.tablet} {
+        img {
+            display: none;
+        }
+    }
 `;
 
 const RTitle = styled.div`
@@ -85,6 +104,9 @@ const RTitle = styled.div`
     h2 {
         font-size: ${({ theme }) => theme.fontSizes.titleSize};
         font-weight: 700;
+    }
+    @media ${({ theme }) => theme.device.tablet} {
+        margin-left: 0;
     }
 `;
 const SwiperBox = styled(Swiper)`

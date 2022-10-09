@@ -39,15 +39,20 @@ const BHeader = styled.header`
 `;
 
 const BImg = styled.span`
-    position: relative;
-    top: -114px;
+    position: absolute;
+    bottom: -30px;
     left: 50px;
+    @media ${({ theme }) => theme.device.laptop} {
+        left: 0px;
+    }
+    @media ${({ theme }) => theme.device.tablet} {
+        display: none;
+    }
 `;
 
 const FoodTestContainer = styled.section`
     max-width: 100%;
     min-height: 630px;
     background-color: ${({ theme }) => theme.colors.Blue_010};
-    border-radius: 10px;
     margin-bottom: 260px;
 `;

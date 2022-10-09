@@ -39,9 +39,15 @@ const BHeader = styled.header`
 `;
 
 const BImg = styled.span`
-    position: relative;
-    top: -89px;
+    position: absolute;
+    bottom: -30px;
     left: 50px;
+    @media ${({ theme }) => theme.device.laptop} {
+        left: 0px;
+    }
+    @media ${({ theme }) => theme.device.tablet} {
+        display: none;
+    }
 `;
 
 const FindStoreContiner = styled.section`

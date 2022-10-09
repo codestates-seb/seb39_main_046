@@ -90,29 +90,27 @@ const FoodTestQuestion = () => {
 
 export default FoodTestQuestion;
 const Fcontainer = styled.div`
-    max-width: 100%;
+    width: 100%;
     min-height: 630px;
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    @media ${({ theme }) => theme.device.laptop} {
+        padding: 0 40px;
+    }
 `;
 const FContents = styled.div`
+    max-width: 900px;
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: stretch;
     font-size: ${({ theme }) => theme.fontSizes.lg};
     color: ${({ theme }) => theme.colors.Gray_090};
-
-    img {
-        margin: 30px 0;
-    }
 `;
 
 const FText = styled.div`
-    width: 570px;
-    height: 400px;
-    margin-right: 30px;
+    width: 68%;
     h3 {
         color: ${({ theme }) => theme.colors.Gray_090};
         font-size: ${({ theme }) => theme.fontSizes.lg};
@@ -121,23 +119,31 @@ const FText = styled.div`
             font-weight: bold;
         }
     }
-
     Button {
-        width: 570px;
+        width: 100%;
         margin-bottom: 10px;
         font-size: ${({ theme }) => theme.fontSizes.base};
     }
+    @media ${({ theme }) => theme.device.tablet} {
+        width: 100%;
+        padding: 0 20px;
+    }
 `;
 const FImg = styled.div`
-    width: 280px;
-    height: 400px;
+    width: 28%;
     border-radius: 30px;
     display: flex;
     justify-content: center;
     align-items: center;
     img {
-        width: 280px;
-        margin-top: -10px;
+        width: 100%;
+        margin-top: -30px;
+    }
+    @media ${({ theme }) => theme.device.tablet} {
+        width: 0%;
+        img {
+            display: none;
+        }
     }
 `;
 
@@ -145,11 +151,14 @@ const ProgressBox = styled.div`
     margin-top: 30px;
     margin-bottom: 50px;
     background-color: #fff;
-    width: 870px;
+    width: 900px;
     height: 15px;
     display: flex;
     align-items: center;
     border-radius: 20px;
+    @media ${({ theme }) => theme.device.laptop} {
+        width: 100%;
+    }
 `;
 const ProgressBar = styled.div`
     width: ${(props) => props.width};

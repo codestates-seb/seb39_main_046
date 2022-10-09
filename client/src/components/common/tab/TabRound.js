@@ -55,8 +55,18 @@ const TabMenu = styled.ul`
         background-color: ${({ theme }) => theme.colors.Blue_030};
         transition: 1s;
     }
-    @media ${({ theme }) => theme.device.tablet} {
+    /* @media ${({ theme }) => theme.device.tablet} {
         max-width: 400px;
+        li {
+            padding: 6px 20px;
+            font-size: ${({ theme }) => theme.fontSizes.xs};
+        }
+        li:last-child {
+            margin-right: 0px;
+        }
+    } */
+    @media ${({ theme }) => theme.device.mobile} {
+        max-width: 360px;
         li {
             padding: 6px 20px;
             font-size: ${({ theme }) => theme.fontSizes.xs};

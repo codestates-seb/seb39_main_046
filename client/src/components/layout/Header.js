@@ -148,6 +148,7 @@ const HTab = styled.ul`
 
 const HTablet = styled.main`
     display: none;
+    height: 75px;
     .tablet_box {
         width: 100%;
         display: flex;
@@ -198,7 +199,7 @@ const HTablet = styled.main`
 
 const HTMenu = styled.ul`
     position: absolute;
-    top: 90px;
+    top: 75px;
     left: 0;
     padding: 30px;
     border-radius: 0 0 20px 0;
@@ -225,10 +226,10 @@ const HTMenu = styled.ul`
 const HTUser = styled.ul`
     background-color: #fff;
     position: absolute;
-    top: 90px;
+    top: 75px;
     right: 0;
     padding: 30px;
-    border-radius: 0 0 20px 0;
+    border-radius: 0 0 0 20px;
     font-size: ${({ theme }) => theme.fontSizes.base};
     background-color: ${({ theme }) => theme.colors.Gray_010};
     box-shadow: 0px 5px 8px rgba(204, 204, 204, 0.2);

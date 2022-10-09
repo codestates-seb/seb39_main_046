@@ -56,14 +56,11 @@ const BHeader = styled.header`
 `;
 
 const BImg = styled.span`
-    position: relative;
-    top: -129px;
+    position: absolute;
+    bottom: -30px;
     left: 50px;
-    transition: all 0.1s;
     @media ${({ theme }) => theme.device.laptop} {
-        position: relative;
-        top: -129px;
-        left: -60px;
+        left: 0px;
     }
     @media ${({ theme }) => theme.device.tablet} {
         display: none;
@@ -89,9 +86,14 @@ const FindStoreContainer = styled.section`
         bottom: -8px;
         right: 130px;
     }
+    @media ${({ theme }) => theme.device.tablet} {
+        img {
+            display: none;
+        }
+    }
 `;
 const LineInputBox = styled.div`
-    width: 600px;
+    max-width: 600px;
     position: relative;
     margin: 40px 0;
     input {
@@ -112,5 +114,17 @@ const LineInputBox = styled.div`
         background-color: transparent;
         border: none;
         cursor: pointer;
+    }
+    @media ${({ theme }) => theme.device.tablet} {
+        max-width: 450px;
+        input {
+            width: 450px;
+        }
+    }
+    @media ${({ theme }) => theme.device.mobile} {
+        max-width: 360px;
+        input {
+            width: 360px;
+        }
     }
 `;

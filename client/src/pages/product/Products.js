@@ -109,6 +109,9 @@ const RMainBox = styled.main`
             box-shadow: 0px 4px 10px rgba(204, 204, 204, 0.5);
             background-color: blue;
         }
+        @media ${({ theme }) => theme.device.tablet} {
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+        }
     }
     .likebtn {
         width: 1000px;
