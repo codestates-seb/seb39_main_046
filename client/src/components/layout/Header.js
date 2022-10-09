@@ -157,6 +157,9 @@ const HMenu = styled.ul`
     }
     .not {
         color: ${({ theme }) => theme.colors.Gray_090};
+        &:hover {
+            color: ${({ theme }) => theme.colors.Blue_030};
+        }
     }
     .selected {
         color: ${({ theme }) => theme.colors.Blue_030};
@@ -176,6 +179,9 @@ const HTab = styled.ul`
     }
     .not {
         color: ${({ theme }) => theme.colors.Gray_090};
+        &:hover {
+            color: ${({ theme }) => theme.colors.Blue_030};
+        }
     }
     .selected {
         color: ${({ theme }) => theme.colors.Blue_030};
