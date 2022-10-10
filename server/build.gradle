@@ -1,0 +1,69 @@
+plugins {
+	id 'org.springframework.boot' version '2.7.3'
+	id 'io.spring.dependency-management' version '1.0.13.RELEASE'
+	id "org.asciidoctor.jvm.convert" version "3.3.2"
+	id 'java'
+}
+
+group = 'com.example'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '11'
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+ext {
+	set('springCloudVersion', "2021.0.4")
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	runtimeOnly 'com.h2database:h2'
+	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
+	/*testImplementation 'org.springframework.boot:spring-boot-starter-test'*/
+	testImplementation('org.springframework.boot:spring-boot-starter-test') {
+		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+	}
+	implementation 'com.auth0:java-jwt:3.19.2'
+	implementation 'io.springfox:springfox-boot-starter:3.0.0'
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	testImplementation 'org.springframework.security:spring-security-test'
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
+	implementation 'org.mapstruct:mapstruct:1.4.2.Final'
+	implementation 'com.google.code.gson:gson:2.8.7'
+
+	implementation group: 'org.apache.poi', name: 'poi', version: '4.1.2'
+	implementation group: 'org.apache.poi', name: 'poi-ooxml', version: '4.1.2'
+	implementation group: 'org.apache.tika', name: 'tika-core', version: '2.4.1' // apache tika
+
+	implementation group: 'commons-io', name: 'commons-io', version: '2.11.0'
+
+	annotationProcessor 'org.mapstruct:mapstruct-processor:1.4.2.Final'
+	implementation platform('com.amazonaws:aws-java-sdk-bom:1.12.300')
+	implementation 'com.amazonaws:aws-java-sdk-s3'
+	runtimeOnly 'mysql:mysql-connector-java'
+	implementation 'io.awspring.cloud:spring-cloud-starter-aws-parameter-store-config'
+}
+dependencyManagement {
+	imports {
+		mavenBom "io.awspring.cloud:spring-cloud-aws-dependencies:2.3.3"
+	}
+}
+wrapper {
+	gradleVersion = '7.5'
+}
+
+
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
