@@ -1,6 +1,6 @@
 package com.example.Api.application.entity.review;
 
-import com.example.Api.application.entity.audit.Auditable;
+import com.example.Api.application.global.audit.Auditable;
 import com.example.Api.application.entity.member.Member;
 import com.example.Api.application.entity.product.Product;
 import com.fasterxml.jackson.annotation.JsonIgnore;

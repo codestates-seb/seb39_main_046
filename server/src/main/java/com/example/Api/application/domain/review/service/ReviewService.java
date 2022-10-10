@@ -7,7 +7,7 @@ import com.example.Api.infra.S3Upload;
 import com.example.Api.application.entity.member.Member;
 import com.example.Api.application.entity.product.Product;
 import com.example.Api.application.entity.review.Review;
-import com.example.Api.application.domain.specification.ReviewSpecification;
+import com.example.Api.application.domain.review.specification.ReviewSpecification;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;

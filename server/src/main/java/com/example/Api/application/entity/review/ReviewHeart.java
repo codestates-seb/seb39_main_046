@@ -1,8 +1,7 @@
 package com.example.Api.application.entity.review;
 
-import com.example.Api.application.entity.audit.Auditable;
+import com.example.Api.application.global.audit.Auditable;
 import com.example.Api.application.entity.member.Member;
-import com.example.Api.application.entity.review.Review;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -1,4 +1,4 @@
-package com.example.Api.application.entity.audit;
+package com.example.Api.application.global.audit;
 
 import lombok.Getter;
 import org.springframework.data.annotation.CreatedDate;

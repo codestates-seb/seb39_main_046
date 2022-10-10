@@ -7,7 +7,7 @@ import com.example.Api.application.entity.category.Category;
 import com.example.Api.application.global.exception.BusinessLogicException;
 import com.example.Api.application.global.exception.ExceptionCode;
 import com.example.Api.application.entity.product.Product;
-import com.example.Api.application.domain.specification.ProductSpecification;
+import com.example.Api.application.domain.product.specification.ProductSpecification;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
