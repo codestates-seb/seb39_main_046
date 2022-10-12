@@ -11,9 +11,9 @@ import { useQuery } from "react-query";
 import Loading from "../common/loading/Loading";
 import UploadImg2 from "../../assets/images/userinfo/uploadIcon.svg";
 
-const GeyMyInfo = () => {
-    return axiosInstance.get("member/myPage");
-};
+// const GeyMyInfo = () => {
+//     return axiosInstance.get("member/myPage");
+// };
 
 const Comment = ({ Semidata }) => {
     const image = Semidata.imageURL;
@@ -26,26 +26,21 @@ const Comment = ({ Semidata }) => {
     const { mutate: ReviewDelete } = useRivesDelete();
     const { mutate: ReviewPatch } = usePatchProductsReviwes();
 
-    const { data, isLoading } = useQuery(["infos"], () => GeyMyInfo(), {
-        keepPreviousData: true,
-        staleTime: 2000,
-    });
+    // const { data, isLoading } = useQuery(["infos"], () => GeyMyInfo(), {
+    //     keepPreviousData: true,
+    //     staleTime: 2000,
+    // });
 
-    if (isLoading) return <Loading />;
+    // if (isLoading) return <Loading />;
 
     const deleteClick = () => {
         const ID = Semidata.reviewId;
-        if (window.confirm("정말로 삭제하시겠습니까?")) {
-            ReviewDelete(ID);
-        }
+        window.confirm("정말로 삭제하시겠습니까?")
+        ReviewDelete(ID);
     };
 
     const editClick = () => {
-        if (data.data.member.memberId === Semidata.member.memberId) {
-            setEditOn(true);
-        } else {
-            alert("자기의 댓글만 수정 가능합니다.");
-        }
+        setEditOn(true);
     };
     const SubmitHnadle = async () => {
         const fd4 = new FormData();
