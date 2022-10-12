@@ -21,6 +21,7 @@ import com.example.Api.application.entity.member.Member;
 import com.example.Api.application.entity.product.*;
 import com.example.Api.application.global.response.MultiResponseDto;
 import com.example.Api.application.entity.review.*;
+import com.google.gson.Gson;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -39,9 +40,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @RestController
 @RequestMapping("/member")
@@ -386,7 +385,13 @@ public class MemberController {
                     .withClaim("username", loginMember.getUsername())
                     .sign(Algorithm.HMAC512("cos_jwt_token"));
 
-            return new ResponseEntity<>("Bearer " + jwtToken, HttpStatus.OK);
+            Map<String,Object> map = new HashMap<>();
+            map.put("Authorization","Bearer " + jwtToken);
+            map.put("memberId",loginMember.getMemberId());
+            Gson gson = new Gson();
+            String jsonString = gson.toJson(map);
+
+            return new ResponseEntity<>(jsonString, HttpStatus.OK);
         }
         else
             return new ResponseEntity<>("등록되지 않은 회원입니다.", HttpStatus.NOT_FOUND);
