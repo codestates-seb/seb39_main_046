@@ -82,7 +82,7 @@ const Login = () => {
                                     {...register("password", {
                                         required: "비밀번호를 입력해주세요",
                                         minLength: {
-                                            vlaue: 8,
+                                            value: 8,
                                             message: "최소 8자 이상의 비밀번호를 입력해주세요",
                                         },
                                         maxLength: {
