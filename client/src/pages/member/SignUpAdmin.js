@@ -53,6 +53,7 @@ const SingUp = () => {
                             <label>아이디</label>
                             <Thisinpu
                                 type="text"
+                                placeholder="이메일 형식으로 적어주세요."
                                 {...register("username", {
                                     required: "필수입력 사항입니다",
                                     minLength: {
@@ -71,6 +72,7 @@ const SingUp = () => {
                             <label>닉네임</label>
                             <Thisinpu
                                 type="text"
+                                placeholder="2자에서 10자사이로 적어주세요."
                                 {...register("nickName", {
                                     required: "필수입력 사항입니다",
                                     minLength: {
@@ -89,6 +91,7 @@ const SingUp = () => {
                             <label>패스워드</label>
                             <Thisinpu
                                 type="password"
+                                placeholder="특문 영문 숫자를 포함하여 8자 이상 적어주세요!"
                                 {...register("password", {
                                     required: "비밀번호를 입력해주세요",
                                     minLength: {
@@ -111,6 +114,7 @@ const SingUp = () => {
                             <label>패스워드확인</label>
                             <Thisinpu
                                 type="password"
+                                placeholder="한번더 입력해주세요!"
                                 {...register("passwordCheck", {
                                     required: {
                                         value: true,
@@ -130,6 +134,7 @@ const SingUp = () => {
                             <label>관리자 패스워드</label>
                             <Thisinpu
                                 type="password"
+                                placeholder="관리자 비밀번호를 입력해주세요!"
                                 {...register("adminPassword", {
                                     required: {
                                         value: true,

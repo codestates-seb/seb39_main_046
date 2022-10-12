@@ -52,6 +52,7 @@ const SingUp = () => {
                             {/* <TextInput /> */}
                             <Thisinpu
                                 type="text"
+                                placeholder="이메일 형식으로 적어주세요."
                                 {...register("username", {
                                     required: "필수입력 사항입니다.",
                                     minLength: {
@@ -74,6 +75,7 @@ const SingUp = () => {
                             {/* <TextInput /> */}
                             <Thisinpu
                                 type="text"
+                                placeholder="2자에서 10자사이로 적어주세요."
                                 {...register("nickName", {
                                     required: "필수입력 사항입니다.",
                                     minLength: {
@@ -96,6 +98,7 @@ const SingUp = () => {
                             {/* <TextInput /> */}
                             <Thisinpu
                                 type="password"
+                                placeholder="특문 영문 숫자를 포함하여 8자 이상 적어주세요!"
                                 {...register("password", {
                                     required: "비밀번호를 입력해주세요",
                                     minLength: {
@@ -122,6 +125,7 @@ const SingUp = () => {
                             {/* <TextInput /> */}
                             <Thisinpu
                                 type="password"
+                                placeholder="한번더 입력해주세요!"
                                 {...register("passwordCheck", {
                                     required: {
                                         value: true,
