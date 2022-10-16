@@ -27,6 +27,7 @@ const useStore = create((set) => ({
     },
     isSerchItem: {},
     isCategoryPage: 1,
+    oqmgp: sessionStorage.getItem("oqmgp"),
 }));
 
 export default useStore;
