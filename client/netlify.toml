@@ -1,0 +1,5 @@
+[[redirects]]
+from = "/proxy/*"
+  to = "https://recostore24.com/"
+  status = 200
+  force = true
