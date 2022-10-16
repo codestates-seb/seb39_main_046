@@ -29,7 +29,7 @@ const Login = () => {
     };
 
     const onError = (error) => {
-        alert("아이디 비밀번호를 다시한번 확인하세요");
+        alert("아이디 비밀번호를 다시한번 확인하세요.");
     };
 
     const { mutate: loginperson, isError } = useLogin(onSuccess, onError);
