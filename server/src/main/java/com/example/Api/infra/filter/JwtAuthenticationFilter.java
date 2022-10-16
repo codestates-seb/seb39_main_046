@@ -22,6 +22,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.example.Api.infra.filter.JwtProperties.HEADER_PREFIX;
+
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
@@ -61,13 +63,12 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
         Map<String,Object> map = new HashMap<>();
         long a = principalDetails.getMember().getMemberId();
-        String userRole = principalDetails.getMember().getRoles();
-        map.put(JwtProperties.HEADER_PREFIX,JwtProperties.TOKEN_PREFIX + jwtToken);
-        map.put("role",userRole);
-        map.put("msg" , "success");
+        long memberId = principalDetails.getMember().getMemberId();
+        map.put(HEADER_PREFIX,JwtProperties.TOKEN_PREFIX + jwtToken);
+        map.put("memberId",memberId);
         Gson gson = new Gson();
         String jsonString = gson.toJson(map);
-        response.getWriter().println(JwtProperties.TOKEN_PREFIX + jwtToken);
+        response.getWriter().println(jsonString);
 
 
     }
