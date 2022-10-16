@@ -69,15 +69,11 @@ const SingUp = () => {
                                         message: "이메일 형식에 맞게 입력해주세요",
                                     },
                                 })}
-                                // onChange={(e) => {
-                                //     setUserName(e.target.value);
-                                // }}
                             ></Thisinpu>
                             {errors.username && <p>{errors.username.message}</p>}
                         </div>
                         <div className="InputData">
                             <label>닉네임</label>
-                            {/* <TextInput /> */}
                             <Thisinpu
                                 type="text"
                                 placeholder="2자에서 10자사이로 적어주세요."
@@ -92,15 +88,11 @@ const SingUp = () => {
                                         message: "10자 이하이어야합니다.",
                                     },
                                 })}
-                                // onChange={(e) => {
-                                //     setNickName(e.target.value);
-                                // }}
                             ></Thisinpu>
                             {errors.nickName && <p>{errors.nickName.message}</p>}
                         </div>
                         <div className="InputData">
                             <label>패스워드</label>
-                            {/* <TextInput /> */}
                             <Thisinpu
                                 type="password"
                                 placeholder="특문 영문 숫자를 포함하여 8자 이상 적어주세요!"
@@ -119,15 +111,11 @@ const SingUp = () => {
                                         message: "특수문자, 영문, 숫자를 혼용해서 입력해주세요",
                                     },
                                 })}
-                                // onChange={(e) => {
-                                //     setPassword(e.target.value);
-                                // }}
                             ></Thisinpu>
                             {errors.password && <p>{errors.password.message}</p>}
                         </div>
                         <div className="InputData">
                             <label>패스워드확인</label>
-                            {/* <TextInput /> */}
                             <Thisinpu
                                 type="password"
                                 placeholder="한번더 입력해주세요!"

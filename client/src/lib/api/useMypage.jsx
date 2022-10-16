@@ -10,7 +10,6 @@ const getInfomation = async (logInfo) => {
 };
 
 export function useMypage() {
-    // const queryClient = useQueryClient();
 
     const { logInfo } = useStore();
     const { status, data, error, isFetching } = useQuery(["infos"], () => getInfomation(logInfo), {

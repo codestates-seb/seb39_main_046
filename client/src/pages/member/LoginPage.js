@@ -15,17 +15,15 @@ const Login = () => {
     } = useForm();
     const [disabled, setDisabled] = useState(true);
     const [userName, setUserName] = useState("");
-    const {memberId} = useStore();
+    const { memberId } = useStore();
 
     const label = disabled ? "로그인" : "로그인";
 
     const onSuccess = (res) => {
         alert(`환영합니다`);
-        // console.log(res.data.memberId);
         sessionStorage.setItem("token", res.data.Authorization);
         let oqmgp = res.data.memberId * 8248788124639977;
         sessionStorage.setItem("oqmgp", oqmgp.toString(16));
-        // console.log(memberId);
         navigate("/");
         window.location.reload();
     };
