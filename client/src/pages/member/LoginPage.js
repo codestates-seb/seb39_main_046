@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { useLogin } from "../../lib/api/useLogin";
 import { useForm } from "react-hook-form";
+import useStore from "../../lib/store";
 
 const Login = () => {
     const navigate = useNavigate();
@@ -14,12 +15,16 @@ const Login = () => {
     } = useForm();
     const [disabled, setDisabled] = useState(true);
     const [userName, setUserName] = useState("");
+    // const {memberId} = useStore();
 
     const label = disabled ? "로그인" : "로그인";
 
     const onSuccess = (res) => {
         alert(`환영합니다`);
+        // console.log(res.data.memberId);
         sessionStorage.setItem("token", res.data.Authorization);
+        useStore.setState({memberId: res.data.memberId});
+        // console.log(memberId);
         navigate("/");
         window.location.reload();
     };

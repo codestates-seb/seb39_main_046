@@ -4,6 +4,7 @@ import logo from "../../assets/images/logo/HeaderLogo.svg";
 import { useNavigate, NavLink } from "react-router-dom";
 import store from "../../lib/store";
 import { RiMenuFill } from "react-icons/ri";
+import useStore from "../../lib/store";
 
 const Header = () => {
     const navigate = useNavigate();
@@ -12,6 +13,7 @@ const Header = () => {
     const logout = () => {
         if (window.confirm("정말로 로그아웃 하시겠습니까?")) {
             sessionStorage.removeItem("token");
+            useStore.setState({memberId: ""});
             navigate("/");
             window.location.reload();
         }
