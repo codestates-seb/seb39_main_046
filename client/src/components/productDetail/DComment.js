@@ -10,10 +10,8 @@ import axiosInstance from "../../utils/axiosInastance";
 import { useQuery } from "react-query";
 import Loading from "../common/loading/Loading";
 import UploadImg2 from "../../assets/images/userinfo/uploadIcon.svg";
+import useStore from "../../lib/store";
 
-// const GeyMyInfo = () => {
-//     return axiosInstance.get("member/myPage");
-// };
 
 const Comment = ({ Semidata }) => {
     const image = Semidata.imageURL;
@@ -25,22 +23,23 @@ const Comment = ({ Semidata }) => {
 
     const { mutate: ReviewDelete } = useRivesDelete();
     const { mutate: ReviewPatch } = usePatchProductsReviwes();
+    const {oqmgp} = useStore();
 
-    // const { data, isLoading } = useQuery(["infos"], () => GeyMyInfo(), {
-    //     keepPreviousData: true,
-    //     staleTime: 2000,
-    // });
-
-    // if (isLoading) return <Loading />;
 
     const deleteClick = () => {
         const ID = Semidata.reviewId;
-        window.confirm("정말로 삭제하시겠습니까?")
-        ReviewDelete(ID);
+        if (window.confirm("정말로 삭제하시겠습니까?")) {
+            ReviewDelete(ID);
+        }
     };
 
     const editClick = () => {
-        setEditOn(true);
+        let Realmember = parseInt(oqmgp, 16);
+        if(Realmember / 8248788124639977 === Semidata.member.memberId) {
+            setEditOn(true);
+        }else{
+            alert("다른사람이 작성한 글은 수정할 수 없어요");
+        }
     };
     const SubmitHnadle = async () => {
         const fd4 = new FormData();
@@ -75,7 +74,7 @@ const Comment = ({ Semidata }) => {
                     <div className="filebox">
                         <label className="Edit-Area">
                             {/* <FiUpload size={30} /> */}
-                            <img src={NomalImg} className="image_box"/>
+                            <img src={NomalImg} className="image_box" />
                             <input type="file" accept="image/*" id="Edit-Review" onChange={storeImg} />
                         </label>
                     </div>
@@ -187,14 +186,14 @@ const Maindiv = styled.div`
             }
         }
         .image_box {
-        width: 130px;
-        height: 130px;
-        background-color: ${({ theme }) => theme.colors.Gray_020};
-        border-radius: ${({ theme }) => theme.radius.small};
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
+            width: 130px;
+            height: 130px;
+            background-color: ${({ theme }) => theme.colors.Gray_020};
+            border-radius: ${({ theme }) => theme.radius.small};
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
     }
     #Edit-Review {
         display: none;

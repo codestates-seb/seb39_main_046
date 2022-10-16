@@ -60,6 +60,10 @@ const SingUp = () => {
                                         value: 10,
                                         message: "이메일 형식에 맞게 입력해주세요.",
                                     },
+                                    maxLength: {
+                                        value: 20,
+                                        message: "20자를 초과하면 안대요",
+                                    },
                                     pattern: {
                                         value: /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i,
                                         message: "이메일 형식에 맞게 입력해주세요",
