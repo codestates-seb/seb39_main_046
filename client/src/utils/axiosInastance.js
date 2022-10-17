@@ -18,6 +18,6 @@ axiosInstance.interceptors.request.use(
         return Promise.reject(err);
     },
 );
-axiosInstance.defaults.baseURL = process.env.NODE_ENV === "development" ? "/" : "/api";
+// axiosInstance.defaults.baseURL = process.env.NODE_ENV === "development" ? "/" : "/api";
 
 export default axiosInstance;
