@@ -2,10 +2,10 @@ import { useMutation } from "react-query";
 import axiosInstance from "../../utils/axiosInastance";
 import { useNavigate } from "react-router-dom";
 
-const PROXY = window.location.hostname === 'localhost' ? 'https://recostore24.com/' : '/proxy';
+// const PROXY = window.location.hostname === 'localhost' ? 'https://recostore24.com/' : '/proxy';
 
 const loginperson = (log) => {
-    return axiosInstance.post(`${PROXY}/member/login`, log);
+    return axiosInstance.post(`/member/login`, log);
 };
 
 export const useLogin = (onSuccess, onError) => {
