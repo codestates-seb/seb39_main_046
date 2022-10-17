@@ -1,5 +1,5 @@
 [[redirects]]
 from = "/proxy/*"
-  to = "https://recostore24.com/"
+  to = "https://recostore24.com/:splat"
   status = 200
   force = true
