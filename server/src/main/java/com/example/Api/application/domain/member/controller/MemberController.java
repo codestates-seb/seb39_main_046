@@ -384,9 +384,14 @@ public class MemberController {
                     .withClaim("id",loginMember.getMemberId())
                     .withClaim("username", loginMember.getUsername())
                     .sign(Algorithm.HMAC512("cos_jwt_token"));
+            String jwtToken2 = JWT.create()
+                    .withSubject("cos jwt token")
+                    .withExpiresAt(new Date(System.currentTimeMillis() + (60 * 1000 * 60*24*7)))
+                    .sign(Algorithm.HMAC512("cos_jwt_token"));
 
             Map<String,Object> map = new HashMap<>();
             map.put("Authorization","Bearer " + jwtToken);
+            map.put("RefreshToken","Bearer " + jwtToken2);
             map.put("memberId",loginMember.getMemberId());
             Gson gson = new Gson();
             String jsonString = gson.toJson(map);
