@@ -378,7 +378,7 @@ public class MemberController {
         if(loginMember != null){  // 입력한 email과 비밀번호 정보를 가진 회원이 있을 경우
             String jwtToken = JWT.create()
                     .withSubject("cos jwt token")
-                    .withExpiresAt(new Date(System.currentTimeMillis() + (60 * 1000 * 60*24)))   // 60000 -> 60초 / 10 -> 분
+                    .withExpiresAt(new Date(System.currentTimeMillis() + (60 * 1000)))   // 60000 -> 60초 / 10 -> 분
                     /*.withClaim("id", member1.getId())
                     .withClaim("username", member1.getUsername())*/
                     .withClaim("id",loginMember.getMemberId())
