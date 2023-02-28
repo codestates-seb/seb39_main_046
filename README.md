@@ -48,4 +48,4 @@
 
 
 ### 프로젝트 아키텍쳐
-<img src="https://s3.us-west-2.amazonaws.com/secure.notion-static.com/f5a379a0-3152-4b55-9763-96a3a09c7cf8/Untitled.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAT73L2G45EIPT3X45%2F20221009%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20221009T063004Z&X-Amz-Expires=86400&X-Amz-Signature=9d9cb02718a56e5df48b37ee320f4ca3d4e24669a44baa234094553c6b9ab066&X-Amz-SignedHeaders=host&response-content-disposition=filename%20%3D%22Untitled.png%22&x-id=GetObject" width="600" />
+<img src="https://velog.velcdn.com/images/dhsm8100/post/11e41d9b-cc9d-425a-a2e0-324dccc190e3/image.png" />
