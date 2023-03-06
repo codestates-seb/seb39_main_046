@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { useLogin } from "../../lib/api/useLogin";
 import { useForm } from "react-hook-form";
+import useStore from "../../lib/store";
 
 const Login = () => {
     const navigate = useNavigate();
@@ -14,19 +15,21 @@ const Login = () => {
     } = useForm();
     const [disabled, setDisabled] = useState(true);
     const [userName, setUserName] = useState("");
-
+    const { memberId } = useStore();
 
     const label = disabled ? "로그인" : "로그인";
 
     const onSuccess = (res) => {
         alert(`환영합니다`);
-        sessionStorage.setItem("token", res.data);
+        sessionStorage.setItem("token", res.data.Authorization);
+        let oqmgp = res.data.memberId * 8248788124639977;
+        sessionStorage.setItem("oqmgp", oqmgp.toString(16));
         navigate("/");
         window.location.reload();
     };
 
     const onError = (error) => {
-        alert("아이디 비밀번호를 다시한번 확인하세요");
+        alert("아이디 비밀번호를 다시한번 확인하세요.");
     };
 
     const { mutate: loginperson, isError } = useLogin(onSuccess, onError);
@@ -82,7 +85,7 @@ const Login = () => {
                                     {...register("password", {
                                         required: "비밀번호를 입력해주세요",
                                         minLength: {
-                                            vlaue: 8,
+                                            value: 8,
                                             message: "최소 8자 이상의 비밀번호를 입력해주세요",
                                         },
                                         maxLength: {

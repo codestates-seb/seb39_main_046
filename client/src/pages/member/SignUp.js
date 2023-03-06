@@ -27,6 +27,7 @@ const SingUp = () => {
     if (isError) {
         <p>("에러입니다")</p>;
     }
+    console.log(errors.username);
 
     return (
         <MemberContainer>
@@ -52,28 +53,30 @@ const SingUp = () => {
                             {/* <TextInput /> */}
                             <Thisinpu
                                 type="text"
+                                placeholder="이메일 형식으로 적어주세요."
                                 {...register("username", {
                                     required: "필수입력 사항입니다.",
                                     minLength: {
                                         value: 10,
                                         message: "이메일 형식에 맞게 입력해주세요.",
                                     },
+                                    maxLength: {
+                                        value: 20,
+                                        message: "20자를 초과하면 안대요",
+                                    },
                                     pattern: {
                                         value: /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i,
                                         message: "이메일 형식에 맞게 입력해주세요",
                                     },
                                 })}
-                                // onChange={(e) => {
-                                //     setUserName(e.target.value);
-                                // }}
                             ></Thisinpu>
                             {errors.username && <p>{errors.username.message}</p>}
                         </div>
                         <div className="InputData">
                             <label>닉네임</label>
-                            {/* <TextInput /> */}
                             <Thisinpu
                                 type="text"
+                                placeholder="2자에서 10자사이로 적어주세요."
                                 {...register("nickName", {
                                     required: "필수입력 사항입니다.",
                                     minLength: {
@@ -85,21 +88,18 @@ const SingUp = () => {
                                         message: "10자 이하이어야합니다.",
                                     },
                                 })}
-                                // onChange={(e) => {
-                                //     setNickName(e.target.value);
-                                // }}
                             ></Thisinpu>
                             {errors.nickName && <p>{errors.nickName.message}</p>}
                         </div>
                         <div className="InputData">
                             <label>패스워드</label>
-                            {/* <TextInput /> */}
                             <Thisinpu
                                 type="password"
+                                placeholder="특문 영문 숫자를 포함하여 8자 이상 적어주세요!"
                                 {...register("password", {
                                     required: "비밀번호를 입력해주세요",
                                     minLength: {
-                                        vlaue: 8,
+                                        value: 8,
                                         message: "최소 8자 이상의 비밀번호를 입력해주세요",
                                     },
                                     maxLength: {
@@ -111,17 +111,14 @@ const SingUp = () => {
                                         message: "특수문자, 영문, 숫자를 혼용해서 입력해주세요",
                                     },
                                 })}
-                                // onChange={(e) => {
-                                //     setPassword(e.target.value);
-                                // }}
                             ></Thisinpu>
                             {errors.password && <p>{errors.password.message}</p>}
                         </div>
                         <div className="InputData">
                             <label>패스워드확인</label>
-                            {/* <TextInput /> */}
                             <Thisinpu
                                 type="password"
+                                placeholder="한번더 입력해주세요!"
                                 {...register("passwordCheck", {
                                     required: {
                                         value: true,
