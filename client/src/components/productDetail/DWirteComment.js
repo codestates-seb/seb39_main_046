@@ -10,7 +10,6 @@ import axiosInstance from "../../utils/axiosInastance";
 import { useQuery } from "react-query";
 import Loading from "../common/loading/Loading";
 
-
 const WirteComment = ({ Semidata }) => {
     const navigate = useNavigate();
     const { logInfo } = useStore();
@@ -21,8 +20,7 @@ const WirteComment = ({ Semidata }) => {
     const [uploading2, setUploading2] = useState(UploadImg);
     const { mutate: ReviewAdd } = useReviewAdd();
 
-    // const [mutate: ReviewAdd] = useReviewAdd();
-
+    // const [mutate: ReviewAdd] = useReviewAdd(); dd
 
     const saveFileImage = (e) => {
         setregiImg(URL.createObjectURL(e.target.files[0]));
