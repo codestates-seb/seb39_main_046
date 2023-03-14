@@ -3,7 +3,7 @@ import axiosInstance from "../../utils/axiosInastance";
 import { useNavigate } from "react-router-dom";
 
 const loginperson = (log) => {
-    return axiosInstance.post(`/login`, log);
+    return axiosInstance.post(`/member/login`, log);
 };
 
 export const useLogin = (onSuccess, onError) => {
