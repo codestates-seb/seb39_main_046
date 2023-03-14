@@ -60,17 +60,17 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                 .sign(Algorithm.HMAC512("cos_jwt_token"));
    //   response.addHeader(JwtProperties.HEADER_PREFIX, JwtProperties.TOKEN_PREFIX + jwtToken);
 
-        String jwtToken2 = JWT.create()
-                .withSubject("cos jwt token")
-                .withExpiresAt(new Date(System.currentTimeMillis() + (60 * 1000 * 60*24*7)))
-                .sign(Algorithm.HMAC512("cos_jwt_token"));
+        // String jwtToken2 = JWT.create()
+        //         .withSubject("cos jwt token")
+        //         .withExpiresAt(new Date(System.currentTimeMillis() + (60 * 1000 * 60*24*7)))
+        //         .sign(Algorithm.HMAC512("cos_jwt_token"));
 
 
         Map<String,Object> map = new HashMap<>();
         long a = principalDetails.getMember().getMemberId();
         long memberId = principalDetails.getMember().getMemberId();
         map.put(HEADER_PREFIX,JwtProperties.TOKEN_PREFIX + jwtToken);
-        map.put("RefreshToken","Bearer " + jwtToken2);
+        // map.put("RefreshToken","Bearer " + jwtToken2);
         map.put("memberId",memberId);
         Gson gson = new Gson();
         String jsonString = gson.toJson(map);
