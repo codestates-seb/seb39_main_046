@@ -3,33 +3,33 @@ import axiosInstance from "../../utils/axiosInastance";
 import axios from "axios";
 
 const ProfileDelete = () => {
-  return axiosInstance.delete(`/member/profile`);
+    return axiosInstance.delete(`/member/profile`);
 };
 
 export const useDelteProfile = () => {
-  const queryClient = useQueryClient();
-  return useMutation (ProfileDelete,{
-    onSuccess: () => {
-      queryClient.invalidateQueries(["infos"])
-      alert("프로필 삭제를 완료했어요");
-      window.location.reload();
-    }
-  })
-}
+    const queryClient = useQueryClient();
+    return useMutation(ProfileDelete, {
+        onSuccess: () => {
+            queryClient.invalidateQueries(["infos"]);
+            alert("프로필 삭제를 완료했어요");
+            window.location.reload();
+        },
+    });
+};
 
 const ProfileAdd = (fd) => {
-  return axiosInstance.post('/member/profile',fd);
+    return axiosInstance.post("/member/profile", fd);
 };
 
 export const useAddProfile = () => {
-  const queryClient = useQueryClient();
-  return useMutation (ProfileAdd, {
-    onSuccess: () => {
-      queryClient.invalidateQueries(["infos"])
-      alert("등록 완료");      
-    },
-    onError: (e) => {
-      console.log("등록실패");
-    }
-  })
-}
+    const queryClient = useQueryClient();
+    return useMutation(ProfileAdd, {
+        onSuccess: () => {
+            queryClient.invalidateQueries(["infos"]);
+            alert("등록 완료");
+        },
+        onError: (e) => {
+            alert("현재 S3비용 문제로 인해.. 업로드할 수가 없습니다. 시연이미지를 확인해주세요.");
+        },
+    });
+};
