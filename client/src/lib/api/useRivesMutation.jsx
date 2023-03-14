@@ -33,7 +33,7 @@ export const useReviewAdd = () => {
             alert("등록 완료");
         },
         onError: (e) => {
-            alert("현재 S3비용 문제로 인해.. 업로드할 수가 없습니다. addme 노션에 시연이미지를 확인해주세요. ");
+            alert("현재 S3비용 문제로 인해.. 업로드할 수가 없습니다. addme 노션에 시연이미지(gif)를 확인해주세요. ");
         },
     });
 };
