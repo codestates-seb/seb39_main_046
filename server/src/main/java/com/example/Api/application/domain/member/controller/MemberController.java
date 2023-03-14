@@ -71,7 +71,7 @@ public class MemberController {
     @ApiOperation(value = "관리자 계정 가입")
     public ResponseEntity registerAdmin(@NotNull @RequestParam String inputPassword,
                                         @Valid @RequestBody MemberPostDto memberPostDto){
-        String adminRegisterPassword = "main_047";
+        String adminRegisterPassword = "main_046";
         Member newAdmin = new Member();
         if(memberService.checkAdminPassword(inputPassword, adminRegisterPassword)){
             Member member = mapper.memberPostDtoToMember(memberPostDto);
