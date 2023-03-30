@@ -36,12 +36,12 @@ const ProductBox = ({ data }) => {
                             </p>
                             {data.views}
                         </p>
-                        <p className="content comment">
+                        {/* <p className="content comment">
                             <p className="icon">
                                 <FaRegCommentDots />
                             </p>
                             {data.reviews}
-                        </p>
+                        </p> */}
                     </div>
                 </ProductPrice>
             </ProductsEx>
