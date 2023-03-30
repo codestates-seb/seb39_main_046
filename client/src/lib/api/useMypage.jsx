@@ -17,7 +17,7 @@ export function useMypage() {
         keepPreviousData: true,
         staleTime: 2000,
         onSuccess: (data) => {
-            console.log(data);
+            // console.log(data);
         },
         onError: (e) => {
             console.log(e.message);

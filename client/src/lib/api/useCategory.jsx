@@ -31,7 +31,7 @@ export function useCategory() {
             refetchOnWindowFocus: false,
             retry: 0,
             onSuccess: (data) => {
-                console.log(data);
+                // console.log(data);
             },
             onError: (e) => {
                 console.log(e.message);
@@ -67,7 +67,7 @@ export const useDeleteCategory = () => {
     const queryClient = useQueryClient();
     return useMutation(deleteCategory, {
         onMutate: (variables) => {
-            console.log("onMutate", variables);
+            // console.log("onMutate", variables);
         },
         onSuccess: () => {
             queryClient.invalidateQueries([queryKeys.category]);
@@ -83,7 +83,7 @@ export const useUpdateCategory = (id, newinfo) => {
     const { mutate, isSuccess } = useMutation(() => updateCategory(id, newinfo), {
         onSuccess: () => {
             queryClient.invalidateQueries([queryKeys.category]);
-            console.log("수정 완료");
+            // console.log("수정 완료");
         },
         onError: (e) => {
             alert("수정 실패 ");

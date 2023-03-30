@@ -10,7 +10,7 @@ export const useHeart = () => {
     const queryClient = useQueryClient();
     return useMutation(changeHeart, {
         onMutate: (variables) => {
-            console.log("onMutate", variables);
+            // console.log("onMutate", variables);
         },
         onSuccess: (data, variables, context) => {
             queryClient.invalidateQueries([queryKeys.product]);
@@ -20,7 +20,6 @@ export const useHeart = () => {
             queryClient.invalidateQueries(["LikeReviews"]);
             queryClient.invalidateQueries(["JJimBascket"]);
             queryClient.invalidateQueries(["DetailProducts"]);
-
         },
         onError: (e) => {},
     });
@@ -34,7 +33,7 @@ export const useReviewHeart = () => {
     const queryClient = useQueryClient();
     return useMutation(changeReviewHeart, {
         onMutate: (variables) => {
-            console.log("onMutate", variables);
+            // console.log("onMutate", variables);
         },
         onSuccess: (data, variables, context) => {
             queryClient.invalidateQueries([queryKeys.product]);
@@ -42,7 +41,7 @@ export const useReviewHeart = () => {
             queryClient.invalidateQueries([queryKeys.mainProducts]);
             queryClient.invalidateQueries([queryKeys.products]);
             queryClient.invalidateQueries(["LikeReviews"]);
-            console.log("success", data, variables, context);
+            // console.log("success", data, variables, context);
         },
         onError: (e) => {},
     });

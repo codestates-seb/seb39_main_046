@@ -6,31 +6,6 @@ import { useTop5Products } from "../../../lib/api/useGetMainProducts";
 
 const BestProdct = () => {
     const data = useTop5Products();
-    const completionWord = "Pick your Best 5";
-
-    // const [Title, setTitle] = useState("");
-    // const [count, setCount] = useState(0);
-    // let count = 0;
-
-    // useEffect(() => {
-    //   const typingInterval = setInterval(() => {
-    //     setTitle((prevTitleValue) => {
-    //       let result = prevTitleValue
-    //         ? prevTitleValue + completionWord[count]
-    //         : completionWord[0];
-    //       setCount(count + 1);
-    //       if (count >= completionWord.length) {
-    //         setTitle("");
-    //         setCount(0);
-    //       }
-    //       return result;
-    //     });
-    //   }, 150);
-
-    //   return () => {
-    //     clearInterval(typingInterval);
-    //   };
-    // });
 
     return (
         <BestContainer>

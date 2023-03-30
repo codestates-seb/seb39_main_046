@@ -24,7 +24,7 @@ const DetailProduct = () => {
         refetchOnWindowFocus: false,
         retry: 0,
         onSuccess: (data) => {
-            console.log(data);
+            // console.log(data);
         },
         onError: (e) => {
             console.log(e.message);

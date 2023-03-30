@@ -29,7 +29,7 @@ export function useProducts() {
             keepPreviousData: true,
             retry: 0,
             onSuccess: (data) => {
-                console.log(data);
+                // console.log(data);
             },
             onError: (e) => {
                 console.log(e.message);
@@ -61,7 +61,7 @@ export function useAllProducts() {
         refetchOnWindowFocus: false,
         retry: 0,
         onSuccess: (data) => {
-            console.log(data);
+            // console.log(data);
         },
         onError: (e) => {
             console.log(e.message);
@@ -103,7 +103,7 @@ export function useSerchProduct() {
             refetchOnWindowFocus: false,
             retry: 0,
             onSuccess: (data) => {
-                console.log(data);
+                // console.log(data);
             },
             onError: (e) => {
                 console.log(e.message);

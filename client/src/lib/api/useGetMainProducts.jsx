@@ -13,10 +13,8 @@ const getMainProducts = async () => {
 export function useMainProducts() {
     const { status, data, error, isFetching } = useQuery(queryKeys.mainProducts, getMainProducts, {
         retry: 0,
-        onSuccess: (data) => {
-        },
-        onError: (e) => {
-        },
+        onSuccess: (data) => {},
+        onError: (e) => {},
     });
     if (status === "loading") {
         return <Loading />;
@@ -57,7 +55,7 @@ export function useTop5Products() {
             keepPreviousData: true,
             retry: 0,
             onSuccess: (data) => {
-                console.log(data);
+                // console.log(data);
             },
             onError: (e) => {
                 console.log(e.message);

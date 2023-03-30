@@ -13,13 +13,13 @@ const PersonalProducts = ({ data }) => {
         navigate(`/product/${data.product.productId}`);
     };
 
-
-    console.log(data.product.heartFlag);
-
     return (
         <ProductSection>
             <span className="heart-box">
-                <HeartButton id={data.product.productId && data.product.productId} heartFlag={data.product.heartFlag&& data.product.heartFlag}/>
+                <HeartButton
+                    id={data.product.productId && data.product.productId}
+                    heartFlag={data.product.heartFlag && data.product.heartFlag}
+                />
             </span>
             <PImage onClick={goDetail}>
                 <img src={data.product.imageURL} alt={data.product.productName} />

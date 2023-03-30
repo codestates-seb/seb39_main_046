@@ -44,9 +44,7 @@ const MProductModal = ({ setIsOpen }) => {
         keepPreviousData: true,
         refetchOnWindowFocus: false,
         retry: 0,
-        onSuccess: (data) => {
-            console.log(data);
-        },
+        onSuccess: (data) => {},
         onError: (e) => {
             console.log(e.message);
         },

@@ -27,7 +27,7 @@ const SingUp = () => {
     if (isError) {
         <p>("에러입니다")</p>;
     }
-    console.log(errors.username);
+    // console.log(errors.username);
 
     return (
         <MemberContainer>
